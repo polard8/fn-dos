@@ -3,6 +3,9 @@
 ; Used to load rootdir, fat and images into the system memory.
 ; Created by Fred Nora.
 
+END_OF_CLUSTER EQU  0xFFFF
+
+
 ;----------------------------------------------   
 ; Simply load the root dir.
 ; 0x0000:0x1000
@@ -42,9 +45,9 @@ diskLoadROOTDIR:
 
 ; Load rood dir
     ; 0x0000:0x1000
-    mov ax, 0x0000               ; Segment
+    mov ax, ROOT_SEGMENT         ; Segment
     MOV es, ax 
-    mov bx, 0x1000               ; Offset
+    mov bx, ROOT_OFFSET          ; Offset
     mov ax, word [ROOTDIRSTART]  ; First LBA. (Inicio do root). 
     mov cx, word [ROOTDIRSIZE]   ; Number of sectors to load. (Tamanho do root).
 
@@ -80,12 +83,12 @@ search_image_name:
     mov word [.save_old_segment], es
 
 ; Select the segment where the rootdir was loaded.
-    mov ax, 0x0000
+    mov ax, ROOT_SEGMENT
     mov es, ax 
+    mov di, ROOT_OFFSET
 
     ;Browse root directory for binary image.
     mov cx, WORD [bootmanagerMaxRootEntries]  ; Load loop counter.
-    mov di, 0x1000                            ; root_buffer, 0x1000, locate first root entry. ?
 
 ._loop:
 
@@ -173,12 +176,12 @@ diskLoadFAT:
 
 ; Load FAT in 0x0000:0x10000
     pusha
-    mov ax, 0x0000 
+    mov ax, FAT_SEGMENT
     mov es, ax
-    mov bx, 0x1000    ; fat_buffer ; copy FAT above bootcode.
+    mov bx, FAT_OFFSET
     ; (apenas 8 setores da fat.) (246/2)
     ;; metade da fat  WORD [bootmanagerSectorsPerFAT]
-    mov cx, 8 
+    mov cx, (64*2)  ;246  ;8   ;fat size in sectors
     ; Compute location of FAT and store in "ax".
     mov ax, WORD [bootmanagerHiddenSectors]    ; adjust for bootsector.
     add ax, WORD [bootmanagerReservedSectors]  ; lba inicial da fat ?.
@@ -207,9 +210,9 @@ diskLoadImage:
 ; --------------------------------
 ; Ajust the image segment.
 ; Es:bx para a imagem.
-    mov ax, 0x2000 
+    mov ax, APPLICATION_SEGMENT
     mov es, ax
-    mov bx, 0x8000
+    mov bx, APPLICATION_OFFSET  ;buffer do arquivo
 ; Salva o offset da imagem.
     push bx 
 
@@ -217,7 +220,7 @@ diskLoadImage:
 ; Ajust FAT segment.
 ; FAT was loaded at 0x0000:0x1000
 ; gs:bx para a FAT.
-    mov ax, 0x0000
+    mov ax, FAT_SEGMENT
     mov gs, ax 
 
 ; Loading the image.
@@ -225,6 +228,7 @@ loop_bootmanager_LOADIMAGE_Sector:
     mov ax, WORD [bootmanagercluster]  ; Cluster to read.
     pop bx                             ; Buffer to read into (offset da imagem).
     call diskClusterLBA  ;bootmanagerClusterLBA         ; Convert cluster to LBA.
+    ; ax agora é lba
     xor cx, cx
     mov cl, BYTE 1    ;[bootmanagerSectorsPerCluster] ;sectors to read.
     call diskReadSectors  ;bootmanagerReadSectors
@@ -232,7 +236,7 @@ loop_bootmanager_LOADIMAGE_Sector:
     ;Compute next cluster.
     mov ax, WORD [bootmanagercluster]  ; Identify current cluster.
     add ax, ax                         ; 16 bit(2 byte) FAT entry.
-    mov bx, 0x1000                     ; fat_buffer, offset.
+    mov bx, FAT_OFFSET                     ; fat_buffer, offset.
     add bx, ax                         ; Index into FAT.
     ;TESTANDO...
     mov dx, WORD [gs:bx]               ; Read two bytes from FAT.
@@ -242,8 +246,7 @@ loop_bootmanager_LOADIMAGE_Sector:
 ; 0x0FF0 test for end of file.
 ; Se o loop voltar, então tem o pop em cima,
 ; se não voltar, entaõ tem o pop em baixo.
-    ;cmp dx, 0xFFFF
-    cmp dx, 0xFFF8
+    cmp dx, END_OF_CLUSTER
     jne loop_bootmanager_LOADIMAGE_Sector
     pop bx
 
@@ -254,6 +257,7 @@ bootmanagerDONE:
     call String.Print
     popa
     ret
+
 
 ; ========================================
 ; diskLoadApplication:
@@ -272,8 +276,8 @@ bootmanagerDONE:
 diskLoadApplication:
 ; IN
 ; ax = Image name
-; bx = Offset to load the image.    2000h
-; cx = Segment to load the image.   8000h
+; bx = segment to load the image.    2000h
+; cx = offset to load the image.   8000h
 
     pusha
 

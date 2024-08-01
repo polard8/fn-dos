@@ -131,6 +131,13 @@ build-gramado-os:
 # Copy to the target folder.
 	cp source/bin/KERNEL.BIN  $(BASE)/
 
+
+# ::Build BM.BIN. (legacy, no dialog)
+	$(Q)$(MAKE) -C programs/app00/ 
+# Copy to the target folder.
+	cp programs/app00/bin/APP00.BIN  $(BASE)/
+
+
 # ::Build BM.BIN. (legacy, no dialog)
 	$(Q)$(MAKE) -C programs/pmi00/ 
 # Copy to the target folder.

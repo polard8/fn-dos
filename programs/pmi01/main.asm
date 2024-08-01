@@ -136,7 +136,11 @@ ROOTDIRSIZE  EQU  (bootmanagerOEM_ID+4)
 
 app_main:
 ; Entry point. (16bits)
-
+    db "Signature", 0
+    ;db 0
+    ;db 0x88
+    int 0x18
+    ret
     jmp 0x2000:real_main
 
 real_main:

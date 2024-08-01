@@ -358,7 +358,10 @@ load_bootloader_image:
     ;mov ax, word bootmanager_ImageName1
     ;call diskLoadApplication
 ; Load image2
-    mov ax, word bootmanager_ImageName2
+    ;mov ax, word bootmanager_ImageName2
+    mov ax, word bootmanager_ImageName3
+    mov bx, 0x2000
+    mov cx, 0x8000
     call diskLoadApplication
 
 ; #bugbug
@@ -379,9 +382,33 @@ Trampoline_to_application:
     call String.Print
     popa
 
-    push WORD 0x2000  ;cs
-    push WORD 0x8000   ;ip
-    retf
+    mov ax, 0x2000
+    mov ds, ax
+    mov es, ax
+    mov fs, ax
+    mov gs, ax
+
+; find header signature
+    mov al, byte [0x8000]
+    cmp al, byte 'S'
+    jne loop8
+
+    pusha
+    ;mov si, msg_trampoline
+    mov si, 0x8000
+    call String.Print
+    popa
+
+    ;jmp Trampoline_to_application
+
+loop8:
+    cli
+    hlt
+    jmp loop8
+
+    ;push WORD 0x2000  ;cs
+    ;push WORD 0x8000  ;ip
+    ;retf
 
 
 ; Trampoline:
@@ -396,8 +423,9 @@ Trampoline:
 ; ================================================
 ; Data for the above code...
 
-    msg_BRK  db 'kernel.bin: 16bit kernel in 0x2000:0x0000 #breakpoint', 0
-    msg_trampoline db 'kernel.bin: Trampoline', 0
+    msg_BRK  db 'kernel.bin: 16bit kernel in 0x2000:0x0000 #breakpoint', 0x0D, 0x0A, 0x00
+
+    msg_trampoline db 'kernel.bin: Trampoline', 0x0D, 0x0A, 0x00
 
     msg_topbar     db '16bit kernel in 0x2000:0x0000', 0
     msg_bottombar  db 'ENTER=Confirm', 0
@@ -410,6 +438,8 @@ bootmanager_ImageName1:
     db "PMI01   BIN", 0x0D, 0x0A, 0x00
 bootmanager_ImageName2:
     db "PMI01   BIN", 0x0D, 0x0A, 0x00
+bootmanager_ImageName3:
+    db "APP00   BIN", 0x0D, 0x0A, 0x00
 
 ;
 ; == Includes ========
