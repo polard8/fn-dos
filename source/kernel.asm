@@ -349,12 +349,17 @@ after_menu:
 
 load_bootloader_image:
 
+    ;pusha
+    ;mov si, msg_BRK
+    ;call String.Print
+    ;popa
+
 ; Load image1
     ;mov ax, word bootmanager_ImageName1
-    ;call diskLoadBL
+    ;call diskLoadApplication
 ; Load image2
-    ;mov ax, word bootmanager_ImageName2
-    ;call diskLoadBL
+    mov ax, word bootmanager_ImageName2
+    call diskLoadApplication
 
 ; #bugbug
 ; We don't have a fully working loader in
@@ -362,10 +367,22 @@ load_bootloader_image:
 ; It's because its running on a new segment,
 ; now we are in 0x2000:0x0000
 
+    ;pusha
+    ;mov si, msg_BRK
+    ;call String.Print
+    ;popa
+
+Trampoline_to_application:
+
     pusha
-    mov si, msg_BRK
+    mov si, msg_trampoline
     call String.Print
     popa
+
+    push WORD 0x2000  ;cs
+    push WORD 0x8000   ;ip
+    retf
+
 
 ; Trampoline:
 ; see: features/finish.inc
@@ -380,6 +397,7 @@ Trampoline:
 ; Data for the above code...
 
     msg_BRK  db 'kernel.bin: 16bit kernel in 0x2000:0x0000 #breakpoint', 0
+    msg_trampoline db 'kernel.bin: Trampoline', 0
 
     msg_topbar     db '16bit kernel in 0x2000:0x0000', 0
     msg_bottombar  db 'ENTER=Confirm', 0
@@ -389,9 +407,9 @@ Trampoline:
     dialog_string_3  db '+ [Cancel] for command line           ', 0
 
 bootmanager_ImageName1:
-    db "PMI02   BIN", 0x0D, 0x0A, 0x00
+    db "PMI01   BIN", 0x0D, 0x0A, 0x00
 bootmanager_ImageName2:
-    db "PMI02   BIN", 0x0D, 0x0A, 0x00
+    db "PMI01   BIN", 0x0D, 0x0A, 0x00
 
 ;
 ; == Includes ========

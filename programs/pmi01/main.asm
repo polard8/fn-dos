@@ -57,9 +57,9 @@
 
 	%DEFINE GBM_VER '1.1'	; version number
 
-
 [ORG 0x8000]
-; We are in 0000H:8000H
+; We are in 2000H:8000H
+; This is a pplication for the kernel in 0x2000:0x0000
 
 ; 32768 - 65535 (hex: 8000h - FFFFh)
 ; 32KiB space for BM2.BIN
@@ -101,6 +101,11 @@ G_VIDEO_MODE EQU 0x0112    ;640x480
 ;; ...
 ;; ======================================
 
+; Data
+; see: features/disk.inc
+ROOTDIRSTART EQU  (bootmanagerOEM_ID)
+ROOTDIRSIZE  EQU  (bootmanagerOEM_ID+4)
+
 ;; 16 bit:
 ;; Estamos no primeiro setor do BM.BIN, ele começa em 16 bit.
 [bits 16]
@@ -108,18 +113,13 @@ G_VIDEO_MODE EQU 0x0112    ;640x480
 ; Entry point.
 ; This is the entry point for the BM.BIN.
 ; Jump after the data area.
-os_call_vectors:
-    jmp bm_main
+;os_call_vectors:
+    ;jmp app_main
     ;jmp bm_vector1
     ;jmp bm_vector2
     ;jmp bm_vector3
     ;jmp bm_vector4
     ; ...
-
-; Data
-; see: features/disk.inc
-ROOTDIRSTART EQU  (bootmanagerOEM_ID)
-ROOTDIRSIZE  EQU  (bootmanagerOEM_ID+4)
 
 ; ...
 
@@ -134,9 +134,12 @@ ROOTDIRSIZE  EQU  (bootmanagerOEM_ID+4)
 ; /dev/sdc - 0x82
 ; /dev/sdd - 0x83
 
-bm_main:
+app_main:
 ; Entry point. (16bits)
 
+    jmp 0x2000:real_main
+
+real_main:
 ; Set up registers.
 ; Adjust segment registers and stack.
 ; Stack located at 0000:0x6000.
@@ -152,10 +155,30 @@ bm_main:
 ; will be 'up' - incrementing address in RAM
     cld
 
-; Data segments in 0x0000.
-    mov ax, 0x0000
+; Data segments in 0x2000 for applications
+    mov ax, 0x2000
     mov ds, ax
     mov es, ax
+
+; Hello world!
+    call Window.ClearScreen
+
+    ; not needed
+    ;pusha
+    ;mov si, msg_helloworld
+    ;call String.Print
+    ;popa
+
+    ;int 0x18
+    ;jmp $
+
+.loop:
+    ;#breakpoint
+    cli
+    hlt
+    jmp .loop
+
+;----------------------------------------------------
 
 ; Save disk number.
     mov byte [bootmanagerDriveNumber], dl
@@ -290,7 +313,7 @@ menu_loop:
 ; Draw the background.
     mov ax, msg_topbar       ; Set up the welcome screen
     mov bx, msg_bottombar
-    mov cx, 10011111b         ; Colour: white text on light blue
+    mov cx, 10101101b   ;10011111b         ; Colour: white text on light blue
     call os_draw_background
 
 ; Draw the dialog box.
@@ -366,6 +389,8 @@ Trampoline:
 
     msg_topbar     db 'Gramado Boot Manager', 0
     msg_bottombar  db 'ENTER=Confirm', 0
+
+    msg_helloworld  db 'Hello world from application', 0
 
     dialog_string_1  db 'Please select an option:', 0
     dialog_string_2  db '+ [OK] to initialize the system       ', 0

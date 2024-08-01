@@ -5,11 +5,15 @@
 
 ;----------------------------------------------   
 ; Simply load the root dir.
-; 0:0x1000
+; 0x0000:0x1000
 diskLoadROOTDIR:
+    pusha
+
+; Save old segment
+    mov word [.save_old_segment], es
 
 ; Compute size of root directory and store in "cx".
-    pusha
+
     xor cx, cx
     xor dx, dx
     mov ax, 0x0020                        ; 32 byte directory entry.
@@ -36,9 +40,14 @@ diskLoadROOTDIR:
     ;Read root directory into memory (0:1000) ?
     ;mov WORD [bootmanagerdatasector], 591  ;;SIMULADO In�cio da �rea de dados.
 
-    mov ax, word [ROOTDIRSTART]  ; Inicio do root.
-    mov cx, word [ROOTDIRSIZE]   ; Tamanho do root.
-    mov bx, 0x1000               ; root_buffer. Copy root dir above bootcode
+; Load rood dir
+    ; 0x0000:0x1000
+    mov ax, 0x0000               ; Segment
+    MOV es, ax 
+    mov bx, 0x1000               ; Offset
+    mov ax, word [ROOTDIRSTART]  ; First LBA. (Inicio do root). 
+    mov cx, word [ROOTDIRSIZE]   ; Number of sectors to load. (Tamanho do root).
+
     call diskReadSectors  ;bootmanagerReadSectors
 
     ; not needed
@@ -49,17 +58,30 @@ diskLoadROOTDIR:
 
     ;Debug breakpoint.
     ;jmp $
+
+; Restore old segment.
+    mov ax, word [.save_old_segment]
+    mov es, ax 
+
     popa
-     
     ret
 
+.save_old_segment:
+    dw 0
 ;----------------------------
 
 ; --------------------------------
-; 
+; #BUGBUG: We need to search it in the right segment.
+; Rootdir was loaded at 0x0000:0x1000
 search_image_name:
-
     pusha
+
+; Save old segment
+    mov word [.save_old_segment], es
+
+; Select the segment where the rootdir was loaded.
+    mov ax, 0x0000
+    mov es, ax 
 
     ;Browse root directory for binary image.
     mov cx, WORD [bootmanagerMaxRootEntries]  ; Load loop counter.
@@ -85,6 +107,15 @@ search_image_name:
 
 ; The image was NOT found in the root directory.
 ._image_not_found:
+    ; Restore old segment.
+    mov ax, word [.save_old_segment]
+    mov es, ax 
+
+    pusha
+    mov si, msg_not_found
+    call String.Print
+    popa
+
     popa
     jmp diskFailure
 
@@ -97,10 +128,24 @@ search_image_name:
 
     mov ax, di
     mov word [entry_address], ax
-    
+
+    ; Restore old segment.
+    mov ax, word [.save_old_segment]
+    mov es, ax 
+
+    pusha
+    mov si, msg_found
+    call String.Print
+    popa
+
+
     popa
     ret
-    
+
+.save_old_segment:
+    dw 0
+
+
 ; -------------------------------------
 entry_address: dw 0
 
@@ -112,8 +157,10 @@ entry_address: dw 0
 ; We're not loading the whole FAT table.
 ; Only 8 sectors of 246.
 diskLoadFAT:
-
     pusha
+
+; Save old segment
+    mov word [.save_old_segment], es
 
     pusha
     mov si, bootmanagermsgFAT
@@ -124,27 +171,37 @@ diskLoadFAT:
 ; ?? 0:0x1000 
 ; ?? Qual é o segmento e o offset da FAT ??
 
+; Load FAT in 0x0000:0x10000
     pusha
-    mov ax, 0 
+    mov ax, 0x0000 
     mov es, ax
-; Compute location of FAT and store in "ax".
+    mov bx, 0x1000    ; fat_buffer ; copy FAT above bootcode.
+    ; (apenas 8 setores da fat.) (246/2)
+    ;; metade da fat  WORD [bootmanagerSectorsPerFAT]
+    mov cx, 8 
+    ; Compute location of FAT and store in "ax".
     mov ax, WORD [bootmanagerHiddenSectors]    ; adjust for bootsector.
     add ax, WORD [bootmanagerReservedSectors]  ; lba inicial da fat ?.
-    mov cx, 8         ; (apenas 8 setores da fat.) (246/2)  ;; metade da fat  WORD [bootmanagerSectorsPerFAT]
-    mov bx, 0x1000    ; fat_buffer ; copy FAT above bootcode.
     call diskReadSectors  ;bootmanagerReadSectors
     popa
-    
+
+; Restore old segment.
+    mov ax, word [.save_old_segment]
+    mov es, ax 
+
     popa
     ret
+
+.save_old_segment:
+    dw 0
+
 
 ; -----------------------------------------
 ; Load image.
 ; Read image file into memory (0x2000:0)(es:bx)
 ; Destination for the image.
-; es:bx = (0x2000:0).
+; es:bx = 2000h:8000h
 diskLoadImage:
-
     pusha
 
 ; --------------------------------
@@ -152,14 +209,15 @@ diskLoadImage:
 ; Es:bx para a imagem.
     mov ax, 0x2000 
     mov es, ax
-    mov bx, 0x0000
+    mov bx, 0x8000
 ; Salva o offset da imagem.
     push bx 
 
 ; --------------------------------
 ; Ajust FAT segment.
+; FAT was loaded at 0x0000:0x1000
 ; gs:bx para a FAT.
-    mov ax, 0 
+    mov ax, 0x0000
     mov gs, ax 
 
 ; Loading the image.
@@ -184,7 +242,8 @@ loop_bootmanager_LOADIMAGE_Sector:
 ; 0x0FF0 test for end of file.
 ; Se o loop voltar, então tem o pop em cima,
 ; se não voltar, entaõ tem o pop em baixo.
-    cmp dx, 0xFFFF
+    ;cmp dx, 0xFFFF
+    cmp dx, 0xFFF8
     jne loop_bootmanager_LOADIMAGE_Sector
     pop bx
 
@@ -197,8 +256,8 @@ bootmanagerDONE:
     ret
 
 ; ========================================
-; diskLoadBL:
-; Load BL.BIN at 2000H:0000H
+; diskLoadApplication:
+; Load BL.BIN at 2000H:8000H
 ;
 ; Load the image.
 ; (load fat, root and image).
@@ -210,25 +269,34 @@ bootmanagerDONE:
 ; Podemos carregar o boot loader e mudarmos para 32bit ou
 ; uma aplicação em 16 e permanecermos em 16bit.
 
-diskLoadBL:
+diskLoadApplication:
+; IN
+; ax = Image name
+; bx = Offset to load the image.    2000h
+; cx = Segment to load the image.   8000h
 
     pusha
+
+    ; save the pointer to the image name
+    mov word [image_name_pointer], ax
+
+    ; Save parameters to load the image
+    mov word [.save_img_segment], bx  ; Image segment 
+    mov word [.save_img_offset], cx   ; Image offset
+
+    ; Save the segment we were using
+    mov word [.save_old_segment], es 
 
     ;cmp ax, 0
     ;je diskFailure
 
-; save the pointer to the image name
-    mov word [image_name_pointer], ax
-
 ; Load ROOTDIR
 ; Simply load the root dir at 0h:0x1000.
     call diskLoadROOTDIR
+
 ; Search the name and 
 ; save the entry address in [entry_address]. 
     call search_image_name
-
-    ;cli 
-    ;hlt
 
 ; Save starting cluster of boot image.
 ; Offset '0x001A' of the entry that starts in 'di'.
@@ -244,19 +312,38 @@ diskLoadBL:
     call diskLoadFAT
    
 ; Loading the image at 2000H:0000H
+
+    ; Tell that we are trying to load the image.
     mov si, bootmanagermsgImg
     call String.Print
+
+    ;#todo: Send parameters
+    ;.save_img_segment
+    ;.save_img_offset  
+    ; 2000h:8000h
     call diskLoadImage
+
+    ; Restore the kernel's segment
+    mov ax, word [.save_old_segment]
+    mov es, ax 
+
+    ; Tell that we are trying to load the image.
+    mov si, bootmanagermsgImg_done
+    call String.Print
 
     popa
     ret
 
+.save_old_segment:  dw 0
+.save_img_segment:  dw 0
+.save_img_offset:  dw 0
+
+
 image_name_pointer: dw 0
 
-;---------------------------------------------
-    
-; Fail. 
-; #todo: Colocar uma mensagem de erro.
+;---------------------------------------------   
+; #todo: 
+; Colocar uma mensagem de erro.
 bootmanagerFAILURE:
 diskFailure:
     int 0x18
@@ -267,13 +354,20 @@ diskFailure:
     ;int  0x16         ; await keypress
     ;int  0x19         ; warm boot computer
 
-; bootmanagerReadSectors:
-;     Reads "cx" sectors from disk starting at "ax" into memory location 
-; "es:bx".
-;     Carrega na mem�ria, em es:bx, 'cx' setores do disco, come�ando pela 
-; LBA 'ax'.
+;---------------------------------------------
+; diskReadSectors:
+; >> Reads "cx" sectors from disk 
+;    starting at "ax" into memory location "es:bx".
+; >> Carrega na memória, em es:bx, 
+;    'cx' setores do disco, começando pela LBA 'ax'.
+;
+; IN
+;   cx = Number of sectors.
+;   ax = First LBA
+;   es = Segment
+;   bx = Offset
+;
 diskReadSectors:
-;bootmanagerReadSectors:
     mov WORD [bootmanagerDAPBuffer], bx
     mov WORD [bootmanagerDAPBuffer+2], es
     mov WORD [bootmanagerDAPStart], ax
@@ -306,24 +400,28 @@ diskReadSectors:
 .bootmanagerSUCCESS:
     mov si, bootmanagermsgProgress
     call String.Print
+
     pop cx
     pop bx
     pop ax
     add bx, WORD [bootmanagerBytesPerSector]    ; queue next buffer
+
     cmp bx, 0x0000  ;;??
     jne .bootmanagerNextSector
+
+; Return to this segment.
     push ax
     mov ax, es
     add ax, 0x1000
     mov es, ax
     pop ax
+
 .bootmanagerNextSector:
     inc ax                               ; queue next sector
     mov WORD [bootmanagerDAPBuffer], bx    
     mov WORD [bootmanagerDAPStart], ax
     loop .bootmanagerMAIN                ; read next sector
     ret
-
 
 ; ====
 ; bootmanagerClusterLBA:
@@ -367,6 +465,7 @@ bootmanagercluster     dw 0x0000  ; Cluster.
 ; Strings.
 bootmanagermsgFAT       db  0x0D, 0x0A, "Loading FAT",   0x0D, 0x0A, 0x00
 bootmanagermsgImg       db  0x0D, 0x0A, "Loading Image", 0x0D, 0x0A, 0x00
+bootmanagermsgImg_done       db  0x0D, 0x0A, "Loading Image done", 0x0D, 0x0A, 0x00
 bootmanagermsgFailure   db  0x0D, 0x0A, "ROOT", 0x00
 bootmanagermsgFail      db  "Read", 0x00
 bootmanagermsgSearch    db  "S", 0x00
@@ -374,6 +473,9 @@ bootmanagermsgProgress  db  "*", 0x00
 bootmanagermsgDONE      db  0x0D, 0x0A, "DONE", 0x0D, 0x0A, 0x00
 bootmanagermsgCRLF      db  0x0D, 0x0A, 0x00
 ;; ...
+
+msg_found      db  0x0D, 0x0A, "Image found",       0x0D, 0x0A, 0x00
+msg_not_found  db  0x0D, 0x0A, "Image not found",   0x0D, 0x0A, 0x00
 
 
 ;---------------------------------------
