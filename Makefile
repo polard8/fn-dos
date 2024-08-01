@@ -121,10 +121,15 @@ build-gramado-os:
 	cp BOOTLOAD.BIN  $(BASE)/
 
 
+# 16 bit kernel loader (KLDR.BIN)
+	$(Q)$(MAKE) -C kldr/ 
+# Copy to the target folder.
+	cp kldr/bin/KLDR.BIN  $(BASE)/
+
 # 16 bit kernel (KERNEL.BIN)
 	$(Q)$(MAKE) -C source/ 
 # Copy to the target folder.
-	cp source/KERNEL.BIN  $(BASE)/
+	cp source/bin/KERNEL.BIN  $(BASE)/
 
 # ::Build BM.BIN. (legacy, no dialog)
 	$(Q)$(MAKE) -C programs/pmi00/ 

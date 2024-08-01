@@ -1,5 +1,5 @@
 ;
-; kernel.asm  16bit kernel in 0x2000:0x0000 
+; main.asm kldr 
 ;    Main file of Boot manager.
 ; Video modes:
 ; ============
@@ -58,11 +58,8 @@
 	%DEFINE GBM_VER '1.1'	; version number
 
 
-;[ORG 0x8000]
+[ORG 0x8000]
 ; We are in 0000H:8000H
-; #test
-[ORG 0x0000]
-; We are in 2000H:0000H
 
 ; 32768 - 65535 (hex: 8000h - FFFFh)
 ; 32KiB space for BM2.BIN
@@ -156,8 +153,7 @@ bm_main:
     cld
 
 ; Data segments in 0x0000.
-    ;mov ax, 0x0000
-    mov ax, 0x2000    ; Data segments in 0x2000.
+    mov ax, 0x0000
     mov ds, ax
     mov es, ax
 
@@ -353,19 +349,21 @@ load_bootloader_image:
     ;mov ax, word bootmanager_ImageName1
     ;call diskLoadBL
 ; Load image2
-    ;mov ax, word bootmanager_ImageName2
-    ;call diskLoadBL
+    mov ax, word bootmanager_ImageName2
+    call diskLoadBL
 
-; #bugbug
-; We don't have a fully working loader in
-; for this 16bit kernel,
-; It's because its running on a new segment,
-; now we are in 0x2000:0x0000
+; Trampoline:
+; Jump to the 16bit kernel directly.
+Trampoline_to_kernel:
 
-    pusha
-    mov si, msg_BRK
-    call String.Print
-    popa
+    xor ax, ax
+    xor bx, bx 
+    xor cx, cx 
+    xor dx, dx 
+
+    push WORD 0x2000  ;new cs
+    push WORD 0x0000  ;new ip
+    retf
 
 ; Trampoline:
 ; see: features/finish.inc
@@ -379,9 +377,7 @@ Trampoline:
 ; ================================================
 ; Data for the above code...
 
-    msg_BRK  db 'kernel.bin: 16bit kernel in 0x2000:0x0000 #breakpoint', 0
-
-    msg_topbar     db '16bit kernel in 0x2000:0x0000', 0
+    msg_topbar     db 'KLDR Kernel Loader', 0
     msg_bottombar  db 'ENTER=Confirm', 0
 
     dialog_string_1  db 'Please select an option:', 0
@@ -389,9 +385,9 @@ Trampoline:
     dialog_string_3  db '+ [Cancel] for command line           ', 0
 
 bootmanager_ImageName1:
-    db "PMI02   BIN", 0x0D, 0x0A, 0x00
+    db "KERNEL  BIN", 0x0D, 0x0A, 0x00
 bootmanager_ImageName2:
-    db "PMI02   BIN", 0x0D, 0x0A, 0x00
+    db "KERNEL  BIN", 0x0D, 0x0A, 0x00
 
 ;
 ; == Includes ========

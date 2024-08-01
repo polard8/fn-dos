@@ -223,12 +223,10 @@ diskLoadBL:
 ; Load ROOTDIR
 ; Simply load the root dir at 0h:0x1000.
     call diskLoadROOTDIR
-; Search the name and 
-; save the entry address in [entry_address]. 
-    call search_image_name
 
-    ;cli 
-    ;hlt
+    ; Search the name and 
+    ; save the entry address in [entry_address]. 
+    call search_image_name
 
 ; Save starting cluster of boot image.
 ; Offset '0x001A' of the entry that starts in 'di'.

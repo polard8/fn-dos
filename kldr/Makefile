@@ -6,14 +6,14 @@
 # and jumps into the BL.BIN.
 
 all: asm-stuff cp-stuff clean
-	@echo "KERNEL.BIN OK ?"
+	@echo "KLDR.BIN OK ?"
 asm-stuff:
-	nasm kernel.asm -o KERNEL.BIN
+	nasm main.asm -o KLDR.BIN
 cp-stuff:
-	-cp KERNEL.BIN bin/
+	-cp KLDR.BIN bin/
 clean:
 #	find . -type f -name '*.o' -delete
-#	-rm KENREL.BIN
+	-rm KLDR.BIN
 clean2:
-#	-rm KERNEL.BIN
+	-rm KLDR.BIN
 	

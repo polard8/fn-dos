@@ -156,8 +156,9 @@ cluster     dw  0x0000
 ; in the second we go to the shell. Probably it is
 ; the old 32bit shell.
 ;
-ImageName db  "BM2     BIN", 0x0D, 0x0A, 0x00
-
+;ImageName db  "BM2     BIN", 0x0D, 0x0A, 0x00
+; kernel loader. Loads KERNEL.BIN in 0x2000:0x0000
+ ImageName db  "KLDR    BIN", 0x0D, 0x0A, 0x00
 
 ; Message:
 ; 'R' = Root fail.
