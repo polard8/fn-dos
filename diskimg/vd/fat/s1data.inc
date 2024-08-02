@@ -15,6 +15,34 @@ ROOTDIRSIZE  EQU (BUFFER_NAME+4)
 SECTOR_SIZE EQU  0x0200    ; Sector size in bytes
 
 
+;-----------------
+
+MBR_SEGMENT EQU 0x07C0
+MBR_OFFSET  EQU 0x0000  ;ORG 
+
+STACK_SEGMENT EQU 0x0000
+STACK_OFFSET  EQU 0x6000
+
+; When the loader of segments reaches the mark of 0x0000,
+; it switches to the next segment.
+; So the image can't be bigger than this.
+; the loader cant reach the mark of 0x0000.
+IMAGE_SEGMENT EQU 0x0000
+IMAGE_OFFSET  EQU 0x8000
+
+; Same segment as MBR.
+; When the loader of segments reaches the mark of 0x0000,
+; it switches to the next segment.
+ROOTDIR_SEGMENT EQU 0x07C0
+ROOTDIR_OFFSET  EQU 0x0200
+
+; Different segment from MBR.
+; Fat has 2 segments. 0x6000 and 0x7000,
+; When the loader of segments reaches the mark of 0x0000,
+; it switches to the next segment.
+FAT_SEGMENT EQU  0x6000  ;0x17C0
+FAT_OFFSET  EQU  0x0200  ;0x0200
+
 ; ===================
 ; BPB:
 ; BPB Personalizado para o VHD de 32MB usado pelo Gramado.
