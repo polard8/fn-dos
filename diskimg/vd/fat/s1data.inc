@@ -17,31 +17,36 @@ SECTOR_SIZE EQU  0x0200    ; Sector size in bytes
 
 ;-----------------
 
-MBR_SEGMENT EQU 0x07C0
-MBR_OFFSET  EQU 0x0000  ;ORG 
+MBR_SEGMENT     EQU  0x07C0
+MBR_OFFSET      EQU  0x0000  ;ORG 
 
-STACK_SEGMENT EQU 0x0000
-STACK_OFFSET  EQU 0x6000
+; Same segment as MBR.
+; When the loader of segments reaches the mark of 0x0000,
+; it switches to the next segment.
+; 512*32 = 16384 bytes. 
+; 16384/512 = 32 setores.
+; Operations with rootdir use 'ds' segment to access rootdir, not 'es'.
+;ROOTDIR_SEGMENT EQU  0x07C0  ;(Not in use. It is the same of MBR)
+ROOTDIR_OFFSET  EQU  0x0200
 
 ; When the loader of segments reaches the mark of 0x0000,
 ; it switches to the next segment.
 ; So the image can't be bigger than this.
 ; the loader cant reach the mark of 0x0000.
-IMAGE_SEGMENT EQU 0x0000
-IMAGE_OFFSET  EQU 0x8000
+IMAGE_SEGMENT EQU  0x0000
+IMAGE_OFFSET  EQU  0x8000
 
-; Same segment as MBR.
-; When the loader of segments reaches the mark of 0x0000,
-; it switches to the next segment.
-ROOTDIR_SEGMENT EQU 0x07C0
-ROOTDIR_OFFSET  EQU 0x0200
-
+; Stack: (0x6000 and 0x7000).
 ; Different segment from MBR.
-; Fat has 2 segments. 0x6000 and 0x7000,
+; Fat has 2 segments. 
 ; When the loader of segments reaches the mark of 0x0000,
 ; it switches to the next segment.
-FAT_SEGMENT EQU  0x6000  ;0x17C0
-FAT_OFFSET  EQU  0x0200  ;0x0200
+; We access fat using 'gs' segment, not 'ds'.
+FAT_SEGMENT EQU  0x6000
+FAT_OFFSET  EQU  0x0200
+
+STACK_SEGMENT EQU  0x8000
+STACK_OFFSET  EQU  0xFFF0 
 
 ; ===================
 ; BPB:
@@ -113,29 +118,10 @@ cluster     dw  0x0000
 
 ; ---------------------------
 ; The image name.
-
-
-; ---------------------------
-; Option 1:
-; This is the legacy boot manager.
-; It loads the legacy version of the boot manager,
-; with the 32bit-assembly shell.
-;
-;ImageName db  "BM      BIN", 0x0D, 0x0A, 0x00
-
-; ---------------------------
-; Option 2:
-; It loads a faster version of the boot manager,
-; with NO 32bit-assembly shell.
-; This boot manager with UI dialog window.
-; In one option we the system is initialized and 
-; in the second we go to the shell. Probably it is
-; the old 32bit shell.
-;
-;ImageName db  "BM2     BIN", 0x0D, 0x0A, 0x00
+; This program is in 0:8000h and loader the kernel in 2000h:0
 ImageName db  "KLDR    BIN", 0x0D, 0x0A, 0x00
 
-
+; ---------------------------
 ; Message:
 ; 'R' = Root fail.
 msgFailure db  "R", 0x00 

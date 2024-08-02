@@ -220,11 +220,13 @@ s1load_load_rootdir:
 ; Search file in rootdir, load fat and go.
 s1load_load_file_and_go:
 
+; --------------------------------------
+; Search
 ; Procurando o arquivo BM.BIN no diretório raiz.
 ; Browse root directory for binary image.
 .searchFile:
-    mov  cx, WORD [MaxRootEntries]  ; Load loop counter.
-    mov  di, 0x0200                 ; Determinando o offset do início do diretório.
+    mov cx, WORD [MaxRootEntries]  ; Load loop counter.
+    mov di, ROOTDIR_OFFSET         ; Determinando o offset do início do diretório.
 .LOOP:
     push  cx
     mov  cx, 0x000B       ; Eleven character name.
@@ -280,7 +282,7 @@ LOADFAT:
 ; Obs: Não estamos carregando a FAT inteira. Isso pode ser arriscado, mas 
 ; por enquanto, como temos poucos arquivos, vamos carrega apenas metade da FAT.
 
-.loadFAT:
+;.loadFAT:
 
 ; Setup segment and offset for FAT.
     mov ax, FAT_SEGMENT
@@ -304,20 +306,14 @@ LOADFAT:
 ; #ps: It goes to the next segment if it reaches the end of the current segment.
     call  ReadSectors
 
-; -----------------------------------------------
-; load image.
-; Carregar o arquivo BM.BIN na memória 
-; em es:bx, 0:8000h.
+; Reafirme o segmento da fat.
+; Nesse momento a FAT já está na memória, precisamos indicar 
+; em gs:bx o endereço do buffer onde carregamos a fat.
+; Indicando o segmento onde a FAT está carregada.
+    mov ax, FAT_SEGMENT
+    mov gs, ax
 
-; Mensagem de espaçamento.
-    ;mov  si, msgCRLF
-    ;call  DisplayMessage
-
-; Mensagem avisando que vamos carregar.
-    ;mov  si, msgImg
-    ;call  DisplayMessage
-
-.setupBuffers:
+setup_buffer_for_image:
 
 ; Image address (es:bx), 0:8000h.
     mov ax, IMAGE_SEGMENT
@@ -326,13 +322,6 @@ LOADFAT:
 
 ; Salvando o offset do buffer do arquivo.
     push  bx
-
-; Nesse momento a FAT já está na memória, precisamos indicar 
-; em gs:bx o endereço do buffer onde carregamos a fat.
-
-; Indicando o segmento onde a FAT está carregada.
-    mov ax, FAT_SEGMENT
-    mov gs, ax
 
 ; >> Carrega o arquivo na memória 
 ;    em es:bx, 0:8000h.
@@ -376,7 +365,7 @@ __loop_LOAD_IMAGE:
 
     mov ax, WORD [cluster]    ; identify current cluster
     add ax, ax                ; 16 bit(2 byte) FAT entry
-    mov bx, 0x0200            ; location of FAT in memory
+    mov bx, FAT_OFFSET        ; location of FAT in memory
     add bx, ax                ; index into FAT    
     mov dx, WORD [gs:bx]      ; read two bytes from FAT
 
