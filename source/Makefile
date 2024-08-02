@@ -1,5 +1,4 @@
-
-# Create BM2.BIN.
+# Create KERNEL.BIN.
 # No shell.
 # This is faster version of the boot manager.
 # It initializes the pre-selected graphics mode
@@ -8,12 +7,12 @@
 all: asm-stuff cp-stuff clean
 	@echo "KERNEL.BIN OK ?"
 asm-stuff:
-	nasm kernel.asm -o KERNEL.BIN
+	nasm main.asm -o KERNEL.BIN
 cp-stuff:
 	-cp KERNEL.BIN bin/
 clean:
 #	find . -type f -name '*.o' -delete
-#	-rm KENREL.BIN
+	-rm KERNEL.BIN
 clean2:
-#	-rm KERNEL.BIN
+	-rm KERNEL.BIN
 	

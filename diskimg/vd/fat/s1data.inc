@@ -119,7 +119,7 @@ cluster     dw  0x0000
 ; ---------------------------
 ; The image name.
 ; This program is in 0:8000h and loader the kernel in 2000h:0
-ImageName db  "KLDR    BIN", 0x0D, 0x0A, 0x00
+ImageName db  "KERNEL  BIN", 0x0D, 0x0A, 0x00
 
 ; ---------------------------
 ; Message:

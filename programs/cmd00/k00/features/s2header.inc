@@ -3,9 +3,9 @@
 ; This is the header file for the Gramado Boot Manager.
 ; Defines and variables used in the Stage 2.
 ; Importante:
-; O arquivo stage2.inc faz uma sequência de inclusões de módulos
-; de 16bit que compõem o stage2. Os promeiros devem ser s2metafile.inc 
-; e s2header.inc que servirão de suporte para todos os outros modulos
+; O arquivo stage2.inc faz uma sequï¿½ncia de inclusï¿½es de mï¿½dulos
+; de 16bit que compï¿½em o stage2. Os promeiros devem ser s2metafile.inc 
+; e s2header.inc que servirï¿½o de suporte para todos os outros modulos
 ; do stage2.
 ; 2015 - Created by Fred Nora.
 ;
@@ -29,7 +29,7 @@
 ;
 ;
 
-; Definições usadas apenas em 16bit.
+; Definiï¿½ï¿½es usadas apenas em 16bit.
 ; #bugbug: Isso deveria ficar num arquivo mais global.
 %DEFINE BOOTMANAGER_VER  '1.1'
 ;;...
@@ -37,8 +37,8 @@
 ;------------------------------------
 
 ; stage 2
-CODE_SEGMENT   equ  0
-DATA_SEGMENT   equ  0
+CODE_SEGMENT   equ  0x2000
+DATA_SEGMENT   equ  0x2000
 STACK_SEGMENT  equ  0
 STACK_POINTER  equ  0x6000
 ; vbr
@@ -46,16 +46,16 @@ VBR_SEGMENT  equ  8000H
 VBR_OFFSET   equ  7C00H
 VBR_LBA      equ  63
 ; fat
-FAT_SEGMENT  equ  6000H
-FAT_OFFSET   equ  0
+;FAT_SEGMENT  equ  6000H
+;FAT_OFFSET   equ  0
 FAT_LBA      equ  67
 ; root
-ROOT_SEGMENT  equ  4000H
-ROOT_OFFSET   equ  0
+;ROOT_SEGMENT  equ  4000H
+;ROOT_OFFSET   equ  0
 ROOT_LBA      equ  559
 
 ; ========================
-; Aqui está a localização do bootloader na memória. 
+; Aqui estï¿½ a localizaï¿½ï¿½o do bootloader na memï¿½ria. 
 ; A LBAno importa, pois ele foi carregado do sistema sistema de 
 ; arquivos e a LBA inicial dele estava armazenada na entrada do 
 ; diretrio raiz.
@@ -71,6 +71,15 @@ BL_LBA      equ  0
 ; RED     equ     02f00h
 ; GREEN   equ     04f00h
 
+KERNEL_SEGMENT   EQU 0x2000
+APPLICATION_SEGMENT EQU  0x2000
+APPLICATION_OFFSET  EQU  0x8000
+
+ROOT_SEGMENT     EQU 0x3000
+ROOT_OFFSET      EQU 0x0000
+
+FAT_SEGMENT      EQU 0x4000
+FAT_OFFSET       EQU 0x0000
 
 ;------------------------------------
 
@@ -79,22 +88,22 @@ BL_LBA      equ  0
 
 
 
-; Definições.
+; Definiï¿½ï¿½es.
 
 ;;
 ;; #BUGBUG: 
-;; Talvez o diretório raiz deva ser carregado em outro lugar quando
-;; estamos em 16 bit. Em 32bit o boot manager utiliza endereços altos 
-;; com facilidade aqui em 16bit é mais difícil, se não impossível.
-;; @todo: Encontrar novos endereços para esses elementos
+;; Talvez o diretï¿½rio raiz deva ser carregado em outro lugar quando
+;; estamos em 16 bit. Em 32bit o boot manager utiliza endereï¿½os altos 
+;; com facilidade aqui em 16bit ï¿½ mais difï¿½cil, se nï¿½o impossï¿½vel.
+;; @todo: Encontrar novos endereï¿½os para esses elementos
 ;; que estejam dentro do limite de 1MB.
 ;; Vamos tentar em 70000h, fica bem depois do boot loader e antes da pilha em 90000.
 ;; Obs: valores improvisados, potencialmente podem causar bug. #bugbug.
 ;;
-;; es:bx    "Os valores aqui são referentes ao offset apenas."
+;; es:bx    "Os valores aqui sï¿½o referentes ao offset apenas."
 ;;          "Lembrese de configurar a base na rotina" 
 ;;
-;Valores para formatação com imdisk. (volume 31mb)
+;Valores para formataï¿½ï¿½o com imdisk. (volume 31mb)
 S2_FAT16_VBR_ADDRESS       equ 0x0000; 0x001A0000  ;0x00020000.
 S2_FAT16_VBR_LBA           equ 63 ;134         ;vbr.
 S2_FAT16_FAT_ADDRESS       equ 0x1000 ;0x001B0000  ;0x00060000.
@@ -106,7 +115,7 @@ S2_FAT16_DATAAREA_LBA      equ 591 ;296         ;data.
 ;;... 
 
 
-;Modos de inicialização.
+;Modos de inicializaï¿½ï¿½o.
 BOOTMODE_SHELL  EQU 1    ;Shell do Boot Manager em modo texto.
 BOOTMODE_GUI    EQU 2    ;GUI.
 
@@ -114,12 +123,12 @@ BOOTMODE_GUI    EQU 2    ;GUI.
 ; Kernel info:
 ; ============
 ;
-; O KERNEL.BIN será carregado em 0x00100000 pelo BL.BIN.
+; O KERNEL.BIN serï¿½ carregado em 0x00100000 pelo BL.BIN.
 ;
 
 
 ;@todo: bug bug (trocar)
-;Esses Valores estão errados, o certo é 0x00100000.
+;Esses Valores estï¿½o errados, o certo ï¿½ 0x00100000.
 kernel_seg            equ 0900h
 kernel_off            equ 0h
 kernel_entry_point    equ 0x00008200
@@ -132,7 +141,7 @@ kernel_entry_point    equ 0x00008200
 FAT16_FILE_SEGMENT      equ 0x2000
 FAT16_FILE_OFFSET       equ 0x0000  
 
-; Algumas definições.
+; Algumas definiï¿½ï¿½es.
 
 ;VGA display memory segment.
 VGA_VIDEO_SEGMENT       equ  0A000h  
@@ -157,18 +166,18 @@ TEST_TEXT_COL           equ  17      ;column to display test text at.
 TEST_TEXT_WIDTH         equ  8       ;width of a character in pixels.
 
 
-;status do modo gráfico.
+;status do modo grï¿½fico.
 g_graphic_mode_status:  db 0
 ;Font.
 FontPointer:            dd 0
 ;Segmentos em modo real.
 DS_REAL_MODE:           DW 0
 ES_REAL_MODE:           DW 0
-; Variáveis usadas pelo carregador de arquivos.
+; Variï¿½veis usadas pelo carregador de arquivos.
 qual_file               db 0 
 destino_seg             dw 0
 destino_off             dw 0
-; Aqui ficará o armazenado o endereço do nome do arquivo.
+; Aqui ficarï¿½ o armazenado o endereï¿½o do nome do arquivo.
 ImageNamePos:           dw 0
 ;Disco.
 absoluteSector          db 0x00

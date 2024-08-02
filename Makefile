@@ -121,54 +121,17 @@ build-gramado-os:
 	cp BOOTLOAD.BIN  $(BASE)/
 
 
+# bew kernel
 # 16 bit kernel loader (KLDR.BIN)
-	$(Q)$(MAKE) -C kldr/ 
-# Copy to the target folder.
-	cp kldr/bin/KLDR.BIN  $(BASE)/
-
-# 16 bit kernel (KERNEL.BIN)
 	$(Q)$(MAKE) -C source/ 
 # Copy to the target folder.
 	cp source/bin/KERNEL.BIN  $(BASE)/
 
-
-# ::Build BM.BIN. (legacy, no dialog)
-	$(Q)$(MAKE) -C programs/app00/ 
+# CMD00.BIN
+	$(Q)$(MAKE) -C programs/cmd00/cmd00/ 
 # Copy to the target folder.
-	cp programs/app00/bin/APP00.BIN  $(BASE)/
+	cp programs/cmd00/cmd00/bin/CMD00.BIN  $(BASE)/
 
-
-# ::Build BM.BIN. (legacy, no dialog)
-	$(Q)$(MAKE) -C programs/pmi00/ 
-# Copy to the target folder.
-	cp programs/pmi00/bin/PMI00.BIN  $(BASE)/
-
-# #BUGBUG 
-# Suspended!
-# Something is affecting the window server,
-# if we enter in the graphics mode without entering
-# the shell first. There are two routines 
-# to initialize the gui mode. Only one is good.
-# ::Build BM2.BIN. (Interface with dialog)
-	$(Q)$(MAKE) -C programs/pmi01/ 
-# Copy to the target folder.
-	cp programs/pmi01/bin/PMI01.BIN  $(BASE)/
-
-# ::Build BL.BIN. 
-	$(Q)$(MAKE) -C programs/pmi02/ 
-# Copy to the target folder.
-	cp programs/pmi02/bin/PMI02.BIN  $(BASE)/
-
-#----------------------------------
-# (3) /
-#----------------------------------
-# (4) mods/
-
-#----------------------------------
-# ::Build the ring0 module image.
-#	$(Q)$(MAKE) -C mods/
-# Copy the ring0 module image.
-#	cp mods/HVMOD0.BIN  $(BASE)/
 
 #----------------------------------
 # () userland/
@@ -278,10 +241,13 @@ clean-all: clean
 # 16 programs and 32bit pmi.
 	-rm programs/bin/*.o
 	-rm programs/bin/*.BIN
-	-rm programs/pmi00/bin/*.BIN
-	-rm programs/pmi01/bin/*.BIN
-	-rm programs/pmi02/bin/*.BIN
-	-rm programs/setup/bin/*.BIN
+	#-rm programs/cmd00/bin/*.BIN
+	#-rm programs/cmd01/bin/*.BIN
+	#-rm programs/cmd02/bin/*.BIN
+	#-rm programs/cmd03/bin/*.BIN
+
+	-rm programs/cmd00/cmd00/bin/*.BIN
+	#...
 
 # 16bit kernel
 	-rm source/bin/*.o
