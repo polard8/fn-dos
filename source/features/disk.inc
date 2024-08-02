@@ -130,7 +130,7 @@ search_image_name:
     ; where we found the image name.
 
     mov ax, di
-    mov word [entry_address], ax
+    mov word [es:entry_address], ax
 
     ; Restore old segment.
     mov ax, word [.save_old_segment]
@@ -225,7 +225,7 @@ diskLoadImage:
 
 ; Loading the image.
 loop_bootmanager_LOADIMAGE_Sector:
-    mov ax, WORD [bootmanagercluster]  ; Cluster to read.
+    mov ax, WORD [es:bootmanagercluster]  ; Cluster to read.
     pop bx                             ; Buffer to read into (offset da imagem).
     call diskClusterLBA  ;bootmanagerClusterLBA         ; Convert cluster to LBA.
     ; ax agora é lba
@@ -234,14 +234,14 @@ loop_bootmanager_LOADIMAGE_Sector:
     call diskReadSectors  ;bootmanagerReadSectors
     push bx
     ;Compute next cluster.
-    mov ax, WORD [bootmanagercluster]  ; Identify current cluster.
+    mov ax, WORD [es:bootmanagercluster]  ; Identify current cluster.
     add ax, ax                         ; 16 bit(2 byte) FAT entry.
-    mov bx, FAT_OFFSET                     ; fat_buffer, offset.
+    mov bx, FAT_OFFSET                 ; fat_buffer, offset.
     add bx, ax                         ; Index into FAT.
     ;TESTANDO...
     mov dx, WORD [gs:bx]               ; Read two bytes from FAT.
 .bootmanagerDONE:
-    mov WORD [bootmanagercluster], dx  ; store new cluster.
+    mov WORD [es:bootmanagercluster], dx  ; store new cluster.
 ; EOF
 ; 0x0FF0 test for end of file.
 ; Se o loop voltar, então tem o pop em cima,
@@ -302,13 +302,16 @@ diskLoadApplication:
 ; save the entry address in [entry_address]. 
     call search_image_name
 
+
+    ;OK
+
 ; Save starting cluster of boot image.
 ; Offset '0x001A' of the entry that starts in 'di'.
 ; After saving we can override the root.
     ; Parameter
-    mov ax, word [entry_address]
+    mov ax, word [es:entry_address]
     mov di, ax
-    mov dx, WORD [di + 0x001A]
+    mov dx, WORD [es:di + 0x001A]
     mov WORD [bootmanagercluster], dx  ; file's first cluster.
 
 ; Load FAT
