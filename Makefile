@@ -132,6 +132,16 @@ build-gramado-os:
 # Copy to the target folder.
 	cp programs/cmd00/cmd00/bin/CMD00.BIN  $(BASE)/
 
+# CMD03.BIN
+	$(Q)$(MAKE) -C programs/cmd03/cmd03/ 
+# Copy to the target folder.
+	cp programs/cmd03/cmd03/bin/CMD03.BIN  $(BASE)/
+
+
+# APP00.COM
+	$(Q)$(MAKE) -C programs/cmd03/app00/ 
+# Copy to the target folder.
+	cp programs/cmd03/app00/bin/APP00.COM  $(BASE)/
 
 #----------------------------------
 # () userland/

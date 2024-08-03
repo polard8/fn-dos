@@ -346,25 +346,39 @@ after_menu:
 load_bootloader_image:
 
 ; Load image0
-    mov ax, word bootmanager_ImageName0
-    call diskLoadBL
+    ;mov ax, word bootmanager_ImageName0
+    ;call diskLoadBL
 ; Load image1
     ;mov ax, word bootmanager_ImageName1
     ;call diskLoadBL
+; Load image2
+    ;mov ax, word bootmanager_ImageName2
+    ;call diskLoadBL
+; Load image3
+    mov ax, word bootmanager_ImageName3
+    call diskLoadBL
 
 ; ------------------
 ; test signature
 
-    mov ax, word 0x2000 
-    mov es, ax 
-    mov bx, 0
+    ;mov ax, word 0x2000 
+    ;mov es, ax 
+    ;mov bx, 0
 
-    mov al, byte [es:bx]
-    cmp al, 'S'
-    jne .xxxfail
+    ;mov al, byte [es:bx]
+    ;cmp al, 'S'
+    ;jne .xxxfail
 
-    mov si, msg_sigok
-    call String.Print
+    ;mov si, msg_sigok
+    ;call String.Print
+
+    ;Parameters
+    xor dx,dx 
+    mov dl, byte [bootmanagerDriveNumber]
+
+    push WORD 0x2000  ;new cs
+    push WORD 0x0000  ;new ip
+    retf
 
 
 .xxxfail:
@@ -411,8 +425,8 @@ bootmanager_ImageName0:
 ;    db "CMD01   BIN", 0x0D, 0x0A, 0x00
 ;bootmanager_ImageName2:
 ;    db "CMD02   BIN", 0x0D, 0x0A, 0x00
-;bootmanager_ImageName3:
-;    db "CMD03   BIN", 0x0D, 0x0A, 0x00
+bootmanager_ImageName3:
+    db "CMD03   BIN", 0x0D, 0x0A, 0x00
 
 ;
 ; == Includes ========
