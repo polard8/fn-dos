@@ -1,6 +1,8 @@
-# FREDNORA-DOS 
+# FN-DOS 
 
-This project has a little experimental kernel for 16bit Intel processors.
+This project is a little experimental kernel for 16bit Intel processors.
+
+
 
 
 
