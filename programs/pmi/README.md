@@ -1,12 +1,31 @@
-# Welcome to Gramado 1.0
+# pmi - Protected Mode Interface for FN-DOS.
 
 This repository has the source code for:
 
-* Gramado boot loader
-* Gramado kernel
-* Gramado Window Server
-* Applications
-* Commands
+> * Gramado boot loader
+> * Gramado kernel
+> * Gramado Window Server
+> * Applications
+> * Commands
+
+## pmi is based on Gramado 32bit.
+
+  Gramado 32bit
+
+```
+  This is the last 32bit version of Gramado OS.
+  Codename = (V 1.1 241)
+  Date = June 6, 2021.
+```
+
+------------------------------------
+Goal:
+
+```
+  This is gonna be a 32bit interface for the FN-DOS (16bit OS) project.
+  A kind of 32bit DMPI for the 16bit FN-DOS.
+```
+
 
 ## What is Gramado?
 
