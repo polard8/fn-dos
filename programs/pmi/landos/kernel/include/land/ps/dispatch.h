@@ -1,23 +1,16 @@
-/*
- * File: dispatch.h
- *
- *     Dispatcher support.
- * 
- * History:
- *     2015 - Created by Fred Nora.
- */
-
+// dispatch.h
+// Dispatcher support.
+// 2015 - Created by Fred Nora.
 
 #ifndef __DISPATCH_H  
 #define __DISPATCH_H    1
 
-
 // types 
 #define DISPATCHER_NULL      0 
-#define DISPATCHER_SYSCOOP   1  // Sistema, cooperação.   (64)*rr
-#define DISPATCHER_USERCOOP  2  // Usuário, cooperação.   (32)
-#define DISPATCHER_SYSCONC   3  // Sistema, concorrência. (16)
-#define DISPATCHER_USERCONC  4  // Usuário, concorrência.  (8)
+#define DISPATCHER_SYSCOOP   1  // Sistema, cooperaï¿½ï¿½o.   (64)*rr
+#define DISPATCHER_USERCOOP  2  // Usuï¿½rio, cooperaï¿½ï¿½o.   (32)
+#define DISPATCHER_SYSCONC   3  // Sistema, concorrï¿½ncia. (16)
+#define DISPATCHER_USERCONC  4  // Usuï¿½rio, concorrï¿½ncia.  (8)
 #define DISPATCHER_SYSTEM    5  // Primeiras tarefas rodando.
 #define DISPATCHER_IDLE      6  // Esclusivo para tarefas idle.(mais de uma)
 #define DISPATCHER_PERIODIC  7  // Tarefas periodicas. (rodam de tempos em tempos)(como o dead taskcollector.)
@@ -26,9 +19,7 @@
 #define DISPATCHER_CURRENT  10  // Dispacha a tarefa atual. 
 #define DISPATCHER_READY    11  // A fila do dispatcher.
 
-
-
-//Enumerador de criterio de seleção de thread.
+//Enumerador de criterio de seleï¿½ï¿½o de thread.
 #define SELECT_IDLE_COUNT         1
 #define SELECT_INITIALIZED_COUNT  2
 #define SELECT_NEXT_COUNT         3 
@@ -53,10 +44,10 @@ struct dispatch_count_d
 	//Quando selecionamos a idle.
 	unsigned long SelectIdleCount;
 	
-	//Quando selecionamos uma thread no momento de sua inicialização.
+	//Quando selecionamos uma thread no momento de sua inicializaï¿½ï¿½o.
 	unsigned long SelectInitializedCount;
 	
-	//Quando selecionamos a próxima indicada na estrutura da thead.
+	//Quando selecionamos a prï¿½xima indicada na estrutura da thead.
     unsigned long SelectNextCount;
 	
 	unsigned long SelectCurrentCount;
@@ -93,24 +84,24 @@ dispatch_count_t *DispatchCountBlock;
  *
  *    **** SHORT-TERM SCHEDULER FOR THREADS****
  *
- *     Esta é a lista do dispatcher.
+ *     Esta ï¿½ a lista do dispatcher.
  *     Lista ponteiros para as heads de listas.
- *     as listas são para threads, uma lista para cada prioridade.
+ *     as listas sï¿½o para threads, uma lista para cada prioridade.
  *
  *     *IMPORTANTE. 
- *     As threads aqui estão no estado READY e
+ *     As threads aqui estï¿½o no estado READY e
  *     ordenadas por prioridade.
  *     
- *     A última thread da lista é a thread de maior prioridade.
+ *     A ï¿½ltima thread da lista ï¿½ a thread de maior prioridade.
  *
- *     Cada elemento dessa lita é o olemento que está na HEAD de uma lista
- *     Cada uma dessas lista é uma lista para uma prioridade específica.
+ *     Cada elemento dessa lita ï¿½ o olemento que estï¿½ na HEAD de uma lista
+ *     Cada uma dessas lista ï¿½ uma lista para uma prioridade especï¿½fica.
  * 
- *     Apenas a head de cada uma das listas é colocada aqui nessa lista do dispacher.
+ *     Apenas a head de cada uma das listas ï¿½ colocada aqui nessa lista do dispacher.
  *
- *     OBS: Nesse momento essa lista do dispacher não está sendo usada.  
+ *     OBS: Nesse momento essa lista do dispacher nï¿½o estï¿½ sendo usada.  
  *          o kernel esta usando a lista de threads criadas. threadList[]
- *          não considerando a prioridade. ;)
+ *          nï¿½o considerando a prioridade. ;)
  */ 
 
 unsigned long dispatcherReadyList[PRIORITY_MAX +1];
@@ -128,7 +119,7 @@ void rabbit_hole(void){  asm ("iret \n");  }
 
 /*
  * dispatcher:
- *     Função principal do dispatcher.
+ *     Funï¿½ï¿½o principal do dispatcher.
  */ 
 
 void dispatcher (int type);

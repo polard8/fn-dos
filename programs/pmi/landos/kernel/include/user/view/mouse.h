@@ -2,7 +2,7 @@
 
 // Nothing for now.
 
-int dummmmyyyy_mouse;
+//int dummmmyyyy_mouse;
 
 
 

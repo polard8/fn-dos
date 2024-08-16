@@ -33,9 +33,6 @@
  *	@(#)types.h	7.17 (Berkeley) 5/6/91
  */
 
-
-
-
 #ifndef ____TYPES2_H
 #define ____TYPES2_H    1
 

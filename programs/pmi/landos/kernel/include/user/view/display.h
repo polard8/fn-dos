@@ -1,10 +1,8 @@
-
-// File: x/display.h
-
+// display.h
+// Created by Fred Nora.
 
 #ifndef ____DISPLAY_H
-#define ____DISPLAY_H
-
+#define ____DISPLAY_H  1
 
 // Syntax: The environment variable
 // hostname:Displaynumber.Screennumber
@@ -16,7 +14,6 @@
 // == Display ==============================
 //
 
-
 // What desktop own the display. (monitor)
 // #bugbug: estamos presumindo apenas um monitor.
 // We are talking about the memory in the graphics card.
@@ -26,27 +23,15 @@
 // O window server em ring3 podera solicitar informaçoes daqui.
 
 
-
-
 struct display_d
 {
     int used;
-    int magic;
-    
+    int magic;    
     int id;
-    
     // What desktop owns this display
     struct desktop_d *desktop;
-    
     struct display_d *next;
 };
-
 //struct display_d *CurrentDisplay;
 
-
-
 #endif    
-
-
-
-

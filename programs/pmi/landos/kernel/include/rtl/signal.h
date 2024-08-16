@@ -1,7 +1,7 @@
+// signal.h
+// Created by Fred Nora.
+
 /*
- * File: signal.h
- * 
- * Descrição:
  *     C library signal support.
  *     Obs: @todo: O suporte à outros tipos de sinais além do padrão C devem
  * ir para outro arquivo.
@@ -31,7 +31,10 @@
  *      ...
  */
 
- /*
+#ifndef __RTL_SIGNAL_H
+#define __RTL_SIGNAL_H    1
+
+/*
 The C standard defines only 6 signals. 
 They are all defined in signal.h header (csignal header in C++):[1]
 
@@ -569,10 +572,10 @@ struct	sigcontext {
 #define	BADSIG		(void (*)())-1
 #endif	/* _POSIX_SOURCE */
 
-
+#endif   
 
 //
-// End.
+// End
 //
 
 

@@ -1,9 +1,12 @@
+// guiconf.h
+// Created by Fred Nora.
+
+
+#ifndef __GUICONF_H
+#define __GUICONF_H    1
 
 /*
-
-    guiconf.h
-	
-	Header para configurações da biblioteca de recursos gráficos.
+  Header para configurações da biblioteca de recursos gráficos.
 	As configurações devem ser feitas na hora da inicialização 
 	da /gui 
 
@@ -71,4 +74,6 @@ struct gui_config_d
     struct gui_d *gui;	
 };
 struct gui_config_d GUI_CONFIG;
+
+#endif   
 

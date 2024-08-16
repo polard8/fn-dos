@@ -100,8 +100,7 @@ struct ttydrv_d
     
     //struct ttydrv_d *other;
 };
-struct ttydrv_d *CurrentTTYDRV;
-
+//struct ttydrv_d  *CurrentTTYDRV;
 
 #endif   
 

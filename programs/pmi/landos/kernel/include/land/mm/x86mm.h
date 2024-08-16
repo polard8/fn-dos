@@ -154,6 +154,8 @@ kernel fica com o 1GB superior."
 */ 
  
 
+#ifndef __X86MM_H
+#define __X86MM_H    1
 
 /*
 // Uma página de 4KB pode ter no máximo 1024 PDEs.
@@ -188,20 +190,16 @@ static inline void copy_page(void *to, void *from)
 }
 */
  
- //
- // **  ENDERE�OS DOS PRINCIPAIS PAGE DIRECTORIES **
- //
+//
+// ENDERE�OS DOS PRINCIPAIS PAGE DIRECTORIES 
+//
  
- 
-// 
 // Directory:
 // ========== 
 //     Endere�o f�sico de alguns diret�rios.
 //     Esses diret�rios s�o dos utilit�rios principais.
 //     N�o tem problema se esses diret�rios ficarem isolados.
 //     Ser�o colocados em cr3.
-//
-
 
 //aqui seria um lugar segura para os diret�rios desses processos 
 //do ambiente Gramado Core.
@@ -213,7 +211,6 @@ static inline void copy_page(void *to, void *from)
 //#define KERNEL_PAGEDIRECTORY  (0x0009C000)  
                       
 
-
 //Quantas entradas de diret�rio de p�ginas cabem em uma p�gina.
 #define PDE_PER_PAGE (1024)
 
@@ -221,11 +218,7 @@ static inline void copy_page(void *to, void *from)
 #define PTE_PER_PAGE (1024)
 
 
-
-unsigned long gKernelPageDirectoryAddress; 
-
-
-
+extern unsigned long gKernelPageDirectoryAddress; 
 
 /* 
  * As configura��es de mem�ria foram feitas pelo Boot Loader.
@@ -257,7 +250,7 @@ struct system_zone_d
 {
     unsigned long systemzone_start;  //0x00000000. s�o os 32MB iniciais  
 };
-struct system_zone_d *systemzone;
+extern struct system_zone_d *systemzone;
 
 //window zone.  
 //#bugbug: maybe it is not a good name.
@@ -268,8 +261,7 @@ struct window_zone_d
 	unsigned long usersession_start;	//ficar� dentro de uma �rea paginada.
     struct usession_d *usersession;    
 };
-struct window_zone_d *windowzone;
-
+extern struct window_zone_d *windowzone;
 
 //Zones.
 // ** ESSA ESTRUTURA � A RAIZ DE TODA GER�NCIA DE MEM�RIA **
@@ -278,8 +270,7 @@ struct mm_zones_d
     struct system_zone_d *system_zone;  //Essa zona � para o sistema.
     struct window_zone_d *window_zone;  //Essa zona toda � uma user session.
 };
-struct mm_zones_d *zones;
-
+extern struct mm_zones_d *zones;
 
 
 //===============================================================
@@ -291,17 +282,12 @@ struct mm_zones_d *zones;
 #define WINDOWZONE_START 0x10000000
 //#define WINDOWZONE_END ??
 
-unsigned long systemzoneStart;
-unsigned long systemzoneEnd;
-unsigned long systemzoneSize;
-unsigned long windowzoneStart;
-unsigned long windowzoneEnd;    //?? Devemos levar em considera��o o calculo do tamanho da mem�ria
-unsigned long windowzoneSize;
-
-
-
-
-
+extern unsigned long systemzoneStart;
+extern unsigned long systemzoneEnd;
+extern unsigned long systemzoneSize;
+extern unsigned long windowzoneStart;
+extern unsigned long windowzoneEnd;    //?? Devemos levar em considera��o o calculo do tamanho da mem�ria
+extern unsigned long windowzoneSize;
 
 /*
  * page_directory_d:
@@ -317,14 +303,10 @@ unsigned long windowzoneSize;
  * funcionam como pools de frames.
  */
 
-
-//typedef struct page_directory_d page_directory_t;
 struct page_directory_d
 {
-
     object_type_t  objectType;
     object_class_t objectClass;
-
 
 	//identificadores.
     int id;
@@ -352,19 +334,18 @@ struct page_directory_d
     struct page_directory_d *next;  
 };
 
-struct page_directory_d *pagedirectoryKernelProcess;    // KERNEL.
-struct page_directory_d *pagedirectoryIdleProcess;      // IDLE.
-struct page_directory_d *pagedirectoryCurrent;          // Current.
-struct page_directory_d *pagedirectoryShared;           // Shared. 
+extern struct page_directory_d *pagedirectoryKernelProcess;    // KERNEL.
+extern struct page_directory_d *pagedirectoryIdleProcess;      // IDLE.
+extern struct page_directory_d *pagedirectoryCurrent;          // Current.
+extern struct page_directory_d *pagedirectoryShared;           // Shared. 
 //...
-
 
 //
 // Lista de diret�rios. (Pois cada processo tem um diret�rio).
 //
 
 //Lista de estruturas para diret�rios de p�ginas.
-unsigned long pagedirectoryList[PAGEDIRECTORY_COUNT_MAX]; 
+extern unsigned long pagedirectoryList[PAGEDIRECTORY_COUNT_MAX]; 
 
 //Linked list pode ser uma op��o.
 //Deve estar em sintonia com o scheduler de threads.
@@ -407,26 +388,19 @@ struct page_table_d
     //@todo: Mais informa��es sobre a pagetable.
     struct page_table_d *next;
 };
-
-struct page_table_d *pagetableCurrent;
-//...
-
+extern struct page_table_d *pagetableCurrent;
 
 //
 // Lista de pagetables.
 //
 
-unsigned long pagetableList[PAGETABLE_COUNT_MAX]; 
+extern unsigned long pagetableList[PAGETABLE_COUNT_MAX]; 
 
 //Linked List talvez seja uma op��o.
 //page_table_t *pagetableLinkedListHead;
 
 
-
- 
 /**
- **  **  SUPER IMPORTANTE  **
- **
  ** Super block.
  ** ESSAS VARI�VEIS GLOBAIS MARCAR�O O IN�CIO E O FIM 
  ** DA �REA DE MEM�RIA F�SICA DESTINADA AOS FRAMES DE MEM�RIA 
@@ -439,10 +413,9 @@ unsigned long pagetableList[PAGETABLE_COUNT_MAX];
  ** 
  ** mmFramesSuperBlockStart = 0x10000000
  ** mmFramesSuperBlockEnd   = 0x1FFFFFFF
- ** 
+
  ** Esses s�o endere�os f�sicos.
  ** Obs: Ficar�o nesse lugar caso se tenha mem�ria dispon�vel para isso.
- **
  **/
  
 // Frames Super Block.
@@ -451,12 +424,12 @@ unsigned long pagetableList[PAGETABLE_COUNT_MAX];
 // Obs: Temos listas de frames em algum lugar. 
 // Criaremos listas aqui para o FSB, que ser� o nome do gerenciado, 
 // para melhorar o controle dessa �rea.
-unsigned long mmFramesSuperBlockStart;      //Endere�o onde come�a o FSB.
-unsigned long mmFramesSuperBlockEnd;        //Endere�o onde termina o FSB.
-unsigned long mmFramesSuperBlockSize;       //Tamanho do FSB dado em bytes.
-unsigned long mmFramesSuperBlockTotal;      //Total de frames.
-unsigned long mmFramesSuperBlockTotalFree;  //Total de frames livres. 
-unsigned long mmFramesSuperBlockTotalUsed;  //Total de frames e uso. 
+extern unsigned long mmFramesSuperBlockStart;      //Endere�o onde come�a o FSB.
+extern unsigned long mmFramesSuperBlockEnd;        //Endere�o onde termina o FSB.
+extern unsigned long mmFramesSuperBlockSize;       //Tamanho do FSB dado em bytes.
+extern unsigned long mmFramesSuperBlockTotal;      //Total de frames.
+extern unsigned long mmFramesSuperBlockTotalFree;  //Total de frames livres. 
+extern unsigned long mmFramesSuperBlockTotalUsed;  //Total de frames e uso. 
 //Continua...
 
 // ((0x1FFFFFFF - 0x10000000) / 512)  = QUANTIDADE DE FRAMES NESSA �REA.
@@ -472,22 +445,20 @@ unsigned long mmFramesSuperBlockTotalUsed;  //Total de frames e uso.
 
 
 //Lista de ponteiros para as estruturas de todos os frames do FSB.
-unsigned long fsbFrames[FSB_FRAMES_MAX]; 
+extern unsigned long fsbFrames[FSB_FRAMES_MAX]; 
 
 //
 // Lista de livres.
 //
 
 //Lista de ponteiros para as estruturas de todos os frames 'LIVRES' do FSB.
-unsigned long fsbFreeFrames[FSB_FREEFRAMES_MAX];  
+extern unsigned long fsbFreeFrames[FSB_FREEFRAMES_MAX];  
  
- 
- 
+
 //
 // memory:
 //
 
- 
  
 //
 // MM BLOCK.
@@ -545,8 +516,6 @@ unsigned long fsbFreeFrames[FSB_FREEFRAMES_MAX];
 #define MMBLOCK_COUNT_MAX  (2*4096)
  
 
-
-
 //
 // ## MEMORY PARTITION ##
 //
@@ -566,9 +535,7 @@ unsigned long fsbFreeFrames[FSB_FREEFRAMES_MAX];
 // Foram alocadas 1024 pageframes para a imagem do kernel.
 // Isso equivale a um pageframe pool. Que � igual a 4MB. Pois
 // s�o 1024 page frames de pag�nas de 4KB cada.
-//
 
-//
 // + kernel area = 1024 page frames (4MB)
 // + kernel image = 1024 pageframes (4MB)
 // + user mode area = 1024 pageframes (4MB)
@@ -577,10 +544,6 @@ unsigned long fsbFreeFrames[FSB_FREEFRAMES_MAX];
 //         uma placa de v�deo tem mais mem�ria que isso)
 // + backbuffer = 1024 pageframes (4MB) (Isso realmente � pouco, o backbuffer 
 //         deve caner uma imagem grande, que ser� dividade em v�rios monitores.)
-//
-//
-
-
 
 /*
 INVLPG
@@ -618,18 +581,15 @@ typedef enum {
  *     *dentro do heap usado pelo kernel eu acho ?? 
  */
 
-unsigned long mmblockCount;         
+extern unsigned long mmblockCount;
  
-
 
 /*
  * Kernel Stack suppport.
  */ 
-
-unsigned long kernel_stack_end;        //va
-unsigned long kernel_stack_start;      //va
-unsigned long kernel_stack_start_pa;   //pa (endere�o indicado na TSS).
-
+extern unsigned long kernel_stack_end;        //va
+extern unsigned long kernel_stack_start;      //va
+extern unsigned long kernel_stack_start_pa;   //pa (endere�o indicado na TSS).
 
 /*
  * process_memory_info_d:
@@ -661,7 +621,7 @@ struct process_memory_info_d
 	//??delta de conjunto de trabalho.
 	//...
 };
-struct process_memory_info_d *pmiCurrent;
+extern struct process_memory_info_d *pmiCurrent;
 //...
 
 
@@ -683,7 +643,7 @@ struct physical_memory_info_d
 	unsigned long Free;      //Livre.(Existe na RAM mas n�o foi paginada??).
     //...	
 };
-struct physical_memory_info_d *pmiMemoryInfo;
+extern struct physical_memory_info_d *pmiMemoryInfo;
 //...
 
 
@@ -706,7 +666,7 @@ struct memory_info_d
 	unsigned long TotalV;
     unsigned long AvailableV;
 };
-struct memory_info_d *miMemoryInfo;
+extern struct memory_info_d *miMemoryInfo;
 //...
 
 
@@ -804,22 +764,21 @@ struct mmblock_d
     struct mmblock_d *Prev;
     struct mmblock_d *Next;
 };
-struct mmblock_d *current_mmblock;
+extern struct mmblock_d *current_mmblock;
 
  
+// see: pages.c
 //Lista de blocos. 
 //lista de blocos de mem�ria dentro de um heap.
 //@todo: na verdade temos que usar lista encadeada. 
-unsigned long mmblockList[MMBLOCK_COUNT_MAX];  
+extern unsigned long mmblockList[MMBLOCK_COUNT_MAX];  
 
 
 /*
- ****************************************************************
  * page_d:
  *     Guarda informa��es sobre um 'page frame' na mem�ria f�sica.
  *     @todo: Incluir todas as informa��es necess�rias.
  */
-
 struct page_d
 {
 	
@@ -848,12 +807,11 @@ struct page_d
     struct page_d *next;
 };
  
-
+// see: pages.c
 // #importante
 // Pool de mem�ria pagin�vel usado para aloca��o.
 // Aqui ficam os ponteiros para estrutura do tipo page.
-
-unsigned long pageAllocList[PAGE_COUNT_MAX];
+extern unsigned long pageAllocList[PAGE_COUNT_MAX];
 
 
 /*
@@ -889,42 +847,44 @@ struct frame_pool_d
     struct frame_pool_d *next;
 };
 
-//
 // Cada framepool abaixo � o framepool inicial de uma regi�o.
 // Uma regis�o pode ter v�rios framepools.
-//
 
+// see: pages.c
 //kernel space.
-struct frame_pool_d *framepoolKernelSpace;            //0x00000000  Kernel Space. In�cio do kernel space.
+extern struct frame_pool_d *framepoolKernelSpace;            //0x00000000  Kernel Space. In�cio do kernel space.
 
+// see: pages.c
 //user space
-struct frame_pool_d *framepoolSmallSystemUserSpace;   //0x00400000  Para um sistema pequeno o kernel space tem 4MB.
-struct frame_pool_d *framepoolMediumSystemUserSpace;  // 
-struct frame_pool_d *framepoolLargeSystemUserSpace;   //0x40000000  Para um sistema grande o kernel space tem um giga. 
+extern struct frame_pool_d *framepoolSmallSystemUserSpace;   //0x00400000  Para um sistema pequeno o kernel space tem 4MB.
+extern struct frame_pool_d *framepoolMediumSystemUserSpace;  // 
+extern struct frame_pool_d *framepoolLargeSystemUserSpace;   //0x40000000  Para um sistema grande o kernel space tem um giga. 
 //...
 
+// see: pages.c
 //Cada front buffer � uma placa de v�deo.
-struct frame_pool_d *framepoolFrontBuffer1;   //In�cio do linear frame buffer 1.
-struct frame_pool_d *framepoolFrontBuffer2;   //In�cio do linear frame buffer 2.
-struct frame_pool_d *framepoolFrontBuffer3;   //In�cio do linear frame buffer 3.
-struct frame_pool_d *framepoolFrontBuffer4;   //In�cio do linear frame buffer 4.
+extern struct frame_pool_d *framepoolFrontBuffer1;   //In�cio do linear frame buffer 1.
+extern struct frame_pool_d *framepoolFrontBuffer2;   //In�cio do linear frame buffer 2.
+extern struct frame_pool_d *framepoolFrontBuffer3;   //In�cio do linear frame buffer 3.
+extern struct frame_pool_d *framepoolFrontBuffer4;   //In�cio do linear frame buffer 4.
 //...
 
+// see: pages.c
 //Backbuffer
-struct frame_pool_d *framepoolBackBuffer1;   //In�cio do backbuffer.
-struct frame_pool_d *framepoolBackBuffer2;   //In�cio do backbuffer.
-struct frame_pool_d *framepoolBackBuffer3;   //In�cio do backbuffer.
-struct frame_pool_d *framepoolBackBuffer4;   //In�cio do backbuffer.
+extern struct frame_pool_d *framepoolBackBuffer1;   //In�cio do backbuffer.
+extern struct frame_pool_d *framepoolBackBuffer2;   //In�cio do backbuffer.
+extern struct frame_pool_d *framepoolBackBuffer3;   //In�cio do backbuffer.
+extern struct frame_pool_d *framepoolBackBuffer4;   //In�cio do backbuffer.
 //...
 
-
+// see: pages.c
 //�rea onde poderemos alocar frames para os processos usarem...
 //Esse � o framepool inicial de usa �re grande de mem�ria.
-struct frame_pool_d *framepoolPageableSpace;   
+extern struct frame_pool_d *framepoolPageableSpace;   
 
-
+// see: pages.c
 //Current.
-struct frame_pool_d *framepoolCurrent;
+extern struct frame_pool_d *framepoolCurrent;
 //...
 
 //struct frame_pool_d *framepoolKernelPagedPool;
@@ -933,14 +893,12 @@ struct frame_pool_d *framepoolCurrent;
 //struct frame_pool_d *framepoolUserNonPagedPool;
 
 //
-//   **** PAGEABLE AREA ****
+// PAGEABLE AREA
 //
 
-
-
-unsigned long gPagedPollStart;
-unsigned long gPagedPollEnd;
-
+// see: pages.c
+extern unsigned long gPagedPollStart;
+extern unsigned long gPagedPollEnd;
 
 //Obs: ISSO � UM TESTE.
 //N�mero m�ximo de framepools na �rea de aloca�ao de frames.
@@ -962,45 +920,38 @@ unsigned long gPagedPollEnd;
 //#define PAGEABLE_FRAMEPOOL_MAX 32
 
 
-
-//
 // N�mero m�ximo de �ndices de framepool que ser�o usados nessa �rea de 
 // aloca��o de frames.
 // *** Uma certa quantidade de framepools ser�o usados
 // para aloca��o de frames para os processos. Durante
 // a aloca��o sobre demanda os frames usados vir�o dessa �rea de mem�ria.
-//
-//
-//
 
-int g_pageable_framepool_index_max;
+//see: pages.c
+extern int g_pageable_framepool_index_max;
 
-
+// see: pages.c
 //List.(1024 framepools de 4MB d� 4GB).
-unsigned long framepoolList[FRAMEPOOL_COUNT_MAX];
-
+extern unsigned long framepoolList[FRAMEPOOL_COUNT_MAX];
 
 //Lista de framepools livres.
 //int framepoolFreeList[FRAMEPOOL_COUNT_MAX]
 //frame_pool_t *framepoolFreeListHead;
 
-
-
+// see: pages.c
 //frame pool atual.
-int g_current_framepool;
+extern int g_current_framepool;
 
-
+// see: pages.c
 //o indice do framepool da user space para qualquer tamanho de mem�ria.
-int g_user_space_framepool_index;
+extern int g_user_space_framepool_index;
 
-
+// see: pages.c
 //O m�ximo de framepools poss�veis dado o tamanho da mem�ria f�sica.
-unsigned long g_framepool_max;
+extern unsigned long g_framepool_max;
 
-
+// see: pages.c
 //Tamanho m�ximo da mem�ria f�sica.
-unsigned long g_total_physical_memory;
-
+extern unsigned long g_total_physical_memory;
 
 //Contabilidade. kernel(talvez deva fazer uma estrututra) MS.
 //Mem�ria usada pelo kernel.
@@ -1010,9 +961,10 @@ unsigned long g_total_physical_memory;
 //+virtual paginada 
 //+paginada limite
 //+na� pagianda limite.
-//
-unsigned long g_kernel_paged_memory;
-unsigned long g_kernel_nonpaged_memory;
+
+// see: pages.c
+extern unsigned long g_kernel_paged_memory;
+extern unsigned long g_kernel_nonpaged_memory;
 
 // **** GERENCIA DE MEM�RIA F�SICA. ****
 //MS - Windows 
@@ -1024,8 +976,6 @@ unsigned long g_kernel_nonpaged_memory;
 // ?? Aqui n�o conta a mem�ria de v�deo, somente o tamanho da mem�ria ram f�sica.
 // A mem�ria de v�deo est� normalmente no topo da mem�ria f�sica real. Endere�o 
 // al�m do tamanho da mem�ria ram.
-//
-
 
 // **** GERENCIA DE MEM�RIA F�SICA. ****
 //MS - Windows 
@@ -1035,110 +985,104 @@ unsigned long g_kernel_nonpaged_memory;
 // + Livre.
 //
 
-
-
 // Tipo de sistema baseado no tamanho da memoria.
 typedef enum {
-
     stNull,
     stSmallSystem,
     stMediumSystem,
     stLargeSystem,
-
 }mm_system_type_t;
 
 
-//salva o tipo de sistema baseado no tamanho da mem�ria.
-int g_mm_system_type;
+// see: pages.c
+// salva o tipo de sistema baseado no tamanho da mem�ria.
+extern int g_mm_system_type;
 
 
 //
 // ## Physical memory ##
 //
 
+// see: pages.c
 // Small systems.
-unsigned long SMALL_origin_pa;
-unsigned long SMALL_kernel_base_pa;
-unsigned long SMALL_user_pa;
-unsigned long SMALL_cga_pa;
-unsigned long SMALL_frontbuffer_pa;
-unsigned long SMALL_backbuffer_pa; 
-unsigned long SMALL_pagedpool_pa; 
-unsigned long SMALL_heappool_pa; 
-unsigned long SMALL_extraheap1_pa;
-unsigned long SMALL_extraheap2_pa; 
-unsigned long SMALL_extraheap3_pa; 
+extern unsigned long SMALL_origin_pa;
+extern unsigned long SMALL_kernel_base_pa;
+extern unsigned long SMALL_user_pa;
+extern unsigned long SMALL_cga_pa;
+extern unsigned long SMALL_frontbuffer_pa;
+extern unsigned long SMALL_backbuffer_pa; 
+extern unsigned long SMALL_pagedpool_pa; 
+extern unsigned long SMALL_heappool_pa; 
+extern unsigned long SMALL_extraheap1_pa;
+extern unsigned long SMALL_extraheap2_pa; 
+extern unsigned long SMALL_extraheap3_pa; 
 //...
 
+// see: pages.c
 // Medium systems.
-unsigned long MEDIUM_origin_pa;
-unsigned long MEDIUM_kernel_base_pa; 
-unsigned long MEDIUM_user_pa; 
-unsigned long MEDIUM_cga_pa; 
-unsigned long MEDIUM_frontbuffer_pa; 
-unsigned long MEDIUM_backbuffer_pa; 
-unsigned long MEDIUM_pagedpool_pa;  
-unsigned long MEDIUM_heappool_pa; 
-unsigned long MEDIUM_extraheap1_pa;
-unsigned long MEDIUM_extraheap2_pa; 
-unsigned long MEDIUM_extraheap3_pa; 
+extern unsigned long MEDIUM_origin_pa;
+extern unsigned long MEDIUM_kernel_base_pa; 
+extern unsigned long MEDIUM_user_pa; 
+extern unsigned long MEDIUM_cga_pa; 
+extern unsigned long MEDIUM_frontbuffer_pa; 
+extern unsigned long MEDIUM_backbuffer_pa; 
+extern unsigned long MEDIUM_pagedpool_pa;  
+extern unsigned long MEDIUM_heappool_pa; 
+extern unsigned long MEDIUM_extraheap1_pa;
+extern unsigned long MEDIUM_extraheap2_pa; 
+extern unsigned long MEDIUM_extraheap3_pa; 
 
+// see: pages.c
 // Large systems.
-unsigned long LARGE_origin_pa;
-unsigned long LARGE_kernel_base_pa;
-unsigned long LARGE_user_pa;
-unsigned long LARGE_cga_pa;
-unsigned long LARGE_frontbuffer_pa;
-unsigned long LARGE_backbuffer_pa;
-unsigned long LARGE_pagedpool_pa; 
-unsigned long LARGE_heappool_pa;
-unsigned long LARGE_extraheap1_pa;
-unsigned long LARGE_extraheap2_pa; 
-unsigned long LARGE_extraheap3_pa; 
-
-
+extern unsigned long LARGE_origin_pa;
+extern unsigned long LARGE_kernel_base_pa;
+extern unsigned long LARGE_user_pa;
+extern unsigned long LARGE_cga_pa;
+extern unsigned long LARGE_frontbuffer_pa;
+extern unsigned long LARGE_backbuffer_pa;
+extern unsigned long LARGE_pagedpool_pa; 
+extern unsigned long LARGE_heappool_pa;
+extern unsigned long LARGE_extraheap1_pa;
+extern unsigned long LARGE_extraheap2_pa; 
+extern unsigned long LARGE_extraheap3_pa; 
 
 //base     = base memory retornada pelo cmos
 //other    = (1MB - base). (Shadow memory = 384 KB)
 //extended = retornada pelo cmos.
 //total    = base + other + extended.
 
-unsigned long memorysizeBaseMemory;
-unsigned long memorysizeOtherMemory;
-unsigned long memorysizeExtendedMemory;
-unsigned long memorysizeTotal;
+extern unsigned long memorysizeBaseMemory;
+extern unsigned long memorysizeOtherMemory;
+extern unsigned long memorysizeExtendedMemory;
+extern unsigned long memorysizeTotal;
 
+extern unsigned long memorysizeInstalledPhysicalMemory;
 
-
-
-unsigned long memorysizeInstalledPhysicalMemory;
-
-unsigned long memorysizeTotalPhysicalMemory;
-unsigned long memorysizeAvailablePhysicalMemory;
-
+extern unsigned long memorysizeTotalPhysicalMemory;
+extern unsigned long memorysizeAvailablePhysicalMemory;
 
 //??
 // Quantidade de mem�ria em uso.
-unsigned long memorysizeUsed;
+extern unsigned long memorysizeUsed;
 
 //??
 //Quantidade de mem�ria livre.
 // ? = total - used.
-unsigned long memorysizeFree;
+extern unsigned long memorysizeFree;
 
 
 //
 // ## Used Memory support ##
 //
 
-unsigned long mm_used_kernel_area;  // start = 0 size = 4MB
-unsigned long mm_used_user_area;    // start = 0x400000 size = 4MB
-unsigned long mm_used_backbuffer;   // start = 0x800000 size = 4MB
-unsigned long mm_used_pagedpool;    // start = 0xC00000 size = 4MB  
+extern unsigned long mm_used_kernel_area;  // start = 0 size = 4MB
+extern unsigned long mm_used_user_area;    // start = 0x400000 size = 4MB
+extern unsigned long mm_used_backbuffer;   // start = 0x800000 size = 4MB
+extern unsigned long mm_used_pagedpool;    // start = 0xC00000 size = 4MB  
 
 //area de mem�ria onde ficar�o heaps para os processos.
-unsigned long mm_used_heappool;     // start = 0x01000000 size = 4MB   
-	
+extern unsigned long mm_used_heappool;     // start = 0x01000000 size = 4MB   
+
 // #importante
 // os processos init, shell e taskman do gramado core s�o especiais
 // por isso receber�o heaps especiais.
@@ -1150,14 +1094,12 @@ unsigned long mm_used_heappool;     // start = 0x01000000 size = 4MB
 //unsigned long mm_used_gramadocore_shell_heap;    // start = (0x01000000 + 0x800000) size = 4MB
 //unsigned long mm_used_gramadocore_taskman_heap;  // start = (0x01000000 + 0xC00000) size = 4MB
 
-unsigned long mm_used_extraheap1;  // start = (0x01000000 + 0x400000) size = 4MB
-unsigned long mm_used_extraheap2;  // start = (0x01000000 + 0x800000) size = 4MB
-unsigned long mm_used_extraheap3;  // start = (0x01000000 + 0xC00000) size = 4MB
-
+extern unsigned long mm_used_extraheap1;  // start = (0x01000000 + 0x400000) size = 4MB
+extern unsigned long mm_used_extraheap2;  // start = (0x01000000 + 0x800000) size = 4MB
+extern unsigned long mm_used_extraheap3;  // start = (0x01000000 + 0xC00000) size = 4MB
 
 // 0x02000000 - 32mb mark. 
-unsigned long mm_used_frame_table;
-
+extern unsigned long mm_used_frame_table;
 
 // #bugbug
 // Só pra lembrar que temos estruturas de bancos de memória.
@@ -1184,12 +1126,9 @@ struct frame_table_d
     int total_free;
     int total_used;
 };
-
+// see: pages.c
 // frame table struct.
-struct frame_table_d FT;
-
-
-
+extern struct frame_table_d  FT;
 
 // #test
 
@@ -1201,11 +1140,8 @@ struct frame_table_d FT;
 struct frame_d
 {
     pid_t owner;
-
     int count; //reference count.
-
     int age; //reference time.
-
     unsigned long virtual_address;
 
     // O número da entrada na tabela FT.frame_table[entry_number].
@@ -1227,24 +1163,22 @@ struct frame_d
 // NULL = entrada vazia
 // !NULL = ponteiro para a estrutura do tipo free_frame_d.
 
+// see: pages.c
 // Lista de processos livres.
 // Isso facilita, possivelmente evitando a busca 
 // na tabela global FT.frame_table[]
-struct frame_d FREE_FRAMES[1024];
+extern struct frame_d  FREE_FRAMES[1024];
 
+// see: pages.c
 //This entries are in the disk.
-struct frame_d SWAPPED_FRAMES[1024];
+extern struct frame_d  SWAPPED_FRAMES[1024];
 
 // Maybe we can have more lists here.
 // ...
 
-
-
-
 // ...
 
-
-unsigned long mm_used_lfb;          // start = ?? size = 4MB
+extern unsigned long mm_used_lfb;          // start = ?? size = 4MB
 
 //#todo
 //unsigned long mm_used_
@@ -1255,9 +1189,8 @@ unsigned long mm_used_lfb;          // start = ?? size = 4MB
 //  ## virtual memory ##
 //
 
-unsigned long memorysizeTotalVirtualMemory;
-unsigned long memorysizeAvailableVirtualMemory;
-
+extern unsigned long memorysizeTotalVirtualMemory;
+extern unsigned long memorysizeAvailableVirtualMemory;
 
 // Tamanho dado em bytes.
 #define SMALLSYSTEM_SIZE  ( 32*1024*1024)
@@ -1304,9 +1237,6 @@ void memoryShowMemoryInfo (void);
 // Init support.
 //
 
-int mmInit (void); 
-
-int init_stack (void);
 
 // Configura paginação usada pelo kernel
 int mmSetUpPaging (void);    
@@ -1356,18 +1286,15 @@ CreatePageTable (
     int dir_index, 
     unsigned long region_address );
 
-
 int pEmpty (struct page_d *p);
 void freePage (struct page_d *p);
 void notfreePage (struct page_d *p);
 
 int firstSlotForAList (int size);
 
-
 //?? Talvez tenha que mudar de nome.
 //checar se estamos lidando com p�ginas ou com frames.
 void initializeFramesAlloc (void);
-
 
 // Allocate single page.
 void *newPage (void);            
@@ -1377,9 +1304,7 @@ void *mm_alloc_single_page (void);
 void *allocPages (int size);
 void *mm_alloc_contig_pages ( size_t size );
 
-
 void testingPageAlloc (void); 
-
 
 unsigned long 
 virtual_to_physical ( 
@@ -1397,10 +1322,8 @@ void show_memory_structs (void);
 //mostra as estruturas de pagina usadas para pagina��o no pagedpool.
 void showFreepagedMemory ( int max );
 
-
 int initialize_frame_table(void);
 unsigned long get_new_frame(void);
-
 
 // Kernel Garbage Collector.
 // It's used to clean some unused memory.
@@ -1408,9 +1331,12 @@ unsigned long get_new_frame(void);
 int kernel_gc (void);
 
 
+int init_stack (void);
+int mmInit (void); 
+
+
+#endif   
 
 //
-// End.
+// End
 //
-
-

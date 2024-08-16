@@ -18,6 +18,228 @@
 
 #include <kernel.h>
 
+// pints.h
+unsigned long g_profiler_ints_gde_services=0;
+
+// pints.h
+unsigned long g_profiler_ints_irq0=0;  // kdrivers/timer.c
+unsigned long g_profiler_ints_irq1=0;  // x/i8042/keyboard.c
+unsigned long g_profiler_ints_irq2=0;  // cascade.
+unsigned long g_profiler_ints_irq3=0;  //
+unsigned long g_profiler_ints_irq4=0;  //
+unsigned long g_profiler_ints_irq5=0;  //
+unsigned long g_profiler_ints_irq6=0;  //
+unsigned long g_profiler_ints_irq7=0;  //
+unsigned long g_profiler_ints_irq8=0;   // kdrivers/rtc.c
+unsigned long g_profiler_ints_irq9=0;   // kdrivers/network/nicintel.c
+unsigned long g_profiler_ints_irq10=0; //
+unsigned long g_profiler_ints_irq11=0;  //
+unsigned long g_profiler_ints_irq12=0;  // x/i8042/mouse.c
+unsigned long g_profiler_ints_irq13=0;  //
+unsigned long g_profiler_ints_irq14=0;  // kdrivers/kdrivers/ide/atairq.c
+unsigned long g_profiler_ints_irq15=0;  // kdrivers/kdrivers/ide/atairq.c
+
+
+unsigned long kernel_request=0;
+
+// see: request.h
+struct request_d  REQUEST;
+
+// First of all.
+// we need to register some processes.
+// Registering 'folders'.
+
+// 1) boot/
+// This is the pre-kernel stuff.
+// Register this folder is gonna be a noop.
+// oops. pode existir nessa pasta também um processo
+// de configuração da inicialização. why not?!
+pid_t __gpidBoot=0;
+
+// 2) include/
+pid_t __gpidInclude=0;
+
+// 3) init/
+// init.bin
+pid_t __gpidInit=0;
+
+// 4) install/
+pid_t __gpidInstall=0;
+
+// 5) logoff
+pid_t __gpidLogoff=0;
+
+// 6) logon/
+pid_t __gpidLogon=0;
+
+// 7) net/
+// The net server.
+// netsrv.bin
+pid_t __gpidNetServer=0;
+
+// 8) notify/
+pid_t __gpidNotificationServer=0;
+
+// 9) sci/
+// SCIServer ??
+pid_t __gpidSCI=0;
+
+// 10) security/
+pid_t __gpidSecurityServer=0;
+
+// 11) 
+pid_t __gpidSysIO=0;
+// ??
+
+// 12)
+pid_t __gpidSysLib=0;
+// ??
+
+// 13) sysmk/
+pid_t __gpidSysMK=0;
+// ??
+
+// 14) syssm/ 
+//system management
+// system server
+pid_t __gpidSysSM=0;
+// ??
+
+// 15) wm/
+// See: kgwm.c
+pid_t __gpidWindowManager=0;
+
+// 16) ws/
+// See: kgws.c
+pid_t __gpidWindowServer=0;
+
+
+
+int abnt2=0;
+
+//Type of product.
+int g_product_type=0;
+
+
+// GRAMADO_JAIL, GRAMADO_P1 ...
+int current_mode=0;
+
+// INPUT_MODE_SETUP, INPUT_MODE_WS ...
+//int current_input_mode;
+
+// x86 ...
+int current_arch=0;
+
+// Organização de usuários.
+int current_user=0;
+int current_group=0;
+
+int foreground_process=0;
+int foreground_thread=0;
+
+int current_process=0;   // Currently having the processing time.
+int current_thread=0;    // Currently having the processing time.
+
+int criticalsection_pid=0;
+
+
+// see: main.c
+// [Focus]
+int active_process=0;    // This is the process with the active thread.
+int active_thread=0;     // This thread will receive the input.
+
+// see: main.c
+//[Scheduler]
+int next_thread=0;     //next user mode thread.
+
+// Current runlevel. Used in init process.
+int current_runlevel=0;
+// Organização dos discos.
+int current_disk=0;
+int current_volume=0;
+// Organização dos arquivos.
+int current_directory=0;
+int current_file=0;
+int current_dead_process=0;
+int current_dead_thread=0;
+// Organização dos terminais
+int current_tty=0;
+int current_terminal=0;
+//int current_pty=0;
+//int current_pts=0;
+
+
+//size of processor word.
+int g_platform_type=0;
+
+//se ele est'a inicializado ou nao
+int dead_thread_collector_status=0;
+
+// se 'e para usalo ou nao
+int dead_thread_collector_flag=0;
+
+//cr3. current page directoory address.
+unsigned long current_process_pagedirectory_address=0;
+
+
+// Logon.
+int g_logged=0;
+
+// GUI
+//flag.
+//If the kernel is in graphics mode.
+int g_useGUI=0;
+
+//Messages support.
+unsigned long g_new_message=0;
+unsigned long g_next_app=0;       // Procedure adreess.
+unsigned long g_proc_status=0;    // Procedure status.
+
+// Drivers support.
+int g_driver_ps2keyboard_initialized=0;   //ps2 keyboard
+int g_driver_ps2mouse_initialized=0;      //ps2 mouse
+int g_driver_video_initialized=0;
+int g_driver_apic_initialized=0;
+int g_driver_hdd_initialized=0;
+int g_driver_pci_initialized=0;
+int g_driver_rtc_initialized=0;
+int g_driver_timer_initialized=0;
+//...
+
+int g_module_shell_initialized=0;
+int g_module_debug_initialized=0;
+int g_module_disk_initialized=0;
+int g_module_volume_initialized=0;
+int g_module_fs_initialized=0;
+int g_module_gui_initialized=0;
+int g_module_logoff_initialized=0;
+int g_module_logon_initialized=0;
+int g_module_mm_initialized=0;
+int g_module_objectmanager_initialized=0;
+int g_module_runtime_initialized=0;
+int g_module_uem_initialized=0;    //user environment manager.
+//...
+
+// Kernel information variables.
+unsigned long KernelSize=0;
+unsigned long KernelHeapSize=0;
+unsigned long KernelStackSize=0;
+unsigned long KernelPages=0;
+unsigned long KeInitPhase=0;
+unsigned long KernelStatus=0;
+//...
+
+int g_kernel_symbols_available=0;
+unsigned long kernel_switch=0;
+unsigned long errno=0;
+
+
+// kernel00.h
+struct kernel_args_d  KernelArgs;
+struct system_classes_d  SystemClasses;
+struct kernel_classes_d  KernelClasses;
+struct platform_d  *Platform; 
+
 
 // This variables came from BL.BIN.
 

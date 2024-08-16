@@ -1,30 +1,20 @@
 /*
  * File: kgws.h
- * 
- *     header for the kGWS.
- * 
- *    kGWS - Kernel Gramado Window Server
- *
- * 
- * History:
- *     2017 - Created by Fred Nora.
+ * header for the kGWS.
+ * kGWS - Kernel Gramado Window Server
+ * 2017 - Created by Fred Nora.
  */
 
-
 /*
-
     KGWS
     The KGWS subsystem handles all the kernel input and output.
     kgws_keyboard for keyboard input
     kgws_mouse for mouse input.
-
  */
-
 
 
 #ifndef __KGWS_H
 #define __KGWS_H    1
-
 
 /*
 #define KGWS_MAGIC 1234

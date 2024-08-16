@@ -1,6 +1,8 @@
+// bmp2.h 
+// Created by Fred Nora.
 
-//bmp.h 
-
+#ifndef __BMP2_H
+#define __BMP2_H    1
 
 //OFFSETS
 #define BMP_OFFSET_WIDTH 18
@@ -8,7 +10,6 @@
 #define BMP_OFFSET_BITPLANES 26
 #define BMP_OFFSET_BITCOUNT 28
 //...
-
 
 /*
  * bmp_header_d:
@@ -45,6 +46,5 @@ struct bmp_infoheader_d
     unsigned long  bmpClrImportant;   /* Number of important colors */
 };
 
-
-
+#endif   
 

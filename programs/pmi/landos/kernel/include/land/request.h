@@ -70,14 +70,13 @@
 // ...
 
 
-#define KERNEL_REQUEST_MAX 1024
+#define KERNEL_REQUEST_MAX  1024
 
 
-unsigned long kernel_request;
-
+// see: main.c
+extern unsigned long kernel_request;
 
 /*
- *****************************************************
  * request_d:
  *     Estrutura para o request.
  *     Aqui ficarao os argumentos para atender o request.
@@ -123,8 +122,8 @@ struct request_d
 	unsigned long long5;
 	unsigned long long6;
 };
-struct request_d REQUEST;
-
+// see: main.c
+extern struct request_d  REQUEST;
 
 //
 // Prototypes ===============

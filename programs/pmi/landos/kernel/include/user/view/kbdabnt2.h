@@ -3,11 +3,8 @@
  *     Header de suporte ao teclado abnt2.
  */
 
-
 #ifndef ____KBDABNT2_H
-#define ____KBDABNT2_H
-
-
+#define ____KBDABNT2_H  1
 
 //Usado no mapa de caracteres. 
 #define L      0x01    // locking function.
@@ -18,8 +15,6 @@
 #define CPS    0x20    // caps shift -- swaps case of letter.
 #define ASCII  0x40    // ascii code for this key.
 #define STP    0x80    // stop output.
-
-
 
 //ASCII
 

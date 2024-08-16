@@ -8,7 +8,6 @@
  *    2019 - Create by fred Nora.
  */
 
-
 #ifndef ____VFS_H
 #define ____VFS_H
 
@@ -26,8 +25,6 @@
 
 #define VFS_ROOTDIR_NUMBER_OF_ENTRIES 128
 #define VFS_ROOTDIR_ENTRY_SIZE 32 
-
-
 
 //#define VFS_DIR_ROOT       'vfs:/' 
 //#define VFS_DIR_ETC        'vfs:/etc'      // misc

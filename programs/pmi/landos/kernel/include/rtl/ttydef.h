@@ -38,12 +38,9 @@
  */
 
 #ifndef _SYS_TTYDEFAULTS_H_
-#define _SYS_TTYDEFAULTS_H_
-
+#define _SYS_TTYDEFAULTS_H_  1
 
 // System wide defaults for terminal state.
-
-
 
 // Defaults on "first" open.
 // See: termios.h

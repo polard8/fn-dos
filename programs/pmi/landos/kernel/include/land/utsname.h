@@ -1,10 +1,10 @@
-// File: utsname.h
+// utsname.h
+// Created by Fred Nora.
 
 #ifndef __UTSNAME_H
 #define __UTSNAME_H    1
 
 #define  _UTSNAME_LENGTH  65
-
 
 /* Structure describing the system and machine.  */
 

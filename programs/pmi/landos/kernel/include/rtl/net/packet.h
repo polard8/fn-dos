@@ -1,8 +1,12 @@
+// packet.h
+// Created by Fred Nora.
+
+#ifndef __PACKET_H
+#define __PACKET_H   1
+
 // Estruturas para pacotes.
 // Vamos usar as estruturas de headers 
 // para construirmos os pacotes.
-
-
 
 /* Global variables */
 /*
@@ -22,8 +26,6 @@ struct arp_packet
     struct ether_header  eh;  //ethernet.h
     struct ether_arp     ah;  //arp.h
 };
-
-
 
 struct ipv4_packet
 {
@@ -73,17 +75,5 @@ struct tcp_packet
     unsigned short urg_pointer;
 };
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+#endif   
 

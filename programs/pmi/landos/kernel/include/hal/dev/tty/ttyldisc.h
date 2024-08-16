@@ -46,8 +46,7 @@ struct ttyldisc_d {
     //driver envolvido na transferência.
     struct ttydrv_d *driver;
 };
-struct ttyldisc_d *CurrentTTYLDISC;
-
+//struct ttyldisc_d *CurrentTTYLDISC;
 
 #endif   
 

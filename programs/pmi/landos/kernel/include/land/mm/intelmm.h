@@ -1,5 +1,8 @@
+// intelmm.h
+// Created by Fred Nora.
 
-
+#ifndef __MM_INTELMM_H
+#define __MM_INTELMM_H    1
 
 /* intel page size */
 #define PAGE_SIZE 4096
@@ -45,4 +48,6 @@ struct intel_pte_d
     unsigned long Available3      :1;
     unsigned long PageBaseAddress :20;
 }; 
+
+#endif   
 

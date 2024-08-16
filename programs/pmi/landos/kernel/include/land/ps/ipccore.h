@@ -1,16 +1,8 @@
-/*
- * File: ipccore.h 
- *
- *    ?? What 
- *  
- *    2019 - Created by Fred Nora. 
- */
+// ipccore.h 
+// 2019 - Created by Fred Nora. 
 
-
-#ifndef  ____IPCCORE_H
+#ifndef ____IPCCORE_H
 #define ____IPCCORE_H    1
-
-
 
 // #todo
 // Repensar a finalidade disso.
@@ -18,7 +10,6 @@
 
 // ??
 // para se conetar com os servidores do módulo gramado core.
-
 
 // Registra um dos servidores do gramado core.
 int 

@@ -1,21 +1,17 @@
-
-//kgwm.h
+// kgwm.h
+// Created by Fred Nora.
 
 #ifndef __KGWM_H
 #define __KGWM_H    1
 
-
 struct powertrio_client_d
 {
     int used;
-    int magic;
-    
+    int magic;    
     // Position in the list.
     // Maximum 3 clients.
     int index;
-
     struct window_d *window;
-
     struct powertrio_client_d *next;
 };
 

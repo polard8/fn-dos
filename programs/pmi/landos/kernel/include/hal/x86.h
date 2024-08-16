@@ -1,23 +1,15 @@
-/*
- * File: x86.h
- *     x86 support.
- *
- * 2005 - Created by Fred Nora.
- */
+// x86.h
+// x86 support.
+// 2005 - Created by Fred Nora.
 
 // See:
 // https://www.felixcloutier.com/x86/
 // ...
 
-
 #ifndef ____X86_H
-#define ____X86_H
-
-
+#define ____X86_H  1
 
 // Interrupt vectors for x86.
-
-
 
 /*
 #define X86_INTERRUPT_VECTOR_TIMER       32

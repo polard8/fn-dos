@@ -7,13 +7,10 @@
  *     2018 - Created by Fred Nora.
  *     2018 - Linux stuff
  */
- 
 
 
 #ifndef ____CTYPE_H
 #define ____CTYPE_H    1
-
-
 
 // linux
 #define  _U   0x01	// upper 

@@ -1,9 +1,8 @@
-
+// fcntl.h
+// Created by Fred Nora.
 
 #ifndef ____FCNTL_H
 #define ____FCNTL_H    1
-
-
 
 /* These values are used for cmd in fcntl().  POSIX Table 6-1.  */
 #define F_DUPFD            0	/* duplicate file descriptor */
@@ -17,16 +16,13 @@
 #define F_FREESP           8	/* free a section of a regular file */
 // ...
 
-
 /* File descriptor flags used for fcntl().  POSIX Table 6-2. */
 #define FD_CLOEXEC         1	/* close on exec flag for third arg of fcntl */
-
 
 /* L_type values for record locking with fcntl().  POSIX Table 6-3. */
 #define F_RDLCK            1	/* shared or read lock */
 #define F_WRLCK            2	/* exclusive or write lock */
 #define F_UNLCK            3	/* unlock */
-
 
 //
 //  O_

@@ -1,18 +1,15 @@
+// window.h 
+// 2014 - Created by Fred Nora.
+
 /*
- * File: window.h 
- *
- * 
- * Descrição:
- *    Funções e parâmetros para o kernel controlar a interface gráfica 
- * e as operações com vídeo.
- *
- *     WINDOW -> DESKTOP -> ROOM (WINDOW STATION) -> USER SECTION.
- *
- * 
- * History:
- *     2014 - Created by Fred Nora.
+ * Funï¿½ï¿½es e parï¿½metros para o kernel controlar a interface grï¿½fica 
+ * e as operaï¿½ï¿½es com vï¿½deo.
+ * WINDOW -> DESKTOP -> ROOM (WINDOW STATION) -> USER SECTION.
  */
 
+
+#ifndef __WINDOW_H
+#define __WINDOW_H    1
 
 // z order support.
 
@@ -24,8 +21,8 @@
 unsigned long Windows[KGWS_ZORDER_MAX];
 
 
-// pega a janela que está mais ao topo da zorder e que
-// corresponda às cordenadas do mouse.
+// pega a janela que estï¿½ mais ao topo da zorder e que
+// corresponda ï¿½s cordenadas do mouse.
 // retorna window id
 int top_at ( int x, int y );
 
@@ -34,17 +31,17 @@ int top_at ( int x, int y );
 // 
  
  
-//id da janela que o mouse está em cima.
+//id da janela que o mouse estï¿½ em cima.
 int window_mouse_over; 
  
 //
-//  ## Ponteiros para ícones ##
+//  ## Ponteiros para ï¿½cones ##
 // 
  
-// Ponteiros para o endereço onde os ícones 
+// Ponteiros para o endereï¿½o onde os ï¿½cones 
 // foram carregados.
 
-// queremos saber se o endereço alocado eh compartilhado ...
+// queremos saber se o endereï¿½o alocado eh compartilhado ...
 // para o window server usar ... entao chamaremos de sharedbufferIcon.
 
 void *shared_buffer_app_icon;  //1
@@ -59,7 +56,7 @@ void *ui_get_system_icon( int n );
 
 //testando ... devemos chamar isso
 //somente depois que todas as estruturas 
-//necessárias estiverem inicializadas.
+//necessï¿½rias estiverem inicializadas.
 //como filsystem. 
 
 int windowLoadGramadoIcons (void); 
@@ -73,19 +70,19 @@ int window_getch (void);
 
 //
 // #importante:
-// Tipos de mensagem de comunicação nos diálogos 
+// Tipos de mensagem de comunicaï¿½ï¿½o nos diï¿½logos 
 // e procesimento de janelas:
 // 
-// SIGNAL_       Sinal. Não contém argumentos.
-// MSG_          Message. Contém os argumentos padrão.
-// STREAMMSG_    Streams. O argumento é um ponteiro para uma stream.
-// BUFFER_MSG_   Buffer. O argumento é um ponteiro para um buffer.
+// SIGNAL_       Sinal. Nï¿½o contï¿½m argumentos.
+// MSG_          Message. Contï¿½m os argumentos padrï¿½o.
+// STREAMMSG_    Streams. O argumento ï¿½ um ponteiro para uma stream.
+// BUFFER_MSG_   Buffer. O argumento ï¿½ um ponteiro para um buffer.
 // CAT_MSG_      Concatenate. Os argumentos long1 e long devem ser concatenados.
 //
  
 //
 // Window handle status
-// Se uma janela está aberta ou não. 
+// Se uma janela estï¿½ aberta ou nï¿½o. 
 //
 #define HANDLE_STATUS_CLOSE 0
 #define HANDLE_STATUS_OPEN 1
@@ -104,7 +101,7 @@ int window_getch (void);
 //... 
  
  
-//desktop window. (Área de trabalho) 
+//desktop window. (ï¿½rea de trabalho) 
 //#define MAINWINDOW_DEFAULTX  ?
 //#define MAINWINDOW_DEFAULTY  ?
  
@@ -112,7 +109,7 @@ int window_getch (void);
  
 
  
-// Número máximo de janelas.
+// Nï¿½mero mï¿½ximo de janelas.
 //@todo: Aumentar esse tamanho.
 
 
@@ -125,8 +122,8 @@ int window_getch (void);
  ***********************************************
  * Messages.
  * mensagens para procedimentos de janelas e 
- * para diálogos dentro do gws.
- * Obs: Isso refere-se principalmente à janelas.
+ * para diï¿½logos dentro do gws.
+ * Obs: Isso refere-se principalmente ï¿½ janelas.
  */
 
  
@@ -194,9 +191,9 @@ int window_getch (void);
 #define MSG_RUN_PROCESS   47
 #define MSG_RUN_THREAD    48
 
-//Quando um comando é enviado para o terminal. ele será atendido pelo
-//módulo /sm no procedimento de janela do sistema.
-//Todas as mensagens de terminal serão atencidas pelo procedimento de janela 
+//Quando um comando ï¿½ enviado para o terminal. ele serï¿½ atendido pelo
+//mï¿½dulo /sm no procedimento de janela do sistema.
+//Todas as mensagens de terminal serï¿½o atencidas pelo procedimento de janela 
 //nessa mensagem.
 //#bugbug: temos outro grupo de mensagems abordadndo esse tema logo abaixo.
 
@@ -216,12 +213,12 @@ int window_getch (void);
 #define MSG_AF_INET 54
 #define MSG_NET_DATA_IN 55
 
-//o driver de network está notificando um processo em ring3.
+//o driver de network estï¿½ notificando um processo em ring3.
 #define MSG_NETWORK_NOTIFY_PROCESS 56
 
 
 //
-// mouse support: continuação ...
+// mouse support: continuaï¿½ï¿½o ...
 //
 #define MSG_MOUSE_DOUBLECLICKED   60
 #define MSG_MOUSE_DRAG            61
@@ -239,7 +236,7 @@ int window_getch (void);
 
 
 // o evento de rolagem aconteceu ...
-// O número do evento será entregue em long1.
+// O nï¿½mero do evento serï¿½ entregue em long1.
 #define MSG_HSCROLL 2000
 #define MSG_VSCROLL 2001
 
@@ -258,7 +255,7 @@ int window_getch (void);
 // Um tipo especial de sobreposta, usada em dialog ou message box. 
 // (com ou sem barra de titulo ou borda)
 #define WT_POPUP         4
-// Caixa de seleção. Caixa de verificação. 
+// Caixa de seleï¿½ï¿½o. Caixa de verificaï¿½ï¿½o. 
 // Quadradinho.  
 #define WT_CHECKBOX      5
 // Cria uma scroll bar. 
@@ -267,7 +264,7 @@ int window_getch (void);
 #define WT_EDITBOX_MULTIPLE_LINES 7
 #define WT_BUTTON        8   
 #define WT_STATUSBAR     9
-// Pequeno retângulo com uma imagem bmp e talvez texto.
+// Pequeno retï¿½ngulo com uma imagem bmp e talvez texto.
 #define WT_ICON          10
 #define WT_TITLEBAR 11
 //... 
@@ -285,10 +282,10 @@ int window_getch (void);
 #define WINDOW_STATUS_INACTIVE     0
 //...
 
-//window relationship status. (seu status em relação as outras janelas.)
-//Obs: tem uma estreita ligação com o status da thread que está trabalahndo com ela 
+//window relationship status. (seu status em relaï¿½ï¿½o as outras janelas.)
+//Obs: tem uma estreita ligaï¿½ï¿½o com o status da thread que estï¿½ trabalahndo com ela 
 //e com a prioridade dessa thread e do processo que a possui.
-// *** RELAÇÃO IMPLICA PRIORIDADE ***
+// *** RELAï¿½ï¿½O IMPLICA PRIORIDADE ***
 #define WINDOW_REALATIONSHIPSTATUS_FOREGROUND     1000
 #define WINDOW_REALATIONSHIPSTATUS_BACKGROUND     2000
 #define WINDOW_REALATIONSHIPSTATUS_OWNED          3000  //Possuida por outra janela.
@@ -299,7 +296,7 @@ int window_getch (void);
 
 
 
-// Apresentação.
+// Apresentaï¿½ï¿½o.
 #define VIEW_NULL       0
 #define VIEW_FULL       1
 #define VIEW_MAXIMIZED  2  
@@ -347,17 +344,17 @@ int window_getch (void);
  
  
 /*
- * Dimensões: 
+ * Dimensï¿½es: 
  * 
- * Parametro principal para dimensões de janela.
- * todos os outros tomam esse como refêrencia.
+ * Parametro principal para dimensï¿½es de janela.
+ * todos os outros tomam esse como refï¿½rencia.
  * depende do modo que estiver usando.
  *
  * vesa 112:
  *
  * 640x480x24bit - (3 bytes por pixel)
  * 
- * @todo, o kernel usará dimensões 640x480 no modo gráfico.
+ * @todo, o kernel usarï¿½ dimensï¿½es 640x480 no modo grï¿½fico.
  */   
 #define KERNEL_COL_MAX 640 
 #define KERNEL_LIN_MAX 480 
@@ -365,7 +362,7 @@ int window_getch (void);
 #define	BAR_STEPS   46
 #define LINE KERNEL_COL_MAX 
 
-//dimensões - provisorio
+//dimensï¿½es - provisorio
 #define COL_MAX   KERNEL_COL_MAX 
 #define LINHA_MAX KERNEL_LIN_MAX  
 
@@ -384,11 +381,11 @@ int window_getch (void);
 
 //=========================================
 //    ****    KERNEL WINDOW    ****
-//Definições padronizadas para janelas do kernel usadas para 
-//fornecer informações sobre o sistema.
-// (Retângulo grande no topo da tela.)
+//Definiï¿½ï¿½es padronizadas para janelas do kernel usadas para 
+//fornecer informaï¿½ï¿½es sobre o sistema.
+// (Retï¿½ngulo grande no topo da tela.)
 // #bugbug
-// Isso não é uma coisa boa.
+// Isso nï¿½o ï¿½ uma coisa boa.
 
 #define KERNEL_WINDOW_DEFAULT_LEFT 0
 #define KERNEL_WINDOW_DEFAULT_TOP  0
@@ -401,12 +398,12 @@ int window_getch (void);
 
 
 //
-// ******** ESSA VARIÁVEL BLOQUEIA O FOCO NA JANELA DO DESENVOLVEDOR   *****
+// ******** ESSA VARIï¿½VEL BLOQUEIA O FOCO NA JANELA DO DESENVOLVEDOR   *****
 //
 int _lockfocus;
 
 
-// ESSA SERÁ USADA DEPOIS QUANDO A INTERFACE GRÁFICA ESTIVER MAIS ROBUSTA;
+// ESSA SERï¿½ USADA DEPOIS QUANDO A INTERFACE GRï¿½FICA ESTIVER MAIS ROBUSTA;
 int gFocusBlocked;   
 
 
@@ -433,9 +430,9 @@ struct button_d
     int magic;
 
     // ??
-    // Ordem dos botões que pertencam à mesma janela.
-    // A qual janela o botão pertence.
-    // Esse índice pode trabalhar junto com 
+    // Ordem dos botï¿½es que pertencam ï¿½ mesma janela.
+    // A qual janela o botï¿½o pertence.
+    // Esse ï¿½ndice pode trabalhar junto com 
     // a lista encadeada de 'next'.
 
     //int index;	
@@ -469,15 +466,15 @@ struct button_d
     int selected;
 	
 	// Border color
-    // Isso é para o caso do estilo 3D.
+    // Isso ï¿½ para o caso do estilo 3D.
 	// Ou para causar alguns efito em outros estilos.
 
     unsigned long border1;
     unsigned long border2;
 
 
-    // Deslocamento em relação ao left da janela
-    // Deslocamento em relação ao top da janela
+    // Deslocamento em relaï¿½ï¿½o ao left da janela
+    // Deslocamento em relaï¿½ï¿½o ao top da janela
 
     unsigned long x;    
     unsigned long y;   
@@ -494,7 +491,7 @@ struct button_d
     struct button_d *Next;  
 };
 
-//Botões na janela principal. 
+//Botï¿½es na janela principal. 
 struct button_d *mainButton1;  
 struct button_d *mainButton2;  
 struct button_d *mainButton3;  
@@ -505,13 +502,13 @@ struct button_d *mainButton3;
  *************************************************
  * taskbar_d: 
  * Estrutura para a task bar.
- * Essa estrutura é marcador oficial das dimensões da barra de tarefas.    
- * Essa é a barra de tarefas tradicional, aquela que normalmente fica 
- * em baixo e contêm ícones dos programas abertos.
- * Porém essa barra na verdade é uma janela e pode ser redimensionada 
+ * Essa estrutura ï¿½ marcador oficial das dimensï¿½es da barra de tarefas.    
+ * Essa ï¿½ a barra de tarefas tradicional, aquela que normalmente fica 
+ * em baixo e contï¿½m ï¿½cones dos programas abertos.
+ * Porï¿½m essa barra na verdade ï¿½ uma janela e pode ser redimensionada 
  * ou movida.
- * O kernel terá registro disso para salvar as dimensões da
- * área de trabalho, que é o tamanho da tela menos o tamanho da barra.
+ * O kernel terï¿½ registro disso para salvar as dimensï¿½es da
+ * ï¿½rea de trabalho, que ï¿½ o tamanho da tela menos o tamanho da barra.
  */
 
 // #bugbug
@@ -541,10 +538,10 @@ struct taskbar_d *TaskBar;    //*Importante: Sem Ponteiro.
  * menubar_d: 
  *     Estrutura para a menu bar.
  *
- *     Essa estrutura é marcador oficial das dimensões
+ *     Essa estrutura ï¿½ marcador oficial das dimensï¿½es
  *     da barra de menu.    
  *
- *     Essa é a barra de menu tradicional,
+ *     Essa ï¿½ a barra de menu tradicional,
  *     que aparece no topo da tela e oferece
  *     um conjunto de menus para manipular
  *     o porcesso com a janela ativa.
@@ -573,8 +570,8 @@ struct menubar_d *MenuBar;    //*Importante: Sem Ponteiro.
 /*
  **************************************************
  * rect_d:
- *     Estrutura para gerenciamento de retângulos.
- *     Um retângulo pertence à uma janela.
+ *     Estrutura para gerenciamento de retï¿½ngulos.
+ *     Um retï¿½ngulo pertence ï¿½ uma janela.
  */
 
 // #todo
@@ -617,9 +614,9 @@ struct rect_d
 };
 
 
-// Isso pode ser útil principalmente
-// para passar um retângulo de um ambiente para outro.
-// É muito mais didático que a figura do retângulo como objeto.
+// Isso pode ser ï¿½til principalmente
+// para passar um retï¿½ngulo de um ambiente para outro.
+// ï¿½ muito mais didï¿½tico que a figura do retï¿½ngulo como objeto.
 struct surface_d
 {
     int used;
@@ -670,17 +667,17 @@ typedef enum {
 }client_window_classes_t;
 
 
-//??bugbug: tá errado.
+//??bugbug: tï¿½ errado.
 //classes de janelas controladas exclusivamente pelo kernel.
 typedef enum {
     WindowClassKernelWindow,    //janelas criadas pelo kernel ... coma a "tela azul da morte"
-    WindowClassTerminal,  //janela de terminal usada pelos aplicativos que não criam janela e gerenciada pelo kernel	
+    WindowClassTerminal,  //janela de terminal usada pelos aplicativos que nï¿½o criam janela e gerenciada pelo kernel	
     WindowClassButton,
     WindowClassComboBox,
     WindowClassEditBox,
     WindowClassListBox,
     WindowClassScrollBar,
-    WindowClassMessageOnly, //essa janela não é visível, serve apenas para troca de mensagens ...
+    WindowClassMessageOnly, //essa janela nï¿½o ï¿½ visï¿½vel, serve apenas para troca de mensagens ...
     WindowClassMenu,
     WindowClassDesktopWindow,
     WindowClassDialogBox,
@@ -721,7 +718,7 @@ struct window_class_d
 	//3
 	server_window_classes_t	serverClass;
 	
-	//Endereço do procedimento de janela.
+	//Endereï¿½o do procedimento de janela.
 	//(eip da thread primcipal do app)
 	unsigned long procedure;
     //...
@@ -746,27 +743,27 @@ struct msg_d
 /*
  ********************************************************
  * window_d:
- *     Window - nível 1. 
+ *     Window - nï¿½vel 1. 
  *     Estrutura para janelas.
  *
  * terminal:
- *     Toda estrutura de janela poderá ter apenas 
+ *     Toda estrutura de janela poderï¿½ ter apenas 
  * um terminal.
  *     Colocar um terminal dentro da estrutura de janela 
- * não impede o sistema de ter as estruturas tradicionais 
- * de terminal, porém pode trazer algumas vantagens na hora 
- * da manipulação do retângulo que compreende tanto a tela
- * do terminal quanto a área de cliente da janela.
- *    Porém um terminal pode ser full screen e não 
+ * nï¿½o impede o sistema de ter as estruturas tradicionais 
+ * de terminal, porï¿½m pode trazer algumas vantagens na hora 
+ * da manipulaï¿½ï¿½o do retï¿½ngulo que compreende tanto a tela
+ * do terminal quanto a ï¿½rea de cliente da janela.
+ *    Porï¿½m um terminal pode ser full screen e nï¿½o 
  * pertencer a uma janela. Para isso ele considera apenas 
- * as dimensões da tela. Nesse caso o terminal seria 
+ * as dimensï¿½es da tela. Nesse caso o terminal seria 
  * gerenciado por uma estrutura tradicional de terminal.
  *
  */
 
 // #todo
-// Cada janela deve especificar qual é o tipo de
-// ponteiro de mouse que ela quer usar. Então esse deve ser
+// Cada janela deve especificar qual ï¿½ o tipo de
+// ponteiro de mouse que ela quer usar. Entï¿½o esse deve ser
 // o ponteiro usado enquanto o mouse estiver sobre essa janela.
 
 struct window_d
@@ -796,7 +793,7 @@ struct window_d
     int tid;
 
 
-	// Características dessa janela..
+	// Caracterï¿½sticas dessa janela..
 
 	//Estado: (Full,Maximized,Minimized...)
     int view; 
@@ -805,14 +802,14 @@ struct window_d
     unsigned long bg_color; 
 
 
-	//dimensões e margens.
+	//dimensï¿½es e margens.
 	
 	//#bugbug 
-	//Esses conceitos estão sob revisão.
+	//Esses conceitos estï¿½o sob revisï¿½o.
 	//Estou aprendendo ...
 
-	//+margem é o deslocamento até encontrar a borda.
-	//+padding é o deslocamento entre a borda e a janela.
+	//+margem ï¿½ o deslocamento atï¿½ encontrar a borda.
+	//+padding ï¿½ o deslocamento entre a borda e a janela.
 
     unsigned long left;        //margem esquerda 
     unsigned long top;         //margem superior
@@ -833,7 +830,7 @@ struct window_d
     //indica que precisamos repintar essa quando
     //chamarmos a rotina redraw_windows ou redraw_screen
     //See wm.c
-    // #todo: Deveríamos usar a flag 'dirty' ao invés dessa.
+    // #todo: Deverï¿½amos usar a flag 'dirty' ao invï¿½s dessa.
     
     int dirty;
 
@@ -849,7 +846,7 @@ struct window_d
 
 
 	//Filas para uma janela receber mensagens.
-	//São os quatro argumentos de um procedimento de janela padrão.
+	//Sï¿½o os quatro argumentos de um procedimento de janela padrï¿½o.
 
 
 	//
@@ -864,7 +861,7 @@ struct window_d
 
     //O aplicativo depois de pegar os 4 elementos, autoriza o 
     //kernel a colocar uma nova mensagem.
-    //'0' indica que não temos uma mensagem válida.
+    //'0' indica que nï¿½o temos uma mensagem vï¿½lida.
     //'1' indica que temos uma nova mensagem.
     int newmessageFlag;
 
@@ -891,9 +888,9 @@ struct window_d
 // 
 
     // #bugbug: See the flag 'status'
-    //unsigned long status;              //ATIVA OU NÃO.
+    //unsigned long status;              //ATIVA OU Nï¿½O.
 
-    //FAST FLAG. Essa será a flag de ativa ou não. (decidindo isso)
+    //FAST FLAG. Essa serï¿½ a flag de ativa ou nï¿½o. (decidindo isso)
     int active; 
 
 
@@ -901,7 +898,7 @@ struct window_d
 // Focus
 //
 
-    // Se tem o foco de entrada ou não.
+    // Se tem o foco de entrada ou nï¿½o.
 
     int focus; 
 
@@ -949,8 +946,8 @@ struct window_d
 //===============================================
 
 	// Bars support.
-	// Cada tipo de janela tem seus itens específicos.
-	// Esses são os status dos ítens. Se eles estão presentes ou não.
+	// Cada tipo de janela tem seus itens especï¿½ficos.
+	// Esses sï¿½o os status dos ï¿½tens. Se eles estï¿½o presentes ou nï¿½o.
 
     int backgroundUsed;
     int shadowUsed;
@@ -971,9 +968,9 @@ struct window_d
 	// Buffer.
 	// DedicatedBuffer
 	// DedicatedBuffer --> LFB.
-	// Endereço de memória onde a janela foi pintada.
-	// Obs: Toda janela deve ter seu próprio buffer de pintura para poder 
-	// passar a janela direto de seu próprio buffer para o LFB, sem passar 
+	// Endereï¿½o de memï¿½ria onde a janela foi pintada.
+	// Obs: Toda janela deve ter seu prï¿½prio buffer de pintura para poder 
+	// passar a janela direto de seu prï¿½prio buffer para o LFB, sem passar 
 	// pelo Backbuffer.
 
     void *DedicatedBuffer;  // Qual buffer dedicado a janela usa.
@@ -1012,7 +1009,7 @@ struct window_d
 // Childs
 //
 
-    // Se cada janela apontar para uma child, então temos uma lista.
+    // Se cada janela apontar para uma child, entï¿½o temos uma lista.
     // Child support.
     struct window_d *childListHead;  //Lista encadeada de janelas filhas.
     int childCount;                  //Tamanho da lista.
@@ -1029,15 +1026,15 @@ struct window_d
 // Client window and client rectangle.
 //
     // Client window support.
-    // É a janela propriamente dita, 
+    // ï¿½ a janela propriamente dita, 
     // excluindo a moldura e a barra de rolagem.
-    // Tudo o que há dentro da janela menos o frame.
-    // É a parte que é exibida quando a janela está em full screen.
+    // Tudo o que hï¿½ dentro da janela menos o frame.
+    // ï¿½ a parte que ï¿½ exibida quando a janela estï¿½ em full screen.
 
     struct window_d  *client_window; 
     struct rect_d    *rcClient; 
 
-    // Cor do retângulo da área do cliente.
+    // Cor do retï¿½ngulo da ï¿½rea do cliente.
     unsigned long clientrect_bg_color; 
 
 
@@ -1080,33 +1077,33 @@ struct window_d
 
     // TERMINAL SUPPORT
     // Obs: 
-    // Essas variáveis só serão inicializadas se o 
-    // aplicativo decidir que conterá um terminal em sua janela.
-    // Um aplicativo só poderá ter um terminal dentro de cada janela.
+    // Essas variï¿½veis sï¿½ serï¿½o inicializadas se o 
+    // aplicativo decidir que conterï¿½ um terminal em sua janela.
+    // Um aplicativo sï¿½ poderï¿½ ter um terminal dentro de cada janela.
     // Ou seja, se um aplicativo quiser ter mais de um terminal virtual, 
     // vai precisar de uma janela para cada terminal dentro do aplicativo.
-    // isso permite facilmente que um mesmo aplicativo rode vários
+    // isso permite facilmente que um mesmo aplicativo rode vï¿½rios
     // programas, um em cada aba.
-    // Ao invés de criar um frame para cada aplicativo que rode em terminal,
-    // é só criar uma nova aba no gerenciador de terminais virtuais ...
+    // Ao invï¿½s de criar um frame para cada aplicativo que rode em terminal,
+    // ï¿½ sï¿½ criar uma nova aba no gerenciador de terminais virtuais ...
     // esse gerenciador de terminais virtuais poderia ser o shell.bin
 
 	//flags
 
 	//configura o status do terminal dentro da janela
-    int terminal_used;     //Se é um terminal ou não.
+    int terminal_used;     //Se ï¿½ um terminal ou nï¿½o.
 	
-	//validade e reusabilidade das variáveis de terminal 
+	//validade e reusabilidade das variï¿½veis de terminal 
 	//dentro da estrutura de janela.	
     int terminal_magic;
 	
 	//tab
-	//número da tab.
-	//indica qual tab o terminal está usando.
+	//nï¿½mero da tab.
+	//indica qual tab o terminal estï¿½ usando.
 	//@todo:
 	// Criar uma forma de contar as tabs de terminal 
 	// dentro do gerenciador de terminais.
-    int terminal_tab; // em qual tab do gerenciador de terminais está o terminal.
+    int terminal_tab; // em qual tab do gerenciador de terminais estï¿½ o terminal.
 	
 	//rect
     unsigned long terminal_left;
@@ -1121,7 +1118,7 @@ struct window_d
 
     // #todo: isso deve pertencer a uma janela.
     // se uma janela tiver o foco de entrada e for um terminal 
-    // a disciplica de linhas poderá usar essas carcterística do terminal.
+    // a disciplica de linhas poderï¿½ usar essas carcterï¿½stica do terminal.
     // See: terminal.h
 
     struct terminal_d  *wTerminal;
@@ -1131,8 +1128,8 @@ struct window_d
 
     // style: 
     // Isso poderia ser estilo de design ...
-    // Qualquer janela pode ter vários estilos de design 
-    // ex: um editbox poderá ser de vários estilos.	
+    // Qualquer janela pode ter vï¿½rios estilos de design 
+    // ex: um editbox poderï¿½ ser de vï¿½rios estilos.	
 
 	//window style:
 	//WINDOW_STYLE_FLOATING (flutuante) 
@@ -1145,10 +1142,10 @@ struct window_d
 
 
 	//*full screen mode = modo tela cheia. 
-	//( utiliza a resolução atual do dispositivo )
+	//( utiliza a resoluï¿½ï¿½o atual do dispositivo )
 	// deve ser a janela em primeiro plano. acima de todas as outras.
 	//mas podemos configurar para que uma jenela esteja em full screen 
-	//enquanto outra janela é a janela ativa e ainda outra tenha o foco de entrada.
+	//enquanto outra janela ï¿½ a janela ativa e ainda outra tenha o foco de entrada.
 	//uma janela em modo full screen pode conter barras de rolagem.
 	//*embedded mode = dentro de uma janela ou de um navegador. 
 
@@ -1160,11 +1157,11 @@ struct window_d
 //==================================================    
 
 	//ordem na pilha de janelas do eixo z.
-	//A janela mais ao topo é a janela foreground.
+	//A janela mais ao topo ï¿½ a janela foreground.
     //int zIndex;    
 
 	//z-order global.
-	//Sua ordem em relação a janela gui->main.    
+	//Sua ordem em relaï¿½ï¿½o a janela gui->main.    
     //struct zorder_d *zorder;
 
 //==================================================    
@@ -1178,8 +1175,8 @@ struct window_d
 	//como x, y, width ...
     struct rect_d *rcWindow;
 
-	//Lista encadeada dos retângulos que pertencem a essa janela.
-	//Quando uma janela for deletada, devemos desalocar toda a memória 
+	//Lista encadeada dos retï¿½ngulos que pertencem a essa janela.
+	//Quando uma janela for deletada, devemos desalocar toda a memï¿½ria 
 	//uada por esses recursos.
     struct rect_d *rectList;
 
@@ -1191,19 +1188,19 @@ struct window_d
 
 	// Um ponteiro para um array de ponteiros de estruturas de linhas
 	// Explicando: 
-	// Nesse endereço teremos um array. Cada ponteiro armazenado
-	// nesse array é um ponteiro para uma estrutura de linha.
+	// Nesse endereï¿½o teremos um array. Cada ponteiro armazenado
+	// nesse array ï¿½ um ponteiro para uma estrutura de linha.
 	// Obs: 
 	// #todo: 
 	// Todos esses elementos podem formar uma estrutura e ficaria aqui 
 	// apenas um ponteiro para ela.
 
     void *LineArray;
-    int LineArrayIndexTotal;    //Total de índices presentes nesse array.
-    int LineArrayIndexMax;      //Número máximo de índices permitidos no array de linhas.
-    int LineArrayTopLineIndex;  //Indice para a linha que ficará no topo da página.
-    int LineArrayPointerX;      //Em qual linha o ponteiro está. 	
-    int LineArrayPointerY;      //em qual coluna o ponteiro está.
+    int LineArrayIndexTotal;    //Total de ï¿½ndices presentes nesse array.
+    int LineArrayIndexMax;      //Nï¿½mero mï¿½ximo de ï¿½ndices permitidos no array de linhas.
+    int LineArrayTopLineIndex;  //Indice para a linha que ficarï¿½ no topo da pï¿½gina.
+    int LineArrayPointerX;      //Em qual linha o ponteiro estï¿½. 	
+    int LineArrayPointerY;      //em qual coluna o ponteiro estï¿½.
 	//...
 
 //==================================================    
@@ -1223,7 +1220,7 @@ struct window_d
 	// Menus support.
 	//
 
-	//?? Qual janela o menu usará.
+	//?? Qual janela o menu usarï¿½.
     struct window_d *menu_window;   //Menu Window.
 
     struct menu_d *sysMenu;         //menu de sistema.(control menu)
@@ -1231,7 +1228,7 @@ struct window_d
     struct menu_d *defaultMenu;     //menu da janela (*importante)
 	//...
 
-    int selected;     //seleção  de item de menu.
+    int selected;     //seleï¿½ï¿½o  de item de menu.
 
 //==================================================    
 
@@ -1248,8 +1245,8 @@ struct window_d
 
 //==================================================    
 
-	// Se a janela for do tipo botão, então essa será a 
-	// estrutura para o gerenciamento do botão.
+	// Se a janela for do tipo botï¿½o, entï¿½o essa serï¿½ a 
+	// estrutura para o gerenciamento do botï¿½o.
     struct button_d *button;
     
 //==================================================    
@@ -1270,8 +1267,8 @@ struct window_d
 
 //==================================================    
 
-    // Qual janela é um ícone para essa janela.
-    // Por exemplo, o ícone que fica na área de trabalho.
+    // Qual janela ï¿½ um ï¿½cone para essa janela.
+    // Por exemplo, o ï¿½cone que fica na ï¿½rea de trabalho.
     struct window_d *icon;
 
 //==================================================    
@@ -1282,13 +1279,13 @@ struct window_d
 
     int draw; 
     int redraw;
-    int show;   //se precisa ou não mostrar a janela.	
+    int show;   //se precisa ou nï¿½o mostrar a janela.	
     // Continua ...
 
 //==================================================    
 
 	// Text Cursor support.
-	// fica para uma versão estendida da estrutura.
+	// fica para uma versï¿½o estendida da estrutura.
 	// Estrutura de cursor para a janela.
     struct cursor_d *cursor;
 
@@ -1299,22 +1296,22 @@ struct window_d
 
 //==================================================    
 
-    struct button_d *current_button;  //Botão atual.      
-    struct button_d *buttonList;      //Lista encadeada de botões em uma janela.
+    struct button_d *current_button;  //Botï¿½o atual.      
+    struct button_d *buttonList;      //Lista encadeada de botï¿½es em uma janela.
 
 //==================================================    
 
 	// ??
 	// Status do puxador da janela.
-	// Se está aberta ou não.
+	// Se estï¿½ aberta ou nï¿½o.
 	// HANDLE_STATUS_OPEN ou HANDLE_STATUS_CLOSE
 	int handle_status;
 
 
 //==================================================
     // Trava. 
-    // Se travada, não pode mudar nada.
-    // Podemos travar a janela mãe quando 
+    // Se travada, nï¿½o pode mudar nada.
+    // Podemos travar a janela mï¿½e quando 
     // estamos criando uma janela filha.
     // Enables or disables mouse and keyboard input to the 
     // specified window or control.
@@ -1360,21 +1357,21 @@ unsigned long windowList[WINDOW_COUNT_MAX];
 // Browser support. (SHELL.BIN)
 //
 
-//#define TABWINDOW_COUNT_MAX 12  //F1 à F12.
+//#define TABWINDOW_COUNT_MAX 12  //F1 ï¿½ F12.
 
-/* Essa é a aba onde os lementos devem ser criados ...
-quando um aplicativo chamar serviços do kernel para criar elementos na aba.*/
+/* Essa ï¿½ a aba onde os lementos devem ser criados ...
+quando um aplicativo chamar serviï¿½os do kernel para criar elementos na aba.*/
 //int current_tab;
 
 //#cancelada
 //struct window_d *BROWSERWINDOW;    //Ponteiro para a janela do navegador.
 //struct window_d *TABWINDOW;        //ponteiro para a janela da tab atual..
 
-//janela full screen que será usada pelo navegador...
-//essa janela deve ter as dimensões da tela...
-//Obs: já existe uma janela com essas características ... que é a janela 
-//gui->screen ... lenbrando que não queremos que a janela gui->screen tenha 
-//os valores de sua estrutura alterados ... pois refletem as características do dispositivo.
+//janela full screen que serï¿½ usada pelo navegador...
+//essa janela deve ter as dimensï¿½es da tela...
+//Obs: jï¿½ existe uma janela com essas caracterï¿½sticas ... que ï¿½ a janela 
+//gui->screen ... lenbrando que nï¿½o queremos que a janela gui->screen tenha 
+//os valores de sua estrutura alterados ... pois refletem as caracterï¿½sticas do dispositivo.
 //Importante: Estragar essa estrutura pode causar muitos problemas.
 struct window_d *FULLSCREEN_TABWINDOW;   
 
@@ -1384,7 +1381,7 @@ struct window_d *FULLSCREEN_TABWINDOW;
 // z order support
 //
 
-//#define ZORDER_COUNT_MAX  128  //??PROVISÓRIO   
+//#define ZORDER_COUNT_MAX  128  //??PROVISï¿½RIO   
 
 int zorder;
 
@@ -1398,13 +1395,13 @@ typedef enum {
 
 
 
-//essas são as camadas onde os objetos gráficos ficam ...
-//estão associadas com formulários e containers.
+//essas sï¿½o as camadas onde os objetos grï¿½ficos ficam ...
+//estï¿½o associadas com formulï¿½rios e containers.
 typedef enum {
 	zorderlayerNull,     //ignorado
-    zorderlayerBack,     //back layer. é a área onde os métodos invocarão a construção de objetos gráficos.
-    zorderlayerMiddle,   //middle layer. é onde os objetos gráficos e as etiquetas de controle são colocadas.
-	zorderlayerFront,    //front layer. são colocados os controles não gráficos como: 
+    zorderlayerBack,     //back layer. ï¿½ a ï¿½rea onde os mï¿½todos invocarï¿½o a construï¿½ï¿½o de objetos grï¿½ficos.
+    zorderlayerMiddle,   //middle layer. ï¿½ onde os objetos grï¿½ficos e as etiquetas de controle sï¿½o colocadas.
+	zorderlayerFront,    //front layer. sï¿½o colocados os controles nï¿½o grï¿½ficos como: 
 	                     //CommandButton, CheckBox e ListBox 
     //...	
 }zorder_layer_t;
@@ -1415,15 +1412,15 @@ int zorderTopWindow;
 //...
 
 //
-//Estrutura para controlar um índice de janela 
-//ponteiros de instãncias dessa estrutura ficarão na lista zorderList[].
+//Estrutura para controlar um ï¿½ndice de janela 
+//ponteiros de instï¿½ncias dessa estrutura ficarï¿½o na lista zorderList[].
 // Obs: uma estrutura de janela pode ter um poteiro para essa 
-// estrutura que controlará todas as propriedades de zorder relaticas a aquela janela.
+// estrutura que controlarï¿½ todas as propriedades de zorder relaticas a aquela janela.
 //
 struct zorder_d
 {
 	// tipo ... top ou bottom.
-	//encontraremos com facilidade se ela é top ou bottom.
+	//encontraremos com facilidade se ela ï¿½ top ou bottom.
 	
 	//zorder_type_t zorderType; 
 	//zorder_layer_t zorderLayer;
@@ -1434,8 +1431,8 @@ struct zorder_d
 	
     struct window_d *window;
 	
-	//toda janela está na lista de zorder de outra janela.
-	struct window_d *parent; //janela mãe... 
+	//toda janela estï¿½ na lista de zorder de outra janela.
+	struct window_d *parent; //janela mï¿½e... 
 	
 	struct zorder_d *next;
 };
@@ -1453,15 +1450,15 @@ struct zorderInfo
 
 /*
  * zorderList[] support.
- *     Sobreposição de janelas.    
+ *     Sobreposiï¿½ï¿½o de janelas.    
  *     ?? Precisamos reorganizar a lista ??
  *     ?? seria melhor uma lista encadeada ??
  *     ??e quando fecharem uma janela no meio da lista ??
  *
- *  >> Quando criamos uma janela ela é incluída no primeiro lugar vago da lista.
- *  >> quando deletamos uma janela, apenas excluimos ela da lista, não precisamos reorganizar.
- *  >> uma janelas minimizada é excluida dessa lista, é zerada z_axis_order na sua estrutura.
- *  >> repintaremos começando do zero.
+ *  >> Quando criamos uma janela ela ï¿½ incluï¿½da no primeiro lugar vago da lista.
+ *  >> quando deletamos uma janela, apenas excluimos ela da lista, nï¿½o precisamos reorganizar.
+ *  >> uma janelas minimizada ï¿½ excluida dessa lista, ï¿½ zerada z_axis_order na sua estrutura.
+ *  >> repintaremos comeï¿½ando do zero.
  */ 
 //unsigned long zorderList[ZORDER_COUNT_MAX];
 
@@ -1470,7 +1467,7 @@ struct zorderInfo
 
 
 //
-// Backbuffer support. (espelho da memória de video)
+// Backbuffer support. (espelho da memï¿½ria de video)
 //
 
 struct backbufferinfo_d
@@ -1496,7 +1493,7 @@ struct backbufferinfo_d *BackBufferInfo;
 
 
 //
-// Frontbuffer support. (memória de vídeo)
+// Frontbuffer support. (memï¿½ria de vï¿½deo)
 //
 
 struct frontbufferinfo_d
@@ -1525,15 +1522,15 @@ struct frontbufferinfo_d *FrontBufferInfo;
 /*
  **********************************************************
  * gui:
- *     Nível 0 
+ *     Nï¿½vel 0 
  *     ## gui  ##
  *
- * Obs: Foi incluído aqui os ponteiros para as janelas principais usadas nos 
- * principais recursos gráficos, como control menu do desktop por exemplo.
+ * Obs: Foi incluï¿½do aqui os ponteiros para as janelas principais usadas nos 
+ * principais recursos grï¿½ficos, como control menu do desktop por exemplo.
  *
- * Histórico: 
+ * Histï¿½rico: 
  * 2015 - Created.
- * 2016 - incluíndo novos elementos.
+ * 2016 - incluï¿½ndo novos elementos.
  * ...
  */
 
@@ -1541,15 +1538,15 @@ struct frontbufferinfo_d *FrontBufferInfo;
 // #bugbug
 // Muita coisa nessa estrutura precis ser revista.
 // Tendo em vista que ela apenas contempla o kgws
-// como provedor de recursos gráficos.
-// Dessa forma essa estrutura só faz sentido no ambiente 
+// como provedor de recursos grï¿½ficos.
+// Dessa forma essa estrutura sï¿½ faz sentido no ambiente 
 // de setup, que usa o kgws.
 
 
 struct gui_d
 {
 
-    // Se a gui está ou não inicializada.
+    // Se a gui estï¿½ ou nï¿½o inicializada.
     int initialised;
 
     // Procedimento da janela ativa.
@@ -1558,16 +1555,16 @@ struct gui_d
 
     // #bugbug
     // precisamos de estrutura de device context,
-    // onde teremos informações sobre o hardware
-    // responsável pelos recursos gráficos.
+    // onde teremos informaï¿½ï¿½es sobre o hardware
+    // responsï¿½vel pelos recursos grï¿½ficos.
 
     // BUFFERS
     // Ponteiros para os principais buffers usados pelo sistema.
 
     // LFB:
-    // O endereço do início da memória de vídeo do cartão de memória.
-    // obs: Quantos desses ponteiros precisamos dentro da memória de
-    // vídeo? E se tivermos várias placas de memória de vídeo, seria
+    // O endereï¿½o do inï¿½cio da memï¿½ria de vï¿½deo do cartï¿½o de memï¿½ria.
+    // obs: Quantos desses ponteiros precisamos dentro da memï¿½ria de
+    // vï¿½deo? E se tivermos vï¿½rias placas de memï¿½ria de vï¿½deo, seria
     // um lfb para cada placa?
     // Esse valor foi configurado pelo BIOS pelo metodo VESA.
 
@@ -1575,12 +1572,12 @@ struct gui_d
  
     // Backbuffer
     // O Backbuffer pe o buffer para colocar a imagem de pano de fundo.
-    // Ele será o buffer dedicado da janela principal gui->main. 
+    // Ele serï¿½ o buffer dedicado da janela principal gui->main. 
 
 	// #importante.
-	// Um backbuffer pode cobrir a área de vários monitores.
+	// Um backbuffer pode cobrir a ï¿½rea de vï¿½rios monitores.
 	// O conceito de backbuffer pode estar relacionado com o conceito de room,
-	// (window station), com vários desktops e monitores.
+	// (window station), com vï¿½rios desktops e monitores.
 
     unsigned long backbuffer;
 
@@ -1593,10 +1590,10 @@ struct gui_d
 	/*
 	 * Default dedicated buffers.
 	 *     Esses ponteiros podem ser usados para aloca
-	 * memória para buffer dedicado antes mesmo de se criar a estrutura
+	 * memï¿½ria para buffer dedicado antes mesmo de se criar a estrutura
 	 * da janela.
-	 * Obs: Toda janela tem que ter um buffer dedicado, onde ela será pintada.
-	 * Depois de pintada ela pertencerá a uma lista de janelas que serão
+	 * Obs: Toda janela tem que ter um buffer dedicado, onde ela serï¿½ pintada.
+	 * Depois de pintada ela pertencerï¿½ a uma lista de janelas que serï¿½o
 	 * enviadas para o LFB seguindo a ordem da lista.
 	 */
 	
@@ -1609,17 +1606,17 @@ struct gui_d
     // redraw
     // Flag para repintar todas as janelas.
     // #todo: #bugbug, Isso parece estranho. Cada janela
-    // está pintada em seu buffer dedicado e fica por conta de
-    // cada janela decidir se repinta ou não apenas ela.
+    // estï¿½ pintada em seu buffer dedicado e fica por conta de
+    // cada janela decidir se repinta ou nï¿½o apenas ela.
 
     int redraw;
 
 
     // refresh
-    // Flag para enviar do backbuffer para a memória de video.
-    // Seguindo uma lista linkada, copiaremos o conteúdo do buffer
-    // dedicado de cada janela da lista no LFB. Primeiro é Backbuffer
-    // que é o buffer da janela principal, que funcionará como
+    // Flag para enviar do backbuffer para a memï¿½ria de video.
+    // Seguindo uma lista linkada, copiaremos o conteï¿½do do buffer
+    // dedicado de cada janela da lista no LFB. Primeiro ï¿½ Backbuffer
+    // que ï¿½ o buffer da janela principal, que funcionarï¿½ como
     // Head da lista.
 
     int refresh;
@@ -1643,21 +1640,21 @@ struct gui_d
 	/*
 	 *    ****    Windows    ****
 	 *
-	 * Obs: Ponteiros para as janelas principais usadas na interfáce
-	 * gráfica. Essas janelas não dependem dos processos e sim os
-	 * processos dependem delas. Os processos do sistema poderão recriar
+	 * Obs: Ponteiros para as janelas principais usadas na interfï¿½ce
+	 * grï¿½fica. Essas janelas nï¿½o dependem dos processos e sim os
+	 * processos dependem delas. Os processos do sistema poderï¿½o recriar
 	 * essas janelas e registrar seus ponteiros aqui. Por exemplo, o control
-	 * menu pode sofrer alterações e depois registrar o ponteiro aqui.
-	 * Outro exemplo é o control menu da janela ativa, toda vez que
+	 * menu pode sofrer alteraï¿½ï¿½es e depois registrar o ponteiro aqui.
+	 * Outro exemplo ï¿½ o control menu da janela ativa, toda vez que
 	 * trocar a janela ativa, deve-se registrar o ponteiro do control menu
-	 * da janela aqui, para fácil acesso.
+	 * da janela aqui, para fï¿½cil acesso.
 	 *
-	 * Os ponteiros aqui serão organizados em grupos:
+	 * Os ponteiros aqui serï¿½o organizados em grupos:
 	 * ==============================================
 	 * Screen - root window
 	 * Grupo 0: Background, Logo, Desktop, Taskbar.
 	 * Grupo 1: Main (Full Screen), Status Bar. 
-	 * Grupo 2: Grid. (grid de ícones flutuantes)
+	 * Grupo 2: Grid. (grid de ï¿½cones flutuantes)
 	 * Grupo 3: Control menu.(Control menu da janel atual).
 	 * Grupo 4: Info Box, ToolTip.
 	 * Grupo 5: ??
@@ -1678,7 +1675,7 @@ struct gui_d
 
 
     // Dividing the screen in parts:
-    struct window_d *main;      // Área de trabalho.
+    struct window_d *main;      // ï¿½rea de trabalho.
     struct window_d *taskbar;   // Barra de tarefas.
 
  
@@ -1689,9 +1686,9 @@ struct gui_d
 	
 	/*
 	 *Grid:
-	 *   (Área para colocar o grid de ícones).
-	 *    Área dinâmica dentro da Área de trabalho.
-	 *    Essa área de grid pode ser reposicionada
+	 *   (ï¿½rea para colocar o grid de ï¿½cones).
+	 *    ï¿½rea dinï¿½mica dentro da ï¿½rea de trabalho.
+	 *    Essa ï¿½rea de grid pode ser reposicionada
 	 *    de acordo com o layout escolhido.
 	 */
 
@@ -1707,7 +1704,7 @@ struct gui_d
 	 * Menu:  
 	 *     Ponteiro para a estrutura do control menu atual.    
 	 *     Isso depende da janela ativa e da janela com o foco de entrada.
-	 *     Esse será o ponteiro para o control menu que deverá ser aberto.
+	 *     Esse serï¿½ o ponteiro para o control menu que deverï¿½ ser aberto.
 	 *     Varia conforme muda a janela com o foco de entrada.
 	 */
 
@@ -1732,7 +1729,7 @@ struct gui_d
 
     //Menu bar.
 	struct window_d *mbhWindow;       //Janela principal da menu bar.
-	struct menu_d *mb;               //a menu bar é um menu
+	struct menu_d *mb;               //a menu bar ï¿½ um menu
 	struct menu_d *mbControlPanel;   //Painel de controle
 	struct menu_d *mbComputer;       //Meu computador(discos, diretorios ...)
 	struct menu_d *mbFile;           //File manager. (abre e fecha arquivos)
@@ -1744,13 +1741,13 @@ struct gui_d
 	//
 	
 	
-	// Qualquer dessas barras serão gerenciadas pelo kernel ...
-	// nãp fazem parate de um aplicativo, Porém o aplicativo gerenciador
-	// de arquivos (explorer) será o responsável pela barra de tarefas que será 
-	// usada pelo usuário.
+	// Qualquer dessas barras serï¿½o gerenciadas pelo kernel ...
+	// nï¿½p fazem parate de um aplicativo, Porï¿½m o aplicativo gerenciador
+	// de arquivos (explorer) serï¿½ o responsï¿½vel pela barra de tarefas que serï¿½ 
+	// usada pelo usuï¿½rio.
 	// Essas barras abaixo tem a finalidade de dar alguma navegabilidade
 	// mesmo sem algum programa de gerenciamento de arquivos.
-	// E também não há problemas em os dois conviverem.
+	// E tambï¿½m nï¿½o hï¿½ problemas em os dois conviverem.
 
 	//TopBar.
 	struct window_d *topbar;	
@@ -1760,7 +1757,7 @@ struct gui_d
     //Navigation Bar.
     struct window_d *navigationbar;	
     struct menu_d *desktopMenu;       //Desktop 
-    struct menu_d *setupMenu;         //Ambiente de configuração.
+    struct menu_d *setupMenu;         //Ambiente de configuraï¿½ï¿½o.
 
 	//Current Menu.
 	//Aponta para a estrutura do menu atual.
@@ -1772,13 +1769,13 @@ struct gui_d
     // Check this structure.
     // Where is it defined?
 
-    //Informações sobre a tela.
+    //Informaï¿½ï¿½es sobre a tela.
     struct screen_d *ScreenInfo;
 
-	// Backbuffer support. (espelho da memória de video)
+	// Backbuffer support. (espelho da memï¿½ria de video)
 	struct backbufferinfo_d  *backbufferInfo;  
 	
-	// Frontbuffer support. (memória de vídeo)
+	// Frontbuffer support. (memï¿½ria de vï¿½deo)
 	struct frontbufferinfo_d *frontbufferInfo; 
 
 
@@ -1805,8 +1802,8 @@ struct gui_d
 
 // #importante
 // Estrutura global. 
-// (Usada para passar estutura entre funções)
-// Primeira e única. 
+// (Usada para passar estutura entre funï¿½ï¿½es)
+// Primeira e ï¿½nica. 
 
 struct gui_d  *gui; 
 
@@ -1821,7 +1818,7 @@ struct gui_d  *gui;
 
 /*
  * SetGuiParameters:
- *     Configura a inicialização das janelas gerenciadas pelo kernel.
+ *     Configura a inicializaï¿½ï¿½o das janelas gerenciadas pelo kernel.
  *     @todo: Limite de janelas (+- 10)
  */
 
@@ -2095,7 +2092,7 @@ refresh_horizontal_line (
   
 
 
-// envia um retângulo do backbuffer para o frontbuffer
+// envia um retï¿½ngulo do backbuffer para o frontbuffer
 void 
 refresh_rectangle ( 
     unsigned long x, 
@@ -2104,7 +2101,7 @@ refresh_rectangle (
     unsigned long height );
 
 
-//envia um retângulo de um buffer para outro.
+//envia um retï¿½ngulo de um buffer para outro.
 void 
 refresh_rectangle2 ( 
     unsigned long x, 
@@ -2116,18 +2113,18 @@ refresh_rectangle2 (
 
 
 //
-// ## salvando retângulos ##
+// ## salvando retï¿½ngulos ##
 //
 
-//a ideia é salvar os bytes usados por um retângulo que está no backbuffer 
-//em um buffer do tamanho do retângulo.
-//um buffer cosntante, suficientemente grande para salvar um retângulo do tamanho da 
-//tela será alocado e gerenciado por uma estrutura.
-//essa estrutura deverá registrar as dimensões e posicionamento do retângulo,
-//e tamabém controlar o fluxo do transmissão do retângulo do backbuffer para esse buffer 
+//a ideia ï¿½ salvar os bytes usados por um retï¿½ngulo que estï¿½ no backbuffer 
+//em um buffer do tamanho do retï¿½ngulo.
+//um buffer cosntante, suficientemente grande para salvar um retï¿½ngulo do tamanho da 
+//tela serï¿½ alocado e gerenciado por uma estrutura.
+//essa estrutura deverï¿½ registrar as dimensï¿½es e posicionamento do retï¿½ngulo,
+//e tamabï¿½m controlar o fluxo do transmissï¿½o do retï¿½ngulo do backbuffer para esse buffer 
 //e de volta para o backbuffer.
-//isso será usado nas operações de movimentação de janela.
-//múltiplos buffers poderãos ser usados no futuro. Principalmente para gerar eleito.
+//isso serï¿½ usado nas operaï¿½ï¿½es de movimentaï¿½ï¿½o de janela.
+//mï¿½ltiplos buffers poderï¿½os ser usados no futuro. Principalmente para gerar eleito.
 
 struct saved_rect_d
 {
@@ -2142,8 +2139,8 @@ struct saved_rect_d
     int bytes;   //quantidade de bytes.
     int bpp;     //bytes per pixel.
 	
-	// O buffer está cheio. 
-	// 1 retângulo foi salvo nele.
+	// O buffer estï¿½ cheio. 
+	// 1 retï¿½ngulo foi salvo nele.
 
     int full; 
 };
@@ -2154,8 +2151,8 @@ struct saved_rect_d *SavedRect;
 int initialize_saved_rect (void);
 
 // #testando ...
-// Salvar um retângulo no buffer será semelhante ao 
-// método de salvar um bmp em um arquivo.
+// Salvar um retï¿½ngulo no buffer serï¿½ semelhante ao 
+// mï¿½todo de salvar um bmp em um arquivo.
 
 int 
 save_rect ( 
@@ -2165,10 +2162,10 @@ save_rect (
     unsigned long height );
 
 
-//pintar no backbuffer o retângulo salvo vai ser semelhante ao processo 
+//pintar no backbuffer o retï¿½ngulo salvo vai ser semelhante ao processo 
 //de decodificar um bmp, copiando do arquivo para o backbuffer.
 // esses argumentos devem representar o posicionamentod esejado do 
-//retângulo no backbuffer.
+//retï¿½ngulo no backbuffer.
 
 int 
 show_saved_rect ( 
@@ -2195,8 +2192,8 @@ pixelPutPixelWindowBuffer (
 /*
  * pixelPutPixelDedicatedWindowBuffer:
  *     Coloca um pixel no buffer da janela.
- *     Serve para pintar janelas que irão direto do seu buffer para 
- * o LFB da memória de vídeo, sem passar pelo back buffer. (OVERLAPPED)
+ *     Serve para pintar janelas que irï¿½o direto do seu buffer para 
+ * o LFB da memï¿½ria de vï¿½deo, sem passar pelo back buffer. (OVERLAPPED)
  */
 
 void 
@@ -2272,17 +2269,17 @@ int RegisterWindow (struct window_d *window);
 void set_current_window (struct window_d *window);
 void *get_current_window (void);
 
-//salva o retãngulo de uma janela no buffer de salvamento.
-//isso será usado para mover a janela.
+//salva o retï¿½ngulo de uma janela no buffer de salvamento.
+//isso serï¿½ usado para mover a janela.
 int save_window (struct window_d *window);
 
-//mostrar uma janela que tem seu retãngulo salvo no buffer de salvamento.
-//#obs: antes de chamarmos essa função podemos chamar a função replace_window
+//mostrar uma janela que tem seu retï¿½ngulo salvo no buffer de salvamento.
+//#obs: antes de chamarmos essa funï¿½ï¿½o podemos chamar a funï¿½ï¿½o replace_window
 //para mudar a janela de lugar.
 int show_saved_window (struct window_d *window);
 
 
-//mostra o retãngulo de uma janela que está no backbuffer.
+//mostra o retï¿½ngulo de uma janela que estï¿½ no backbuffer.
 //tem uma janela no backbuffer e desejamos enviar ela para o frontbuffer.
 int show_window_rect (struct window_d *window);
 
@@ -2347,7 +2344,7 @@ int z_order_get_free_slot (void);
 int get_zorder ( struct window_d *window );
 
 
-// Pegando a o ponteiro da janela que está 
+// Pegando a o ponteiro da janela que estï¿½ 
 // no topo da lista
 
 struct window_d *getTopWindow (void);
@@ -2442,7 +2439,7 @@ int windowScan ( unsigned long x, unsigned long y );
 
 int windowOverLappedScan ( unsigned long x, unsigned long y );
 
-//Envia uma mensagem PAINT para o aplicativo atualizar a área de trabalho.
+//Envia uma mensagem PAINT para o aplicativo atualizar a ï¿½rea de trabalho.
 void windowUpdateWindow ( struct window_d *window );
 
 
@@ -2485,11 +2482,11 @@ void *CreateWindow (
     unsigned long status,       //2  - estado da janela (ativa ou nao)
     unsigned long view,         //3  - (min, max ...)
     char *windowname,           //4  - titulo                                
-    unsigned long x,            //5  - deslocamento em relação às margens do desktop(sua instancia)        
+    unsigned long x,            //5  - deslocamento em relaï¿½ï¿½o ï¿½s margens do desktop(sua instancia)        
     unsigned long y,            //6  - idem
     unsigned long width,        //7  - largura da janela  
     unsigned long height,       //8  - altura
-    struct window_d *pWindow,   //9  - id da janela mae, se for zero, essa é a janela mae.
+    struct window_d *pWindow,   //9  - id da janela mae, se for zero, essa ï¿½ a janela mae.
     int desktop_id,              //10 - desktop ID.
     unsigned long clientcolor,  //11 - Client Area Color.
     unsigned long color         //12 - cor do bg (para janelas simples, tipo 1)
@@ -2498,7 +2495,7 @@ void *CreateWindow (
 
 
 // #todo: 
-// Talvez deletar essa função e usar apenas CreateWindow.
+// Talvez deletar essa funï¿½ï¿½o e usar apenas CreateWindow.
 void *kgws_create_window ( 
     unsigned long type, 
     unsigned long status, 
@@ -2517,6 +2514,7 @@ void *kgws_create_window (
 // #todo: deprecated.
 int scroll_client_window ( struct window_d *window );
 
+#endif  
 
 //
 // End.

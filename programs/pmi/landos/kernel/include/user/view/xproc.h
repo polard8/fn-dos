@@ -1,10 +1,8 @@
-
 // xproc.h
-
+// Created by Fred Nora.
 
 #ifndef ____XPROC_H
-#define ____XPROC_H
-
+#define ____XPROC_H  1
 
 /*
  * XPROC_SEND_MESSAGE

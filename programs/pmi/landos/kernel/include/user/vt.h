@@ -1,20 +1,16 @@
-
+// vt.h
+// Created by Fred Nora.
 
 #ifndef ____VT_H
 #define ____VT_H  1
 
-
 // This struct is an element of window_d struct.
 struct vt_d
 {
-    //Object
-    
-    int id;
-    
     int used;
-    int magic;
-    
-    
+    int magic;  
+    int id;
+
     // The PID of the father that owns the terminal window.
     int father_pid;
     
@@ -24,8 +20,7 @@ struct vt_d
     
     // what is the state of this terminal ?
     int state;
-    
-    
+   
     //
     // pty channel.
     //

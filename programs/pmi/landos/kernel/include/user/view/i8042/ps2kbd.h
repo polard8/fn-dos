@@ -1,15 +1,11 @@
-
-//ps2kbd.h 
-
+// ps2kbd.h 
+// Created by Fred Nora.
 
 #ifndef ____PS2KBD_H
 #define ____PS2KBD_H    1
 
-
-
 // #bugbug
 // We have these same definitions on ps2keyboard.c ??
-
 
 //
 // Imported functions.
@@ -19,16 +15,13 @@
 // Definições para uso interno do módulo.
 //
 
-
 // Ports:
 // =====
 //     The entire range for the keyboard is 60-6F,
 //     a total of 16 values (a 16bit range).
-//
 //  @todo:
 //      As portas do controlador ainda estão subutilizadas.
 //      fazer um driver mais completo utilizando melhor o controlador.
-
 
 
 //

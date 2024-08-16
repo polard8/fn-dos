@@ -1,16 +1,15 @@
-
-
-//ss.h
-
+// ss.h
 // System Signals. 
-// Sinais usados pelo sistema, vão além do padrão C.
-// como as rotinas de tratamento de sinais do sistema usarão
-// definições de sistema, essa arquivo deve ser incluido no fim da
-//lista de inclusões.
 
+// Sinais usados pelo sistema, vï¿½o alï¿½m do padrï¿½o C.
+// como as rotinas de tratamento de sinais do sistema usarï¿½o
+// definiï¿½ï¿½es de sistema, essa arquivo deve ser incluido no fim da
+//lista de inclusï¿½es.
+
+#ifndef __SS_H
+#define __SS_H    1
 
 /*
-
 #define SIGHUP          1       // Hangup (POSIX)
 #define SIGINT          2       // Interrupt (ANSI)
 #define SIGQUIT         3       // Quit (POSIX)
@@ -45,14 +44,14 @@
 
 */
 
-//protótipos.
+//protï¿½tipos.
 
 int signalInit (void);
-
 int signalSend ( struct process_d *process, int signal );
 
+#endif   
 
 //
-// End.
+// End
 //
 

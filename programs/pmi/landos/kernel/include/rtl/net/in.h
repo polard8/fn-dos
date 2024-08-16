@@ -1,14 +1,12 @@
-/*
- * File: in.h 
- *     ring0. socket address for internet style.
- */
+// in.h 
+// ring0. socket address for internet style.
+// Created by Fred Nora.
 
 #ifndef ____IN_H
 #define ____IN_H
 
 
 #define  _NETINET_IN_H_
-
 
 //======================
 

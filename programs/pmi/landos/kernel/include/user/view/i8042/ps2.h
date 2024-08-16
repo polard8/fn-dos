@@ -1,38 +1,29 @@
-/*
- * File: ps2.h
- *
- * Descrição:
- *     Header para gerenciamento da porta ps/2.
- *     
- * Obs: Encontramos mais informações nos headers de teclado e de mouse.
- *
- */
-
+// ps2.h
+// Created by Fred Nora.
 
 #ifndef ____PS2_H
-#define ____PS2_H
-
+#define ____PS2_H  1
 
 /*
  Wikipedia
- O conector PS/2 é um conector mini-DIN de 6 pinos usado para conectar alguns 
- teclados e mouses a um sistema de computador compatível com PC. 
- Seu nome vem da série de computadores pessoais IBM Personal System/2, 
+ O conector PS/2 ï¿½ um conector mini-DIN de 6 pinos usado para conectar alguns 
+ teclados e mouses a um sistema de computador compatï¿½vel com PC. 
+ Seu nome vem da sï¿½rie de computadores pessoais IBM Personal System/2, 
  com o qual ele foi introduzido em 1987. O conector de mouse PS/2 geralmente 
  substitui antigos conectores de "mouses seriais" DE-9 RS-232, 
- enquanto o conector de teclado PS/2 substituiu o conector DIN mais largo de 5 pinos/180º 
+ enquanto o conector de teclado PS/2 substituiu o conector DIN mais largo de 5 pinos/180ï¿½ 
  usado no desenho do IBM PC/AT. Os desenhos PS/2 nas interfaces de teclados e 
- mouses são eletricamente similares e empregam o mesmo protocolo de comunicação. 
- Entretanto, a porta de teclado ou mouse de um determinado sistema pode não ser 
- intercambiável uma vez que os dois dispositivos usam um conjunto de comandos diferentes.
+ mouses sï¿½o eletricamente similares e empregam o mesmo protocolo de comunicaï¿½ï¿½o. 
+ Entretanto, a porta de teclado ou mouse de um determinado sistema pode nï¿½o ser 
+ intercambiï¿½vel uma vez que os dois dispositivos usam um conjunto de comandos diferentes.
  
-A comunicação é serial, síncrona e bidirecional.[1] 
-O dispositivo conectado gera o sinal de relógio. O hospedeiro controla a comunicação usando a 
-linha de relógio. Quando o hospedeiro puxa o relógio para baixo, a comunicação do dispositivo é inibida.
+A comunicaï¿½ï¿½o ï¿½ serial, sï¿½ncrona e bidirecional.[1] 
+O dispositivo conectado gera o sinal de relï¿½gio. O hospedeiro controla a comunicaï¿½ï¿½o usando a 
+linha de relï¿½gio. Quando o hospedeiro puxa o relï¿½gio para baixo, a comunicaï¿½ï¿½o do dispositivo ï¿½ inibida.
 */
 
 //
-// Definições.
+// Definiï¿½ï¿½es.
 //
 
 #define  PS2_PORT    0x60

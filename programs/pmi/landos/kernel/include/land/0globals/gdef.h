@@ -1,27 +1,27 @@
 /*
  * File: gdef.h
 *
-* Descrição:
-*     Definições globais. 
-*     Será utilizado por todos os módulos. Deve ficar no início.
-*     Quando uma definição deve ser acessada por todos os módulos
+* Descriï¿½ï¿½o:
+*     Definiï¿½ï¿½es globais. 
+*     Serï¿½ utilizado por todos os mï¿½dulos. Deve ficar no inï¿½cio.
+*     Quando uma definiï¿½ï¿½o deve ser acessada por todos os mï¿½dulos
 *     do kernel base ela deve ficar aqui.
 *
-* @todo: FAZER O MÁXIMO DE COISAS SISTEMICAMENTE NÃO-IMPORTANTES PRIMEIRO.
-         que não comprometam o sistema. como gui.
+* @todo: FAZER O Mï¿½XIMO DE COISAS SISTEMICAMENTE Nï¿½O-IMPORTANTES PRIMEIRO.
+         que nï¿½o comprometam o sistema. como gui.
 */
 
 /*
  * Sobre a GUI:
  * ============
  *     Um grid flutuante de janelas quadradas, 4 janelas.
- *     O message box pode ser um retângulo abaixo do grid.
- *     Uma janela de terminal virtual igual à um celular. 
- * Desse modo, enquanto essas 6 janelas não são flutuantes, dá pra
+ *     O message box pode ser um retï¿½ngulo abaixo do grid.
+ *     Uma janela de terminal virtual igual ï¿½ um celular. 
+ * Desse modo, enquanto essas 6 janelas nï¿½o sï¿½o flutuantes, dï¿½ pra
  * ir usando elas desenha das no backbuffer mesmo.
  *
  *
- * divisão da tela:   
+ * divisï¿½o da tela:   
  * quatro quadrantes de 10.
  * divide por vinte e multiplica pela quantidade desejada.
  *         (multiplicador*(total/20)) 
@@ -35,32 +35,32 @@ Tipos de contas:
     aspace e dspace, pessoais e conjuntas.
 	
 aspace:
-    Um Address Space é uma conta de banco de dados em memória. Uma conta 
+    Um Address Space ï¿½ uma conta de banco de dados em memï¿½ria. Uma conta 
 pode ser do tipo conjunta(Shared) ou  pessoal(Personal). 
 
 dspace:
-    Um Disk Space é uma conta de banco de dados em disco. Uma conta pode 
+    Um Disk Space ï¿½ uma conta de banco de dados em disco. Uma conta pode 
 ser do tipo conjunta(Shared) ou  pessoal(Personal). 
 
 Donos das contas:
-    Os processos são os clientes dos bancos de dados e são os donos das 
+    Os processos sï¿½o os clientes dos bancos de dados e sï¿½o os donos das 
 contas de bancos de dados.
 
 Tipos de bancos:
     Kernel Data Base, Global Data Base e Local Data Base.
 
 KDB:	
-    Banco de dados do tipo kernel. É o banco de maior privilégio, poucos
-processos poderão usar esse banco e as contas presentes nele.
+    Banco de dados do tipo kernel. ï¿½ o banco de maior privilï¿½gio, poucos
+processos poderï¿½o usar esse banco e as contas presentes nele.
 
 GDB:
-    Bancos de dados do tipo global. É o banco das contas conjuntas, para
+    Bancos de dados do tipo global. ï¿½ o banco das contas conjuntas, para
 que os processos possam compartilhar as contas e os dados que elas acessam.
 
 LDB:
-    Bancos de dados do tipo pessoal. É o banco das contas pessoais. Um 
+    Bancos de dados do tipo pessoal. ï¿½ o banco das contas pessoais. Um 
 processo pode ser dono de uma conta dessas para proteger seus dados
-e revogar qualquer tipo de acesso e somente ele terá acesso aos dados
+e revogar qualquer tipo de acesso e somente ele terï¿½ acesso aos dados
 dessa conta.
 	
 */
@@ -69,13 +69,11 @@ dessa conta.
 #define ____GDEF_H 1
 
 
-
 //#define BIOS_FONT8X8 0x000FFA6E
 
 //using gui flags.
 #define GUI_ON   1
 #define GUI_OFF  0
-
 
 //layers
 #define KERNEL      0
@@ -139,7 +137,7 @@ int g_is_qemu;
 // ===================================================
 
 
-// Salvando o último endereço válido de memória ram.
+// Salvando o ï¿½ltimo endereï¿½o vï¿½lido de memï¿½ria ram.
 // usado em head.asm
 unsigned long blSavedLastValidAddress;
 unsigned long blSavedMetafileAddress;
@@ -155,12 +153,12 @@ unsigned long blSavedCylinders;
 /*
  * Os Type:
  *     O sistema operacional pode ser usado como servidor.
- * Radando em uma máquina real e acessado por um terminal
+ * Radando em uma mï¿½quina real e acessado por um terminal
  * via rede LAN, ou porta serial. TTY.
- *     Qualquer sistema operacional em uma máquina cliente pode
+ *     Qualquer sistema operacional em uma mï¿½quina cliente pode
  * acessar o sistema operacional na maquina servidora. Pra isso
- * tem que ter um programa na máquina cliente que envie comandos 
- * para a máquina servidora através da placa de rede ou da porta 
+ * tem que ter um programa na mï¿½quina cliente que envie comandos 
+ * para a mï¿½quina servidora atravï¿½s da placa de rede ou da porta 
  * serial.
  *     O sistema pode atuar como cliente.
  */
@@ -245,8 +243,8 @@ struct display_info_d
 //pagedpool virtual address
 unsigned long g_pagedpool_va;
 
-// endereço virtual do pool de heaps.
-// os heaps nessa área serão dados para os processos.
+// endereï¿½o virtual do pool de heaps.
+// os heaps nessa ï¿½rea serï¿½o dados para os processos.
 unsigned long g_heappool_va;
 int g_heap_count;
 int g_heap_count_max;

@@ -1,3 +1,5 @@
+// termios.h
+// Created by Fred Nora.
 
 // #todo
 // kernel side termios support.
@@ -15,10 +17,8 @@
 //sending signals (ou MSG_)
 // control functions.
 
-
-
 #ifndef _TERMIOS_H
-#define _TERMIOS_H
+#define _TERMIOS_H  1
 
 
 // Types.

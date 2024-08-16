@@ -1,39 +1,36 @@
 /*
  * File: ws/logon.h
- *
- * Descrição:
  *     Kernel Mode Logon Support Routines.
- *     Header de suporte à criação do Logon.
- *  
+ *     Header de suporte ï¿½ criaï¿½ï¿½o do Logon.
  * OBS:
- *     O Logon está na WindowStation0 e no Desktop0. 
- *     Existirá um processo em user mode para gerenciamento de Logon e esse 
- * processo poderá chamar rotinas de logon presentes nesse módulo.
+ *     O Logon estï¿½ na WindowStation0 e no Desktop0. 
+ *     Existirï¿½ um processo em user mode para gerenciamento de Logon e esse 
+ * processo poderï¿½ chamar rotinas de logon presentes nesse mï¿½dulo.
  *
  * History:
  *     2015 - Created by Fred Nora.
  *     ...
  */
  
+#ifndef __LOGON_H
+#define __LOGON_H    1
 
 //
-// Variáveis globais.
+// Variï¿½veis globais.
 // 
  
-//flag, usar ou naõ o default user. 
+//flag, usar ou naï¿½ o default user. 
 int g_use_default_user; 
-
 
 //
 // == Prototypes ====================================
 // 
 
-
-//Cria.
 int init_logon_manager (void);
 
- 
+#endif  
+
 //
-// End.
+// End
 //
 

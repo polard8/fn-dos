@@ -1,16 +1,16 @@
 /*
  * File: ob/object.c
  *
- * Descrição:
+ * Descriï¿½ï¿½o:
  *   #importante: 
- *   O gerente de arquivos será o manipulador de arquivos usados pelo sistema 
- * de arquivos. Lembrando que o assim como no UNIX tudo é considerado um 
- * arquivo, aqui, tudo é considerado um objeto. Então o sistema de arquivos 
- * manipulará os objetos. Mas ele poderá chama-los de arquivos se quiser. 
+ *   O gerente de arquivos serï¿½ o manipulador de arquivos usados pelo sistema 
+ * de arquivos. Lembrando que o assim como no UNIX tudo ï¿½ considerado um 
+ * arquivo, aqui, tudo ï¿½ considerado um objeto. Entï¿½o o sistema de arquivos 
+ * manipularï¿½ os objetos. Mas ele poderï¿½ chama-los de arquivos se quiser. 
  *
- *    Object manager, módulo do tipo MB - Módulos incluídos no Kernel Base.
+ *    Object manager, mï¿½dulo do tipo MB - Mï¿½dulos incluï¿½dos no Kernel Base.
  *
- * Arquivo principal do módulo sm\ob do executive.
+ * Arquivo principal do mï¿½dulo sm\ob do executive.
  *    
  * Gerencia os recursos do sistema. Criando, abrindo, fechando objetos e 
  * concedendo ou negando o acesso a ele.
@@ -18,37 +18,37 @@
  *    Para gerenciar o uso de um recurso o kernel faz utiliza semaforos, 
  * mutexes.
  * 
- * Ex: Um fs é um objeto, que tem seu channel pra receber mensagens e uma 
- * aplicação solicita alguma coisa do sistema de arquivos através de um 
- * canal de comunicação. O fs pode estar indisponível no momento. 
- * A aplicação cliente pode ser um cliente não valido.
+ * Ex: Um fs ï¿½ um objeto, que tem seu channel pra receber mensagens e uma 
+ * aplicaï¿½ï¿½o solicita alguma coisa do sistema de arquivos atravï¿½s de um 
+ * canal de comunicaï¿½ï¿½o. O fs pode estar indisponï¿½vel no momento. 
+ * A aplicaï¿½ï¿½o cliente pode ser um cliente nï¿½o valido.
  *
  * Obs: 
- * O object manager é o melhor lugar pra implantar rotinas de segurança.
+ * O object manager ï¿½ o melhor lugar pra implantar rotinas de seguranï¿½a.
  *
- * Claro que o Object Manager deve chamar as rotinas do módulo de segurança, 
- * mas o Object Manager receberá solicitações de usuários e processos para 
- * manipular objetos, então deve decidir se o usuário, grupo ou processo 
- * tem autorização para manipular o objeto.
+ * Claro que o Object Manager deve chamar as rotinas do mï¿½dulo de seguranï¿½a, 
+ * mas o Object Manager receberï¿½ solicitaï¿½ï¿½es de usuï¿½rios e processos para 
+ * manipular objetos, entï¿½o deve decidir se o usuï¿½rio, grupo ou processo 
+ * tem autorizaï¿½ï¿½o para manipular o objeto.
  *
  * Obs: 
- * Uma estrutura de objeto deve conter indicações de que processo ou usuário 
- * está manipulando o objeto no momento. Também um número máximo de processos 
+ * Uma estrutura de objeto deve conter indicaï¿½ï¿½es de que processo ou usuï¿½rio 
+ * estï¿½ manipulando o objeto no momento. Tambï¿½m um nï¿½mero mï¿½ximo de processos 
  * que pode ficar na fila para usar esse objeto. A fila decrementa e quando 
- * chegar a zero, esse objeto pode ser fechado, caso não seja um objeto físico, 
+ * chegar a zero, esse objeto pode ser fechado, caso nï¿½o seja um objeto fï¿½sico, 
  * como no caso de discos.
  *
  *IMPORTANTE: 
- * Que ninguém duvide da importância do gerente de objetos. Pois os recursos 
- * do sistema são configurados como objetos, então para um processo ter acesso 
- * à algum recurso do sistema terá que solicitar o recurso ao gerente de objetos, 
- * que pode interagir com o sistema de segurança para ver se o processo ou 
- * usuário tem permissão para utilizar o recurso desejado. 
+ * Que ninguï¿½m duvide da importï¿½ncia do gerente de objetos. Pois os recursos 
+ * do sistema sï¿½o configurados como objetos, entï¿½o para um processo ter acesso 
+ * ï¿½ algum recurso do sistema terï¿½ que solicitar o recurso ao gerente de objetos, 
+ * que pode interagir com o sistema de seguranï¿½a para ver se o processo ou 
+ * usuï¿½rio tem permissï¿½o para utilizar o recurso desejado. 
  *
  * @todo: 
- * Ainda há muito pra aprender sobre objetos e gerencia de objetos. 
+ * Ainda hï¿½ muito pra aprender sobre objetos e gerencia de objetos. 
  * Tendo em vista que o conceito de objetos para kernel mode em C e para 
- * User Mode com linguagem de alto nível é bem diferente.
+ * User Mode com linguagem de alto nï¿½vel ï¿½ bem diferente.
  *
  * 2015 - Created by Fred Nora.
  */
@@ -58,9 +58,22 @@
 #include <kernel.h>
 
 
+struct object_d  objects_km[256+1];  //objetos em kernel mode.
+struct object_d  objects_um[256+1];  //objetos em user mode. 
+struct object_d  objects_gui[256+1]; //objetos grï¿½ficos. 
+
+// Se o gerenciador de recursos foi inicializado.
+int g_object_manager_status=0;
+
+//id do objeto atual
+int g_current_object=0;
+
+//id da lista ao qual o objeto atual pertence.
+// object_km, object_um, object_gui. 
+int g_current_list=0;
+
 
 /*
- *******************************************
  * init_object_manager:
  *     Inicializa o gerenciador de objetos.
  */

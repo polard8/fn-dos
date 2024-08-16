@@ -1,36 +1,22 @@
-/*
- * File: ports.h
- * 
- * Descrição:
- *     Header para rotinas de acesso as portas na arquitetura x86 intel.
- *
- * 2015 - Created by Fred Nora.
- */
-
+// portsx86.h
+// Header para rotinas de acesso as portas na arquitetura x86 intel.
+// 2015 - Created by Fred Nora.
 
 // See:
 // https://wiki.osdev.org/I/O_Ports
 // http://bochs.sourceforge.net/techspec/PORTS.LST
-// 
 // ...
 
-
 #ifndef ____PORTSX86_H
-#define ____PORTSX86_H
+#define ____PORTSX86_H  1
 
- 
- 
- 
 /*
   @todo:
-  
   + Listar as portas de i/o.
   + Criar constantes padronizadas para as portas.
-  
-  
+
   ports:
-  =====
-  
+  =====  
   I/O address range	Device:
   ========================
   

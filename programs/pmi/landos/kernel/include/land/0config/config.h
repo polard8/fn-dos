@@ -1,14 +1,9 @@
-/*
- * File: config.h
- *     
- *      Setup compiling stuff.
- */
+// config.h
+// Setup compiling stuff.
+// Created by Fred Nora.
 
 #ifndef ____CONFIG_H_
-#define ____CONFIG_H_
-
-
-
+#define ____CONFIG_H_  1
 
 //
 // ## IMPORNTANTE ##
@@ -21,7 +16,6 @@
 // o canal e o dispositivo.
 // Inicializaremos essas variaveis ao inicializarmos
 // o controlador de ata. ide. em ata.c ata_initialize.
-
 
 // USE PRIMARY MASTER!!
 

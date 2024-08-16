@@ -22,6 +22,18 @@ extern unsigned long SavedX;
 extern unsigned long SavedY;
 
 
+// Contador de linhas usados na hora da criação de linhas.
+int ttyLineCounter=0;
+
+// Cursor.
+int ttyCurrentX=0;
+int ttyCurrentY=0;
+
+
+struct ttybuffer_d  *CurrentTTYBUFFER;
+
+struct tty_d CONSOLE_TTYS[CONSOLETTYS_COUNT_MAX];
+
 // Ponteiros para os dispositivos
 // que a tty atua.
 // sendo que o primeiro dispositivo (canal) é o console.

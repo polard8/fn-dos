@@ -1,6 +1,7 @@
+// menu.h
+// Created by Fred Nora.
+
 /*
- * Arquivo: menu.h
- *
  * Descrição:
  *     Header para gerenciamento de menus.
  *
@@ -18,8 +19,10 @@
  * Versão 1.0, 2015, 2016.
  */
  
- 
- 
+#ifndef __VIEW_MENU_H
+#define __VIEW_MENU_H    1
+
+
 #define MENU_COUNT_MAX      256 
 #define MENUITEM_COUNT_MAX  16
 
@@ -245,17 +248,16 @@ void *create_menu ( struct window_d *pwindow,    //Parent window.
 				    unsigned long sCount,        //Contagem de espaçadores.
 				    int type,                    //Horizontal ou vertical.
 				    int style );                 //Estilo.
-
-				   
-				   			   
+		   			   
 unsigned long 
 MenuBarProcedure ( struct window_d *window, 
                    int msg, 
 				   unsigned long long1, 
 				   unsigned long long2 );
 
+#endif   
 
 //
-//  End.
+//  End
 //
 

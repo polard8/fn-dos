@@ -17,6 +17,8 @@
 
 #include <kernel.h>
 
+//see: events.h
+int current_keyboard_responder=0;
 
 
 /*

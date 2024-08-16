@@ -12,7 +12,7 @@
  */
 
 // #todo
-// talvez fazer estruturas para controlar as configurações de mouse.
+// talvez fazer estruturas para controlar as configuraï¿½ï¿½es de mouse.
 
 // See:
 // https://wiki.osdev.org/Mouse_Input
@@ -24,6 +24,9 @@
 
 #include <kernel.h>
 
+//see: events.h
+int current_mouse_responder=0;
+// ...
 
 //++
 // ===================
@@ -117,13 +120,13 @@ long mouse_y = 0;
 
 
 // #bugbug: Isso deveria ser 'unsigned char'
-//char mouse_packet_data = 0;   // várias flags;
+//char mouse_packet_data = 0;   // vï¿½rias flags;
 //char mouse_packet_x = 0;      // delta x
 //char mouse_packet_y = 0;      // delta y
 //char mouse_packet_scroll = 0;
 
 //#test: testando com 'unsigned char'.
-unsigned char mouse_packet_data = 0;   // várias flags;
+unsigned char mouse_packet_data = 0;   // vï¿½rias flags;
 char mouse_packet_x = 0;      // delta x
 char mouse_packet_y = 0;      // delta y
 char mouse_packet_scroll = 0;
@@ -149,7 +152,7 @@ static char buffer_mouse[3];
 // Prototype
 //
 
-// Protótipos de funções internas.
+// Protï¿½tipos de funï¿½ï¿½es internas.
 int MOUSE_BAT_TEST (void);
 
 
@@ -161,7 +164,7 @@ int MOUSE_BAT_TEST (void);
  */
 
 // Pegamos os tres char do inout de mouse e 
-// transformamos em uma mensagem que será enviada para uma thread.
+// transformamos em uma mensagem que serï¿½ enviada para uma thread.
 
 // #bugbug
 // TODO
@@ -281,7 +284,7 @@ unsigned char xxx_mouse_read (void)
  */
 
 // Esta rotina faz o Auto-teste. 
-// 0xaa êxito, 0xfc erro.
+// 0xaa ï¿½xito, 0xfc erro.
 // Created by Fred Nora.
 
 int MOUSE_BAT_TEST (void)
@@ -314,13 +317,13 @@ int MOUSE_BAT_TEST (void)
         };
 
         // Reenviar o comando. 
-        // OBS: este comando não é colocado em buffer
+        // OBS: este comando nï¿½o ï¿½ colocado em buffer
 
         xxx_mouse_write (0xFE);       
     };
 
     // #bugbug:
-    // Não podemos exibir essa mensagem repetidas vezes.
+    // Nï¿½o podemos exibir essa mensagem repetidas vezes.
     printf ("MOUSE_BAT_TEST %d times\n", i );
 }
 
@@ -341,7 +344,7 @@ int ps2_mouse_globals_initialize (void)
     unsigned char response = 0;
     unsigned char deviceId = 0;
     int i = 0; 
-    int bruto = 1;  //Método.
+    int bruto = 1;  //Mï¿½todo.
     int mouse_ret = 0;
 
 
@@ -358,7 +361,7 @@ int ps2_mouse_globals_initialize (void)
         ioControl_mouse->used  = TRUE;
         ioControl_mouse->magic = 1234;
         ioControl_mouse->id = 0;
-		//Qual thread está usando o dispositivo.
+		//Qual thread estï¿½ usando o dispositivo.
         ioControl_mouse->tid = 0;  
         //ioControl_mouse->
     };
@@ -375,11 +378,11 @@ int ps2_mouse_globals_initialize (void)
     ps2_mouse_status = 1;
 
 
-	// Estamos espaço para o buffer de mensagens de mouse.
+	// Estamos espaï¿½o para o buffer de mensagens de mouse.
 	// mousemsg = ( unsigned char *) kmalloc(32);
 
 
-	//Inicializando as variáveis usadas na rotina em Assemly
+	//Inicializando as variï¿½veis usadas na rotina em Assemly
 	//em hardwarelib.inc
 
     //#todo:
@@ -393,12 +396,12 @@ int ps2_mouse_globals_initialize (void)
 
 
 	// #bugbug: 
-	// Essa inicialização está travando o mouse.
+	// Essa inicializaï¿½ï¿½o estï¿½ travando o mouse.
 	// Fazer com cuidado.
 
 
     // #bugbug. 
-    // Cuidado com essa inicializaçao.
+    // Cuidado com essa inicializaï¿½ao.
     // #todo
     // We need a helper to set this thing up.
 
@@ -422,7 +425,7 @@ int ps2_mouse_globals_initialize (void)
     // It's because we're gonna need to use another
     // format of file.
 
-	// Carregando o bmp do disco para a memória
+	// Carregando o bmp do disco para a memï¿½ria
 	// e apresentando pela primeira vez.
 
     mouse_ret = (int) load_mouse_bmp();
@@ -450,7 +453,7 @@ int ps2_mouse_globals_initialize (void)
  * ...
  */
 
-// inicialização:
+// inicializaï¿½ï¿½o:
 // Para o reset:
 // Avisamos o controlador de ps2 que vamos escrever no
 // dispositivo alxiliar.
@@ -459,7 +462,7 @@ int ps2_mouse_globals_initialize (void)
 // Esperamos completion code.
 // Esperamos id code.
 
-// Temos que pegar isso logo após o reset.
+// Temos que pegar isso logo apï¿½s o reset.
 #define MOUSE_COMPLETE      0xAA
 #define MOUSE_ID_BYTE       0x00
 
@@ -484,7 +487,7 @@ void ps2mouse_initialize_device (void)
     // Globals first.
     //
     
-    // Inicializa variáveis de gerenciamento do driver.
+    // Inicializa variï¿½veis de gerenciamento do driver.
     ps2_mouse_globals_initialize();
 
 
@@ -511,7 +514,7 @@ void ps2mouse_initialize_device (void)
 
     // #todo
     // Precisamos pegar o completion code e o id code 
-    // após o reset.
+    // apï¿½s o reset.
     // #define MOUSE_COMPLETE      0xAA
     // #define MOUSE_ID_BYTE       0x00
 
@@ -520,16 +523,16 @@ void ps2mouse_initialize_device (void)
     //======================================================
     // #obs:
     // A rotina abaixo habilita o segundo dispositivo. O mouse.
-    // Mas antes da habilitação temos uma rotina que não me lembro
+    // Mas antes da habilitaï¿½ï¿½o temos uma rotina que nï¿½o me lembro
     // pra que serve, haha.
     // #importante: 
-    // TALVEZ. Tô achando que essa rotina deva ser feita no 
-    // teclado, apos seu reset, e não aqui no mouse.
+    // TALVEZ. Tï¿½ achando que essa rotina deva ser feita no 
+    // teclado, apos seu reset, e nï¿½o aqui no mouse.
     
     // #bugbug
-    // Essa nao eh uma rotina de habilitaçao do dispositivo secundario,
+    // Essa nao eh uma rotina de habilitaï¿½ao do dispositivo secundario,
     // estamos apenas lendo a porta 60 e devolvendo o que lemos o que lemos
-    // com alguma modificaçao;
+    // com alguma modificaï¿½ao;
     // #todo: me parece que para habilitar o secundario eh
     // preciso apenas mandar 0xA8 para a porta 0x64.
 
@@ -555,9 +558,9 @@ void ps2mouse_initialize_device (void)
     // #test
     // Habilitando o dispositivo secundario na forma bruta.
     // Reenable mouse port.
-    // #bugbug: a rotina de inicializaçao da controladora ps2,
+    // #bugbug: a rotina de inicializaï¿½ao da controladora ps2,
     // esta fazendo isso ao fim da rotina. nao precisamos fazer isso aqui.
-    // Talvez atrapalhe a inicializaçao.
+    // Talvez atrapalhe a inicializaï¿½ao.
     // 0xA8 Enable Mouse
     // 0xA7 Disable Mouse
     // 0xA9 Check Mouse InterfaceReturns 0, if OK
@@ -596,7 +599,7 @@ void ps2mouse_initialize_device (void)
     // A rotina abaixo habilita a rodinha, se o dispositivo possui.
     // Credits: Serenity OS.    
 
-    // Pega o device id e faz configurações de wheel.
+    // Pega o device id e faz configuraï¿½ï¿½es de wheel.
     xxx_mouse_write (PS2MOUSE_GET_DEVICE_ID);
     expect_ack();
     
@@ -710,7 +713,7 @@ void ps2mouse_initialize_device (void)
     // ================================  
     // 0xf4: Enable mouse transmission.
     // #todo: maybe we need to do this again.
-    // não precisamos de ack nesse caso.
+    // nï¿½o precisamos de ack nesse caso.
     // Temos que habilitar porque isso foi desabilitado durante 
     // o reset.
     xxx_mouse_write (PS2MOUSE_ENABLE_PACKET_STREAMING);  
@@ -733,7 +736,7 @@ void ps2mouse_initialize_device (void)
     //
    
     //#test
-    // isso não é o ponto de montagem.
+    // isso nï¿½o ï¿½ o ponto de montagem.
     sprintf( (char *) &__tmpname[0], "/DEV_I8042_MOUSE");
     newname = (char *) kmalloc (64);
     if ( (void*) newname == NULL )
@@ -745,7 +748,7 @@ void ps2mouse_initialize_device (void)
     // file
     //
 
-    // Agora registra o dispositivo pci na lista genérica
+    // Agora registra o dispositivo pci na lista genï¿½rica
     // de dispositivos.
     // #importante: ele precisa de um arquivo 'file'.
 
@@ -765,7 +768,7 @@ void ps2mouse_initialize_device (void)
         //
 
         // #importante
-        // Essa é a tabela de montagem de dispositivos.
+        // Essa ï¿½ a tabela de montagem de dispositivos.
         // O nome do dispositivo deve ser um pathname.
         // Mas podemos ter mais de um nome.
         // vamos criar uma string aqui usando sprint e depois duplicala.
@@ -841,7 +844,7 @@ void ps2mouse_initialize_device (void)
 /*
  ***************************************************
  * getMouseData:
- *     Essa função é usada pela rotina kernelPS2MouseDriverReadData.
+ *     Essa funï¿½ï¿½o ï¿½ usada pela rotina kernelPS2MouseDriverReadData.
  * Input a value from the keyboard controller's data port, 
  * after checking to make sure that there's some mouse data 
  * there for us.
@@ -884,8 +887,8 @@ void kernelPS2MouseDriverReadData (void)
  * 
  *     ## teste ##
  * 
- *     Carregando o arquivo MOUSE.BMP, que é o ponteiro de mouse.
- *     Usar isso na inicialização do mouse.
+ *     Carregando o arquivo MOUSE.BMP, que ï¿½ o ponteiro de mouse.
+ *     Usar isso na inicializaï¿½ï¿½o do mouse.
  * 
  *     #bugbug isso pode ir para windowLoadGramadoIcons
  * 
@@ -904,7 +907,7 @@ int load_mouse_bmp (void)
 #endif
 
     // #bugbug
-    // Alocando duas páginas para um BMP pequeno. 8KB.
+    // Alocando duas pï¿½ginas para um BMP pequeno. 8KB.
 
     unsigned long tmp_size = (2*4096);
     mouseBMPBuffer = (void *) allocPages (2);
@@ -1002,9 +1005,9 @@ int get_current_mouse_responder (void)
 void update_mouse (void)
 {
 
-// O primeiro byte comtém um monte de flags.
-// O segundo byte comtém o delta x
-// O terceiro byte comtém o delta y
+// O primeiro byte comtï¿½m um monte de flags.
+// O segundo byte comtï¿½m o delta x
+// O terceiro byte comtï¿½m o delta y
 
     unsigned char Flags;
     char DeltaX;
@@ -1065,7 +1068,7 @@ quit:
 }
 
 
-// o driver de mouse entrega informações sobre o evento atual
+// o driver de mouse entrega informaï¿½ï¿½es sobre o evento atual
 // para quem pedir. Como o servidor de janelas atual.
 unsigned long ps2_mouse_get_info ( int i )
 {
@@ -1195,7 +1198,7 @@ void ps2mouse_change_and_show_pointer_bmp ( int number )
             break;
  
         // #test
-        // Estamos usando os ícones previamente carregados.  
+        // Estamos usando os ï¿½cones previamente carregados.  
 
         //...  
  
@@ -1238,13 +1241,13 @@ void ps2mouse_parse_data_packet (void)
 
     unsigned char Flags;
 
-	// A partir de agora já temos os três chars.
-	// Colocando os três chars em variáveis globais.
-	// Isso ficará assim caso não haja overflow.
+	// A partir de agora jï¿½ temos os trï¿½s chars.
+	// Colocando os trï¿½s chars em variï¿½veis globais.
+	// Isso ficarï¿½ assim caso nï¿½o haja overflow.
 
-    // O primeiro byte comtém um monte de flags.
-    // O segundo byte comtém o delta x
-    // O terceiro byte comtém o delta y
+    // O primeiro byte comtï¿½m um monte de flags.
+    // O segundo byte comtï¿½m o delta x
+    // O terceiro byte comtï¿½m o delta y
 
     // Salvando em global
     mouse_packet_data = buffer_mouse[0];    // Primeiro char
@@ -1262,22 +1265,22 @@ void ps2mouse_parse_data_packet (void)
 	// Salvando o antigo antes de atualizar.
 	// Para poder apagar daqui a pouco.
 	// Atualizando.
-	// Essa função esta nesse documento.
+	// Essa funï¿½ï¿½o esta nesse documento.
 
     saved_mouse_x = mouse_x;
     saved_mouse_y = mouse_y;
     update_mouse (); 
  
-    // Agora vamos manipular os valores obtidos através da 
-    // função de atualização dos valores.
-    // A função de atualização atualizou os valores de
+    // Agora vamos manipular os valores obtidos atravï¿½s da 
+    // funï¿½ï¿½o de atualizaï¿½ï¿½o dos valores.
+    // A funï¿½ï¿½o de atualizaï¿½ï¿½o atualizou os valores de
     // mouse_x e mouse_y.
     mouse_x = (mouse_x & 0x000003FF );
     mouse_y = (mouse_y & 0x000003FF );
 
 	// #importante:
 	// Checando limites.
-	// Isso é provisório.
+	// Isso ï¿½ provisï¿½rio.
 
     if ( mouse_x < 1 ){ mouse_x = 1; }
     if ( mouse_y < 1 ){ mouse_y = 1; }
@@ -1288,10 +1291,10 @@ void ps2mouse_parse_data_packet (void)
     // #obs: Pra quem mandaremos a mensagem de moving ??
     if ( saved_mouse_x != mouse_x || saved_mouse_y != mouse_y )
     {
-		// flag: o mouse está se movendo.
+		// flag: o mouse estï¿½ se movendo.
 		// usaremos isso no keydown.
 		// >> na hora de enviarmos uma mensagem de mouse se movendo
-		// se o botão estiver pressionado então temos um drag (carregar.)
+		// se o botï¿½o estiver pressionado entï¿½o temos um drag (carregar.)
 		// um release cancela o carregar.
 		
         ps2_mouse_moving = TRUE;
@@ -1299,19 +1302,19 @@ void ps2mouse_parse_data_packet (void)
        // draw
 
        // Apaga o antigo.
-       // + Copia no LFB um retângulo do backbuffer 
+       // + Copia no LFB um retï¿½ngulo do backbuffer 
        // para apagar o ponteiro antigo.
        refresh_rectangle ( saved_mouse_x, saved_mouse_y, 20, 20 );
                 
        // Acende o novo.
        //+ Decodifica o mouse diretamente no LFB.
-       // Copiar para o LFB o antigo retângulo  
-       // para apagar o ponteiro que está no LFB.
+       // Copiar para o LFB o antigo retï¿½ngulo  
+       // para apagar o ponteiro que estï¿½ no LFB.
        bmpDisplayMousePointerBMP ( mouseBMPBuffer, mouse_x, mouse_y );   
                          
     }else{
 		
-		// Não redesenhamos quando o evento for um click, sem movimento.
+		// Nï¿½o redesenhamos quando o evento for um click, sem movimento.
         ps2_mouse_moving = FALSE;
     }; 
 
@@ -1320,8 +1323,8 @@ void ps2mouse_parse_data_packet (void)
     // Buttons state.
     //
 
-    // Botão
-    // Apenas obtendo o estado dos botões.
+    // Botï¿½o
+    // Apenas obtendo o estado dos botï¿½es.
 
     mouse_buttom_1 = FALSE;
     mouse_buttom_2 = FALSE;
@@ -1388,8 +1391,8 @@ done:
 
 	// ===
 	// Confrontando o estado atual com o estado anterior para saber se ouve 
-	// alguma alteração ou não.
-	// 1 = ouve alteração em relação ao estado anterior.
+	// alguma alteraï¿½ï¿½o ou nï¿½o.
+	// 1 = ouve alteraï¿½ï¿½o em relaï¿½ï¿½o ao estado anterior.
 
     if ( mouse_buttom_1 != old_mouse_buttom_1 ||
          mouse_buttom_2 != old_mouse_buttom_2 ||
@@ -1423,11 +1426,11 @@ struct xxxPS2MouseEvent_d
     int drag_status;
     int pressed;
 
-    // Se houve ou não alguma ação envolvendo botões.
+    // Se houve ou nï¿½o alguma aï¿½ï¿½o envolvendo botï¿½es.
     int button_action;
 
-    // Salvaremos aqui o último total ticks pra pegarmos um delta, 
-    // se o delta for menor que o limite então temos um duploclick.
+    // Salvaremos aqui o ï¿½ltimo total ticks pra pegarmos um delta, 
+    // se o delta for menor que o limite entï¿½o temos um duploclick.
 
     unsigned long current_totalticks;
     unsigned long last_totalticks;
@@ -1450,24 +1453,24 @@ struct xxxPS2MouseEvent_d xxxPS2MouseEvent;
  *     Handler de mouse. 
  *
  * Importante: 
- *     Se estamos aqui é porque os dados disponíveis no 
+ *     Se estamos aqui ï¿½ porque os dados disponï¿½veis no 
  * controlador 8042 pertencem ao mouse.
  *
  * Obs: 
- * Temos externs no início desse arquivo.
+ * Temos externs no inï¿½cio desse arquivo.
  */
 
 void DeviceInterface_PS2Mouse(void)
 {
 
 	// #importante:
-	// Essa será a thread que receberá a mensagem.
+	// Essa serï¿½ a thread que receberï¿½ a mensagem.
 
     //struct thread_d *t;
 
 
 	// #importante:
-	// Essa será a janela afetada por qualquer evento de mouse.
+	// Essa serï¿½ a janela afetada por qualquer evento de mouse.
 	// ID de janela.
 
     //struct window_d *Window;
@@ -1478,7 +1481,7 @@ void DeviceInterface_PS2Mouse(void)
 
 	// Coordenadas do mouse.
 	// Obs: Isso pode ser global.
-	// ?? O tratador em assembly tem as variáveis globais do posicionamento.
+	// ?? O tratador em assembly tem as variï¿½veis globais do posicionamento.
 
     int posX = 0;
     int posY = 0;
@@ -1493,13 +1496,13 @@ void DeviceInterface_PS2Mouse(void)
     // Disable keyboard.
     // wait_then_write (0x64,0xAD);
 
-    //#todo: Isso é um teste.
-    // O mouse ps2 está desabilitado porém recebendo as interupções
-    // Os aplicativos podem reabilitá-lo a qualquer momento.
+    //#todo: Isso ï¿½ um teste.
+    // O mouse ps2 estï¿½ desabilitado porï¿½m recebendo as interupï¿½ï¿½es
+    // Os aplicativos podem reabilitï¿½-lo a qualquer momento.
     // Atribuindo foco por exemplo.
     
     //#bugbug
-    //Isso realmente paraliza o mouse. Mas reabilitar não está funcionando.
+    //Isso realmente paraliza o mouse. Mas reabilitar nï¿½o estï¿½ funcionando.
     //if ( ps2_mouse_status == 0 )
     //{
     //      return;
@@ -1513,7 +1516,7 @@ void DeviceInterface_PS2Mouse(void)
     // Tesmos supporte ao window manager em ring3?
     // Se percebermos que o window manage esta inicializados e
     // que temos o ponteiro para sua thread de controle,
-    // etão mudamos essa flag e enviamos os dados do mouse para 
+    // etï¿½o mudamos essa flag e enviamos os dados do mouse para 
     //fila em sua thread.
     
     int UseRing3WindowManager = FALSE;
@@ -1576,15 +1579,15 @@ void DeviceInterface_PS2Mouse(void)
         }
         
         // pronto, ja tempos o ponteiro da thread que usaremos 
-        // para mandar as informações de mouse ao wm.
-        // Então vamos mudar a flag.
-        // Mudando a flag, o kernel não vai mais scanear as janelas
-        // como fazia antes. Que por sinal ja não faz mais sentido mesmo.
+        // para mandar as informaï¿½ï¿½es de mouse ao wm.
+        // Entï¿½o vamos mudar a flag.
+        // Mudando a flag, o kernel nï¿½o vai mais scanear as janelas
+        // como fazia antes. Que por sinal ja nï¿½o faz mais sentido mesmo.
         // mas estavamos usado pra visualizar o ponteiro.
     }
 
 
-	//Char para o cursor provisório.
+	//Char para o cursor provisï¿½rio.
 	//#todo: Isso foi subtituido por uma bmp. Podemos deletar.
     //static char mouse_char[] = "T";
 
@@ -1596,18 +1599,18 @@ void DeviceInterface_PS2Mouse(void)
 	// #obs:
 	// Lendo um char no controlador.
 	// #importante:
-	// Contagem de interruções:
+	// Contagem de interruï¿½ï¿½es:
 	// #obs: 
-	// Precisamos esperar 3 interrupções.
+	// Precisamos esperar 3 interrupï¿½ï¿½es.
 	// #obs: 
-	// count_mouse é global. Provavelmente nesse arquivo mesmo.
+	// count_mouse ï¿½ global. Provavelmente nesse arquivo mesmo.
 
     *_byte = (char) xxx_mouse_read();
 
 
     // #todo
-    // Temos que checar se o primeiro byte é um ack ou um resend.
-    // isso acontece logo apos a inicialização.
+    // Temos que checar se o primeiro byte ï¿½ um ack ou um resend.
+    // isso acontece logo apos a inicializaï¿½ï¿½o.
 
     // #define ACKNOWLEDGE         0xFA	
     // #define RESEND              0xFE
@@ -1624,7 +1627,7 @@ void DeviceInterface_PS2Mouse(void)
 
 
     // count_mouse is a global variable.
-    // É 'static int'.
+    // ï¿½ 'static int'.
 
     // O primeiro byte tem bits de controle.
     // os outros dois bytes representam o posicionamento na tela.
@@ -1632,7 +1635,7 @@ void DeviceInterface_PS2Mouse(void)
 
     switch (count_mouse){
 
-        // > Essa foi a primeira interrupção.
+        // > Essa foi a primeira interrupï¿½ï¿½o.
         // The first byte has a bunch of bit flags.
         // bits: 
         // Y overflow, X overflow, Y sign bit, X sign bit, 
@@ -1642,14 +1645,14 @@ void DeviceInterface_PS2Mouse(void)
             buffer_mouse[0] = (char) *_byte;
             // #bugbug:
             // O primeiro byte tem que tem esse bit acionado,
-            // mas o que impede os outros bytes de também terem?
+            // mas o que impede os outros bytes de tambï¿½m terem?
             if (*_byte & MOUSE_FLAGS_ALWAYS_1)
             { 
                 count_mouse++; 
             }
             break;
 
-        // >> Essa foi a segunda interrupção.
+        // >> Essa foi a segunda interrupï¿½ï¿½o.
         // x delta value
         case 1:
             //Pegamos o segundo char.
@@ -1657,7 +1660,7 @@ void DeviceInterface_PS2Mouse(void)
             count_mouse++;
             break;
 
-        // >>> Essa foi a terceira interrupção. É a última.
+        // >>> Essa foi a terceira interrupï¿½ï¿½o. ï¿½ a ï¿½ltima.
         // y delta value.
         case 2:
             //Pegamos o terceiro char.
@@ -1681,7 +1684,7 @@ void DeviceInterface_PS2Mouse(void)
                 // apenas mandar o pacote para o window server em ring3
                 // na forma de mensagens.
                 // Tambem nao precisamos escanear janelas ... o ws fara isso.
-                // essa função esta nesse documento.
+                // essa funï¿½ï¿½o esta nesse documento.
                
                 ps2mouse_parse_data_packet();
 
@@ -1696,20 +1699,20 @@ void DeviceInterface_PS2Mouse(void)
                 // user/kgwm.c
 
                 //#todo:
-                // não usaremos mais isso, pois não vamos escanear
+                // nï¿½o usaremos mais isso, pois nï¿½o vamos escanear
                 //janelas dentro do kernel, ao inves disso, mandaremos
                 // os dados para o window manager que esta em ring3.
                 // Podemos colocar um 'if' aqui.
 
                 // #todo
                 // Talvez poderiamos exibir o mouse aqui em ring 0 
-                // e mandarmos somente as informações para o wm,
-                // mas possivelmente o melhor a fazer é somente mandar os informações
+                // e mandarmos somente as informaï¿½ï¿½es para o wm,
+                // mas possivelmente o melhor a fazer ï¿½ somente mandar os informaï¿½ï¿½es
                 // para o window manager e deixar ele exibir,
                 // mesmo que ele use o kernel para isso, o que me parece uma boa ideia.
                 
                 //#todo: deprecate
-                // Não temos um wm em ring3, usamos o de ring0.
+                // Nï¿½o temos um wm em ring3, usamos o de ring0.
                 // mesmos sem scanearmos o kernel vai exibir o ponteiro
                 if ( UseRing3WindowManager != TRUE ){
                     //#debug
@@ -1719,7 +1722,7 @@ void DeviceInterface_PS2Mouse(void)
                 
                 
                 //#todo
-                //pegar as informações que mandaremos para o
+                //pegar as informaï¿½ï¿½es que mandaremos para o
                 //window manager,
                 
                 // send this data to the window manager.
@@ -1728,9 +1731,9 @@ void DeviceInterface_PS2Mouse(void)
                 //buffer_mouse[2]
                
                 // control thread do window manager.
-                // então vamos usar o window manager que esta em ring3.
+                // entï¿½o vamos usar o window manager que esta em ring3.
                 // Essas mensagens podem sobrecarregar a fila.
-                // precisamso de uma solução elegante pra isso,
+                // precisamso de uma soluï¿½ï¿½o elegante pra isso,
                 // normalmente checa-se a mensagem anterior e 
                 // muda um contador.
                 if ( UseRing3WindowManager == TRUE ){
@@ -1759,7 +1762,7 @@ void DeviceInterface_PS2Mouse(void)
             }
 
 
-            // O driver precisa do old pra configurar a variável de ação.
+            // O driver precisa do old pra configurar a variï¿½vel de aï¿½ï¿½o.
             // #todo Talvez precise de outras
             
             old_mouse_buttom_1 = mouse_buttom_1;
@@ -1769,8 +1772,8 @@ void DeviceInterface_PS2Mouse(void)
 
         // And if we have more than 3 interrupts ??
 
-        // Problemas na contagem de interrupções.
-        // Voltamos ao início
+        // Problemas na contagem de interrupï¿½ï¿½es.
+        // Voltamos ao inï¿½cio
         default:
             count_mouse = 0;
             old_mouse_buttom_1 = 0;
@@ -1794,7 +1797,7 @@ void DeviceInterface_PS2Mouse(void)
 // =====================================================
 
 // #bugbug: 
-// Isso só server para mouse!
+// Isso sï¿½ server para mouse!
 
 void expect_ack (void)
 {

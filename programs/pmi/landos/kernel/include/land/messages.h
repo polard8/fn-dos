@@ -1,9 +1,6 @@
-/*
- * File: messages.h
- *
- *    Messages support.
- */
-
+// messages.h
+// Messages support.
+// Created by Fred Nora.
 
 #ifndef __MESSAGES_H
 #define __MESSAGES_H  1
@@ -20,6 +17,4 @@ struct message_d
 };
 
 #endif    
-
-
 

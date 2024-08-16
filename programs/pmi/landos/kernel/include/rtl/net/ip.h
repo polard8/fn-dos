@@ -1,17 +1,8 @@
-/*
- * File: ip.h
- *
- * Descrição:
- *    IP protocol info.
- *
- * Versão 1.0, 2016.
- */
-
+// ip.h
+// 2016- Created by Fred Nora.
 
 #ifndef ____IP_H
-#define ____IP_H
-
-
+#define ____IP_H  1
 
 //See: https://en.wikipedia.org/wiki/List_of_IP_protocol_numbers
 
@@ -172,26 +163,26 @@
     Pilha de protocolos TCP/IP:
     ==========================
 
-Camada de aplicação
+Camada de aplicaï¿½ï¿½o
 BGP DHCP DNS FTP HTTP IMAP LDAP MGCP NNTP NTP 
 POP ONC/RPC RTP RTSP RIP SIP SMTP SNMP SSH Telnet TLS/SSL XMPP outros...
 
 Camada de transporte
 TCP UDP DCCP SCTP RSVP outros...
 
-Camada de interconexão
+Camada de interconexï¿½o
 IP IPv4 IPv6 ICMP ICMPv6 ECN IGMP IPsec outros...
 
 Camada de enlace
-ARP NDP OSPF túneis... L2TP PPP MAC Ethernet DSL RDIS FDDI outros...
+ARP NDP OSPF tï¿½neis... L2TP PPP MAC Ethernet DSL RDIS FDDI outros...
 
 */ 
 
 
 /*
- Lightweight TCP/IP - um conjunto de códigos abertos projetado para sistemas embarcados.
+ Lightweight TCP/IP - um conjunto de cï¿½digos abertos projetado para sistemas embarcados.
  KA9Q NOS, a pilha e um conjunto de protocolos associados para sistemas de radio amador e 
- computadores pessoais conectados através de linhas seriais.
+ computadores pessoais conectados atravï¿½s de linhas seriais.
 */ 
 
 
@@ -326,7 +317,7 @@ struct ipv6_header_d
 
 // We need adapter info: 
 // like: name, description
-// So não sei se informações sobre o adaptador deveria 
+// So nï¿½o sei se informaï¿½ï¿½es sobre o adaptador deveria 
 // ficar nesse arquivos.
 
 

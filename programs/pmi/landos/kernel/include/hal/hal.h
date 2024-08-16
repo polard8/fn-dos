@@ -1,42 +1,31 @@
-/*
- * File: hal.h
- *
- *  HAL header file.
- */
-
+// hal.h
+// HAL header file.
+// Created by Fred Nora.
 
 #ifndef ____HAL_H
-#define ____HAL_H
+#define ____HAL_H  1
 
 
- 
- 
-#define PARTITION_BOOT_FLAG 0x80
+#define PARTITION_BOOT_FLAG  0x80
 //#define PARTITION_ 
 
-
 //#define BOOT_RECORD_SIGNATURE          (0xaa55)
-
-
 
 /*
  * Microcontrollers support. @todo: Criar arquivo para isso.
  */
 
- 
+
 //#define Microcontroller_PIC 1 
 //#define Microcontroller_ 
 //...
-
-
   
 /*
- * variáveis usadas no hal.
- *
+ * variï¿½veis usadas no hal.
  */  
-  
+ 
 unsigned long g_machine_type;  
-  
+
 //
 //....
 //
@@ -48,9 +37,9 @@ unsigned long g_machine_type;
 //
 
 
-// Endereços das rotinas básicas chamadas pelos vetores de interrupções.
-// Essas rotinas devem chamar seus handlers específicos.
-// 256 interrupções
+// Endereï¿½os das rotinas bï¿½sicas chamadas pelos vetores de interrupï¿½ï¿½es.
+// Essas rotinas devem chamar seus handlers especï¿½ficos.
+// 256 interrupï¿½ï¿½es
 unsigned long VECTORS[256];
 
 
@@ -60,9 +49,9 @@ unsigned long VECTORS[256];
 //
 
 
-// Endereços para as rotinas em C que tratam as interrupções.
-// Essas rotinas rodam depois da rotina básica em assembly.
-// 256 interrupções
+// Endereï¿½os para as rotinas em C que tratam as interrupï¿½ï¿½es.
+// Essas rotinas rodam depois da rotina bï¿½sica em assembly.
+// 256 interrupï¿½ï¿½es
 // 8 extras para handlers default.
 
 unsigned long HANDLERS[256+8];
@@ -188,7 +177,7 @@ struct drive_context_d
 struct drive_context_d *DriveContext;  
 
 
-//Estrutura para informações sobre a placa mãe.  
+//Estrutura para informaï¿½ï¿½es sobre a placa mï¿½e.  
 struct motherboard_d
 {
 	int mobodummy;
@@ -338,9 +327,9 @@ hal_setup_new_vectors_table_entry (
 
 
 // Vetores legados.
-// Inicializando a tabela de vetores com os endereços das rotinas 
-// usadas pelo assembler na inicialização de alguns 
-// vetores de interrupção.
+// Inicializando a tabela de vetores com os endereï¿½os das rotinas 
+// usadas pelo assembler na inicializaï¿½ï¿½o de alguns 
+// vetores de interrupï¿½ï¿½o.
 void hal_init_vectors_table (void);
 
 

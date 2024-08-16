@@ -1,33 +1,34 @@
 /*
  * File: cursor.h
- *
- * Descrição:
+ * Descriï¿½ï¿½o:
  *     Suporte ao cursor para textos e inputs.    
  *
  * Obs: 
- * Essas variáveis de posicionamento de cursor tem sido muito úteis
+ * Essas variï¿½veis de posicionamento de cursor tem sido muito ï¿½teis
  * nas rotinas de texto.
  *
- * @todo: colocar aqui informações sobre cursor.
+ * @todo: colocar aqui informaï¿½ï¿½es sobre cursor.
  */
 
-
 /* cursor */
+
+#ifndef __CURSOR_H
+#define __CURSOR_H    1
+
 
 #define CURSOR_DRAW     (1)
 #define CURSOR_ERASE    (2)
 #define CURSOR_MOVE     (3) 
 //...
 
-
 //
-// ** Usar essas variáveis globais.
-//    Os valores são retirados das estruturas dos objetos
-// gráficos onde o cursor esta inserido e passadas para cá.
-// Os manipuladores de cursor deve se atentar à essas globais.
-// @todo: Essas globais serão substituidas pelos valores da 
+// ** Usar essas variï¿½veis globais.
+//    Os valores sï¿½o retirados das estruturas dos objetos
+// grï¿½ficos onde o cursor esta inserido e passadas para cï¿½.
+// Os manipuladores de cursor deve se atentar ï¿½ essas globais.
+// @todo: Essas globais serï¿½o substituidas pelos valores da 
 // estrutura do cursor atual. 'CurrentCursor'.
-// Cada objeto gráfico poderá ter uma estrutura de cursor associada à ele.
+// Cada objeto grï¿½fico poderï¿½ ter uma estrutura de cursor associada ï¿½ ele.
 // #bugbug: estamos tendo problemas com o uso dessa estrutura. Cuidado.
 // deixe pra depois, vai usado as globais.
 //
@@ -38,8 +39,8 @@
 
 //Cursor. 
 //(disciplica de linhas).
-//gws - é natural que o gerenciador de recursos gráficos 
-//centralise o gerenciamento dos recursos gráficos, como o cursor.
+//gws - ï¿½ natural que o gerenciador de recursos grï¿½ficos 
+//centralise o gerenciamento dos recursos grï¿½ficos, como o cursor.
 //#importante: movido para gws.h
 //unsigned long g_cursor_x;
 //unsigned long g_cursor_y;
@@ -54,8 +55,8 @@
 
 
 // ## IMPORTANTE ## 
-// Isso é ótimo, por permitir escolher 
-// uma posição dentro do terminal.
+// Isso ï¿½ ï¿½timo, por permitir escolher 
+// uma posiï¿½ï¿½o dentro do terminal.
 
 
 typedef enum {
@@ -78,8 +79,8 @@ typedef enum {
 /*
  *********************************************
  * cursor_d:
- *     Estrutura de suporte à cursor.
- *     Essa estrutura deve ser incluída na estrutura de janela.
+ *     Estrutura de suporte ï¿½ cursor.
+ *     Essa estrutura deve ser incluï¿½da na estrutura de janela.
  */
 
 typedef struct cursor_d cursor_t;
@@ -113,10 +114,13 @@ struct cursor_d
 	
 	//...
 };
-cursor_t *Cursor;
-cursor_t *CurrentCursor;
-cursor_t *DeveloperWindowCursor; //test?? Cursor da janela do desenvolvedor.
+
+//cursor_t *Cursor;
+//cursor_t *CurrentCursor;
+//cursor_t *DeveloperWindowCursor; //test?? Cursor da janela do desenvolvedor.
 //...
+
+//======================
 
 
 // Cursor.
@@ -125,9 +129,10 @@ void set_up_cursor (unsigned long x, unsigned long y);
 unsigned long get_cursor_x (void);
 unsigned long get_cursor_y (void);
 
+#endif   
 
 //
-// End.
+// End
 //
 
 

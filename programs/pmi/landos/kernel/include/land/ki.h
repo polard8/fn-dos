@@ -1,17 +1,12 @@
 /*
  * File: ki.h
- * 
- *     Kernel Internal functions support.
- *     It is used as interface for internal functions.
- *
- * History:
- *     2016 - Created by Fred Nora.
+ * Kernel Internal functions support.
+ * It is used as interface for internal functions.
+ * 2016 - Created by Fred Nora.
  */
 
-
 #ifndef ____KI_H 
-#define ____KI_H
-
+#define ____KI_H  1
 
 // Runtime support. 
 int KiInitRuntime (void); 

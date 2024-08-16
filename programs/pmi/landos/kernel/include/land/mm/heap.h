@@ -9,7 +9,9 @@
  *     2016 - Created by Fred Nora.
  */
 
-// #todo: ifndef
+
+#ifndef __MM_HEAP_H
+#define __MM_HEAP_H    1
 
 /*
  * Kernel Heap support.
@@ -23,11 +25,7 @@ unsigned long kernel_heap_end;      // End.
 unsigned long g_heap_pointer;       // Pointer.
 unsigned long g_available_heap;     // Available.
 
-
-
-
 /*
- ***********************************
  * heap_d:
  *     Estrutura para heap.
  *     Cada processo tem seu heap.
@@ -54,54 +52,54 @@ struct heap_d
 
     // Ponteiro para a lista de blocos de um heap.
     // Lista encadeada de blocos que formam o heap.
-    // A estrutura para um bloco é: mmblock_d e está definida em mm.h
+    // A estrutura para um bloco ï¿½: mmblock_d e estï¿½ definida em mm.h
     //
     // Obs: 
-	// Foram alocados vários blocos de memória dentro de um heap. Portanto 
+	// Foram alocados vï¿½rios blocos de memï¿½ria dentro de um heap. Portanto 
 	// podemos colocar os ponteiros para as estruturas desses blocos dentro 
 	// de uma lista encadeada e o ponteiro para a lista colocaremos aqui.
 	//
-	// Cada bloco desse começa com um 'header', definido na estrutura de bloco.
+	// Cada bloco desse comeï¿½a com um 'header', definido na estrutura de bloco.
 	struct mmblock_d *mmblockListHead;  
 	
-	//se esses arrays ocuparem muito espaço, então faremos com listas encadeads.
+	//se esses arrays ocuparem muito espaï¿½o, entï¿½o faremos com listas encadeads.
 	//struct mmblock_d *mmblockUsedBlocks;  
 	//struct mmblock_d *mmblockFreeBlocks;  	
 	//struct mmblock_d *mmblockAllBlocks;  
 	
 	
 	//Test:
-	// Endereços para os blocos de um heap.
-	// Uma lista de blocos que estão sendo usados
-	// Uma lista de blocos livres e já alocados.
+	// Endereï¿½os para os blocos de um heap.
+	// Uma lista de blocos que estï¿½o sendo usados
+	// Uma lista de blocos livres e jï¿½ alocados.
 	// Uma lista com todos os blocos.
 	//unsigned long usedBlocks[32];
 	//unsigned long freeBlocks[32];
 	//unsigned long Blocks[64];		
 	
 	
-	//Um heap pertence à um desktop.
+	//Um heap pertence ï¿½ um desktop.
     struct desktop_d *desktop;
 	
-	//Um heap pertence à um processo.
+	//Um heap pertence ï¿½ um processo.
     struct process_d *process;
 	
-	//Um heap pode pertencer à um thread.
+	//Um heap pode pertencer ï¿½ um thread.
     struct thread_d *thread;
 	
 	//
 	// Compartilhamento de heap:
 	// ========================
 	//   + As threads de um mesmo processo podem compartilhar o mesmo heap
-	//     pois estão na mesma área de memória.
-	//   + @todo: O desafio é fazer os processes que estão no mesmo desktop
+	//     pois estï¿½o na mesma ï¿½rea de memï¿½ria.
+	//   + @todo: O desafio ï¿½ fazer os processes que estï¿½o no mesmo desktop
 	//            compartilharem o mesmo heap, porque eles deveriam estar
-	//            na mesma área de memória para isso. 
+	//            na mesma ï¿½rea de memï¿½ria para isso. 
 	//
 	
 	
     //
-	// Podemos criar aqui flags de porteção.
+	// Podemos criar aqui flags de porteï¿½ï¿½o.
 	//
 	//int read;  //Apenas leitura.
 	//int write;
@@ -109,8 +107,8 @@ struct heap_d
 	
 	//...
 
-	//Sequenciando heaps sei lá pra quê. 
-	//#bugbug: Não queremos sequenciar os heaps.
+	//Sequenciando heaps sei lï¿½ pra quï¿½. 
+	//#bugbug: Nï¿½o queremos sequenciar os heaps.
 	//cada processo tem seu heap.
 	//struct heap_d *next;
 };
@@ -136,11 +134,11 @@ struct heap_d *memory_create_new_head (
     unsigned long size );
 
 
-// Destrói um heap se as flags permitirem.
+// Destrï¿½i um heap se as flags permitirem.
 void memory_destroy_heap (struct heap_d *heap );
 
 
-// Pega o endereço do início do header da próxima alocação.
+// Pega o endereï¿½o do inï¿½cio do header da prï¿½xima alocaï¿½ï¿½o.
 unsigned long get_process_heap_pointer (int pid);
 
 //
@@ -151,7 +149,10 @@ unsigned long heapAllocateMemory (unsigned long size);
 
 void FreeHeap (void *ptr);
 
+#endif  
+
+
 //
-// End.
+// End
 //
 

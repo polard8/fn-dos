@@ -1,7 +1,7 @@
+// screen.h
+// Created by Fred Nora.
+
 /*
- * File: screen.h
- *
- * Descrição:
  *     Informações sobre o monitor de video.
  *     informações de características de hardware.
  * 
@@ -16,14 +16,11 @@
  *   Advanced fringe field switching (AFFS).
  *   Vertical alignment (VA).
  *   Blue phase mode.
- *
  *  Versão 1.0, 2015, 2016.    
  */
 
-
 #ifndef ____SCREEN_H
 #define ____SCREEN_H    1
-
 
 #define COLUMNS  80
 #define ROWS     25
@@ -31,7 +28,6 @@
 #define SCREEN_HEIGHT  ROWS
 #define SCREEN_DEFAULT_LEFT  0
 #define SCREEN_DEFAULT_TOP   0
-
 
 //#define SCREEN_START 0x000B8000   //Físico.
 #define SCREEN_START 0x800000       //Virtual.(remapeado pelo Boot Loader.)    

@@ -1,5 +1,6 @@
+// modules.h  
+
 /*
- * Arquivo: modules.h  
  *
  * Descrição:
  *     Header principal para o gerenciamento de módulos do kernel.
@@ -22,12 +23,14 @@
  *     
  *     ... @todo: BUG BUG
  *
- * Versão 1.0, 2015, 2016.
+ * 2015
  */
 
+#ifndef __MODULES_H
+#define __MODULES_H    1
 
- int zicaaaaadasf;
- 
+int zicaaaaadasf;
+
 /*
  * module_d:
  *
@@ -47,7 +50,9 @@ module_t *CurrentModule;
 unsigned long moduleList[32];
  */
 
+#endif  
+
 //
-//fim.
+//
 //
 

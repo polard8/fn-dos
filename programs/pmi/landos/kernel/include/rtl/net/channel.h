@@ -1,21 +1,21 @@
 /*
  * File: channel.h 
  *
- * Descrição:
+ * Descriï¿½ï¿½o:
  *     Header for channel manager.
  *     Channel manager. 
  *     Gerenciamento de canais Client/Server para troca de mensagens entre 
  * processos.
- *    " Um canal de comunicação é composto de dois soquetes, um para o cliente 
+ *    " Um canal de comunicaï¿½ï¿½o ï¿½ composto de dois soquetes, um para o cliente 
  * e outro para o servidor. "
  *
- * ?? isso não deveria fazer parte do /pc/ipc
+ * ?? isso nï¿½o deveria fazer parte do /pc/ipc
  *
- * Versão 1.0, 2015, 2016.    
+ * Versï¿½o 1.0, 2015, 2016.    
  */
 
 #ifndef ____CHANNEL_H
-#define ____CHANNEL_H
+#define ____CHANNEL_H  1
 
 
 /*
@@ -36,12 +36,12 @@ typedef enum _ECHANNEL_STATE {
 
 /*
  * Estrutura para canal.
- * Serve para estabelecer uma conexão,
- * ?? pelo jeito não serve para 
+ * Serve para estabelecer uma conexï¿½o,
+ * ?? pelo jeito nï¿½o serve para 
  * trocar mensagens, somente para estabelecer a 
- * conexão.
- * Obs: Essa estrutura é aceitável, está em conformidade 
- * com os padrões encontrados
+ * conexï¿½o.
+ * Obs: Essa estrutura ï¿½ aceitï¿½vel, estï¿½ em conformidade 
+ * com os padrï¿½es encontrados
  */
 
 struct channel_d
@@ -61,31 +61,31 @@ struct channel_d
 
     //...
 
-    //Os dois soquetes do canal de comunicação.
+    //Os dois soquetes do canal de comunicaï¿½ï¿½o.
     // acho que soquete tem stream.
 
 
     struct socket_d *server_socket;
     struct socket_d *client_socket;
 
-    // Buffer usado pelo dois soquetes na mesma máquina.
+    // Buffer usado pelo dois soquetes na mesma mï¿½quina.
     // 
 
     void *____BUFFER;
 
 
-    // Quem é o dono do canal?
-    // Quem está enviando?
-    // Quem está recebendo.
+    // Quem ï¿½ o dono do canal?
+    // Quem estï¿½ enviando?
+    // Quem estï¿½ recebendo.
     //struct process_d *OwnerProcess;
     //struct process_d *SenderProcess;
     //struct process_d *ReceiverProcess;
 
-	// usado para comunição entre threads.
+	// usado para comuniï¿½ï¿½o entre threads.
 	//#importante
-	//Quando a comunicação for entre processos,
+	//Quando a comunicaï¿½ï¿½o for entre processos,
 	//podemos que usar a thread de controle do processo que 
-	//está recebendoa mensagem.
+	//estï¿½ recebendoa mensagem.
     //struct thread_d *SenderThread;
     //struct thread_d *ReceiverThread;
 
@@ -94,14 +94,14 @@ struct channel_d
 	//#importante:
 	//context ??
 	//me parece que um ponteiro pra uma estrutura do 
-	//tipo context é necessário 
-	//context deve conter os elementos necessários 
-	//para a transmissão da mensagem. Como o buffer 
-	//de memória compartilhada.
+	//tipo context ï¿½ necessï¿½rio 
+	//context deve conter os elementos necessï¿½rios 
+	//para a transmissï¿½o da mensagem. Como o buffer 
+	//de memï¿½ria compartilhada.
 	//
     
-	//?? O que é isso ???
-	//me parece que é necessário.
+	//?? O que ï¿½ isso ???
+	//me parece que ï¿½ necessï¿½rio.
 	//struct channel_d *serverchannel;
 };
 struct channel_d *CurrentChannel;

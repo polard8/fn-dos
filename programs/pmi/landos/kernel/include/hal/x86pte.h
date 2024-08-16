@@ -31,8 +31,7 @@
 
 
 #ifndef _X86_PTE_H
-#define _X86_PTE_H
-
+#define _X86_PTE_H  1
 
 /* Cacheability bits when we are using PAT */
 #define PGC_WB          0               /* The default */

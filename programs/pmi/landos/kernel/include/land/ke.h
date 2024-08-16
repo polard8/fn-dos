@@ -14,29 +14,26 @@
  * Servers and Drivers:
  * ====================
  *
- * Chamadas aos módulos externos que estão em user mode.
- * São servers e drivers.
- * O Kernel pode chamá-los para uso próprio ou 
- * pode chamá-los para atender alguma solicitação
- * de cliente, que também está em user mode.
- * O Cliente chama solicida algum serviço de um Server
- * atravéz do kernel.
+ * Chamadas aos mï¿½dulos externos que estï¿½o em user mode.
+ * Sï¿½o servers e drivers.
+ * O Kernel pode chamï¿½-los para uso prï¿½prio ou 
+ * pode chamï¿½-los para atender alguma solicitaï¿½ï¿½o
+ * de cliente, que tambï¿½m estï¿½ em user mode.
+ * O Cliente chama solicida algum serviï¿½o de um Server
+ * atravï¿½z do kernel.
  *
  * @todo: Definir melhor o que deve ir para user modr e organizar.
  * por servidor por exemplo.
  */
  
 #ifndef ____KE_H 
-#define ____KE_H
+#define ____KE_H  1
 
-
-    int dummy_kexxxx;
+//int dummy_kexxxx;
 
 #endif
 
-
-
 //
-// End.
+// End
 //
 

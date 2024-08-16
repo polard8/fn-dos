@@ -1,16 +1,12 @@
 // console.h
 // Created by Fred Nora.
 
-
 #ifndef ____CONSOLE_H
 #define ____CONSOLE_H  1
-
 
 #define CONSOLE_DEVICE_KEYBOARD  1
 #define CONSOLE_DEVICE_SERIAL    2
 #define CONSOLE_DEVICE_NETWORK   3
-
-
 
 // Control sequence introducer 
 // Parameter    - (zero or more characters)
@@ -20,11 +16,9 @@
 
 struct virtual_console_login_d
 {
-    int id;
-
     int used;
     int magic;
-
+    int id;
 
     // Index in the list CONSOLE[i].
     // See: tty.h

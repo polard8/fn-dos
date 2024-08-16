@@ -1,13 +1,6 @@
-/*
- * File: kernel.h
- * 
- *     This is the main header for the bse kernel.
- * 
- * History:
- *     2013 - Created by Fred Nora.
- *     2014~2018 - Resision.
- */
-
+// kernel.h
+// This is the main header for the base kernel of pmi interface.
+// 2013 - Created by Fred Nora.
 
 //
 // == gramado modes =================================================
@@ -37,12 +30,10 @@
 struct io_control_d
 {
     int initialized;
-
     int useTTY;
     int useEventQueue;
 };
 struct io_control_d  IOControl;
-
 
 //
 // == input modes ==================================================
@@ -149,13 +140,10 @@ extern unsigned long stack0_krn_ptr;
 #include "rtl/termios.h"
 #include "rtl/ttydef.h"
 
-
-
 // memory management support.
 #include "land/mm/mm.h"
 #include "land/mm/memmap.h" 
 #include "land/mm/intelmm.h"
-
 
 // rawgr -
 // #view presentation output.
@@ -166,11 +154,8 @@ extern unsigned long stack0_krn_ptr;
 // Render
 #include "user/render/r_render.h"
 
-
-// #model. data model.
 #include "user/model/fonts.h"
 #include "user/model/ascii.h" 
-
 
 // fs
 #include "rtl/fs/path.h"       // path.
@@ -244,7 +229,6 @@ extern unsigned long stack0_krn_ptr;
 //storage (^)
 #include "hal/dev/blkdev/ide.h"
 
-
 //pci
 //#include "hal/bus/isa.h"   //#todo
 #include "hal/bus/pci.h"
@@ -316,17 +300,14 @@ extern unsigned long stack0_krn_ptr;
 #include "user/logoff.h"
 #include "user/kgws.h"
 
-
 // tty
 #include "hal/dev/tty/ttyldisc.h"
 #include "hal/dev/tty/ttydrv.h"
 #include "hal/dev/tty/tty.h"
 #include "hal/dev/tty/pty.h"
 
-
 #include "user/vt.h"
 #include "user/console.h"
-
 
 // =============================
 // rawgr - i8042 ps2 controller.
@@ -379,7 +360,6 @@ extern unsigned long stack0_krn_ptr;
  
 #include "hal/io.h"               //io.
 
-
 #include "land/modules.h"     //module manager.
 #include "land/debug.h"
 #include "land/system.h"    //system manager.
@@ -397,12 +377,9 @@ extern unsigned long stack0_krn_ptr;
 #include "land/mm/bank.h"      // Bank. database
 #include "land/mm/x86mm.h"     // mm, memory manager support.
 
-
-
 // rawgr - 
 // view. input support.
 #include "user/view/cursor.h"
-
 
 #include "land/messages.h"
 #include "land/events.h"
@@ -412,11 +389,7 @@ extern unsigned long stack0_krn_ptr;
 // profiler
 #include "land/pints.h"
 
-
-
 #include "rtl/runtime.h"
-
-
 
 // kernel
 #include "land/ke.h"
@@ -437,480 +410,16 @@ extern unsigned long stack0_krn_ptr;
 #include "rtl/sci/syscall.h"        
 #include "rtl/sci/sys.h"
 
-// si - services interfce
+// si - services interface
 #include "rtl/si/sifs.h"
 #include "rtl/si/sins.h"
 #include "rtl/si/siws.h"
 
 
-// ==============================
-
-
-
-
-//keyboard suppport 
-//abnt2 flag.
-//#todo: Move this to another file.
-//maybe gdef.h
-int abnt2;
-//...
-
-
-// Product type.
-typedef enum {
-   PT_THINGS,        // Things.
-   PT_EDGEDEVICES,   // Edge Devices.
-   //PT_COREDEVICES,   // Core Devices. (haha)
-}ProductType_t;
-
-
-//Type of product.
-int g_product_type; 
-
-
-// Platform type.
-typedef enum {
-   PFT_16BIT,       //16bit processor.
-   PFT_32BIT,       //32bit processor.
-   PFT_64BIT,       //64bit processor.
-   //...
-}PlatformType_t;
-
-
-// UP ou MP
-typedef enum {
-
-    SYSTEM_TYPE_NULL,
-    SYSTEM_TYPE_UNIPROCESSOR,
-    SYSTEM_TYPE_MULTIPROCESSOR
-
-} SystemType_t;
-
-
-
+// Moving some stuff from here to kernel00.h
+#include "kernel00.h"
 
 //
-// == current ======================================================
+// End
 //
-
-// GRAMADO_JAIL, GRAMADO_P1 ...
-int current_mode;
-
-// INPUT_MODE_SETUP, INPUT_MODE_WS ...
-//int current_input_mode;
-
-// x86 ...
-int current_arch;
-
-
-// Organização de usuários.
-int current_user; 
-int current_group; 
-
-
-
-// Organização dos processos
-
-
-// Process used by the console during the job control.
-// #hackhack: 
-// For now we are using the control thread associated with the
-// window with focus.
-// #todo
-// But we need to use the control thread of the foreground process
-// associated with the console TTY.
-int foreground_process;
-
-int foreground_thread;
-
-
-// [Processing time]
-// Only these can read the keyboard input.
-// Sometime it's the terminal.
-// It's child will read into a file.
-int current_process;   // Currently having the processing time.
-int current_thread;    // Currently having the processing time.
-
-
-
-
-int criticalsection_pid;
-
-// [Focus]
-int active_process;    // This is the process with the active thread.
-int active_thread;     // This thread will receive the input.
-
-//[Scheduler]
-int next_thread;     //next user mode thread.
-
-
-// Current runlevel. Used in init process.
-int current_runlevel;
-
-
-// Organização dos discos.
-int current_disk;
-int current_volume;
-
-// Organização dos arquivos.
-int current_directory;
-int current_file;
-int current_dead_process;
-int current_dead_thread;
-
-// Organização dos terminais
-int current_tty;
-int current_terminal;
-//int current_pty;
-//int current_pts;
-
-
-//...
-
-// ==== ====
-
-
-//size of processor word.
-int g_platform_type;
-
-
-
-
-
-
-//se ele est'a inicializado ou nao
-int dead_thread_collector_status;
-
-// se 'e para usalo ou nao
-int dead_thread_collector_flag;
-
-//cr3. current page directoory address.
-unsigned long current_process_pagedirectory_address;
-
-
-
-//
-// Logon.
-//
-
-int g_logged;
-
-
-//
-// GUI
-//
-
-//flag.
-//If the kernel is in graphics mode.
-int g_useGUI; 
-
-
-//Messages support.
-unsigned long g_new_message;
-unsigned long g_next_app;       // Procedure adreess.
-unsigned long g_proc_status;    // Procedure status.
-
-
-//Drivers support.
-int g_driver_ps2keyboard_initialized;   //ps2 keyboard
-int g_driver_ps2mouse_initialized;      //ps2 mouse
-
-int g_driver_video_initialized;
-int g_driver_apic_initialized;
-int g_driver_hdd_initialized;
-
-int g_driver_pci_initialized;
-int g_driver_rtc_initialized;
-int g_driver_timer_initialized;
-//...
-
-
-//internal modules support.
-int g_module_shell_initialized;
-int g_module_debug_initialized;
-int g_module_disk_initialized;
-int g_module_volume_initialized;
-int g_module_fs_initialized;
-int g_module_gui_initialized;
-int g_module_logoff_initialized;
-int g_module_logon_initialized;
-int g_module_mm_initialized;
-int g_module_objectmanager_initialized;
-int g_module_runtime_initialized;
-int g_module_uem_initialized;             //user environment manager.
-//...
-
-// Kernel information variables.
-unsigned long KernelSize;
-unsigned long KernelHeapSize;
-unsigned long KernelStackSize;
-unsigned long KernelPages;
-unsigned long KeInitPhase;
-unsigned long KernelStatus;
-//...
-
-
-//
-// symbol table
-//
-
-int g_kernel_symbols_available;
-
-
-//Task support variables.
-
-//??
-unsigned long kernel_switch;
-
-
-//#bugbug
-//move this to kernel (ring 0) crt support.
-//error support.
-unsigned long errno;
-
-
-//
-// fs support.
-//
-
-//directory entries support.
-//char buffer_dir_entry[512];
-
-//log buffer
-//char KernelLogBuffer[512];
-
-
-
-//
-// Plataform support.
-//
-
-//environment variables.
-#define PLATFORM_PATH  "/Platform"
-#define HARDWARE_PATH  "/Platform/Hardware"
-#define FIRMWARE_PATH  "/Platform/Firmware"
-#define SYSTEM_PATH    "/Platform/System"
-//#define USERS_PATH     "/Platform/Users"
-//...
-
-
-
-//node od a linked list.
-struct node_d
-{
-    void *data;
-
-    //struct window_d *window;
-    //int msg;	
-    //unsigned long long1;
-    //unsigned long long2;
-    
-    struct node_d *flink;
-    struct node_d *blink;    
-};
-
-
-//Linked list support.
-struct linkedlist_d
-{
-    struct node_d *head;
-    struct node_d *tail;
-};
-
-
-//save args support. 
-struct kernel_args_d
-{
-    unsigned long arg1;
-    unsigned long arg2;
-    unsigned long arg3;
-    unsigned long arg4;
-}; 
-struct kernel_args_d KernelArgs;
-
-
-//system classes.
-struct system_classes_d
-{
-    //unsigned long Gramado; //@todo: Include this one.
-    unsigned long Executive;
-    unsigned long Microkernel;
-    unsigned long Hal;
-};
-struct system_classes_d SystemClasses;
-
-
-//Kernel classes.
-struct kernel_classes_d
-{
-    struct system_classes_d *System;
-    //..
-};
-struct kernel_classes_d KernelClasses;
-//...
-
-
-
-/*
-//Kernel Manager.
-struct kernel_d
-{
-    //
-    // Kernel info.
-    //
-
-    char *name;
-    unsigned long address;
-
-    //Kernel information block.
-    //struct kernel_block_d *KernelBlock;
-
-    //struct process_d *process;
-
-    //
-    // Structs.
-    //
-
-    //struct bootmanager_d     *BootManagerBlock;  //Boot Manager.
-    //struct bootloader_d      *BootLoaderBlock;   //Boot Loader.
-	
-    //struct system_d          *SystemBlock;       //System.
-    //struct ProcessorBlock_d  *ProcessorBlock;    //Processor info.
-    //...
-
-    //
-    // CPUs.
-    //
-
-    //int processorCount;
-    //struct processor_d *processor;
-    
-	
-    //kernel_args_t
-    //kernel_classes_t
-
-    //...
-};
-struct kernel_d *KernelInfo; 
-*/
-//...
-
-
-
-/*
- **********************************************************
- * plataform_d:
- *     Basic machine components. Hardware and Software. */
-
-struct platform_d
-{
-    char *name;
-    
-    // UP or MP;
-    SystemType_t system_type;
-
-    struct hardware_d *Hardware;    // hal/hal.h
-    struct firmware_d *Firmware;    // hal/hal.h
-    struct system_d   *System;      // execve/sm/system.h
-
-    //kernel struct ...
-    //struct kernel_d *Kernel;
-
-
-    // #test #todo
-    // unsigned long vesa_lfb_pa;
-    
-    // void *kernel_entrypoint; 
-
-    // Entry point for application processors.
-    // 32 bit part.
-    // void *ap_entrypoint;
-
-    // ...
-};
-struct platform_d *Platform; 
-
-
-
-
-#define CURRENT_ARCH_X86      1000
-#define CURRENT_ARCH_X86_64   1001
-// ...
-
-//#define CURRENT_ARCH_ARM      2000
-//...
-
-
-
-// inicialização do kernel, independente da arquitetura.
-// See: kernel/main.c
-int kernel_main (int arch_type);
-
-//inicialização da arquitetura x86.
-int x86main (void);
-//...
-
-
-
-//Save args in the structure.
-void save_kernel_args (void);    
-
-
-// Linked list support.
-
-void* newLinkedlist (void);
-void* newNode (void);
-
-void Removing_from_the_beginning(struct linkedlist_d *list);
-void Removing_from_the_middle(struct linkedlist_d *list);
-void Removing_from_the_end(struct linkedlist_d *list);
-
-
-//
-// Count support.
-//
-
-//?? somente o protótipo. deletar.
-//unsigned long get_tick_count ();
-
-
-//
-// Delay support.
-//
-
-void sleep (unsigned long ms);
-
-
-//
-// Finalizations support.
-//
-
-void faults (unsigned long number);
-
-
-
-//
-// Error support
-// 
-
-// panic without clean
-void panic ( const char *format, ... );   //panic.c
-
-// clean and panic.
-void panic2 ( const char *format, ... );   //panic.c
-
-void abort (void);    //abort.c
-void die (void);      //system.c
-
-
-
-//
-// End.
-//
-
-
-
-
-
-
 

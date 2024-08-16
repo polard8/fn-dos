@@ -1,15 +1,11 @@
-/*
- * File: bmp.h
- *
- *    Header para rotinas de BMP.
- *
- * History:
- *    2015 - Created by Fred Nora.
- *           24bpp support. 
- *    2018 - 4bpp, 8bpp, 32bpp support.
- */
+// bmp.h
+// Header para rotinas de BMP.
+// 2015 - Created by Fred Nora.
+
+#ifndef __BMP_H
+#define __BMP_H    1
  
- 
+
 /* "MB" */ 
 #define BMP_TYPE 0x4D42        
  
@@ -19,13 +15,13 @@
 //...
   
  
-//flag que avisa que dve haver alguma mudança nas cores. 
+//flag que avisa que dve haver alguma mudanï¿½a nas cores. 
 int bmp_change_color_flag; 
  
 //salva-se aqui uma cor para substituir outra. 
 unsigned long bmp_substitute_color; 
  
-//cor selecionada para ser substituída ou ignorada. 
+//cor selecionada para ser substituï¿½da ou ignorada. 
 unsigned long bmp_selected_color;  
  
 /* ## Cancelada ! ## */
@@ -42,10 +38,10 @@ static unsigned long vga_256colors_palette[1] = { 0x00000000, };
  ******************************************************
  * bmpDirectDisplayBMP:
  *
- * Mostra na tela uma imagem bmp carregada na memória. (no LFB)
+ * Mostra na tela uma imagem bmp carregada na memï¿½ria. (no LFB)
  * 
  * IN:
- *     address = endereço base
+ *     address = endereï¿½o base
  *     x       = posicionamento 
  *     y       = posicionamento
  *
@@ -59,10 +55,10 @@ int bmpDirectDisplayBMP( char *address,
  ******************************************************
  * bmpDisplayBMP:
  *
- * Mostra na tela uma imagem bmp carregada na memória. no backbuffer()
+ * Mostra na tela uma imagem bmp carregada na memï¿½ria. no backbuffer()
  * 
  * IN:
- *     address = endereço base
+ *     address = endereï¿½o base
  *     x       = posicionamento 
  *     y       = posicionamento
  *
@@ -75,16 +71,18 @@ int bmpDisplayMousePointerBMP( char *address,
                                unsigned long x, 
 				               unsigned long y );
 							   
-							   
+		   
 //mostra no lfb
-//levando em consideração tratamento de transparência.
+//levando em consideraï¿½ï¿½o tratamento de transparï¿½ncia.
 int bmpDisplayCursorBMP( char *address, 
                          unsigned long x, 
 				         unsigned long y );
 					
-						   
+
+#endif  
+
 //
-// End.
+// End
 //
 
 

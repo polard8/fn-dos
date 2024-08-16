@@ -1,17 +1,10 @@
-/*
- * File: keyboard.h
- *     Header para driver de teclado.
- */
- 
- 
+// keyboard.h
+// Created by Fred Nora. 
  
 #ifndef ____KEYBOARD_H
-#define ____KEYBOARD_H
+#define ____KEYBOARD_H  1
 
-
-#define KEYBOARD_DRIVER_VERSION "0.1"
-
-
+#define KEYBOARD_DRIVER_VERSION  "0.1"
 
 //
 // ## keybuffer ##
@@ -28,7 +21,6 @@ int keyboard_message_head;
 int keyboard_message_tail;
 
 struct tty_d PS2keyboardTTY;
-
 
 
 // Estrutura para enviar mensagens de teclado do kernel para 

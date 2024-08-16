@@ -1,8 +1,10 @@
 // ascii.h
+// Created by Fred Nora.
 
-//
-//    **  ASCII  TABLE ** 
-// 
+#ifndef __ASCII_H
+#define __ASCII_H    1
+
+// ASCII  TABLE 
  
 #define ASCII_NUL 0    //NULL               ^@  Null/Idle
 #define ASCII_SOH 1    //START OF HEADING   ^A  Start of message
@@ -149,4 +151,5 @@
 #define ASCII_TILDE      0x7e /* Tilde (~) */
 #define ASCII_DEL        0x7f /* Delete (rubout) */
 
+#endif   
 

@@ -1,11 +1,11 @@
-/*
- * File: string.h
- *
- *     Ring 0, string operations.
- */
+// string.h
+// Ring 0, string operations.
+// Created by Fred Nora.
+
 
 #ifndef __STRING_H
 #define __STRING_H    1
+
 
 void *memset ( void *ptr, int value, int size );
 

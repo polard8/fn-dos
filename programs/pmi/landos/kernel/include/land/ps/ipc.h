@@ -1,22 +1,12 @@
-/*
- * File: ipc.h 
- *
- * Description:
- *     IPC - ( Inter-Process Comunication ). 
- *     ring 0
- *     
- * History:
- *     2015 - Created by Fred Nora.
- */
+// ipc.h 
+// IPC - ( Inter-Process Comunication ). 
+// 2015 - Created by Fred Nora.
 
-
-#ifndef  ____IPC_H
-#define ____IPC_H
-
+#ifndef ____IPC_H
+#define ____IPC_H  1
 
 // #todo
 // Use those structures.
-
 
 /*
 struct ipc_message_d

@@ -1,8 +1,8 @@
 // ethernet.h
+// Created by Fred Nora.
 
 #ifndef ____ETHERNET_H
 #define ____ETHERNET_H
-
 
 
 //See: https://en.wikipedia.org/wiki/EtherType

@@ -1,16 +1,12 @@
-
-//video.h 
+// video.h 
+// Created by Fred Nora.
 
 #ifndef ____X_VIDEO_H
-#define ____X_VIDEO_H
-
-
+#define ____X_VIDEO_H  1
 
 // See:
 // http://www.brokenthorn.com/Resources/OSDevVid2.html
 
- 
- 
 /*
     3C0-3CF  EGA/VGA
 	3C0 VGA attribute and sequencer register

@@ -1,7 +1,6 @@
-/*
- * File: tty.h 
- * Header para o gerenciado de fluxo de caractere.
- */
+// tty.h 
+// tty support
+// Created by Fred Nora.
 
 // #important
 // The TTY driver is in the charge of the job control.
@@ -64,15 +63,12 @@
 #define TTY_FLUSHPENDING     20	/* Queued buffer flush pending */
 
 
-
 // Contador de linhas usados na hora da criação de linhas.
-int ttyLineCounter;
+extern int ttyLineCounter;
 
 // Cursor.
-int ttyCurrentX;
-int ttyCurrentY;
-
-
+extern int ttyCurrentX;
+extern int ttyCurrentY;
 
 struct ttybuffer_d
 {
@@ -87,7 +83,7 @@ struct ttybuffer_d
 
     struct ttybuffer_d *next;
 };
-struct ttybuffer_d *CurrentTTYBUFFER;
+extern struct ttybuffer_d  *CurrentTTYBUFFER;
 
 
 struct tty_line_d
@@ -107,18 +103,14 @@ struct tty_line_d
 
 
 /*
- *************************************** 
  * tty_d:
  *     The tty structure need to have a pointer to
  * a buffer and a pointer to a thread. These is the where
  * we're gonna send the data.
- * 
  */
-
 // estrutura para tty
 // uma estrutura de tty deve estar associado a
 // uma janela de terminal virtual.
-
 struct tty_d
 {
 
@@ -338,10 +330,8 @@ struct tty_d
 extern int fg_console;
 
 // Virtual consoles.
-static struct tty_d CONSOLE_TTYS[CONSOLETTYS_COUNT_MAX];
+extern struct tty_d CONSOLE_TTYS[CONSOLETTYS_COUNT_MAX];
 // ==============================================================
-
-
 
 
 //=============================================================
@@ -371,8 +361,7 @@ struct vc_d
 
 // Get the tty pointer.
 //OUT: tty pointer.
-struct tty_d *file_tty (file *f);
-
+struct tty_d *file_tty(file *f);
 
 struct ttyldisc_d *ttyldisc_create (void);  
 int ttyldisc_delete ( struct ttyldisc_d *tty_ldisc );
@@ -380,10 +369,8 @@ int ttyldisc_delete ( struct ttyldisc_d *tty_ldisc );
 struct ttydrv_d *ttydrv_create (void); 
 int ttydrv_delete ( struct ttydrv_d *tty_driver );
 
-
 struct tty_d *tty_create (void); 
 int tty_delete ( struct tty_d *tty );
-
 
 /*
 int pty_write(struct tty_d *tty, const char *buf, int c);

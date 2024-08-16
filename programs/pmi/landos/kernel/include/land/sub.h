@@ -1,20 +1,14 @@
-
-    // sub.h
-    // gramado sub system support.
+// sub.h
+// gramado sub system support.
     
-
 #ifndef ____SUB_H 
-#define ____SUB_H
-
-
+#define ____SUB_H  1
 
 //
 // GRAMADO -
 //
 
 // See: userland/garden/gramado
-
-    
     
 //
 //  ILI - Interactive Logon Infrastructure.

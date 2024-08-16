@@ -1,6 +1,4 @@
-
 // events.h
-
 
 #ifndef __EVENTS_H
 #define __EVENTS_H    1
@@ -21,8 +19,10 @@
 // responders.
 // id da janela(objeto) que responte a determonado evento.
 
-int current_keyboard_responder;
-int current_mouse_responder;
+// ps2kbd.c
+extern int current_keyboard_responder;
+// ps2mouse.c
+extern int current_mouse_responder;
 // ...
 
 

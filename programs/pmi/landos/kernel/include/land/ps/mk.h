@@ -1,11 +1,8 @@
-/*
- * File: mk.h
- *
- */
+// mk.h
+// Created by Fred Nora.
 
-#ifndef  __MK_H
+#ifndef __MK_H
 #define __MK_H    1
-
 
 /*
  * Segments @todo: Include this constants.
@@ -17,7 +14,6 @@
 #define GDT_UDATA   (0x20 | 3)
 */
 
-
 //
 //  ## JOB CONTROL SUPPORT ##
 //
@@ -27,10 +23,9 @@
 #define BACKGROUND 100 
 #define FOREGROUND 200
 
-
 int microkernelStatus; 
  
- 
+
 //
 // == prototypes =================================================
 //

@@ -1,25 +1,16 @@
-/*
- * File: object.h
- *
- *    Object manager.
- *    See: ob/object.h
- * 
- * History:
- *     2016 - Created by Fred Nora.
- *     //... 
- */
-
-// #todo
-// ifndef ...
+// object.h
+// 2016 - Created by Fred Nora.
+ 
+#ifndef __OBJECT_H
+#define __OBJECT_H    1
 
 
 /*
- ***********************************************
  * struct object_d:
  *     Object controle ...
  *     Estrutura para controle de objetos.
- *     Isso deve ficar no início de cada estrutura 
- *     para controlar a utilização do objeto por parte 
+ *     Isso deve ficar no inï¿½cio de cada estrutura 
+ *     para controlar a utilizaï¿½ï¿½o do objeto por parte 
  * dos processos e threads.
  * 
  */
@@ -31,12 +22,10 @@ struct object_d
     object_type_t objectType;
     object_class_t objectClass;
 
-
     int id; 
  
     int used;  
     int magic; 
-
 
     char *path;             // '/root/user/(name)'
     char __objectname[64];    // HOSTNAME_BUFFER_SIZE
@@ -49,7 +38,7 @@ struct object_d
     int currentPID;
    
  
-    //endereços
+    //endereï¿½os
     unsigned long obj_address;
     unsigned long obj_procedure;
    
@@ -73,36 +62,32 @@ struct object_d
 	//continua...
 };
 
-
 // ??
 // Repensar isso.
-// #bugbug: Muito espaço. (#todo: deprecated this)
-struct object_d objects_km[256+1];  //objetos em kernel mode.
-struct object_d objects_um[256+1];  //objetos em user mode. 
-struct object_d objects_gui[256+1]; //objetos gráficos. 
-
+// #bugbug: Muito espaï¿½o. (#todo: deprecated this)
+extern struct object_d  objects_km[256+1];  //objetos em kernel mode.
+extern struct object_d  objects_um[256+1];  //objetos em user mode. 
+extern struct object_d  objects_gui[256+1]; //objetos grï¿½ficos. 
 
 // Se o gerenciador de recursos foi inicializado.
-int g_object_manager_status;
+extern int g_object_manager_status;
 
 //id do objeto atual
-int g_current_object;
+extern int g_current_object;
 
 //id da lista ao qual o objeto atual pertence.
 // object_km, object_um, object_gui. 
-int g_current_list;
-
+extern int g_current_list;
 
 //
 // prototypes ==========
 //
-
-
-  
+ 
 int init_object_manager (void);
 
+#endif   
 
 //
-// End.
+// End
 //
 

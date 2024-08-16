@@ -4,16 +4,11 @@
 // by and ring3 app via system call.
 // Created by Fred Nora.
 
-
-//
 // #todo
 // Organizar por ordem alfabética ou por grupo.
-//
-
 
 #ifndef ____SYS_H
-#define ____SYS_H
-
+#define ____SYS_H  1
 
 // Helper function to initialize system's component
 // after kernel initialization.
@@ -30,10 +25,7 @@ int sys_fcntl ( int fd, int cmd, unsigned long arg);
 int sys_open ( const char *pathname, int flags, mode_t mode );
 int sys_close ( int fd );
 
-
-
 int sys_sleep_if_socket_is_empty ( int fd );
-
 
 //
 // read and write

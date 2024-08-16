@@ -1,18 +1,8 @@
-/*
- * Arquivo: types.h 
- * 
- * Descrição:
- *     Define tipos de variáveis.
- *     Obs: System types. 
- */
- 
- 
+// types.h
+// Created by Fred Nora. 
 
 #ifndef ____TYPES_H
 #define ____TYPES_H    1 
-
-
-
 
 
 #define NULL ((void *)0)

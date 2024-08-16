@@ -1,9 +1,7 @@
-/*
- * File: mp.h 
- * 
- *     Multi-processor (MP) support.
- *     Symmetric multiprocessing (SMP) 
- */
+// mp.h 
+// Multi-processor (MP) support.
+// Symmetric multiprocessing (SMP) 
+// Created by Fred Nora.
 
 // See:
 // https://wiki.osdev.org/Symmetric_Multiprocessing
@@ -11,12 +9,8 @@
 // apic.h
 // ...
 
-
-
-
 #ifndef ____MP_H
-#define ____MP_H
-
+#define ____MP_H  1
 
 // See:
 // https://en.wikipedia.org/wiki/Symmetric_multiprocessing
@@ -28,8 +22,6 @@
 //#define MAX_PROCESSOR_COUNT 32
 
 unsigned long processorList[32]; 
-
-
 
 /*
 struct mp_floating_pointer_structure 

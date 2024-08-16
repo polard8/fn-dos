@@ -1,7 +1,10 @@
+// siws.h
+// Created by Fred Nora.
 
+#ifndef __SIWS_H
+#define __SIWS_H    1
 
-
-// window server
+// Display server
 int
 si_send_message_to_ws ( 
     struct window_d *window, 
@@ -9,8 +12,6 @@ si_send_message_to_ws (
     unsigned long long1, 
     unsigned long long2 );
 
-    
-    
 // enviando 4 longs par ao window server.
 // todo: a estrutura de thread precisa comportar 
 // a lista de mensagens com 4 longs.
@@ -24,6 +25,5 @@ si_send_longmessage_to_ws (
     unsigned long long3,
     unsigned long long4 );
 
-
-
+#endif   
 

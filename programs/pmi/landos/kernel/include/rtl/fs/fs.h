@@ -1,13 +1,8 @@
-/*
- * File: fs.h
- * 
- *
- * 2015 - Created by Fred Nora.
- */
-
+// fs.h
+// 2015 - Created by Fred Nora.
 
 #ifndef ____FS_H
-#define ____FS_H
+#define ____FS_H  1
 
 
 struct directory_facility_d
@@ -30,7 +25,6 @@ struct directory_facility_d directory_facility_usersDir;
 // Found in the system partition.
 // struct directory_facility_d directory_facility_???;
 // ...
-
 
 //
 // == pwd =============================

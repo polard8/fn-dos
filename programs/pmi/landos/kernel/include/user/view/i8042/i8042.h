@@ -1,10 +1,8 @@
-
-//i8042.h 
-
+// i8042.h 
+// Creatd by Fred Nora.
 
 #ifndef ____I8042_H
-#define ____I8042_H
-
+#define ____I8042_H  1
 
 //Initialising the PS/2 Controller (OSDev Wiki)
 //Step 1: Initialise USB Controllers
@@ -18,11 +16,9 @@
 //Step 9: Enable Devices
 //Step 10: Reset Devices
 
-
 // x86
 //#define KEYBOARD_VECTOR 1
 //#define MOUSE_VECTOR  12
-
 
 #define I8042_BUFFER 0x60
 #define I8042_STATUS 0x64
@@ -30,9 +26,6 @@
 #define I8042_KEYBOARD_BUFFER 0x00
 #define I8042_MOUSE_BUFFER 0x20
 #define I8042_WHICH_BUFFER 0x20
-
-
-
 
 #define I8042_DATAPORT          0x60	//Read/Write
 #define I8042_STATUSREGISTER    0x64	//Read

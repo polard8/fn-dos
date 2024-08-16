@@ -1,12 +1,13 @@
 /*
  * File: mm/mmglobal.h
- *
  * Aqui terão globais para gerenciamento de memória.
  * listas páginas e frames.
  * é o acesso global a informações gerais sobre o gerenciamento de páginas.
- *
  */
 
+
+#ifndef __MM_MMGLOBALS_H
+#define __MM_MMGLOBALS_H    1
 
 // Macros para conversão de endereços.
 #define PAGE_GET_DIR(addr)   ((unsigned)(addr) >> 22)
@@ -45,8 +46,10 @@ struct lfb_d
 };
 */
 
+#endif  
+
 
 //
-// End.
+// End
 //
 

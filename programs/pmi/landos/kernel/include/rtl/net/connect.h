@@ -1,4 +1,5 @@
-
+// connect.h
+// Created by Fred Nora.
 
 // Application services can subscribe to one or more port(s) 
 // to be notified if a UDP message is sent to that port  
@@ -9,11 +10,9 @@
 // E enviar os dados pra ele. Se ele pedir.
 
 #ifndef ____CONNECT_H
-#define ____CONNECT_H
+#define ____CONNECT_H  1
 
-
-#define CONNECTION_MAX 32
-
+#define CONNECTION_MAX  32
 
 
 // Estrutura para conectar porcessos à portas.

@@ -1,5 +1,6 @@
 // path.h
 // path support.
+// Created by Fred Nora.
 
 #ifndef __PATH_H
 #define __PATH_H    1

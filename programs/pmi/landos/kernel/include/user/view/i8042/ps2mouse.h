@@ -1,15 +1,8 @@
-/*
- * File: ps2mouse.h
- * 
- * 
- *     ? - Created by Fred Nora.
- */
-
-
+// ps2mouse.h
+// Created by Fred Nora.
 
 #ifndef ____PS2MOUSE_H
 #define ____PS2MOUSE_H    1
-
 
 // #bugbug
 // We have these same definitions on ps2mouse.c ??
@@ -30,8 +23,6 @@
 //0xEB	None	Read Data
 //0xEA	None	Set Stream Mode
 //0xE9	None	Status Request
-
-
 
 // 8042 mouse commands.
 #define MOUSE_SET_RESOLUTION           0xE8

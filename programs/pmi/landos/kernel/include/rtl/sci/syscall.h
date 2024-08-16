@@ -1,25 +1,22 @@
+// syscall.h
+// SCI - System Call Interface header.
+// Created by Fred Nora.
+
 /*
- * File: sci/syscall.h
- *
- * Descrição:
- *     SCI - System Call Interface header.
- *
  *     Header do subsistema do kernel. 
  *     Pertence ao executive.
- *
- *     São as chamadas ao sistema. 
+ *     Sï¿½o as chamadas ao sistema. 
  *     Total de 256 chamadas.
- *
- * *IMPORTANTE Usar maiusculas para que as funções usem minusculas.
- *             Se um serviço implementado se mostrar nocivo ao sistema,  
+ * IMPORTANTE Usar maiusculas para que as funï¿½ï¿½es usem minusculas.
+ *             Se um serviï¿½o implementado se mostrar nocivo ao sistema,  
  *             ele pode ser facilmente desabilitado. 
  *
- * @todo: Essas definições podem ficar no módulo service.
- *       pois é ele que atende as chamadas.
+ * @todo: Essas definiï¿½ï¿½es podem ficar no mï¿½dulo service.
+ *       pois ï¿½ ele que atende as chamadas.
  * obs:
  * e.g. malloc() is mainly implemented in user space, but uses system calls 
- * to increase the process heap size. Ou seja, somente quando acaba a área  
- * que o malloc tem em user mode é que ele chama o kernel e somente para 
+ * to increase the process heap size. Ou seja, somente quando acaba a ï¿½rea  
+ * que o malloc tem em user mode ï¿½ que ele chama o kernel e somente para 
  * almentar seu heap.
  *
  * A ordem dos 19 primeiros implica prioridade e velocidade.
@@ -27,7 +24,7 @@
  * In this file:
  * =============
  * +Constantes que enumeram as systemcalls.
- * +protótipos para as system calls, separadas por grupos:
+ * +protï¿½tipos para as system calls, separadas por grupos:
  *  executive, microkernel, hal.
  *
  * History:
@@ -36,25 +33,20 @@
  
  
 #ifndef ____SYSCALL_H
-#define ____SYSCALL_H
- 
- 
- 
+#define ____SYSCALL_H  1
+
 // 
 // system call service routine numbers. 
 //
- 
 
-// NULL.
+// NULL
 #define  SYS_NULL  0
 
-
-// Disk.
+// Disk
 #define  SYS_READ_LBA    1
 #define  SYS_WRITE_LBA   2
 #define  SYS_READ_FILE   3
 #define  SYS_WRITE_FILE  4
-
 
 // kgws - Graphics.
 #define  SYS_VSYNC                5
@@ -64,7 +56,6 @@
 #define  SYS_BUFFER_DRAWRECT      9
 #define  SYS_BUFFER_CREATEWINDOW  10 
 #define  SYS_REFRESHSCREEN        11
-
 
 // Network.
 #define  SYS_REDE_R1    12
@@ -151,15 +142,15 @@
 
 // Create Window support. 
 // *Importante:
-//  Essas funções serão usadas para suporte à criação de janelas 
-//  A função principal será a número 10.
+//  Essas funï¿½ï¿½es serï¿½o usadas para suporte ï¿½ criaï¿½ï¿½o de janelas 
+//  A funï¿½ï¿½o principal serï¿½ a nï¿½mero 10.
 
 #define	SYS_BUFFER_CREATEWINDOWx    47  // envia argumentos de controle de janela.
 #define	SYS_BUFFER_CREATEWINDOW1    48  // envia argumentos de posicionamento de janela.
-#define	SYS_BUFFER_CREATEWINDOW2    49  // envia argumentos de dimensões de janela.
+#define	SYS_BUFFER_CREATEWINDOW2    49  // envia argumentos de dimensï¿½es de janela.
 
 
-//(50~59) Window suppot, manipulação de janelas.
+//(50~59) Window suppot, manipulaï¿½ï¿½o de janelas.
 #define	SYS_BUFFER_RESIZEWINDOW    50 //resize. 
 #define	SYS_BUFFER_REDRAWWINDOW    51 //redraw.
 #define	SYS_BUFFER_REPLACEWINDOW   52 //replace.
@@ -177,7 +168,7 @@
 #define	SYS_CLOSEWINDOW             58
 
 
-//Destroy window. (Destrói a estrutura e a classe).
+//Destroy window. (Destrï¿½i a estrutura e a classe).
 #define	SYS_DESTROYWINDOW           59
 
 //Active window.
@@ -196,11 +187,11 @@
 //
 
 // 65-69
-// Suporte a input de usuátio.
+// Suporte a input de usuï¿½tio.
 
 
 // Putchar no modo terminal.
-// Serviço do kgws.
+// Serviï¿½o do kgws.
 #define	SYS_KGWS_PUTCHAR  65
 #define	SYS_PUTCHAR 65
 
@@ -211,14 +202,14 @@
 #define	SYS_67 67  //reservado
 
 
-//68-Um evento de mouse ocorreu e o driver de mouse enviou a mensagem pra cá.
+//68-Um evento de mouse ocorreu e o driver de mouse enviou a mensagem pra cï¿½.
 //cabe ao executive receber essa mensagem do driver de mouse
 //e processa-la da melhor forma..
 #define	SYS_68 68
 
-//69-Uma tecla foi digitada e driver de teclado enviou a mensagem pra cá.
+//69-Uma tecla foi digitada e driver de teclado enviou a mensagem pra cï¿½.
 //cabe ao executive receber essa mensagem do driver de teclado
-//e enviá-la para a janela com o foco de entrada.
+//e enviï¿½-la para a janela com o foco de entrada.
 #define	SYS_69 69    
 
 
@@ -242,13 +233,13 @@
 
 
 //process support.
-#define	SYS_CURRENTPROCESSINFO  80  // Informações sobre o processo atual.
+#define	SYS_CURRENTPROCESSINFO  80  // Informaï¿½ï¿½es sobre o processo atual.
 #define	SYS_GETPPID             81  // get parent process id.
 #define	SYS_SETPPID             82  // set parent process id.
 
 //wait 4 PID.
 //wait for process termination
-//a thread atual vai esperar até que um processo termine.
+//a thread atual vai esperar atï¿½ que um processo termine.
 #define	SYS_WAIT4PID 83  
 #define	SYS_WAIT4 83   
 
@@ -287,7 +278,7 @@
 
 //(103~109) Rotinas de mensagens. Channels, Sockets.
 
-//usado na comunicação entre processos.
+//usado na comunicaï¿½ï¿½o entre processos.
 #define	SYS_RECEIVEMESSAGE    103  //Pega uma mensagem no PCB de um processo.
 #define	SYS_SENDMESSAGE       104  //Envia uma mensagem para o PCB de um processo.
 
@@ -310,7 +301,7 @@
 
 
 //janela
-// 113 Envia uma mensagem PAINT para o aplicativo atualizar a área de trabalho.
+// 113 Envia uma mensagem PAINT para o aplicativo atualizar a ï¿½rea de trabalho.
 #define	SYS_113 113  
 
 // Envia uma mensagem para a thread atual.	 
@@ -330,7 +321,7 @@
 #define	SYS_117 117
 
 //CreateWindow:
-//Passando argumentos via memória. 
+//Passando argumentos via memï¿½ria. 
 #define	SYS_118 118  
 
 //119 - select color scheme
@@ -346,7 +337,7 @@
 #define	SYS_124 124   // defered system procedure call.
 #define	SYS_125 125   // system procedure call.
 
-//126~129 (RESERVADO PARA COMUNICAÇÃO COM DRIVER.)
+//126~129 (RESERVADO PARA COMUNICAï¿½ï¿½O COM DRIVER.)
 
 //io port support
 #define	SYS_USERMODE_PORT_IN  126
@@ -355,21 +346,21 @@
 #define	SYS_128 128
 
 //Inicializando um driver:
-//Um driver enviou uma systemcall confirmando a inicialização de um driver.
+//Um driver enviou uma systemcall confirmando a inicializaï¿½ï¿½o de um driver.
 #define	SYS_DRIVERINITIALIZED 129  
  
-//130-139 manipulação de texto.
+//130-139 manipulaï¿½ï¿½o de texto.
 #define	SYS_DRAWTEXT             130
 #define	SYS_BUFFER_DRAWCHAR_WWF  131
 
 
-// 132-133 manipulação do retângulo onde fica o texto.
-// Será usado na rolagem do texto em modo gráfico; scroll
-// inclusive o scroll de um terângulo pode ficar em kernel mode.
+// 132-133 manipulaï¿½ï¿½o do retï¿½ngulo onde fica o texto.
+// Serï¿½ usado na rolagem do texto em modo grï¿½fico; scroll
+// inclusive o scroll de um terï¿½ngulo pode ficar em kernel mode.
 #define	SYS_132 132
 #define	SYS_133 133
 
-//134 pegar informações sobre a área de cliente de uma janela;
+//134 pegar informaï¿½ï¿½es sobre a ï¿½rea de cliente de uma janela;
 #define	SYS_134 134  
 
 //135 coloca caracteres na estrutura de terminal, para aplciativos pegarem
@@ -444,8 +435,8 @@
 #define	SYS_SETCURRENTVOLUMEID 172  // configura o id do volume atual.
 
 
-// Listar os arquivos do diretório. 
-// Dados ids de disco, volume e diretório.
+// Listar os arquivos do diretï¿½rio. 
+// Dados ids de disco, volume e diretï¿½rio.
 #define	SYS_LISTFILES     173  
 #define	SYS_SEARCHFILE    174  // Procurar arquivo. 
 
@@ -455,12 +446,12 @@
 #define	SYS_176 176  //#usado para atualiza pwd
 
 
-//listando arquivos em um diretório dado o nome.
+//listando arquivos em um diretï¿½rio dado o nome.
 #define  SYS_177 177  
 
 
 // Pegando o tamanho de um arquivo.
-// bufbug: isso está gastando memória carregando o diretório raiz.
+// bufbug: isso estï¿½ gastando memï¿½ria carregando o diretï¿½rio raiz.
 #define  SYS_178 178
 
 
@@ -470,10 +461,10 @@
 
 
 // Memory support.
-// Precisa de privilágios.
+// Precisa de privilï¿½gios.
 #define  SYS_CREATEPAGEDIRECTORY    180  // cria um pagedir.
 #define  SYS_CREATEPAGETABLE        181  // cria uma pagetable.
-#define  SYS_SHOWMEMORYSTRUCTS      182  // mostra estruturas de gerencia de memória.
+#define  SYS_SHOWMEMORYSTRUCTS      182  // mostra estruturas de gerencia de memï¿½ria.
 #define  SYS_SETCR3                 183  // configura o cr3 do processo atual.
 #define  SYS_GETPROCESSHEAPPOINTER  184  // pega o heap pointer de um processo.
 #define  SYS_SETKERNELHEAP          185  // configura o heap do kernel.
@@ -485,15 +476,15 @@
 
 // memory support.
 // get page dir value.
-// #debug: provevelmente pega o endereço do diretório de páginas
+// #debug: provevelmente pega o endereï¿½o do diretï¿½rio de pï¿½ginas
 // de um processo.
-// Precisa de privilégios. 
+// Precisa de privilï¿½gios. 
 #define  SYS_GETPAGEDIRVALUE 190  
 
 
-// Aloca memória virtual para um processo.
-// Deve-se alocar memória dentro do heap do processo.
-#define  SYS_ALLOCATEVIRTUALMEMORY 191  //ALOCA MEMÓRIA VIRTUAL PARA UM PROCESSO.
+// Aloca memï¿½ria virtual para um processo.
+// Deve-se alocar memï¿½ria dentro do heap do processo.
+#define  SYS_ALLOCATEVIRTUALMEMORY 191  //ALOCA MEMï¿½RIA VIRTUAL PARA UM PROCESSO.
 #define  SYS_192 192
 
 
@@ -506,7 +497,7 @@
 
 
 // Reservados para scroll de janelas.
-#define  SYS_197 197  //scroll de área de cliente de uma janela;
+#define  SYS_197 197  //scroll de ï¿½rea de cliente de uma janela;
 #define  SYS_198 198
 
 
@@ -538,8 +529,8 @@
 
 
 // #bugbug: 
-// Isso provavelmente são rotinas de console virtual
-// e não de pseudo terminal
+// Isso provavelmente sï¿½o rotinas de console virtual
+// e nï¿½o de pseudo terminal
 // Terminal emulator support.
 #define  SYS_CREATETERMINAL          210
 #define  SYS_GETCURRENTTERMINAL      211
@@ -658,10 +649,10 @@
 
 
 //
-// fluxo padrão.
+// fluxo padrï¿½o.
 //
 
-// 700 - atualiza o fluxo padrão do processo atual
+// 700 - atualiza o fluxo padrï¿½o do processo atual
 //  
 
 
@@ -688,15 +679,15 @@ systemcall_t *CurrentSystemCall;
 //@todo system call table.
 //unsigned long sys_call_table[] = {
 //    ...
-	//endereços dos serviços.
+	//endereï¿½os dos serviï¿½os.
 //	...
 //};	
 
 
 
 //#importante
-//wrapper para todos os diálogos de serviços presentes em sci/gde
-//É a int 0x80.
+//wrapper para todos os diï¿½logos de serviï¿½os presentes em sci/gde
+//ï¿½ a int 0x80.
 
 
 
@@ -742,9 +733,6 @@ void *sci2 (
 
 #endif    
 
-
 //
-// End.
+// End
 //
-
-

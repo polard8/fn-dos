@@ -1,41 +1,32 @@
-/*
- * File: halmm.h
- * 
- * 
- * Descrição:
- *    Header para o driver do placa de memória.
- *    Aqui devem ficar informações sobre o hardware 
- *    do cartão de memória, como modelo, velocidade, etc... 
- *
+// halmm.h
+// 2015 - Created by Fred Nora.
+// Created by Fred Nora.
+
+/* 
+ *    Header para o driver do placa de memï¿½ria.
+ *    Aqui devem ficar informaï¿½ï¿½es sobre o hardware 
+ *    do cartï¿½o de memï¿½ria, como modelo, velocidade, etc... 
  *    Obs: 
- *    As informções sobre o gerenciamento de memória 
- *    devem ir para um módulo de gerenciamento de memoria 
+ *    As informï¿½ï¿½es sobre o gerenciamento de memï¿½ria 
+ *    devem ir para um mï¿½dulo de gerenciamento de memoria 
  *    dentro do executive, chamado mm.h
- *
- * 2015 - Created by Fred Nora.
+
  */
 
-
 #ifndef ____MEMORY_H
-#define ____MEMORY_H
+#define ____MEMORY_H  1
  
- 
-
 /*
  * memory_d:
  *     Memory card info structure.
- *     Informações sobre o hardware do cartão de memória.
- *
+ *     Informaï¿½ï¿½es sobre o hardware do cartï¿½o de memï¿½ria.
  */ 
-
 struct memory_d 
 {
-
     object_type_t  objectType;
     object_class_t objectClass;
 
 	//callback ;d
-
 
     int type;             //ddr2, ddr3 ...
     unsigned long size;   //

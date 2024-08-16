@@ -1,18 +1,9 @@
-/*
- * File: stddef.h 
- *
- * Descrição:
- *     Definições padrão da linguagem C, versão C99.
- */
-
-
+// stddef.h 
+// Created by Fred Nora.
 
 #ifndef ____STDDEF_H
 #define ____STDDEF_H    1
 
- 
- 
- 
 enum {
 	false  = 0,
 	true   = 1
@@ -31,12 +22,11 @@ Variables:
     typedef size_t
 */
 
-
 /*
  * NULL HANDLE. 
  *
- * Observação: 
- *     Essa definição também existe em types.h.
+ * Observaï¿½ï¿½o: 
+ *     Essa definiï¿½ï¿½o tambï¿½m existe em types.h.
  */ 
 #define NULL ((void *)0)
 
@@ -56,14 +46,14 @@ typedef int ptrdiff_t;
  * Set has a code value equal to its value when used as 
  * the lone character in an integer character constant.
  */ 
-typedef int wchar_t;
+typedef int  wchar_t;
 
 
 /* 
  * which is the unsigned integer type of the result of the sizeof operator;   
  */
 //typedef unsigned int size_t;
-typedef int size_t;
+typedef int  size_t;
 
 
 /*
@@ -71,15 +61,10 @@ typedef int size_t;
  */
 
 //linux like. 
-#define offsetof(TYPE, MEMBER) ((size_t) &((TYPE *)0)->MEMBER)
- 
+#define offsetof(TYPE, MEMBER)  ((size_t) &((TYPE *)0)->MEMBER)
+
 //#define offsetof(st, m) ((size_t)&(((st *)0)->m))
 //#define offset_of(tp, member) (((char*) &((tp*)0)->member) - (char*)0)
 
-
 #endif    //____STDDEF_H
-
-
-
-
 

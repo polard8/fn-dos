@@ -12,33 +12,39 @@
 #include <kernel.h>
 
 
-//
-// Definições internas.
-//
+unsigned long pci_handler_address=0;
 
- 
+struct pci_device_d *pci_device;
+struct pci_device_d *current_pci_device;    //Current.
+struct pci_d  *Pci;
+unsigned long pcideviceList[32];    //@todo tamanho provisorio. 
+pci_driver_t *PciDrivers;    //@todo: Lista.Igual menuitens.
+
+//
+// Definiï¿½ï¿½es internas.
+//
 
 //
 // BAR Support.
 //
 
 //Primeiro bit do BAR. (bit 0)
-//Indica se o BAR é endereço de memória ou número de porta.
+//Indica se o BAR ï¿½ endereï¿½o de memï¿½ria ou nï¿½mero de porta.
 #define PCI_BAR_MEMORY_SPACE_INDICATOR 0
 #define PCI_BAR_IO_INDICATOR 1
 
 //Bits (1 e 2) do BAR.
-//Indica se o endereço de memória é de 32bit ou 64bit.
+//Indica se o endereï¿½o de memï¿½ria ï¿½ de 32bit ou 64bit.
 #define PCI_BAR_32BIT_INDICATOR 0   //00b
-//#define PCI_BAR_X_INDICATOR    1  //01b (Usado na revisão 3.0)
+//#define PCI_BAR_X_INDICATOR    1  //01b (Usado na revisï¿½o 3.0)
 #define PCI_BAR_64BIT_INDICATOR 2   //10b
 //#define PCI_BAR_XXX_INDICATOR 3   //11b (Indefinido)
 
 
 
 // #Obs: 
-// ?? O dispositivo cria BAR para i/o e para memória ?? 
-// ?? O driver tem a opção de escolher o método. ??
+// ?? O dispositivo cria BAR para i/o e para memï¿½ria ?? 
+// ?? O driver tem a opï¿½ï¿½o de escolher o mï¿½todo. ??
 
 
 // (BDF) or (B/D/F) bus/device/function:
@@ -81,7 +87,7 @@
 
 
 //
-// Variáveis internas.
+// Variï¿½veis internas.
 //
 
 int pci_supported;
@@ -365,13 +371,13 @@ supports both channels switched to ISA compatibility mode, supports bus masterin
 
 //
 // #bugbug Cuidado. Incluindo isso, o kernel base aparentemente 
-// fica grande e não funciona. Alguma coisa de área de dados.
+// fica grande e nï¿½o funciona. Alguma coisa de ï¿½rea de dados.
 //
 
 
 
 //1 mass storage
-//Obs: Parece que outra forma de lista é mais apropriado.
+//Obs: Parece que outra forma de lista ï¿½ mais apropriado.
 
 static const char *mass_storage_subclass_strings[] = {
 
@@ -549,9 +555,9 @@ void DeviceInterface_SharedPCIDevice3(void)
 
 
 // Obs: 
-// Os dispositivos podem compartilhar a mesma interrupção no PIC/APIC. 
-// Então para uma IRQ destinada à PCI terá que identificar 
-// qual dispositivo gerou a interrupção, 
+// Os dispositivos podem compartilhar a mesma interrupï¿½ï¿½o no PIC/APIC. 
+// Entï¿½o para uma IRQ destinada ï¿½ PCI terï¿½ que identificar 
+// qual dispositivo gerou a interrupï¿½ï¿½o, 
 // para chamar a rotina apropriada.
 
 
@@ -561,11 +567,11 @@ void DeviceInterface_SharedPCIDevice3(void)
  * 
  * PCI HANDLER
  *
- *     Todas as interrupções geradas pelos dispositivos PCI
- * usarão o mesmo isr (handler). 
- *     Caberá à rotina do handler identificar qual dispositivo 
- * sinalizou que efetuou uma interrupção. Então direcionar 
- * para a rotina de serviço aproriada.
+ *     Todas as interrupï¿½ï¿½es geradas pelos dispositivos PCI
+ * usarï¿½o o mesmo isr (handler). 
+ *     Caberï¿½ ï¿½ rotina do handler identificar qual dispositivo 
+ * sinalizou que efetuou uma interrupï¿½ï¿½o. Entï¿½o direcionar 
+ * para a rotina de serviï¿½o aproriada.
  */
 
 __VOID_IRQ 
@@ -580,11 +586,11 @@ irq_SHARED0(void)
  * 
  * PCI HANDLER
  *
- *     Todas as interrupções geradas pelos dispositivos PCI
- * usarão o mesmo isr (handler). 
- *     Caberá à rotina do handler identificar qual dispositivo 
- * sinalizou que efetuou uma interrupção. Então direcionar 
- * para a rotina de serviço aproriada.
+ *     Todas as interrupï¿½ï¿½es geradas pelos dispositivos PCI
+ * usarï¿½o o mesmo isr (handler). 
+ *     Caberï¿½ ï¿½ rotina do handler identificar qual dispositivo 
+ * sinalizou que efetuou uma interrupï¿½ï¿½o. Entï¿½o direcionar 
+ * para a rotina de serviï¿½o aproriada.
  */
 
 __VOID_IRQ 
@@ -599,11 +605,11 @@ irq_SHARED1 (void)
  * 
  * PCI HANDLER
  *
- *     Todas as interrupções geradas pelos dispositivos PCI
- * usarão o mesmo isr (handler). 
- *     Caberá à rotina do handler identificar qual dispositivo 
- * sinalizou que efetuou uma interrupção. Então direcionar 
- * para a rotina de serviço aproriada.
+ *     Todas as interrupï¿½ï¿½es geradas pelos dispositivos PCI
+ * usarï¿½o o mesmo isr (handler). 
+ *     Caberï¿½ ï¿½ rotina do handler identificar qual dispositivo 
+ * sinalizou que efetuou uma interrupï¿½ï¿½o. Entï¿½o direcionar 
+ * para a rotina de serviï¿½o aproriada.
  */
 
 __VOID_IRQ 
@@ -618,11 +624,11 @@ irq_SHARED2 (void)
  * 
  * PCI HANDLER
  *
- *     Todas as interrupções geradas pelos dispositivos PCI
- * usarão o mesmo isr (handler). 
- *     Caberá à rotina do handler identificar qual dispositivo 
- * sinalizou que efetuou uma interrupção. Então direcionar 
- * para a rotina de serviço aproriada.
+ *     Todas as interrupï¿½ï¿½es geradas pelos dispositivos PCI
+ * usarï¿½o o mesmo isr (handler). 
+ *     Caberï¿½ ï¿½ rotina do handler identificar qual dispositivo 
+ * sinalizou que efetuou uma interrupï¿½ï¿½o. Entï¿½o direcionar 
+ * para a rotina de serviï¿½o aproriada.
  */
 
 __VOID_IRQ 
@@ -697,7 +703,7 @@ pciConfigReadByte (
     unsigned long lslot = (unsigned long) slot; 
     unsigned long lfunc = (unsigned long) func; 
 
-    // O endereço a ser montado e enviado para porta 0xCF8.
+    // O endereï¿½o a ser montado e enviado para porta 0xCF8.
     unsigned long address = 0;
 
     // Retorno armazenado na porta de status.
@@ -705,7 +711,7 @@ pciConfigReadByte (
 
 
     // #todo: 
-    // Filtros de tamanho máximo.
+    // Filtros de tamanho mï¿½ximo.
 
     // Create configuration address.
     address = (unsigned long) ((lbus << 16) | (lslot << 11) | (lfunc << 8) | (offset & 0xfc) | ((unsigned long)0x80000000));
@@ -718,7 +724,7 @@ pciConfigReadByte (
 
 	// getData:
 	// Read in the data port. (0x0CFC).
-	// Talves possamos usar um input do tipo char, que é assim
+	// Talves possamos usar um input do tipo char, que ï¿½ assim
 	// inline unsigned char inportb(int port)  
     // int inport8(int port) 
 
@@ -740,9 +746,9 @@ pciConfigReadByte (
  * armazenado na porta 0xCFC.
  * 
  * Argumentos:
- *    bus    = Número do BUS.           total 256.
- *    slot   = Número do slot. (device) total 32.
- *    func   = Número da função.        total 8. 
+ *    bus    = Nï¿½mero do BUS.           total 256.
+ *    slot   = Nï¿½mero do slot. (device) total 32.
+ *    func   = Nï¿½mero da funï¿½ï¿½o.        total 8. 
  *    offset = Offset.
  *
  *  Ex: 0x80000000 | bus << 16 | device << 11 | function <<  8 | offset.
@@ -750,11 +756,11 @@ pciConfigReadByte (
  *  1111,1111, | 1111,1 | 111.
  *
  * @todo: 
- *     Essa função retorna short. Criar funções equivalentes para retornar 
+ *     Essa funï¿½ï¿½o retorna short. Criar funï¿½ï¿½es equivalentes para retornar 
  * char e unsigned long.
  *
  * @todo: 
- *     Criar a função equivalente oposta, para escrever. pciConfigWriteWord(...)
+ *     Criar a funï¿½ï¿½o equivalente oposta, para escrever. pciConfigWriteWord(...)
  * para podermos configurar o BAR.
  *
  */
@@ -774,14 +780,14 @@ pciConfigReadWord (
     unsigned long lslot = (unsigned long) slot; 
     unsigned long lfunc = (unsigned long) func; 
 
-    // O endereço a ser montado e enviado para porta 0xCF8.
+    // O endereï¿½o a ser montado e enviado para porta 0xCF8.
     unsigned long address = 0;
 
     // Retorno armazenado na porta de status.
     unsigned short Ret = 0;
 
     // #todo: 
-    // Filtros de tamanho máximo.
+    // Filtros de tamanho mï¿½ximo.
 
     // Create configuration address.
     address = (unsigned long) ((lbus << 16) | (lslot << 11) | (lfunc << 8) | (offset & 0xfc) | ((unsigned long)0x80000000));
@@ -795,9 +801,9 @@ pciConfigReadWord (
 
 	// getData:
 	// Read in the data port. (0x0CFC).
-	// Apesar do inpot pegar uma longo o retornno é short.
+	// Apesar do inpot pegar uma longo o retornno ï¿½ short.
 	// @todo: Talvez possamos usar um input do tipo short.
-	// que é assim int inport16(int port)
+	// que ï¿½ assim int inport16(int port)
 
     Ret = (unsigned short) (( in32(PCI_DATA_PORT) >> ((offset & 2) * 8)) & 0xffff);
 	//Ret = (unsigned short)(  inport16(PCI_DATA_PORT) );
@@ -831,14 +837,14 @@ pciConfigReadDWord (
     unsigned long lslot = (unsigned long) slot; 
     unsigned long lfunc = (unsigned long) func; 
 
-    // O endereço a ser montado e enviado para porta 0xCF8.
+    // O endereï¿½o a ser montado e enviado para porta 0xCF8.
     unsigned long address = 0;
 
     // Retorno armazenado na porta de status.
     unsigned long Ret = 0;
   
     // #todo: 
-    // Filtros de tamanho máximo.
+    // Filtros de tamanho mï¿½ximo.
 
     // Create configuration address.
     address = (unsigned long) ((lbus << 16) | (lslot << 11) | (lfunc << 8) | (offset & 0xfc) | ((unsigned long)0x80000000));
@@ -870,7 +876,7 @@ pciConfigReadDWord (
  */
 
 // #todo: 
-// Nesse momento não há nenhume busca por fuction.
+// Nesse momento nï¿½o hï¿½ nenhume busca por fuction.
 // Vendor.
 
 unsigned short 
@@ -888,7 +894,7 @@ pciCheckVendor (unsigned char bus, unsigned char slot)
  */
 
 // #todo: 
-// Nesse momento não há nenhume busca por fuction. 
+// Nesse momento nï¿½o hï¿½ nenhume busca por fuction. 
 // Device.
 
 unsigned short 
@@ -905,7 +911,7 @@ pciCheckDevice (unsigned char bus, unsigned char slot)
  */
 
 // #todo: 
-// Nesse momento não há nenhume busca por fuction.
+// Nesse momento nï¿½o hï¿½ nenhume busca por fuction.
 
 unsigned char 
 pciGetClassCode (unsigned char bus, unsigned char slot)
@@ -922,7 +928,7 @@ pciGetClassCode (unsigned char bus, unsigned char slot)
  */
 
 	// #todo: 
-	// Nesse momento não há nenhume busca por fuction.
+	// Nesse momento nï¿½o hï¿½ nenhume busca por fuction.
 
 unsigned char 
 pciGetSubClass (unsigned char bus, unsigned char slot)
@@ -939,7 +945,7 @@ pciGetSubClass (unsigned char bus, unsigned char slot)
  */
 
 // #todo: 
-// Nesse momento não há nenhuma busca por fuction.
+// Nesse momento nï¿½o hï¿½ nenhuma busca por fuction.
 
 unsigned char 
 pciGetHeaderType (unsigned char bus, unsigned char slot)
@@ -964,18 +970,18 @@ pciGetHeaderType (unsigned char bus, unsigned char slot)
  *
  * Obs: 
  * @todo: 
- *     Talvez o retorno não pegue uma unsigned long como desejado e sim 
+ *     Talvez o retorno nï¿½o pegue uma unsigned long como desejado e sim 
  * apenas uma unsigned short ou ainda retorne um unsigned long com uma 
  * parte suja.
  *
- * Obs: O argumento 'number' é o número do BAR.
+ * Obs: O argumento 'number' ï¿½ o nï¿½mero do BAR.
  *
  * Primeiro devemos salvar o valor encontrado na BAR, o valor do BAR
- * servirá para identificarmos um endereço de memória ou número de
- * porta de i/o. Os bits do bar dirão se o endereço de memória é
+ * servirï¿½ para identificarmos um endereï¿½o de memï¿½ria ou nï¿½mero de
+ * porta de i/o. Os bits do bar dirï¿½o se o endereï¿½o de memï¿½ria ï¿½
  * de 32bit ou 64bit.
  *
- * Depois para sabermos a quantidade de memória que um dispositivo irá precisar
+ * Depois para sabermos a quantidade de memï¿½ria que um dispositivo irï¿½ precisar
  * devemos colocar tudo 1 na BAR, pegar o valor da bar e efetuar um NOT (~) each
  * incrementar em 1, 
  *
@@ -1156,7 +1162,7 @@ pciHandleDevice (
 
         D->id = (int) pciListOffset;
 
-        // Localização.
+        // Localizaï¿½ï¿½o.
         D->bus  = (unsigned char) bus;
         D->dev  = (unsigned char) dev;
         D->func = (unsigned char) fun; 
@@ -1176,7 +1182,7 @@ pciHandleDevice (
         D->classCode = (data >> 24) & 0xff;
         D->subclass  = (data >> 16) & 0xff;
 
-		//#bugbug: Isso falhou. Deletar isso e trabalhar essas funções.
+		//#bugbug: Isso falhou. Deletar isso e trabalhar essas funï¿½ï¿½es.
 		//D->classCode = (unsigned char) pciGetClassCode(bus, dev);
 		//D->subclass = (unsigned char) pciGetSubClass(bus, dev); 
 
@@ -1242,7 +1248,7 @@ pciHandleDevice (
         //
 
         // #bugbug
-        // Ver em que hora que os buffers são configurados.
+        // Ver em que hora que os buffers sï¿½o configurados.
         // precisam ser os mesmos encontrados na 
         // infraestrutura de network e usados pelos aplicativos.
 
@@ -1309,7 +1315,7 @@ pciHandleDevice (
 
          
         // serial controller.
-        // desejamos a subclasse 3 que é usb. 
+        // desejamos a subclasse 3 que ï¿½ usb. 
         if ( (D->Vendor == 0x8086)  && 
              (D->Device == 0x7000 ) && 
              (D->classCode == PCI_CLASSCODE_SERIALBUS ) )
@@ -1344,7 +1350,7 @@ pciHandleDevice (
 
 		// #todo: Limits
 		// #bugbug: limite determinado ... 
-		// precisa de variável.
+		// precisa de variï¿½vel.
 
         if ( pciListOffset < 0 || pciListOffset >= 32 )
         { 
@@ -1368,7 +1374,7 @@ pciHandleDevice (
     // buffer overflow?
     
     // #test
-    // isso não é o ponto de montagem.
+    // isso nï¿½o ï¿½ o ponto de montagem.
     
     //buffer1.
     sprintf ( 
@@ -1390,7 +1396,7 @@ pciHandleDevice (
     //
 
     //
-    // Agora registra o dispositivo pci na lista genérica
+    // Agora registra o dispositivo pci na lista genï¿½rica
     // de dispositivos.
     // #importante: ele precisa de um arquivo 'file'.
     //
@@ -1409,7 +1415,7 @@ pciHandleDevice (
         // Register
 
         // #importante
-        // Essa é a tabela de montagem de dispositivos.
+        // Essa ï¿½ a tabela de montagem de dispositivos.
         // O nome do dispositivo deve ser um pathname.
         // Mas podemos ter mais de um nome.
         // vamos criar uma string aqui usando sprint e depois duplicala.
@@ -1435,13 +1441,13 @@ pciHandleDevice (
  ***************************************
  * init_pci:
  * 
- *     Inicializa o módulo PCI em Kernel Mode, dentro do Kernel Base. 
+ *     Inicializa o mï¿½dulo PCI em Kernel Mode, dentro do Kernel Base. 
  * 
  * todo: 
- *     +Pega informações sobre PCI.
- *     +Pegar as informações e por em estrutura e registro.
+ *     +Pega informaï¿½ï¿½es sobre PCI.
+ *     +Pegar as informaï¿½ï¿½es e por em estrutura e registro.
  *
- *     Obs: Essa rotina está incompleta.
+ *     Obs: Essa rotina estï¿½ incompleta.
  */
 
 int init_pci (void){
@@ -1504,7 +1510,7 @@ int init_pci (void){
     pciListOffset = 0;
 
 
-	// Encontrar os dispositivos PCI e salvar as informações sobre eles
+	// Encontrar os dispositivos PCI e salvar as informaï¿½ï¿½es sobre eles
 	// em suas respectivas estruturas.
 	// See: pciscan.c
 

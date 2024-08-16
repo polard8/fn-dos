@@ -147,6 +147,198 @@ void *clone_kernel_page_directory (void)
 
 
 // ===================================================================
+
+unsigned long gKernelPageDirectoryAddress=0;
+
+struct system_zone_d *systemzone;
+struct window_zone_d *windowzone;
+struct mm_zones_d *zones;
+
+unsigned long systemzoneStart=0;
+unsigned long systemzoneEnd=0;
+unsigned long systemzoneSize=0;
+unsigned long windowzoneStart=0;
+unsigned long windowzoneEnd=0;    //?? Devemos levar em considera��o o calculo do tamanho da mem�ria
+unsigned long windowzoneSize=0;
+
+struct page_directory_d *pagedirectoryKernelProcess;    // KERNEL.
+struct page_directory_d *pagedirectoryIdleProcess;      // IDLE.
+struct page_directory_d *pagedirectoryCurrent;          // Current.
+struct page_directory_d *pagedirectoryShared;           // Shared. 
+//...
+
+
+unsigned long pagedirectoryList[PAGEDIRECTORY_COUNT_MAX]; 
+
+struct page_table_d *pagetableCurrent;
+
+
+unsigned long pagetableList[PAGETABLE_COUNT_MAX]; 
+
+unsigned long mmFramesSuperBlockStart=0;      //Endere�o onde come�a o FSB.
+unsigned long mmFramesSuperBlockEnd=0;        //Endere�o onde termina o FSB.
+unsigned long mmFramesSuperBlockSize=0;       //Tamanho do FSB dado em bytes.
+unsigned long mmFramesSuperBlockTotal=0;      //Total de frames.
+unsigned long mmFramesSuperBlockTotalFree=0;  //Total de frames livres. 
+unsigned long mmFramesSuperBlockTotalUsed=0;  //Total de frames e uso. 
+//Continua...
+
+unsigned long fsbFrames[FSB_FRAMES_MAX]; 
+unsigned long fsbFreeFrames[FSB_FREEFRAMES_MAX];  
+
+unsigned long mmblockCount=0;
+
+unsigned long kernel_stack_end=0;        //va
+unsigned long kernel_stack_start=0;      //va
+unsigned long kernel_stack_start_pa=0;   //pa (endere�o indicado na TSS).
+
+
+struct process_memory_info_d *pmiCurrent;
+struct physical_memory_info_d *pmiMemoryInfo;
+struct memory_info_d *miMemoryInfo;
+struct mmblock_d *current_mmblock;
+
+// see: x86mm.h
+unsigned long mmblockList[MMBLOCK_COUNT_MAX];  
+
+// see: x86mm.h
+unsigned long pageAllocList[PAGE_COUNT_MAX];
+
+//kernel space.
+struct frame_pool_d *framepoolKernelSpace;            //0x00000000  Kernel Space. In�cio do kernel space.
+
+//user space
+struct frame_pool_d *framepoolSmallSystemUserSpace;   //0x00400000  Para um sistema pequeno o kernel space tem 4MB.
+struct frame_pool_d *framepoolMediumSystemUserSpace;  // 
+struct frame_pool_d *framepoolLargeSystemUserSpace;   //0x40000000  Para um sistema grande o kernel space tem um giga. 
+//...
+
+//Cada front buffer � uma placa de v�deo.
+struct frame_pool_d *framepoolFrontBuffer1;   //In�cio do linear frame buffer 1.
+struct frame_pool_d *framepoolFrontBuffer2;   //In�cio do linear frame buffer 2.
+struct frame_pool_d *framepoolFrontBuffer3;   //In�cio do linear frame buffer 3.
+struct frame_pool_d *framepoolFrontBuffer4;   //In�cio do linear frame buffer 4.
+//...
+
+//Backbuffer
+struct frame_pool_d *framepoolBackBuffer1;   //In�cio do backbuffer.
+struct frame_pool_d *framepoolBackBuffer2;   //In�cio do backbuffer.
+struct frame_pool_d *framepoolBackBuffer3;   //In�cio do backbuffer.
+struct frame_pool_d *framepoolBackBuffer4;   //In�cio do backbuffer.
+
+struct frame_pool_d *framepoolPageableSpace;   
+struct frame_pool_d *framepoolCurrent;
+
+unsigned long gPagedPollStart=0;
+unsigned long gPagedPollEnd=0;
+
+
+int g_pageable_framepool_index_max=0;
+
+// see: x86mm.h
+unsigned long framepoolList[FRAMEPOOL_COUNT_MAX];
+
+int g_current_framepool=0;
+int g_user_space_framepool_index=0;
+
+unsigned long g_framepool_max=0;
+unsigned long g_total_physical_memory=0;
+
+unsigned long g_kernel_paged_memory=0;
+unsigned long g_kernel_nonpaged_memory=0;
+
+
+int g_mm_system_type=0;
+
+//
+// ## Physical memory ##
+//
+
+// Small systems.
+unsigned long SMALL_origin_pa=0;
+unsigned long SMALL_kernel_base_pa=0;
+unsigned long SMALL_user_pa=0;
+unsigned long SMALL_cga_pa=0;
+unsigned long SMALL_frontbuffer_pa=0;
+unsigned long SMALL_backbuffer_pa=0;
+unsigned long SMALL_pagedpool_pa=0;
+unsigned long SMALL_heappool_pa=0;
+unsigned long SMALL_extraheap1_pa=0;
+unsigned long SMALL_extraheap2_pa=0;
+unsigned long SMALL_extraheap3_pa=0;
+//...
+
+// Medium systems.
+unsigned long MEDIUM_origin_pa=0;
+unsigned long MEDIUM_kernel_base_pa=0; 
+unsigned long MEDIUM_user_pa=0;
+unsigned long MEDIUM_cga_pa=0;
+unsigned long MEDIUM_frontbuffer_pa=0; 
+unsigned long MEDIUM_backbuffer_pa=0;
+unsigned long MEDIUM_pagedpool_pa=0;
+unsigned long MEDIUM_heappool_pa=0;
+unsigned long MEDIUM_extraheap1_pa=0;
+unsigned long MEDIUM_extraheap2_pa=0;
+unsigned long MEDIUM_extraheap3_pa=0;
+
+// Large systems.
+unsigned long LARGE_origin_pa=0;
+unsigned long LARGE_kernel_base_pa=0;
+unsigned long LARGE_user_pa=0;
+unsigned long LARGE_cga_pa=0;
+unsigned long LARGE_frontbuffer_pa=0;
+unsigned long LARGE_backbuffer_pa=0;
+unsigned long LARGE_pagedpool_pa=0;
+unsigned long LARGE_heappool_pa=0;
+unsigned long LARGE_extraheap1_pa=0;
+unsigned long LARGE_extraheap2_pa=0;
+unsigned long LARGE_extraheap3_pa=0;
+
+
+unsigned long memorysizeBaseMemory=0;
+unsigned long memorysizeOtherMemory=0;
+unsigned long memorysizeExtendedMemory=0;
+unsigned long memorysizeTotal=0;
+
+unsigned long memorysizeInstalledPhysicalMemory=0;
+
+unsigned long memorysizeTotalPhysicalMemory=0;
+unsigned long memorysizeAvailablePhysicalMemory=0;
+
+unsigned long memorysizeUsed=0;
+unsigned long memorysizeFree=0;
+
+unsigned long mm_used_kernel_area=0;  // start = 0 size = 4MB
+unsigned long mm_used_user_area=0;    // start = 0x400000 size = 4MB
+unsigned long mm_used_backbuffer=0;   // start = 0x800000 size = 4MB
+unsigned long mm_used_pagedpool=0;    // start = 0xC00000 size = 4MB  
+
+//area de mem�ria onde ficar�o heaps para os processos.
+unsigned long mm_used_heappool=0;     // start = 0x01000000 size = 4MB   
+
+unsigned long mm_used_extraheap1=0;  // start = (0x01000000 + 0x400000) size = 4MB
+unsigned long mm_used_extraheap2=0;  // start = (0x01000000 + 0x800000) size = 4MB
+unsigned long mm_used_extraheap3=0;  // start = (0x01000000 + 0xC00000) size = 4MB
+
+// 0x02000000 - 32mb mark. 
+unsigned long mm_used_frame_table=0;
+
+// see: x86mm.h
+// frame table struct.
+struct frame_table_d  FT;
+
+// see: x86mm.h
+struct frame_d  FREE_FRAMES[1024];
+struct frame_d  SWAPPED_FRAMES[1024];
+
+unsigned long mm_used_lfb=0;          // start = ?? size = 4MB
+
+
+unsigned long memorysizeTotalVirtualMemory=0;
+unsigned long memorysizeAvailableVirtualMemory=0;
+
+
+// ===================================================================
 //
 // #important: DANGER !!!
 //

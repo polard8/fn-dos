@@ -1,5 +1,8 @@
+// process.h
+// Process support
+// Created by Fred Nora.
+
 /*
- * File: process.h
  *
  * #todo: Redo this comments here.
  * 

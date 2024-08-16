@@ -2,7 +2,6 @@
 # 2020 - Fred Nora.
 
 ARCH ?= x86
-#ARCH ?= x86_64
 
 # Make variables (CC, etc...)
 AS	= as

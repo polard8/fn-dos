@@ -1,33 +1,28 @@
 /*
  * File: mm\bank.h 
- *
- * Descrição:
- *     Gerente de banco de dados em memória e em disco.
+ * Descriï¿½ï¿½o:
+ *     Gerente de banco de dados em memï¿½ria e em disco.
  */
 
-  
+#ifndef __MM_BANK_H
+#define __MM_BANK_H    1
  
-//Número máximo de bancos no sistema. 
+//Nï¿½mero mï¿½ximo de bancos no sistema. 
 #define BANKS_COUNT_MAX 8
- 
- 
  
 //contando a quantidade de bancos no sistema. 
 //A quantidade de bancos depende do tamanho do sistema.
-//A quantidade mínima de bancos é 1.
-//Se tivermos apenas um banco, a user session deverá ficar dentro desse banco.
-//se tivermos 2 bancos a user session ficará no último banco.
-//Se tivermos até oito banco de memória a user session ficará no último banco.
+//A quantidade mï¿½nima de bancos ï¿½ 1.
+//Se tivermos apenas um banco, a user session deverï¿½ ficar dentro desse banco.
+//se tivermos 2 bancos a user session ficarï¿½ no ï¿½ltimo banco.
+//Se tivermos atï¿½ oito banco de memï¿½ria a user session ficarï¿½ no ï¿½ltimo banco.
 int banksCount;
 
 
-//*Importante: A user session ficará no último banco.
-//caso o sistema tenha apenas um banco, então a user session ficará no fim do banco.
+//*Importante: A user session ficarï¿½ no ï¿½ltimo banco.
+//caso o sistema tenha apenas um banco, entï¿½o a user session ficarï¿½ no fim do banco.
 int lastBank;
 
-       
- 
- 
 typedef enum {
     banktypeLDB,    // LDB - Local Data Base.   (private)
     banktypeGDB,    // GDB - Global Data Base.  (shareable)
@@ -49,12 +44,12 @@ struct bank_d
 	bank_type_t type;
 	//...
 
-	struct user_info_d *user;    // Que usuário é dono desse banco.
+	struct user_info_d *user;    // Que usuï¿½rio ï¿½ dono desse banco.
 
 	//
 	// * Listas de contas nesse banco.
 	// Obs: 
-	//     As listas serão colocadas em um banco de acordo com o tipo 
+	//     As listas serï¿½o colocadas em um banco de acordo com o tipo 
 	// de banco e tipo de conta.
 	//
 	struct aspace_d *aspaceListHead;
@@ -68,10 +63,12 @@ struct bank_d
 
     //...	
 	
-	//Navegação.
+	//Navegaï¿½ï¿½o.
 	struct bank_d *Next;  
 };
 bank_t *Bank;
 //bank_t *KernelBank;
 //...
+
+#endif   
 

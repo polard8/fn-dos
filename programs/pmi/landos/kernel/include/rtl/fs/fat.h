@@ -1,13 +1,8 @@
-/*
- * File: fat.h 
- * 
- *     2015 - Created by Fred Nora.
- */
-
+// fat.h 
+// 2015 - Created by Fred Nora.
 
 #ifndef  __FAT_H
 #define  __FAT_H    1
-
 
 // definições, variáveios, estruturas e protótipos
 // específicos para o sistema de arquivos fat16.
