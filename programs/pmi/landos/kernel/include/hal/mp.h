@@ -20,8 +20,8 @@
 // See: hal/cpu.h
 
 //#define MAX_PROCESSOR_COUNT 32
+//unsigned long processorList[32]; 
 
-unsigned long processorList[32]; 
 
 /*
 struct mp_floating_pointer_structure 

@@ -41,6 +41,10 @@ struct thread_d *rootConductor;
 int conductorIndex=0;
 
 
+unsigned long threadList[THREAD_COUNT_MAX];
+
+
+
 /*
  * exit_thread:
  *     Exit a thread.

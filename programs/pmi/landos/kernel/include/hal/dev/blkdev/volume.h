@@ -1,10 +1,10 @@
 /*
  * File: storage/volume.h
  *
- * Descrição:
+ * Descriï¿½ï¿½o:
  *     Gerenciador de volumes.
  *     Header para o Volume Manager.
- *     Gerência de volumes.
+ *     Gerï¿½ncia de volumes.
  *
  * History:
  *     2015 - Created by Fred Nora.
@@ -54,48 +54,42 @@
 
 // ==================================================================
 
-
-
-char *current_volume_string;
+extern char *current_volume_string;
 
 // volume atual ??
 // Tipo de sistema de arquivos, fat16, ext2 ...
-int g_currentvolume_filesystem_type;   //use this one.
-
+extern int g_currentvolume_filesystem_type;   //use this one.
 
 // volume atual do tipo fat???
-// Se é fat32, 16, 12.
-int g_currentvolume_fatbits;
-
+// Se ï¿½ fat32, 16, 12.
+extern int g_currentvolume_fatbits;
 
 
 /*
- *****************************************************
  * volume_type_t:
  *     Enumerando os tipos de volume.
  */
 
 typedef enum {
 
-
     VOLUME_TYPE_NULL, 
 
-    // Partição em disco físico.
+    // Partiï¿½ï¿½o em disco fï¿½sico.
     VOLUME_TYPE_DISK_PARTITION,  
 
-    // Partição em disco virtual.
+    // Partiï¿½ï¿½o em disco virtual.
     VOLUME_TYPE_VIRTUAL_DISK_PARTITION,  
 
     // Arquivo.
-    // Um arquivo qualquer. Sem formatação.
+    // Um arquivo qualquer. Sem formataï¿½ï¿½o.
     VOLUME_TYPE_RAW,           
 
     // Buffer.
-    // Um arquivo qualquer. Sem formatação.
+    // Um arquivo qualquer. Sem formataï¿½ï¿½o.
     // Usado por banco de dados.
     VOLUME_TYPE_BUFFER,
 
-    // Partição de swap.
+    // Partiï¿½ï¿½o de swap.
     VOLUME_TYPE_SWAP
 
     //...
@@ -105,13 +99,10 @@ typedef enum {
 
 // #todo
 typedef enum {
-
     VOLUME_CLASS_NULL,
     VOLUME_CLASS_2,
     VOLUME_CLASS_3
-
 }volume_class_t;
-
 
 
 /*
@@ -121,19 +112,16 @@ typedef enum {
 
 struct vbr_d
 {
-	//copiar mbr, é parecido;
+	//copiar mbr, ï¿½ parecido;
 }; 
-struct vbr_d *vbr; 
+extern struct vbr_d *vbr; 
  
-
-
 
 /*
  * volume_d:
- *     Estrutura para acesso rápido a volumes.
+ *     Estrutura para acesso rï¿½pido a volumes.
  *     Deve ser simples e com poucos elementos.
  */
-
 struct volume_d
 {
     object_type_t  objectType;
@@ -147,7 +135,6 @@ struct volume_d
 
     int id;
     
-
     //label
     char *name;
 
@@ -155,21 +142,17 @@ struct volume_d
     char *cmd;
 
     //string usada no path para identificar o disco.
-    //isso não existe.
+    //isso nï¿½o existe.
     char path_string[32];  
 
-    
     // Only one thread can call read and write routine at time.
     int blocked;
     struct thread_d *waiting;  //this thread is waiting.
 
     // This is the process that call the read/write operation on this volume.
-    // Qual processo está usando.
+    // Qual processo estï¿½ usando.
     pid_t pid;
     gid_t gid;
-
-
-
 
     // areas.
     // maybe we can find these in the superblock.
@@ -199,17 +182,17 @@ struct volume_d
 
 
     //#todo
-    // se está funcionando ... se está inicializado ...
+    // se estï¿½ funcionando ... se estï¿½ inicializado ...
     //int status;
     
     //#todo
-    // que tipo de operação esta sendo realizada. ou nenhuma.
-    // se ele está ocupoado o escretor terá que esperar.
+    // que tipo de operaï¿½ï¿½o esta sendo realizada. ou nenhuma.
+    // se ele estï¿½ ocupoado o escretor terï¿½ que esperar.
     //int state;
 
 
-    // Se é um volume virtual e precisa ser salvo
-    // pois houve uma modificação.
+    // Se ï¿½ um volume virtual e precisa ser salvo
+    // pois houve uma modificaï¿½ï¿½o.
     int need_to_save;
 
     // #todo
@@ -229,19 +212,17 @@ struct volume_d
 };
 
 // #importante:
-// Esses são os três volumes básicos do sistema 
-// mesmo que o disco só tenha um volume, essas 
-// estruturas vão existir.
+// Esses sï¿½o os trï¿½s volumes bï¿½sicos do sistema 
+// mesmo que o disco sï¿½ tenha um volume, essas 
+// estruturas vï¿½o existir.
 
-struct volume_d  *volume_vfs;             // volume 0
-struct volume_d  *volume_bootpartition;   // volume 1
-struct volume_d  *volume_systempartition; // volume 2
+extern struct volume_d  *volume_vfs;             // volume 0
+extern struct volume_d  *volume_bootpartition;   // volume 1
+extern struct volume_d  *volume_systempartition; // volume 2
 // ...
 
 // Volume list
-
-unsigned long volumeList[VOLUME_COUNT_MAX];
-
+extern unsigned long volumeList[VOLUME_COUNT_MAX];
 
 
 //

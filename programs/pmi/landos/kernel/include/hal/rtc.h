@@ -21,10 +21,6 @@
 #define RTC_ADDRESS_PORT 0x70 
 #define RTC_DATA_PORT    0x71
 
-unsigned short rtcGetBaseMemory (void);
-
-
-
 
 //Time
 #define  RTC_SEC    0x00  //*RTC seconds. 
@@ -63,7 +59,7 @@ unsigned short rtcGetBaseMemory (void);
 // Globals.
 //
 
-static volatile unsigned long g_ticks;
+extern unsigned long g_ticks;
 
  
 //
@@ -102,23 +98,22 @@ struct rtc_d
 	//...
 };
 
-struct rtc_d *Rtc;
-struct rtc_d *rtc;	
-
-//rtc_t *Rtc;
-//rtc_t *rtc;
+extern struct rtc_d *Rtc;
+extern struct rtc_d *rtc;	
 
 
-//
-// IRQ8.
-//
-
-void DeviceInterface_RTC(void);
-
+// ============================================
 
 //
 // Prototypes.
 //
+
+
+// IRQ8.
+void DeviceInterface_RTC(void);
+
+unsigned short rtcGetBaseMemory (void);
+
 
 int init_clock (void);
 

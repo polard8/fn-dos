@@ -10,35 +10,24 @@
 // Window manager into the kernel base.
  
 // #obs:
-// Aplicativo poderão se conectar com o servidor de recusros
-// gráficos, principalmente a GUI, que será chamada de 
+// Aplicativo poderï¿½o se conectar com o servidor de recusros
+// grï¿½ficos, principalmente a GUI, que serï¿½ chamada de 
 // Gramado Window Manager.
-// Outros window managers poderão ser criados, e eles precisarão 
+// Outros window managers poderï¿½o ser criados, e eles precisarï¿½o 
 // ser registrados e abrirem o servidor para usarem seus recursos.
-// do mesmo modo o shell atual poderá se registrar,
-// o processo de logon poderá se registrar em um servidor de logon.
+// do mesmo modo o shell atual poderï¿½ se registrar,
+// o processo de logon poderï¿½ se registrar em um servidor de logon.
 
 
 #include <kernel.h>
 
 
-
-// unsigned char  gws_bame[] = "GWS - Gramado Window Server";
-// unsigned char  GramadoName[] = "GRAMADO LAYER";
-
-//Status do gwm.
-//Qual é o id do processo que é o atual window manager.
-//o oficial é o Gramado Window Manager, hoje 
-//chamado de shell.bin
-//int gws_status;
-//int gws_wm_PID;
-//int gws_wm_status;
+struct powertrio_wm_d  PowerTrio;
 
 
-int kgwm_status;
-int kgwm_wm_PID;
-int kgwm_wm_status;
-
+int kgwm_status=0;
+int kgwm_wm_PID=0;
+int kgwm_wm_status=0;
 
 
 //
@@ -61,7 +50,7 @@ void gui_create_grid (void);
 // =======================================
 
 // #bugbug
-// A função diz que estamos tratando do ws, mas a flag afeta o wm.
+// A funï¿½ï¿½o diz que estamos tratando do ws, mas a flag afeta o wm.
 int gwsOpen (void)
 {
     kgwm_status = TRUE;
@@ -69,7 +58,7 @@ int gwsOpen (void)
 }
 
 // #bugbug
-// A função diz que estamos tratando do ws, mas a flag afeta o wm.
+// A funï¿½ï¿½o diz que estamos tratando do ws, mas a flag afeta o wm.
 int gwsClose (void)
 {
     kgwm_status = FALSE;
@@ -96,14 +85,14 @@ int kgwmRegisterWindowManager ( int pid )
     // #bugbug
     // We need to fix everything here.
 
-    // Se o kgwm está em uso?
-    // Então não podemos realiza essa operação.
+    // Se o kgwm estï¿½ em uso?
+    // Entï¿½o nï¿½o podemos realiza essa operaï¿½ï¿½o.
     if ( kgwm_status != TRUE ){
         Status = FALSE;
         goto fail;
 
-    // Se o kgwm não está em uso então podemos
-    // selecionar um processo que será usado como wm ?
+    // Se o kgwm nï¿½o estï¿½ em uso entï¿½o podemos
+    // selecionar um processo que serï¿½ usado como wm ?
     }else{
         // kgwm_status = FALSE;
         kgwm_wm_PID = (int) pid;
@@ -119,24 +108,24 @@ fail:
 
 /*
  * SetGuiParameters:
- *     Configura a inicialização das janelas gerenciadas pelo kernel.
+ *     Configura a inicializaï¿½ï¿½o das janelas gerenciadas pelo kernel.
  *     @todo: Limite de janelas (+- 10)
  *
  */
  
 void 
 SetGuiParameters(
-    int refresh,        //Flag. Colocar ou não o backbuffer na tela.
+    int refresh,        //Flag. Colocar ou nï¿½o o backbuffer na tela.
     int screen,         //Tela do computador.
     int background,     //Background da area de trabalho. 
-    int logo,           //Logo, Janela para imagem da área de trabalho.
-    int taskbar,        //Barra de tarefas.(Ícones para programas).
+    int logo,           //Logo, Janela para imagem da ï¿½rea de trabalho.
+    int taskbar,        //Barra de tarefas.(ï¿½cones para programas).
     int main,           //Janela principal.(Desktop, ou Kernel Setup Utility). 
-    int menu,           //Control menu da Área de trabalho.
+    int menu,           //Control menu da ï¿½rea de trabalho.
     int infobox,        //Janelinha no canto, para alerta sobre sobre eventos ocorridos no sistema.
     int messagebox,     //O message box do kernel.(Cada app cria seu messagebox). 
     int debug,          //Janela do debug do kernel.(sonda por problemas).
-    int navigationbar,  //Janela de navegação(Semelhante a navigation bar dos dispositivos mobile). 
+    int navigationbar,  //Janela de navegaï¿½ï¿½o(Semelhante a navigation bar dos dispositivos mobile). 
     int grid )          //Grid da janela principal.
 { 
 
@@ -179,7 +168,7 @@ SetGuiParameters(
  *****************************************
  * gui_create_screen:
  *     Cria a tela. (Screen)
- *     Atribuindo as dimensões.
+ *     Atribuindo as dimensï¿½es.
  *     ...
  * #todo: 
  * Cria buffer dedicado.
@@ -197,7 +186,7 @@ void gui_create_screen (void){
 
 
 	// #important: 
-	// Não tem Parent Window!
+	// Nï¿½o tem Parent Window!
 
     if ( (void *) gui == NULL ){
         debug_print ("gui_create_screen: [FAIL] gui\n");
@@ -219,9 +208,9 @@ void gui_create_screen (void){
         RegisterWindow (hWindow);
         kgwmSetActiveWindow (hWindow); 
 
-        // Isso impede que rotinas mudem as caracteríscicas 
+        // Isso impede que rotinas mudem as caracterï¿½scicas 
         // da janela principal 
-        // sem antes destravar ou sem ter autorização para isso.
+        // sem antes destravar ou sem ter autorizaï¿½ï¿½o para isso.
 
         windowLock (hWindow); 
 
@@ -242,17 +231,17 @@ void gui_create_screen (void){
 
     // #bugbug: 
 	// #importante:
-	// Não usar set focus nessa que é a primeira janela.
+	// Nï¿½o usar set focus nessa que ï¿½ a primeira janela.
 }
 
 
 /*
  * gui_create_background:
  *     Cria o background. Pinta ele de uma cor.
- *     O background é filha da janela screen.
+ *     O background ï¿½ filha da janela screen.
  *
  * Criando um pano de fundo do mesmo tamaho da tela,
- * Penso que é nessa janela que podemos carregar uma imagem de 
+ * Penso que ï¿½ nessa janela que podemos carregar uma imagem de 
  * pano de fundo.
  *
  * #todo: 
@@ -280,7 +269,7 @@ void gui_create_background (void){
 	//Window:
 	//0x00808000 (verde)
 	//Criando um pano de fundo do mesmo tamaho da tela,
-	//Penso que é nessa janela que podemos carregar uma imagem de 
+	//Penso que ï¿½ nessa janela que podemos carregar uma imagem de 
 	//pano de fundo.
 
     hWindow = (void *) CreateWindow ( 
@@ -331,9 +320,9 @@ void gui_create_background (void){
 /*
  *********************************************************
  * gui_create_taskbar:
- *      Cria a taskbar da área de trabalho. gui->taskbar.
- *      Cria somente a janela que será uada pelo file manager.
- * e que servirá de referência para a janela gui->main
+ *      Cria a taskbar da ï¿½rea de trabalho. gui->taskbar.
+ *      Cria somente a janela que serï¿½ uada pelo file manager.
+ * e que servirï¿½ de referï¿½ncia para a janela gui->main
  */
 
 void gui_create_taskbar (void)
@@ -383,18 +372,18 @@ void gui_create_taskbar (void)
 /*
  ***********************************************
  * gui_create_mainwindow:
- *      A área de trabalho.
+ *      A ï¿½rea de trabalho.
  *
- *      *Importante: É a área disponível na tela para o aplicativo. 
- *      Onde ficam os ícones.
+ *      *Importante: ï¿½ a ï¿½rea disponï¿½vel na tela para o aplicativo. 
+ *      Onde ficam os ï¿½cones.
  *      
- *     A área de trabalho é toda a tela menos a GMB(Global Menu Bar) e 
+ *     A ï¿½rea de trabalho ï¿½ toda a tela menos a GMB(Global Menu Bar) e 
  * menos a TaskBar. 
  * #todo: 
  * Criar o buffer dedicado para a janela principal.
  *
  * #Obs: 
- * Essa janela é especial e usará o Backbuffer como buffer dedicado.
+ * Essa janela ï¿½ especial e usarï¿½ o Backbuffer como buffer dedicado.
  */
 
 void gui_create_mainwindow (void){
@@ -420,7 +409,7 @@ void gui_create_mainwindow (void){
 
 
 	//
-	// Usando a janela taskbar como referência para criar a janela main.
+	// Usando a janela taskbar como referï¿½ncia para criar a janela main.
 	//
 
 	//Top = gui->taskbar->bottom;
@@ -428,10 +417,10 @@ void gui_create_mainwindow (void){
 
 	//Window:
 	//Color? (?? Nem precisa pintar, mas precisa criar ??)
-	//Área de trabalho.
-	//Um retângulo que pode ser menor que o tamanho da tela do 
+	//ï¿½rea de trabalho.
+	//Um retï¿½ngulo que pode ser menor que o tamanho da tela do 
 	//dispositivo.
-	//É onde ficam as janelas dos aplicativos.
+	//ï¿½ onde ficam as janelas dos aplicativos.
 	//A janela principal perence ao desktop
 
     hWindow = (void *) CreateWindow ( 
@@ -474,7 +463,7 @@ void gui_create_mainwindow (void){
     }
 
 
-	//Não registrar pois main menu ja está registrada.
+	//Nï¿½o registrar pois main menu ja estï¿½ registrada.
 	//RegisterWindow(gui->desktop);
 
     kgwmSetFocus (hWindow);
@@ -495,7 +484,7 @@ void gui_create_controlmenu (void)
 
 /*
  *gui_create_infobox:
- * janelinha de informações do sistema.
+ * janelinha de informaï¿½ï¿½es do sistema.
  * avisa o usuario sobre eventos do sistema.
  *como novos dispositivos encontrados.
  * @todo: Cria buffer dedicado.
@@ -544,10 +533,10 @@ void gui_create_navigationbar (void)
  **************************
  * gui_create_grid:
  *
- *     Apenas autoriza a utilização de um grid na area de trabalho. 
- *     Havendo essa altorização, o gerenciador de arquivos poderá
- *     desenhá-lo. 
- *     cada item será um arquivo da pasta "area de trabalho".
+ *     Apenas autoriza a utilizaï¿½ï¿½o de um grid na area de trabalho. 
+ *     Havendo essa altorizaï¿½ï¿½o, o gerenciador de arquivos poderï¿½
+ *     desenhï¿½-lo. 
+ *     cada item serï¿½ um arquivo da pasta "area de trabalho".
  * 
  * #todo: 
  * Cria buffer dedicado.
@@ -565,7 +554,7 @@ void gui_create_grid (void){
 
 
 //screen
-//métrica do dispositivo.
+//mï¿½trica do dispositivo.
 
 void *guiGetScreenWindow (void){
 
@@ -686,7 +675,7 @@ void *guiGetMenuWindow (void){
 }
 
 
-//infobox (o sistema envia mensagens de informação)
+//infobox (o sistema envia mensagens de informaï¿½ï¿½o)
 
 void *guiGetInfoboxWindow (void){
 
@@ -700,7 +689,7 @@ void *guiGetInfoboxWindow (void){
 }
 
 
-//tooltip  Janelinha que aparece quando repousa o mouse sobre elemento gráfico.
+//tooltip  Janelinha que aparece quando repousa o mouse sobre elemento grï¿½fico.
 
 void *guiGetTooltipWindow (void){
 
@@ -788,7 +777,7 @@ void *guiGetNavigationbarWindow (void){
 
 
 // janela do shell do kernel base.
-// naõ é um processo.
+// naï¿½ ï¿½ um processo.
 
 void *guiGetShellWindowWindow (void)
 {
@@ -806,7 +795,7 @@ void *guiGetShellClientWindowWindow (void)
 
 
 // Reposiciona e muda o tamanho da gui->main window.
-// configura a área de trabalho.
+// configura a ï¿½rea de trabalho.
 
 void 
 guiSetUpMainWindow ( 
@@ -905,8 +894,8 @@ int kgwm_next(void)
     //===============
 
     // #todo
-    // Se não temos uma janela ativa 
-    // então temos que providenciar uma.
+    // Se nï¿½o temos uma janela ativa 
+    // entï¿½o temos que providenciar uma.
 
     if ( active_window < 0){
         panic ("kgwm_next: [FAIL] active_window\n");
@@ -935,7 +924,7 @@ int kgwm_next(void)
     
     n = (struct window_d *) wActive->next;
     
-    // Se a próxima indicada na navegação é válida. Usaremos ela.
+    // Se a prï¿½xima indicada na navegaï¿½ï¿½o ï¿½ vï¿½lida. Usaremos ela.
     if ( (void*) n != NULL )
     {
         if (n->used == TRUE && n->magic == 1234 )
@@ -945,8 +934,8 @@ int kgwm_next(void)
         }
     }
 
-    // A next é inválida,
-    // então vamos usar a lista que está no desktop.
+    // A next ï¿½ invï¿½lida,
+    // entï¿½o vamos usar a lista que estï¿½ no desktop.
 
     if ( (void *) TargetDesktop == NULL ){
         panic ("kgwm_next: TargetDesktop\n");
@@ -965,7 +954,7 @@ int kgwm_next(void)
 
 
     // Procurar a janela ativa dentro da lista.
-    // É uma list de janelas que pertencem ao desktop atual.
+    // ï¿½ uma list de janelas que pertencem ao desktop atual.
 
     int i=0;
     struct window_d *tmp;
@@ -1058,8 +1047,8 @@ __go:
 
     // Change the foreground thread.
     
-    // Temos que tomar cuidado pra não colocarmos
-    // como foreground thread, uma thread que está num estado
+    // Temos que tomar cuidado pra nï¿½o colocarmos
+    // como foreground thread, uma thread que estï¿½ num estado
     // ruim, como zumbi.
     
     t = (struct thread_d *) threadList[ n->tid ];
@@ -1077,7 +1066,7 @@ __go:
           t->state == RUNNING )
      {
          // ok
-         // A next é válida.
+         // A next ï¿½ vï¿½lida.
 
          debug_print("kgwm_next: [DONE]\n");
          
@@ -1119,8 +1108,8 @@ __go:
      } 
      
      // drop
-     // Se a condição acima não foi atendida
-     // então continuaremos com a configuação antiga.
+     // Se a condiï¿½ï¿½o acima nï¿½o foi atendida
+     // entï¿½o continuaremos com a configuaï¿½ï¿½o antiga.
      
      // panic("kgwm_next: [FAIL] thread state\n");
 }
@@ -1164,28 +1153,28 @@ int register_wm_process ( pid_t pid ){
 /*
  ****************************** 
  * kgws_mouse_scan_windows:
- *     Com essa função o window server pega uma mensagem vinda do
+ *     Com essa funï¿½ï¿½o o window server pega uma mensagem vinda do
  * driver de mouse e escaneia as janelas pra comparar com o 
  * posicionamento do ponteiro do mouse.
  * 
  * #todo
- * Por enquando o próprio handler do mouse está chamando essa rotina.
+ * Por enquando o prï¿½prio handler do mouse estï¿½ chamando essa rotina.
  */
 
 // #bugbug
-// Essa funçao perdeu seu proposito aqui no ws dentro do kernel
+// Essa funï¿½ao perdeu seu proposito aqui no ws dentro do kernel
 // Podemos copiar ela para o gwssrv.bin em ring3.
 
 
 // #bugbug
-// Algumas variáveis usadas aqui estão no driver de mouse ps2
-// Precisamos delas aqui, pois não possuem utilidade lá.
+// Algumas variï¿½veis usadas aqui estï¿½o no driver de mouse ps2
+// Precisamos delas aqui, pois nï¿½o possuem utilidade lï¿½.
 // aqui o servidor de janelas escaneia as janelas para saber 
-// se o mouse está sobre alguma ... durante a rotina
-// são solicitadas informações diretamente no driver de mouse ps2.
+// se o mouse estï¿½ sobre alguma ... durante a rotina
+// sï¿½o solicitadas informaï¿½ï¿½es diretamente no driver de mouse ps2.
 
 // #obs
-// Isso é chamado pelo mouse em ps2mouse.c
+// Isso ï¿½ chamado pelo mouse em ps2mouse.c
 
 // Estamos mandando o evento para a thread associada `a
 // janela 'a qual o mouse esta passando por cima.
@@ -1212,11 +1201,11 @@ struct PS2MouseEvent_d
     int drag_status;
     int pressed;
 
-    // Se houve ou não alguma ação envolvendo botões.
+    // Se houve ou nï¿½o alguma aï¿½ï¿½o envolvendo botï¿½es.
     int button_action;
 
-    // Salvaremos aqui o último total ticks pra pegarmos um delta, 
-    // se o delta for menor que o limite então temos um duploclick.
+    // Salvaremos aqui o ï¿½ltimo total ticks pra pegarmos um delta, 
+    // se o delta for menor que o limite entï¿½o temos um duploclick.
 
     unsigned long current_totalticks;
     unsigned long last_totalticks;
@@ -1236,25 +1225,25 @@ struct PS2MouseEvent_d PS2MouseEvent;
 int kgwm_mouse_scan_windows (void)
 {
     // #importante:
-    // Essa será a thread que receberá a mensagem.
+    // Essa serï¿½ a thread que receberï¿½ a mensagem.
 
     struct thread_d *t;
 
 	// #importante:
-	// Essa será a janela afetada por qualquer evento de mouse.
+	// Essa serï¿½ a janela afetada por qualquer evento de mouse.
 	// ID de janela.
 
     struct window_d *Window;
     int wID = -1;
 
 
-    // Chamar o driver de mouse ps2 pra pegar as informações
+    // Chamar o driver de mouse ps2 pra pegar as informaï¿½ï¿½es
     // sobre o mouse;
     
     // #todo
-    // Temos que pegar um pacote com todas as informações de uma vez.
+    // Temos que pegar um pacote com todas as informaï¿½ï¿½es de uma vez.
 
-    // Pegando as informações.
+    // Pegando as informaï¿½ï¿½es.
     PS2MouseEvent.saved_x  = ps2_mouse_get_info (1);
     PS2MouseEvent.saved_y  = ps2_mouse_get_info (2);
     PS2MouseEvent.x        = ps2_mouse_get_info (3);
@@ -1274,18 +1263,18 @@ int kgwm_mouse_scan_windows (void)
     //printf ("b=%d ",buttom_1);
 
 	// #refletindo: 
-	// ?? E no caso de apenas considerarmos que o mouse está se movendo, 
+	// ?? E no caso de apenas considerarmos que o mouse estï¿½ se movendo, 
 	// mandaremos para janela over. ???
 	
 	// #refletindo:
 	// Obs: A mensagem over pode ser enviada apenas uma vez. 
-	// será usada para 'capturar' o mouse ... 
+	// serï¿½ usada para 'capturar' o mouse ... 
 	// e depois tem a mensagem para 'descapturar'.
 	
 	
     // ## Sem escaneamento de janelas por enquanto, apenas mostre e mova o ponteiro ##
 	
-	//## então não enviaremos mensagens para a thread ###
+	//## entï¿½o nï¿½o enviaremos mensagens para a thread ###
 	
 	//
 	//  ## Scan ##
@@ -1297,17 +1286,17 @@ int kgwm_mouse_scan_windows (void)
 
 	// wID = ID da janela.
 	// Escaneamos para achar qual janela bate com os valores indicados.
-	// Ou seja. Sobre qual janela o mouse está passando.
+	// Ou seja. Sobre qual janela o mouse estï¿½ passando.
 	
 	// #BUGBUG
-	// O problema nessa técnica são as sobreposição de janelas.
-	// Quando uma janela está dentro da outr, então duas janelas
-	// estão áptas a serem selecionadas.
-	// Talvez devamos filtrar e só aceitarmos sondar procurando 
+	// O problema nessa tï¿½cnica sï¿½o as sobreposiï¿½ï¿½o de janelas.
+	// Quando uma janela estï¿½ dentro da outr, entï¿½o duas janelas
+	// estï¿½o ï¿½ptas a serem selecionadas.
+	// Talvez devamos filtrar e sï¿½ aceitarmos sondar procurando 
 	// por controles.
 
 	// #IMPORTANTE
-	// Se for válido e diferente da atual, significa que 
+	// Se for vï¿½lido e diferente da atual, significa que 
 	// estamos dentro de uma janela.
 	// -1 significa que ouve algum problema no escaneamento.
 	
@@ -1315,19 +1304,19 @@ int kgwm_mouse_scan_windows (void)
 
     
 	//#importante:
-	//Ja que não passamos em cima de um botão ou editbox,
-	//então vamos ver se estamos em cima de uma janela overlapped.
+	//Ja que nï¿½o passamos em cima de um botï¿½o ou editbox,
+	//entï¿½o vamos ver se estamos em cima de uma janela overlapped.
     //#obs: isso ficou bom ... estamos testando
     
     // #bugbug
     // Com isso o sistema trava quando tentamos mover o mouse
-    // no programa gdeshell, que é fullscreen.
+    // no programa gdeshell, que ï¿½ fullscreen.
     //Podemos tentar desabilitar o mouse quando entrarmos em fullscreen
     // no gdeshell(teste)?
     
     //#todo: 
-    //Não há porque sondar janelas se tivermos em full screen.
-    //pois somente teremos a área de cliente de uma das janelas.
+    //Nï¿½o hï¿½ porque sondar janelas se tivermos em full screen.
+    //pois somente teremos a ï¿½rea de cliente de uma das janelas.
 
     int __saved = 0;
     
@@ -1336,13 +1325,13 @@ int kgwm_mouse_scan_windows (void)
     wID = (int) windowOverLappedScan ( x, y );
     __saved = wID;
     
-    //se pegamos uma overlapped, vamos tentar pegar um botão ou editbox.
+    //se pegamos uma overlapped, vamos tentar pegar um botï¿½o ou editbox.
     if ( wID != -1 )
     {
         wID = (int) windowScan ( x, y );
     
-        //Se não pegamos um botão ou editbox.
-        // então ficaremos com a janela overlapped salva.
+        //Se nï¿½o pegamos um botï¿½o ou editbox.
+        // entï¿½o ficaremos com a janela overlapped salva.
         if ( wID == -1)
         {
             wID = __saved;
@@ -1360,7 +1349,7 @@ int kgwm_mouse_scan_windows (void)
     // Estamos sempre recebendo a janela gui->screen
 
     //================
-    // -1 = Se não temos uma janela.
+    // -1 = Se nï¿½o temos uma janela.
     // if ( wID < 0 )
     if ( wID == -1 )
     { 
@@ -1385,11 +1374,11 @@ int kgwm_mouse_scan_windows (void)
 
             }
 
-			// Não podemos mais fazer refresh.
+			// Nï¿½o podemos mais fazer refresh.
             flagRefreshMouseOver = 0;
 
 			//#importante inicializa.
-			//isso é global do sistema?
+			//isso ï¿½ global do sistema?
             mouseover_window = 0;
         }
      
@@ -1398,19 +1387,19 @@ int kgwm_mouse_scan_windows (void)
 
 
     //++
-	// Se não houve problema no escaneamento de janela ou seja, se encontramos 
-	// uma janela. Então essa janela deve estar associada à uma thread para qual 
-	// mandaremos a mensagem. Caso a thread for null ... apenas não enviamos.
+	// Se nï¿½o houve problema no escaneamento de janela ou seja, se encontramos 
+	// uma janela. Entï¿½o essa janela deve estar associada ï¿½ uma thread para qual 
+	// mandaremos a mensagem. Caso a thread for null ... apenas nï¿½o enviamos.
 	// A janela tem uma thread de controle, igual ao processo.
 	
 	// #importante
 	// Mandaremos mensagem para a thread de controle da janela
-	// ao qual o mouse está passando por cima.
-	// Isso está funcionando. Mas qual é a thread das janelas filhas?
+	// ao qual o mouse estï¿½ passando por cima.
+	// Isso estï¿½ funcionando. Mas qual ï¿½ a thread das janelas filhas?
 	// Elas herdam a thread de controle ??
 
     //============================ 
-    //Se estamos sobre uma janela válida.
+    //Se estamos sobre uma janela vï¿½lida.
     if ( wID >= 0 )  //if ( wID > -1 )
     {
 		//printf ("w ");
@@ -1422,12 +1411,12 @@ int kgwm_mouse_scan_windows (void)
 
 
 		//#importante:
-		//Nesse momento temos uma janela válida, então devemos 
-		//pegar a thread associada à essa janela, dessa forma 
+		//Nesse momento temos uma janela vï¿½lida, entï¿½o devemos 
+		//pegar a thread associada ï¿½ essa janela, dessa forma 
 		//enviaremos a mensagem para a thread do aplicativo ao qual 
 		//a janela pertence.
-		//E se a janela for um botão? será a mesma thread de controle
-		//da janela overlapped ao qual ela é filha?
+		//E se a janela for um botï¿½o? serï¿½ a mesma thread de controle
+		//da janela overlapped ao qual ela ï¿½ filha?
 
         t = (void *) Window->control;
 
@@ -1443,16 +1432,16 @@ int kgwm_mouse_scan_windows (void)
         //
  
 		// #importante
-		// Se um botão foi pressionado ou liberado, então enviaremos uma 
-		// mensagem relativa ao estado do botão, caso contrário, enviaremos 
-		// uma mensagem sobre a movimentação do mouse.
+		// Se um botï¿½o foi pressionado ou liberado, entï¿½o enviaremos uma 
+		// mensagem relativa ao estado do botï¿½o, caso contrï¿½rio, enviaremos 
+		// uma mensagem sobre a movimentaï¿½ï¿½o do mouse.
 
-		//Qual botão mudou seu estado??
+		//Qual botï¿½o mudou seu estado??
 		//Checaremos um por um.
 
 
 		//===============================================
-		// ***Se houve mudança em relação ao estado anterior.
+		// ***Se houve mudanï¿½a em relaï¿½ï¿½o ao estado anterior.
 		// Nesse momento um drag pode terminar
         if ( PS2MouseEvent.button_action == TRUE )
         {
@@ -1462,7 +1451,7 @@ int kgwm_mouse_scan_windows (void)
 			 //if( Window->type == WT_OVERLAPPED)
              //{ printf ("[Action overlapped "); refresh_screen(); }
               
-			// >> BOTÃO 1 ==================
+			// >> BOTï¿½O 1 ==================
 			//Igual ao estado anterior
             if ( PS2MouseEvent.buttom_1 == PS2MouseEvent.old_buttom_1 )
             {
@@ -1473,20 +1462,20 @@ int kgwm_mouse_scan_windows (void)
 				
 				//printf ("Dif ");
 				
-				// down - O botão 1 foi pressionado.
+				// down - O botï¿½o 1 foi pressionado.
                 if ( PS2MouseEvent.buttom_1 == 1 )
                 {
 					//printf ("Press\n");
 					 
 					//clicou
-					// se o old estava em 0 então o atual está em um.
+					// se o old estava em 0 entï¿½o o atual estï¿½ em um.
                     if ( PS2MouseEvent.old_buttom_1 == 0 )
                     {
-						// flag: um botão foi pressionado.
+						// flag: um botï¿½o foi pressionado.
 						PS2MouseEvent.pressed = 1;
 						
 						// Enviaremos a mensagem para a thread atual.
-						// houve alteração no estado do botão 1 e estamos em cima de uma janela.
+						// houve alteraï¿½ï¿½o no estado do botï¿½o 1 e estamos em cima de uma janela.
                         if ( (void *) Window != NULL )
                         {
 							//ps2mouse_change_and_show_pointer_bmp(4); //folder bmp
@@ -1500,7 +1489,7 @@ int kgwm_mouse_scan_windows (void)
                             
                             // Kernel single event.
                             // #bugbug: 
-                            // Não estamos usando esse tipo de mensagem,
+                            // Nï¿½o estamos usando esse tipo de mensagem,
                             // somente a fila.
 
 
@@ -1515,7 +1504,7 @@ int kgwm_mouse_scan_windows (void)
                             {
                                 t->ke_msg = MSG_MOUSE_DOUBLECLICKED; 
                                 t->msg_list[ t->tail_pos ] = MSG_MOUSE_DOUBLECLICKED;
-                                PS2MouseEvent.delta_totalticks=8000; // delta inválido.
+                                PS2MouseEvent.delta_totalticks=8000; // delta invï¿½lido.
                             }
 
                             t->tail_pos++;
@@ -1525,7 +1514,7 @@ int kgwm_mouse_scan_windows (void)
 							//estamos carregando o objeto
 							//PS2MouseEvent.drag_status = 1;                        
                         }
-                        //else: // houve alteração no estado do botão 1 mas não estamos em cima de uma janela.
+                        //else: // houve alteraï¿½ï¿½o no estado do botï¿½o 1 mas nï¿½o estamos em cima de uma janela.
                         
                         
 						//Atualiza o estado anterior.
@@ -1533,12 +1522,12 @@ int kgwm_mouse_scan_windows (void)
                         PS2MouseEvent.old_buttom_1 = PS2MouseEvent.buttom_1;
                     }
 
-				// up - O botão 1 foi liberado.
+				// up - O botï¿½o 1 foi liberado.
                 }else{
 					
 					//printf ("Rel\n");
 
-				    // flag: um botão foi liberado.
+				    // flag: um botï¿½o foi liberado.
 				    PS2MouseEvent.pressed = 0;
 						
 					// #importante 
@@ -1561,7 +1550,7 @@ int kgwm_mouse_scan_windows (void)
                         //t->long2 = 0;
                         //t->newmessageFlag = 1;
                     
-                        //é up, mas se estamos carregando então é drop.
+                        //ï¿½ up, mas se estamos carregando entï¿½o ï¿½ drop.
                         //if ( PS2MouseEvent.drag_status == 1 )
                         //{
                             //t->window = Window;
@@ -1570,7 +1559,7 @@ int kgwm_mouse_scan_windows (void)
                             //t->long2 = 0;
                             //t->newmessageFlag = 1;
                         //}
-						// Não estamos mais carregando um objeto.
+						// Nï¿½o estamos mais carregando um objeto.
 						PS2MouseEvent.drag_status = 0;
                     }
 
@@ -1581,7 +1570,7 @@ int kgwm_mouse_scan_windows (void)
 
        
        
-			// >> BOTÃO 2 ==================
+			// >> BOTï¿½O 2 ==================
 			// Igual ao estado anterior
             if ( PS2MouseEvent.buttom_2 == PS2MouseEvent.old_buttom_2 )
             {
@@ -1590,17 +1579,17 @@ int kgwm_mouse_scan_windows (void)
 			// Diferente do estado anterior.
             }else{
 
-				// down - O botão 2 foi pressionado.
+				// down - O botï¿½o 2 foi pressionado.
                 if ( PS2MouseEvent.buttom_2 == 1 )
                 {
 
 					//clicou
                     if ( PS2MouseEvent.old_buttom_2 == 0 )
                     {
-						// flag: um botão foi pressionado.
+						// flag: um botï¿½o foi pressionado.
 						PS2MouseEvent.pressed = 1;
 						
-						// houve alteração no estado do botão 2 e estamos em cima de uma janela.
+						// houve alteraï¿½ï¿½o no estado do botï¿½o 2 e estamos em cima de uma janela.
                         if ( (void *) Window != NULL )
                         {
 							//pegamos o total tick
@@ -1617,7 +1606,7 @@ int kgwm_mouse_scan_windows (void)
                             t->msg_list[ t->tail_pos ] = MSG_MOUSEKEYDOWN;
                             if (PS2MouseEvent.delta_totalticks < 1000){
                                 t->msg_list[ t->tail_pos ] = MSG_MOUSE_DOUBLECLICKED; 
-                                PS2MouseEvent.delta_totalticks=8000; // delta inválido.
+                                PS2MouseEvent.delta_totalticks=8000; // delta invï¿½lido.
                             }
                             t->long1_list[ t->tail_pos ] = 2;
                             t->long2_list[ t->tail_pos ] = 0;
@@ -1629,17 +1618,17 @@ int kgwm_mouse_scan_windows (void)
 							//estamos carregando o objeto
 							//PS2MouseEvent.drag_status = 1;
                         }
-                        //else: // houve alteração no estado do botão 2 mas não estamos em cima de uma janela.
+                        //else: // houve alteraï¿½ï¿½o no estado do botï¿½o 2 mas nï¿½o estamos em cima de uma janela.
 
 						// atualiza o estado anterior.
                         //old_buttom_2 = 1;
                         PS2MouseEvent.old_buttom_2 = PS2MouseEvent.buttom_2;
                     }
 
-				// up - O botão 2 foi liberado.
+				// up - O botï¿½o 2 foi liberado.
                 }else{
 
-				    // flag: um botão foi liberado.
+				    // flag: um botï¿½o foi liberado.
 				    PS2MouseEvent.pressed = 0;
 				    
                    if ( (void *) Window != NULL )
@@ -1655,7 +1644,7 @@ int kgwm_mouse_scan_windows (void)
                            t->tail_pos = 0;
 
 
-						// Não estamos mais carregando um objeto.
+						// Nï¿½o estamos mais carregando um objeto.
 						PS2MouseEvent.drag_status = 0;                        
                     }
 
@@ -1666,7 +1655,7 @@ int kgwm_mouse_scan_windows (void)
             
 
 
-			// >> BOTÃO 3 ==================
+			// >> BOTï¿½O 3 ==================
 			// Igual ao estado anterior
             if ( PS2MouseEvent.buttom_3 == PS2MouseEvent.old_buttom_3 )
             {
@@ -1675,16 +1664,16 @@ int kgwm_mouse_scan_windows (void)
 			// Diferente do estado anterior.
             }else{
 
-				// down - O botão 3 foi pressionado.
+				// down - O botï¿½o 3 foi pressionado.
                 if ( PS2MouseEvent.buttom_3 == 1 )
                 {
 					//clicou
                     if ( PS2MouseEvent.old_buttom_3 == 0 )
                     {
-						// flag: um botão foi pressionado.
+						// flag: um botï¿½o foi pressionado.
 						PS2MouseEvent.pressed = 1;
 						
-                        // houve alteração no estado do botão 3 e estamos em cima de uma janela.
+                        // houve alteraï¿½ï¿½o no estado do botï¿½o 3 e estamos em cima de uma janela.
                         if ( (void *) Window != NULL )
                         {
 							//pegamos o total tick
@@ -1701,7 +1690,7 @@ int kgwm_mouse_scan_windows (void)
                             t->msg_list[ t->tail_pos ]    = MSG_MOUSEKEYDOWN;
                             if (PS2MouseEvent.delta_totalticks < 1000){
                                 t->msg_list[ t->tail_pos ] = MSG_MOUSE_DOUBLECLICKED; 
-                                PS2MouseEvent.delta_totalticks=8000; // delta inválido.
+                                PS2MouseEvent.delta_totalticks=8000; // delta invï¿½lido.
                             }
                             t->long1_list[ t->tail_pos ] = 3;
                             t->long2_list[ t->tail_pos ] = 0;
@@ -1714,17 +1703,17 @@ int kgwm_mouse_scan_windows (void)
 							//estamos carregando o objeto
 							//PS2MouseEvent.drag_status = 1;
                         }
-                        //else: // houve alteração no estado do botão 1 mas não estamos em cima de uma janela.
+                        //else: // houve alteraï¿½ï¿½o no estado do botï¿½o 1 mas nï¿½o estamos em cima de uma janela.
 
 						// Atualiza o estado anterior.
                         //old_buttom_3 = 1;
                         PS2MouseEvent.old_buttom_3 = PS2MouseEvent.buttom_3;
                     }
 
-				// up - O botão 3 foi liberado.
+				// up - O botï¿½o 3 foi liberado.
                 }else{
 
-				    // flag: um botão foi liberado.
+				    // flag: um botï¿½o foi liberado.
 				    PS2MouseEvent.pressed = 0;
 				    
                     if ( (void *) Window != NULL )
@@ -1742,7 +1731,7 @@ int kgwm_mouse_scan_windows (void)
                         }
 
 
-						// Não estamos mais carregando um objeto.
+						// Nï¿½o estamos mais carregando um objeto.
 						PS2MouseEvent.drag_status = 0;   
                     }
 
@@ -1751,7 +1740,7 @@ int kgwm_mouse_scan_windows (void)
                 }
             }; 
 
-			// Ação concluída.
+			// Aï¿½ï¿½o concluï¿½da.
             PS2MouseEvent.button_action = FALSE;
             return 0;
         };
@@ -1759,13 +1748,13 @@ int kgwm_mouse_scan_windows (void)
 
 
         //===============================================
-        // *** Se NÃO ouve alteração no estado dos botões, então apenas 
+        // *** Se Nï¿½O ouve alteraï¿½ï¿½o no estado dos botï¿½es, entï¿½o apenas 
         // enviaremos a mensagem de movimento do mouse e sinalizamos 
-        // qual é a janela que o mouse está em cima.
-        // Não houve alteração no estado dos botões, mas o mouse
-        // pode estar se movendo com o botão pressionado.
-        //a não ser que quando pressionamos o botão ele envie várias
-        //interrupções, igual no teclado.
+        // qual ï¿½ a janela que o mouse estï¿½ em cima.
+        // Nï¿½o houve alteraï¿½ï¿½o no estado dos botï¿½es, mas o mouse
+        // pode estar se movendo com o botï¿½o pressionado.
+        //a nï¿½o ser que quando pressionamos o botï¿½o ele envie vï¿½rias
+        //interrupï¿½ï¿½es, igual no teclado.
 
         if ( PS2MouseEvent.button_action == FALSE )
         {
@@ -1773,22 +1762,22 @@ int kgwm_mouse_scan_windows (void)
 
 			// #importante
 			// Lembrando que estamos dentro de uma janela ...
-			// por isso a mensagem é over e não move.
+			// por isso a mensagem ï¿½ over e nï¿½o move.
 
 			//Obs: Se a janela for a mesma que capturou o mouse,
-			//então não precisamos reenviar a mensagem.
+			//entï¿½o nï¿½o precisamos reenviar a mensagem.
 			//Mas se o mouse estiver em cima de uma janela diferente da 
-			//que ele estava anteriormente, então precisamos enviar uma 
+			//que ele estava anteriormente, entï¿½o precisamos enviar uma 
 			//mensagem pra essa nova janela.
 
 			//#bugbug:
-			//estamos acessando a estrutura, mas precisamos antes saber se ela é válida.
+			//estamos acessando a estrutura, mas precisamos antes saber se ela ï¿½ vï¿½lida.
 
-            //estamos em cima de uma janela e não houve alteração no estado dos botões
+            //estamos em cima de uma janela e nï¿½o houve alteraï¿½ï¿½o no estado dos botï¿½es
             if ( (void *) Window != NULL )
             {
-				//estamos em cima da janela que estávamos antes.
-                //então estamos apenas se movendo
+				//estamos em cima da janela que estï¿½vamos antes.
+                //entï¿½o estamos apenas se movendo
 				if ( Window->id == mouseover_window )
 				{
 
@@ -1821,14 +1810,14 @@ int kgwm_mouse_scan_windows (void)
                     }
                 }
 
-                // Não estamos em cima da janela que estávamos antes.
-                // Então estamos em cima de outra janela.
+                // Nï¿½o estamos em cima da janela que estï¿½vamos antes.
+                // Entï¿½o estamos em cima de outra janela.
                 // OU seja, um mouse over novo.
                 // devemos enviar mensagem de mouse over somente nessa
-                //situação.
+                //situaï¿½ï¿½o.
                 if ( Window->id != mouseover_window )
                 {
-					//Temos então uma nova mouse over.
+					//Temos entï¿½o uma nova mouse over.
                     mouseover_window = Window->id;
                    
                    
@@ -1844,22 +1833,22 @@ int kgwm_mouse_scan_windows (void)
 
                    //#bugbug
                    //aqui entraria a fila de mensagens.
-                   //onde diríamos que também saímos de uma janela.
+                   //onde dirï¿½amos que tambï¿½m saï¿½mos de uma janela.
                    //MSG_MOUSEEXITED;
 
 					//#importante:
 					//flag que ativa o refresh do mouseover somente uma vez.
                     flagRefreshMouseOver = 1;
 
-					// Já que entramos em uma nova janela, vamos mostra isso.
+					// Jï¿½ que entramos em uma nova janela, vamos mostra isso.
 
-					//botão.
-					//#provisório ...
-					//Isso é um sinalizador quando mouse passa por cima.
-					//#test: Vamos tentar modificar as características do botão.
+					//botï¿½o.
+					//#provisï¿½rio ...
+					//Isso ï¿½ um sinalizador quando mouse passa por cima.
+					//#test: Vamos tentar modificar as caracterï¿½sticas do botï¿½o.
 
                     //#ok isso funciona, vamos deixar oapp fazer isso.
-                    //faremos isso somente para os botões do sistema.  
+                    //faremos isso somente para os botï¿½es do sistema.  
                     //if ( Window->isButton == 1 )
                     //{
 						//isso funciona.
@@ -1880,7 +1869,7 @@ int kgwm_mouse_scan_windows (void)
 					//};
 					
 
-				    //não botão.
+				    //nï¿½o botï¿½o.
 				    //if ( Window->isButton == 0 )
 				    //{
 				    //    bmpDisplayCursorBMP ( folderIconBuffer, Window->left, Window->top );
@@ -1896,8 +1885,8 @@ int kgwm_mouse_scan_windows (void)
                     
 
 					// Agora enviamos uma mensagem pra a nova janela que 
-					// o mouse está passando por cima.
-                    //#todo: reagir a isso lá nos apps.
+					// o mouse estï¿½ passando por cima.
+                    //#todo: reagir a isso lï¿½ nos apps.
                     
                     //t->window = Window;
                     //t->msg = MSG_MOUSEOVER;
@@ -1907,13 +1896,13 @@ int kgwm_mouse_scan_windows (void)
                     
                     //return 0;
 
-                // É mouse over window.
-                // não estamos em cima de uma janela e não houve alteração no estado dos botões
+                // ï¿½ mouse over window.
+                // nï¿½o estamos em cima de uma janela e nï¿½o houve alteraï¿½ï¿½o no estado dos botï¿½es
                 }
                 
             };
 
-			// Ação concluída.
+			// Aï¿½ï¿½o concluï¿½da.
 			// Para o caso de um valor incostante na flag.
             PS2MouseEvent.button_action = FALSE;
             return 0;
@@ -1932,7 +1921,7 @@ int kgwm_mouse_scan_windows (void)
  *********************************************
  * kgwm_mouse_dialog:
  * 
- *     O system_procedure redireciona para cá as mensagens de mouse.
+ *     O system_procedure redireciona para cï¿½ as mensagens de mouse.
  *     Lembrando que o aplicativo em ring3 chamou o system_procedure
  *  quando invocou o defered procedure. (defered/default)
  */
@@ -1982,12 +1971,12 @@ kgwm_window_control_dialog (
 
         // mouse button down
         case 30:
-			//qual botão do mouse?
+			//qual botï¿½o do mouse?
 			switch (long1)
 			{
-				//botão 1	
+				//botï¿½o 1	
 				case 1:
-				    // Se esse controle é um botão.
+				    // Se esse controle ï¿½ um botï¿½o.
 				    if ( window->isButton == 1 )
 				    {
 						button_down ( window );
@@ -2007,7 +1996,7 @@ kgwm_window_control_dialog (
 		    switch (long1)
 		    {
 				case 1:
-				    // Se esse controle é um botão.
+				    // Se esse controle ï¿½ um botï¿½o.
 				    if ( window->isButton == 1 )
 				    {
 						button_up ( window );
@@ -2019,7 +2008,7 @@ kgwm_window_control_dialog (
 			        
                     if ( window->isMinimize == 1 )
                     {
-                        window->control->ke_window = window; //afeta esse botão
+                        window->control->ke_window = window; //afeta esse botï¿½o
                         window->control->ke_msg    = MSG_HIDE;
                         window->control->ke_long1  = 0;
                         window->control->ke_long2  = 0;
@@ -2029,7 +2018,7 @@ kgwm_window_control_dialog (
                     //if ( window->isRestore == 1 ){} //#todo: Criar esse elemento na struct
                     if ( window->isMaximize == 1 )
                     {
-                        window->control->ke_window = window; //afeta esse botão
+                        window->control->ke_window = window; //afeta esse botï¿½o
                         window->control->ke_msg    = MSG_MAXIMIZE;
                         window->control->ke_long1  = 0;
                         window->control->ke_long2  = 0;
@@ -2038,7 +2027,7 @@ kgwm_window_control_dialog (
                     }
                     if ( window->isClose == 1 )
                     {
-                        window->control->ke_window = window; //afeta esse botão
+                        window->control->ke_window = window; //afeta esse botï¿½o
                         window->control->ke_msg    = MSG_CLOSE;
                         window->control->ke_long1  = 0;
                         window->control->ke_long2  = 0;
@@ -2156,14 +2145,14 @@ void __kgwm_SendMessageToInitProcess ( int message )
 // #bugbug: We don't wanna call the window server. Not now.
 
 // #important:
-// Isso garante que o usuário sempre podera alterar o foco
+// Isso garante que o usuï¿½rio sempre podera alterar o foco
 // entre as janelas do kgws usando o teclado, pois essa rotina
-// é independente da thread que está em foreground.
+// ï¿½ independente da thread que estï¿½ em foreground.
 
 // #todo
 // Talvez a gente possa usar algo semelhando quando o window
 // server estiver ativo. Mas possivelmente precisaremos 
-// usar outra rotina e não essa. Pois lidaremos com uma estrutura
+// usar outra rotina e nï¿½o essa. Pois lidaremos com uma estrutura
 // de janela diferente, que esta localizada em ring3.
 
 // From Windows:
@@ -2187,7 +2176,7 @@ __kgwm_ps2kbd_procedure (
 
     // #test
     // Testando uma rotina de pintura que usa escape sequence.
-    // Queremos que ela funcione na máquina real.
+    // Queremos que ela funcione na mï¿½quina real.
     // Vamos testar os ponteiros.
 
 
@@ -2218,7 +2207,7 @@ __kgwm_ps2kbd_procedure (
             };
             break;
 
-        // Pressionadas: teclas de funçao
+        // Pressionadas: teclas de funï¿½ao
         case MSG_SYSKEYDOWN: 
             switch (long1){
 

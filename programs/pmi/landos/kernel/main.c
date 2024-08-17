@@ -21,6 +21,29 @@
 // see: minit.h
 struct initialization_d  Initialization;
 
+// up.h
+struct ProcessorBlock_d  UPProcessorBlock;    
+
+
+struct processor_d *processor;
+
+//processors count
+int processors_count=0;
+
+// all processors's structs.
+// ProcessorBlock_d
+unsigned long processorsList[PROCESSORS_MAX_COUNT];
+
+
+
+
+// Global
+// see: gspin.h
+int __spinlock_ipc=0;
+
+int ____whatchdog_ps2_keyboard=0;
+int ____whatchdog_ps2_mouse=0;
+//...
 
 
 // see: terminal.h

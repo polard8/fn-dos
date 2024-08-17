@@ -1,16 +1,16 @@
 /*
  * File: sched/sched.h
  *
- * Descrição:
+ * Descriï¿½ï¿½o:
  *     Header do scheduler. 
- *     Parte do módulo microkernel do kernel base.
+ *     Parte do mï¿½dulo microkernel do kernel base.
  *
  * @todo: 
  *     Fazem sentido estarem aqui todos os manipuladores de 
  * estado da thread ?
  *
  * Obs: Esse modo deve estar associado ao sistema de arquivos
- * e ao gerenciador de memória.
+ * e ao gerenciador de memï¿½ria.
  *
  * History:
  *     2015 - Created by Fred Nora.
@@ -36,37 +36,30 @@
 #define SCHEDULER_READY  2
 
 
-// Hz padrão. 100Hz. 
-// Uma interrupção a cada 10ms.
-#define HZ 100
+// Hz padrï¿½o. 100Hz. 
+// Uma interrupï¿½ï¿½o a cada 10ms.
+#define HZ  100
 
 // Tranca
 // #define LATCH (1193180/HZ)
 
 
 
-//
 // Tipos diferentes de scheduler. 
 // Usado pelo desenvolvedor.
 // RR. Priority ....
-//
 
-int schedulerType;
-
+extern int schedulerType;
 
 //@todo: deletar isso, usa-se a fila do dispatcher. 
-unsigned long schedulerQueue[4]; 
-
-
+extern unsigned long schedulerQueue[4]; 
 
 //
-// Protótipos:
+// Prot ==============================================================
 //
- 
 
 void init_scheduler (void);
  
-
 //Interfaces. 
 int KiScheduler (void);
 
@@ -162,7 +155,7 @@ void do_thread_blocked (int tid);
 
 // Desiste do tempo de processamento.
 // cooperativo.
-// Muda o seu tempo executando para: Próximo de acabar.
+// Muda o seu tempo executando para: Prï¿½ximo de acabar.
 
 void yield (int tid);
 

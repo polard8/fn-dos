@@ -78,20 +78,16 @@
 extern unsigned long get_page_dir (void);
 
 
-//
-// Vari�veis internas.
-//
 
-//int processmanagerStatus;
-//int processmanagerError;
-//...
+int caller_process_id=0;
+int processNewPID=0;
 
-int caller_process_id;
+struct process_d *xxxClonedProcess;
 
-int processNewPID;   
+struct process_d *KernelProcess;     // Base kernel
+struct process_d *InitProcess;       // init process.
 
-
-
+unsigned long processList[PROCESS_COUNT_MAX];
 
 //
 // =====================================

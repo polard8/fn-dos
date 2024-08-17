@@ -21,6 +21,28 @@ struct disk_d  *____boot____disk;
 
 unsigned long diskList[DISK_COUNT_MAX];
 
+struct storage_d *storage;
+
+
+char *current_volume_string;
+
+// volume atual ??
+// Tipo de sistema de arquivos, fat16, ext2 ...
+int g_currentvolume_filesystem_type=0;   //use this one.
+
+// volume atual do tipo fat???
+// Se � fat32, 16, 12.
+int g_currentvolume_fatbits=0;
+
+
+struct vbr_d *vbr; 
+
+struct volume_d  *volume_vfs;             // volume 0
+struct volume_d  *volume_bootpartition;   // volume 1
+struct volume_d  *volume_systempartition; // volume 2
+
+unsigned long volumeList[VOLUME_COUNT_MAX];
+
 //
 //  disk support
 //

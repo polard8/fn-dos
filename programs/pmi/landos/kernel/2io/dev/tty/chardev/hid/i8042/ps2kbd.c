@@ -20,9 +20,29 @@
 
 struct ioControl_d *ioControl_keyboard;   //0
 
+int scStatus=0;
+
+//
+// ## keybuffer ##
+//
+
+// #bugbug
+// Esses offsets precisar estar dentro da estrutura de tty
+// pois lidam com um buffer dentro dela.
+ 
+int keybuffer_index=0;
+int keybuffer_head=0;
+int keybuffer_tail=0;
+int keyboard_message_head=0;
+int keyboard_message_tail=0;
+
+struct tty_d PS2keyboardTTY;
+
+struct keyboard_message_d  keyboard_queue[8]; 
+
+
 //see: events.h
 int current_keyboard_responder=0;
-
 
 //Se há uma nova mensagem de teclado. 
 int kbMsgStatus=0;

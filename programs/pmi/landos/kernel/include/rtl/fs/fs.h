@@ -14,12 +14,12 @@ struct directory_facility_d
 };
 
 // Found in the base/ of the project.
-struct directory_facility_d directory_facility_RootDir;
-struct directory_facility_d directory_facility_EFIDir;
-struct directory_facility_d directory_facility_GramadoDir;
-struct directory_facility_d directory_facility_ProgramsDir;
-struct directory_facility_d directory_facility_ubaseDir;
-struct directory_facility_d directory_facility_usersDir;
+extern struct directory_facility_d directory_facility_RootDir;
+extern struct directory_facility_d directory_facility_EFIDir;
+extern struct directory_facility_d directory_facility_GramadoDir;
+extern struct directory_facility_d directory_facility_ProgramsDir;
+extern struct directory_facility_d directory_facility_ubaseDir;
+extern struct directory_facility_d directory_facility_usersDir;
 // ...
 
 // Found in the system partition.
@@ -43,9 +43,7 @@ struct cwd_d
     int size;
     int initialized;
 };
-struct cwd_d CWD;
-
-
+extern struct cwd_d  CWD;
 
 
 // -----------------
@@ -124,16 +122,11 @@ struct cwd_d CWD;
 //
 
 // Boot partition.
-int fat_cache_saved;
-int fat_cache_loaded;
-
+extern int fat_cache_saved;
+extern int fat_cache_loaded;
 
 // gcc -Wall Defined but not used!
 static char *____root_name = "/";
-
-
-
-
 
 
 //
@@ -159,21 +152,13 @@ static char *____root_name = "/";
 // but by Version 3 Unix the directory was too large and /usr/bin, 
 // and a search path, became part of the operating system.
 
-
 //char search_path[?];
-unsigned long search_path_dir_address;
-unsigned long search_path_dir_entries;
-
-
-// ?? - Contagem de diretórios.
-//int dirCount;  
-
+extern unsigned long search_path_dir_address;
+extern unsigned long search_path_dir_entries;
 
 // List of clusters. 
 // Usado na rotina de carregamento de arquivo.
-unsigned short file_cluster_list[1024]; 
-
-
+extern unsigned short file_cluster_list[1024]; 
 
 
 //
@@ -182,7 +167,6 @@ unsigned short file_cluster_list[1024];
 
 
 /*
- * 
  * Obs: Dentro do kernel base somente teremos primitivas
  *      Operações complexas devem ir para servidores utilitários.
  *
@@ -221,21 +205,16 @@ struct target_dir_d
     
     int initialized;
 };
-
-struct target_dir_d current_target_dir;
- 
+extern struct target_dir_d  current_target_dir;
  
 // links para arquivos ou diretórios 
 // dentro do mesmo sistema de arquivos. 
-
 struct hardlink_d
 {
     int used;
     int magic;
 	//..
 };
-
-
 
 // links para arquivos e diretórios em 
 // volumes espalhados por vários discos. 
@@ -246,22 +225,15 @@ struct softlink_d
 	//..
 };
 
-
-
 struct fat_d
 {
     unsigned long address;
     int type;
 	//...
 };
-
-struct fat_d *fat;
-
- 
-
+extern struct fat_d *fat;
 
 /*
- **************************************
  * dir_d:
  *     Estrutura para diretório de arquivo.
  *     #importante: 
@@ -271,7 +243,6 @@ struct fat_d *fat;
 struct dir_d
 {
     int id;
-
     int used;
     int magic;
 
@@ -284,7 +255,6 @@ struct dir_d
     pid_t pid;
     uid_t uid;
     gid_t gid;
-
 
     // número de bytes em uma entrada.
     int entry_size_in_bytes;
@@ -311,12 +281,10 @@ struct dir_d
 };
 
 
-
 /*
  * filesystem_d:
  *     Informações sobre um sistema de arquivos.
  */
-
 struct filesystem_d
 {
     // Object info.
@@ -331,13 +299,10 @@ struct filesystem_d
     int magic;
 
     int type;
-
     char *name;
-
 
     // Sectors per cluster.
     int spc; 
-
 
     // Number of entries in the root dir.
     //int rootdir_entries;
@@ -363,11 +328,8 @@ struct filesystem_d
 
     // struct filesystem_d *next;
 };
-
-struct filesystem_d *root;
+extern struct filesystem_d *root;
 // ...
-
-
 
 
 /*
@@ -432,14 +394,11 @@ struct file_context_d
 };
 
 
-
 //
 // == Prototypes =====================
 //
 
-
 int init_directory_facilities(void);
-
 
 void fs_fat16_cache_not_saved(void);
 
@@ -447,15 +406,11 @@ void file_close (file *_file);
 int file_truncate ( file *_file, size_t len);
 size_t file_get_len(file *_file);
 
-
-
 struct fat16_directory_entry_d *fs_new_fat16_directory_entry(void);
-
 
 // Pega um fd na lista de arquivos do processo, dado o PID.
 // Objects[i]
 int fs_get_free_fd_from_pid (int pid);
-
 
 // Atualiza a string do pwd na estrutura do processo. 
 int fs_initialize_process_cwd ( int pid, char *string ); 
@@ -464,9 +419,7 @@ int fs_initialize_process_cwd ( int pid, char *string );
 // cwd
 int fs_print_process_cwd ( int pid );
 
-
 /*
- *****************************************
  * fsInitializeWorkingDiretoryString:
  *     Atualiza a string do diretório de trabalho.
  * Essa é a string que será mostrada antes do prompt.
@@ -477,9 +430,7 @@ int fs_print_process_cwd ( int pid );
 
 void fsInitializeWorkingDiretoryString (void); 
 
-
 /*
- *****************************************
  * fsUpdateWorkingDiretoryString:
  *     +Atualiza o pathname na estrutura do processo atual.
  *     +Atualiza o pathname na string global.
@@ -487,14 +438,10 @@ void fsInitializeWorkingDiretoryString (void);
 
 void fsUpdateWorkingDiretoryString ( char *string );
 
-
 void sys_pwd(void);
-
 void sys_cd_command ( const char *string );
 
-
 /* 
- ************************************************
  * fs_pathname_backup:
  *     Remove n nomes de diretório do pathname do processo indicado 
  * no argumento.
@@ -509,9 +456,6 @@ void sys_cd_command ( const char *string );
  */
 
 void fs_pathname_backup ( int pid, int n ); 
-
-
-
 
 //
 // load file in the ring0 buffer.
@@ -533,7 +477,6 @@ sys_write_file_to_disk (
     char *file_address,
     char flag );
 
-
 //
 // Create
 //
@@ -544,29 +487,22 @@ int fs_create_empty_directory ( char *dir_name, int type );
 int sys_create_empty_file ( char *file_name );
 int sys_create_empty_directory ( char *dir_name );
 
-
-
 void 
 fsFAT16ListFiles ( 
    const char *dir_name, 
    unsigned short *dir_address, 
    int number_of_entries );
 
-
 void fs_init_structures (void);
 
 void set_filesystem_type (int type);
-
 int get_filesystem_type (void);
-
 
 //#todo: spt in a given volume.
 void set_spc(int spc);
 int get_spc (void);
  
-
 unsigned long fs_count_path_levels (unsigned char *path);
-
 
 
 int 
@@ -597,8 +533,6 @@ void fs_load_fat(unsigned long fat_address, unsigned long fat_lba, size_t fat_si
 int fs_save_rootdir (unsigned long root_address, unsigned long root_lba, size_t root_size);
 void fs_load_rootdir(unsigned long root_address, unsigned long root_lba, size_t root_size); 
 
-
-
 //Load metafile.
 void 
 fs_load_metafile (
@@ -606,9 +540,7 @@ fs_load_metafile (
     unsigned long first_lba, 
     unsigned long size );
 
-
 void fs_save_entry_on_root(unsigned long eid);
-
 
 // Carrega o diretório na memória, dados o endereço, 
 // o lba inicial e o número de setores.
@@ -618,8 +550,6 @@ __load_sequential_sectors (
     unsigned long address, 
     unsigned long lba, 
     unsigned long sectors );
-
-
 
 // #todo
 // Caregar um arquivo na memoria e retornar seu inode.
@@ -661,7 +591,6 @@ fsLoadFile2 (
 // Only on root dir!
 unsigned long fsRootDirGetFileSize ( unsigned char *file_name );
 
-
 //
 // Write
 //
@@ -696,14 +625,11 @@ void set_file( void *file, int Index);
 void *get_global_open_file (int Index);
 void set_global_open_file ( void *file, int Index );
 
-
 //info
 void fs_show_file_info (file *f);
 void fs_show_file_table(void);
 
-
 int get_free_slots_in_the_file_table(void);
-
 
 //
 // Create
@@ -711,7 +637,6 @@ int get_free_slots_in_the_file_table(void);
 
 int fs_create_file( char *name );
 unsigned long fs_create_dir ( char *name , unsigned long id);
-
 
 void 
 fs_create_entry ( 
@@ -723,7 +648,6 @@ fs_create_entry (
 
 
 void fs_create_name( char *name, unsigned long id,unsigned long eid);
-
 
 
 int
@@ -742,18 +666,13 @@ fs_save_file (
     char *file_address,
     char flag );  
 
-
 void fs_delete_entry(unsigned long id, unsigned long eid);
-
-
 
 unsigned short fs_find_n_empty_entries ( int n);
 
 // #importante
 // Encontrar uma entrada vazia na fat.
 unsigned short fs_find_empty_entry ( char *fat_address );
-
-
 
 unsigned long 
 fatClustToSect ( 
@@ -778,13 +697,11 @@ fatWriteCluster (
 
 int fsList ( const char *dir_name );
 
-
 void 
 fsListFiles ( 
     int disk_id, 
     int volume_id, 
     int directory_id );
-
 
 
 // Procura uma entrada vazia no diretório 
@@ -800,7 +717,6 @@ findEmptyDirectoryEntry (
 
 void fs_fntos (char *name);
 
-  
 int fsCheckELFFile ( unsigned long address );
 
 // MBR support.
@@ -809,18 +725,14 @@ void fsCheckMbrFile ( unsigned char *buffer );
 // VBR support.
 void fsCheckVbrFile ( unsigned char *buffer );
 
-
 int fsLoadFileFromCurrentTargetDir (void);
 
 void fsInitTargetDir (unsigned long dir_address, char *name);
 
-
 void fs_show_root_fs_info(void);
-
 
 // Initialization support.
 int fsInit (void);
-
 
 #endif    
 

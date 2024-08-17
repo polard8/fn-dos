@@ -28,11 +28,10 @@
 #define SELECT_IDEAL_COUNT        6
 #define SELECT_DISPATCHER_COUNT   7
 
-/*
- * Seleciona o tipo de dispatcher sendo usado no momento.
- */
-int dispatcherType;
-int dispatcherQueueIndex;
+
+// Seleciona o tipo de dispatcher sendo usado no momento.
+extern int dispatcherType;
+extern int dispatcherQueueIndex;
 
 
 //
@@ -64,11 +63,7 @@ struct dispatch_count_d
 	//...
  	
 };
-dispatch_count_t *DispatchCountBlock;
-
-
-
-
+extern dispatch_count_t *DispatchCountBlock;
 
 // exemplo:
 // KiDispatcherReadyListHead - This is an array of type list entry. The
@@ -81,9 +76,7 @@ dispatch_count_t *DispatchCountBlock;
 
 /*
  * dispatcherReadyList:
- *
- *    **** SHORT-TERM SCHEDULER FOR THREADS****
- *
+ *    SHORT-TERM SCHEDULER FOR THREADS
  *     Esta � a lista do dispatcher.
  *     Lista ponteiros para as heads de listas.
  *     as listas s�o para threads, uma lista para cada prioridade.
@@ -103,9 +96,7 @@ dispatch_count_t *DispatchCountBlock;
  *          o kernel esta usando a lista de threads criadas. threadList[]
  *          n�o considerando a prioridade. ;)
  */ 
-
-unsigned long dispatcherReadyList[PRIORITY_MAX +1];
-
+extern unsigned long dispatcherReadyList[PRIORITY_MAX +1];
 
 //
 // == prototypes ===============================
@@ -121,17 +112,13 @@ void rabbit_hole(void){  asm ("iret \n");  }
  * dispatcher:
  *     Fun��o principal do dispatcher.
  */ 
-
 void dispatcher (int type);
 
 int init_dispatcher (void);
-
 void IncrementDispatcherCount ( int type );
 
 
-
 #endif    
-
 
 
 //

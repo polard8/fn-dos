@@ -34,8 +34,12 @@ struct powertrio_wm_d
     
     unsigned long list[3];
 };
-struct powertrio_wm_d  PowerTrio;
+extern struct powertrio_wm_d  PowerTrio;
 
+
+//
+// == prototypes ===============================
+//
 
 int powertrio_initialize(void);
 int powertrio_set_window ( int index, struct window_d *window );
@@ -43,11 +47,6 @@ int powertrio_queue( struct window_d *window );
 int powertrio_arrange_and_update(void);
 int powertrio_next(void);
 int powertrio_select_client(int index);
-
-//
-// == prototypes ===============================
-//
-
 
 void __kgwm_SendMessageToInitProcess ( int message );
 
@@ -58,11 +57,8 @@ __kgwm_ps2kbd_procedure (
     unsigned long long1, 
     unsigned long long2 ); 
 
-
-
 // Registrar um window manager.
 int kgwmRegisterWindowManager( int pid );
-
 
 // Aqui o servidor de janelas escaneia as janelas para saber 
 // se o mouse está sobre alguma ... durante a rotina
@@ -84,9 +80,6 @@ kgwm_window_control_dialog (
     int msg,
     unsigned long long1,
     unsigned long long2 );
-
-
-
 
 #endif    
 

@@ -1,20 +1,20 @@
 /*
  *  File: gdevice.h
  *
- * Definição:
- * Informações globais sobre a gerência de dispositivos.
+ * Definiï¿½ï¿½o:
+ * Informaï¿½ï¿½es globais sobre a gerï¿½ncia de dispositivos.
  * 
- * + Informações globais sobre o dispositivo onde o sistema operacional 
+ * + Informaï¿½ï¿½es globais sobre o dispositivo onde o sistema operacional 
  * foi instalado.
  *
- * + Informações sobre o host device.
+ * + Informaï¿½ï¿½es sobre o host device.
  *
- * + Não é a qui o lugar para se detalhar todos os dispositivos instalados na máquina.
- * Aqui é lugar de classificar a plataforma alvo para o sistema operacional. Para
- * que as aplicações possam se adaptar às características do dispositivo que suportam
+ * + Nï¿½o ï¿½ a qui o lugar para se detalhar todos os dispositivos instalados na mï¿½quina.
+ * Aqui ï¿½ lugar de classificar a plataforma alvo para o sistema operacional. Para
+ * que as aplicaï¿½ï¿½es possam se adaptar ï¿½s caracterï¿½sticas do dispositivo que suportam
  * o sistema operacional.
  *
- * Versão 1.0, 2016 - Created.   
+ * Versï¿½o 1.0, 2016 - Created.   
  */
  
  
@@ -29,10 +29,10 @@
 /*
  * driver_type_t: 
  *     Tipos de drivers. 
- *     + O driver de sistema é do tipo persistente. Não poderá ser descarregado,
- * permanecerá na memória o tempo todo. Poderá ser desativado. Pode estar 
+ *     + O driver de sistema ï¿½ do tipo persistente. Nï¿½o poderï¿½ ser descarregado,
+ * permanecerï¿½ na memï¿½ria o tempo todo. Poderï¿½ ser desativado. Pode estar 
  * em qualquer ring.
- *     + O driver modular poderá ser descarregado. 
+ *     + O driver modular poderï¿½ ser descarregado. 
  */ 
 typedef enum {
 	DriverTypeSystem,     //Persistente.
@@ -45,7 +45,7 @@ typedef enum {
  * host_device_type_t:
  *     Classes de dispositivos segundo o host que pertencem.
  *     Classes mais comuns de dispositivos.
- *     Outras poderão ser incluídas futuramente. 
+ *     Outras poderï¿½o ser incluï¿½das futuramente. 
  */ 
 typedef enum {
 	HostDeviceTypePC,        //PC.
@@ -92,15 +92,14 @@ struct xdevice_driver_d
 */
  
 // 
-// Globais de fácil acesso.
+// Globais de fï¿½cil acesso.
 // devem refletir os valores armazenados na estrutura.
 //
 
 //Screen sizes and bpp.
-
-unsigned long g_device_screen_width;
-unsigned long g_device_screen_height;
-unsigned long g_device_screen_bpp; 
+extern unsigned long g_device_screen_width;
+extern unsigned long g_device_screen_height;
+extern unsigned long g_device_screen_bpp; 
 
 
 #endif   

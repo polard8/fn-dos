@@ -1,7 +1,7 @@
 /*
  * File: video.c
  *
- * Descrição: 
+ * Descriï¿½ï¿½o: 
  *     Rotinas paga gerenciar os controladores de video.
  *     Crt, Vga ...
  *
@@ -16,10 +16,10 @@
 
 
 // # importante
-// Essa deve ser a única maneira em que o sistema acessa
-// o controlador de vídeo.
-// Por aqui o sistema fará configurações no controlador
-// e enviará dados para o lfb.
+// Essa deve ser a ï¿½nica maneira em que o sistema acessa
+// o controlador de vï¿½deo.
+// Por aqui o sistema farï¿½ configuraï¿½ï¿½es no controlador
+// e enviarï¿½ dados para o lfb.
 
 
 //
@@ -64,7 +64,7 @@ See:
 #include <kernel.h>
 
 
-//Definições internas.
+//Definiï¿½ï¿½es internas.
 
 //@todo: Criar um arquivo para gerenciar fontes.
 #define VIDEO_BIOS_FONT8X8_ADDRESS    0x000FFA6E
@@ -76,14 +76,14 @@ See:
 //...
 
 //
-// Variáveis importadas.
+// Variï¿½veis importadas.
 //
 
 //??
 extern unsigned long SavedBootMode;
 
-//Variáveis. (head.s)
-extern unsigned long SavedBootBlock;    //Parâmtros passados pelo Boot Loader.
+//Variï¿½veis. (head.s)
+extern unsigned long SavedBootBlock;    //Parï¿½mtros passados pelo Boot Loader.
 
 extern unsigned long SavedLFB;          //LFB address.  
 extern unsigned long SavedX;            //Screen width. 
@@ -92,30 +92,41 @@ extern unsigned long SavedBPP;          //Bits per pixel.
 //...
 
 //
-// Variáveis internas.
+// Variï¿½veis internas.
 //
 
-int videoStatus;
-int videoError;
+int videoStatus=0;
+int videoError=0;
 //...
 
 
-// LFB - Esse é o endereço usado pelo driver de vídeo em /x
-// para acessar o LFB, ou seja o frontbuffer.
-// Lembrando que o driver de vídeo deve ser independente do 
-// kernel então o kernel só poderá obter esse endereço se
-// solicitar par asse driver.
-// Mas o kernel não deve enviar dados para o frontbuffer,
-// para isso ele deve usar esse driver.
-// #importante: Esse driver poderá ser diferente para
-// cada modelo de placa de vídeo.
 
-unsigned long __frontbuffer_va;
-unsigned long __frontbuffer_pa;  
+//Screen sizes and bpp.
+unsigned long g_device_screen_width=0;
+unsigned long g_device_screen_height=0;
+unsigned long g_device_screen_bpp=0;
+
+
+// LFB - Esse ï¿½ o endereï¿½o usado pelo driver de vï¿½deo em /x
+// para acessar o LFB, ou seja o frontbuffer.
+// Lembrando que o driver de vï¿½deo deve ser independente do 
+// kernel entï¿½o o kernel sï¿½ poderï¿½ obter esse endereï¿½o se
+// solicitar par asse driver.
+// Mas o kernel nï¿½o deve enviar dados para o frontbuffer,
+// para isso ele deve usar esse driver.
+// #importante: Esse driver poderï¿½ ser diferente para
+// cada modelo de placa de vï¿½deo.
+
+unsigned long __frontbuffer_va=0;
+unsigned long __frontbuffer_pa=0;
 
 //cga
-unsigned long __cga_va;
-unsigned long __cga_pa;  
+unsigned long __cga_va=0;
+unsigned long __cga_pa=0;
+
+
+
+
 
 
 
@@ -124,9 +135,9 @@ unsigned long __cga_pa;
  * __video_lfb_putpixel:
  *
  *    # todo:
- *    Estamos trazendo essa rotina aqui para o driver de vídeo.
- *    Que é a camada mais baixo. A camada que tem acesso ao controlador
- *    de vídeo.
+ *    Estamos trazendo essa rotina aqui para o driver de vï¿½deo.
+ *    Que ï¿½ a camada mais baixo. A camada que tem acesso ao controlador
+ *    de vï¿½deo.
  * 
  * IN: 
  *     color, x, y, 0
@@ -197,8 +208,8 @@ __video_lfb_putpixel ( unsigned long ax,
 
 /*
 //pega um pixel no BACKBUFFER
-//tem que usar variável pra bytes per pixel e screen width. 
-//A ideia é poder pegar os píxel de um retãngulo e salvá los
+//tem que usar variï¿½vel pra bytes per pixel e screen width. 
+//A ideia ï¿½ poder pegar os pï¿½xel de um retï¿½ngulo e salvï¿½ los
 //para depois devolver ao backbuffer.
 
 unsigned long __video_get_pixel ( unsigned long x,  unsigned long y ){
@@ -244,8 +255,8 @@ unsigned long __video_get_pixel ( unsigned long x,  unsigned long y ){
 /*
   #
 //copia um pixel do backbuffer para o frontbuffer
-//tem que usar variável pra bytes per pixel e screen width.
-//#todo: TESTAR ESSA FUNÇÃO
+//tem que usar variï¿½vel pra bytes per pixel e screen width.
+//#todo: TESTAR ESSA FUNï¿½ï¿½O
 
 void __video_refresh_pixel ( unsigned long x,  unsigned long y ){
 	
@@ -287,7 +298,7 @@ void __video_refresh_pixel ( unsigned long x,  unsigned long y ){
 	//unsigned long address = &frontbuffer[pos];
 	
 	// #bugbug:
-	// Isso é potencialmente perigoso para compilar.	
+	// Isso ï¿½ potencialmente perigoso para compilar.	
 	
 	*( unsigned long * ) &frontbuffer[pos] = COLOR;
 }
@@ -297,8 +308,8 @@ void __video_refresh_pixel ( unsigned long x,  unsigned long y ){
 
 /*
 //copia um pixel do backbuffer para o frontbuffer
-//tem que usar variável pra bytes per pixel e screen width.
-//#todo: TESTAR ESSA FUNÇÃO
+//tem que usar variï¿½vel pra bytes per pixel e screen width.
+//#todo: TESTAR ESSA FUNï¿½ï¿½O
 
 void __video_refresh_pixel ( unsigned long x,  unsigned long y ){
 	
@@ -340,7 +351,7 @@ void __video_refresh_pixel ( unsigned long x,  unsigned long y ){
 	//unsigned long address = &frontbuffer[pos];
 	
 	// #bugbug:
-	// Isso é potencialmente perigoso para compilar.	
+	// Isso ï¿½ potencialmente perigoso para compilar.	
 	
 	*( unsigned long * ) &frontbuffer[pos] = COLOR;
 }
@@ -350,21 +361,21 @@ void __video_refresh_pixel ( unsigned long x,  unsigned long y ){
 /*
  ***********************************************************
  * refresh_rectangle:
- *     Copiar um retângulo do backbuffer para o frontbuffer. 
+ *     Copiar um retï¿½ngulo do backbuffer para o frontbuffer. 
  * 
  *     @todo: Rotina parecida com essa pode ser criada e usada para manipular 
- * regiões da tela, como área de cliente efetuar scroll de buffer em páginas 
- * de navegador ou menus .. mas para isso, a cópia seria dentro do próprio 
+ * regiï¿½es da tela, como ï¿½rea de cliente efetuar scroll de buffer em pï¿½ginas 
+ * de navegador ou menus .. mas para isso, a cï¿½pia seria dentro do prï¿½prio 
  * backbuffer ou de um terceiro buffer para o backbuffer. 
  *
- * Histórico:
+ * Histï¿½rico:
  *     2017 - Criado por Frederico Lamberti Pissarra.
  *     2018 - Fred Nora.
  */	
 
 
 //#importante
-//É bem mais rápido com múltiplos de 4.
+//ï¿½ bem mais rï¿½pido com mï¿½ltiplos de 4.
  
 /* 
 void 
@@ -407,7 +418,7 @@ __video_refresh_rectangle ( unsigned long x,
 		//...
 	}
 
-	// #atenção.
+	// #atenï¿½ï¿½o.
 	
 	//offset = (unsigned int) BUFFER_PIXEL_OFFSET( x, y );
 	
@@ -418,23 +429,23 @@ __video_refresh_rectangle ( unsigned long x,
 	 
 	// #bugbug
 	// Isso pode nos dar problemas.
-	// ?? Isso ainda é necessário nos dias de hoje ??
+	// ?? Isso ainda ï¿½ necessï¿½rio nos dias de hoje ??
 	
 	vsync ();	
 		
-	//(line_size * bytes_count) é o número de bytes por linha. 
+	//(line_size * bytes_count) ï¿½ o nï¿½mero de bytes por linha. 
 
 	//#importante
-	//É bem mais rápido com múltiplos de 4.	
+	//ï¿½ bem mais rï¿½pido com mï¿½ltiplos de 4.	
 	
-	//se for divisível por 4.
+	//se for divisï¿½vel por 4.
 	if ( ((line_size * bytes_count) % 4) == 0 )
 	{
         count = ((line_size * bytes_count) / 4);  	
 
 	    for ( i=0; i < lines; i++ )
 	    {
-		    //copia uma linha ou um pouco mais caso não seja divisível por 
+		    //copia uma linha ou um pouco mais caso nï¿½o seja divisï¿½vel por 
 		    memcpy32 ( p, q, count );
 		    
 			q += (Width * bytes_count);
@@ -442,7 +453,7 @@ __video_refresh_rectangle ( unsigned long x,
 	    };
 	}
 
-	//se não for divisível por 4.
+	//se nï¿½o for divisï¿½vel por 4.
 	if ( ((line_size * bytes_count) % 4) != 0 )
 	{
 	    for ( i=0; i < lines; i++ )
@@ -461,7 +472,7 @@ __video_refresh_rectangle ( unsigned long x,
 
 /*
  * videoSetupCGAStartAddress:
- *     Configura o endereço inicial da memória de video em modo texto   
+ *     Configura o endereï¿½o inicial da memï¿½ria de video em modo texto   
  *     fis=b8000  vir=0x800000 
  */
 
@@ -594,9 +605,9 @@ video_driver_dialog ( int service,
     unsigned long long1,
     unsigned long long2 );
     
-// dialo usado para conversr com o driver de vídeo.
-// para obter valores, fazer configurações
-// ou enviar conteúdo para o lfb.
+// dialo usado para conversr com o driver de vï¿½deo.
+// para obter valores, fazer configuraï¿½ï¿½es
+// ou enviar conteï¿½do para o lfb.
 unsigned long 
 video_driver_dialog ( int service, 
     unsigned long long1,
@@ -683,7 +694,7 @@ write_vga_reg (
 /*
  ***********************************************
  * videoInit:
- *     Inicia variáveis de video de acordo com o modo gráfico utilizado.
+ *     Inicia variï¿½veis de video de acordo com o modo grï¿½fico utilizado.
  */ 
  
 int videoInit (void){
@@ -714,12 +725,12 @@ int videoInit (void){
 
 	
 	// global usada pelo kernel.
-	// #todo: não devemos configurar essa global.
-	// O kernel deve solicitar esse endereço. 
-	//endereço físico do frontbuffer.
+	// #todo: nï¿½o devemos configurar essa global.
+	// O kernel deve solicitar esse endereï¿½o. 
+	//endereï¿½o fï¿½sico do frontbuffer.
     g_frontbuffer_pa = (unsigned long) SavedLFB;  
 
-	//endereço virtual do backbuffer.
+	//endereï¿½o virtual do backbuffer.
     g_backbuffer_va = (unsigned long) BACKBUFFER_VA;
 
 
@@ -746,11 +757,11 @@ int videoInit (void){
 	//while(1){}
 		
 	//@todo: #bugbug Para configurar a estrutura HostDeviceInfo tem que 
-	//alocar memória antes, por isso só faremos isso depois de 
-	//inicializarmos o módulo runtime. /rt.
+	//alocar memï¿½ria antes, por isso sï¿½ faremos isso depois de 
+	//inicializarmos o mï¿½dulo runtime. /rt.
 	
 	//Isso pode n~ao funcionar pois nao temos
-	//os endereços corretos ainda.
+	//os endereï¿½os corretos ainda.
 	
 	//Background.
 	
@@ -765,7 +776,7 @@ int videoInit (void){
 	// breakpoint
     //vamos testar se 'e a rotina de bg que est'a falhando...
     //caso seja ela, ent~ao vamos suprimila se possivel.
-	//ok isso funcionou, vamos avançar.
+	//ok isso funcionou, vamos avanï¿½ar.
 	
     //lfb_putpixel ( COLOR_YELLOW, 11, 11, 0 );
 	//while(1){}
@@ -774,7 +785,7 @@ int videoInit (void){
 		
 	//@todo: Isso deve fazer parte do construtor.
 		
-	//Poderíamos copiar a font da ROM para a RAM.
+	//Poderï¿½amos copiar a font da ROM para a RAM.
 		
 	//
 	// ## Font support ##
@@ -782,20 +793,20 @@ int videoInit (void){
 		
 	//Font. (BIOS font).
 	//#bugbug: 
-	//Na verdade video.c não tem acesso a essa variável,
-	//é preciso chamar o servidor através de um método para configurá-la.
+	//Na verdade video.c nï¿½o tem acesso a essa variï¿½vel,
+	//ï¿½ preciso chamar o servidor atravï¿½s de um mï¿½todo para configurï¿½-la.
 
     gwsSetCurrentFontAddress ( VIDEO_BIOS_FONT8X8_ADDRESS );
  
     // #todo: 
-    // Usar a função que configura essas variáveis.
+    // Usar a funï¿½ï¿½o que configura essas variï¿½veis.
     gcharWidth  = VIDEO_BIOS_FONT8X8_WIDTH;
     gcharHeight = VIDEO_BIOS_FONT8X8_HEIGHT;
     gfontSize   = FONT8X8;
 
 
     // #bugbug
-    // Qual eh o current no momento dessa inicializaçao
+    // Qual eh o current no momento dessa inicializaï¿½ao
     // so temos 4.
     // eles ja estao inicializados.
     // #todo: podeia ter uma flag que diz se ja inicializamos os consoles.
@@ -809,7 +820,7 @@ int videoInit (void){
     // #bugbug: determinado
     
     // #todo
-    // chamar uma funçao helper pra fazer isso
+    // chamar uma funï¿½ao helper pra fazer isso
     
     CONSOLE_TTYS[fg_console].cursor_width_in_pixels  = 8;
     CONSOLE_TTYS[fg_console].cursor_height_in_pixels = 8;
@@ -835,7 +846,7 @@ int videoInit (void){
 	//Continua ...
 		
 	//
-	// Outras configurações de vídeo independentes do modo de vídeo.
+	// Outras configuraï¿½ï¿½es de vï¿½deo independentes do modo de vï¿½deo.
 	//
 	
 	//
@@ -847,7 +858,7 @@ int videoInit (void){
 	
 	// #DEBUG
 	// breakpoint
-    // ok isso funcionou na gigabyte/intel , vamos avançar ...
+    // ok isso funcionou na gigabyte/intel , vamos avanï¿½ar ...
    // lfb_putpixel ( COLOR_YELLOW, 11, 11, 0 );
    //	while(1){}
 
@@ -856,8 +867,8 @@ int videoInit (void){
 	
 #ifdef BREAKPOINT_TARGET_AFTER_VIDEO
     // #debug 
-    // A primeira mensagem só aparece após a inicialização da runtime.
-    // por isso não deu pra limpar a tela antes.
+    // A primeira mensagem sï¿½ aparece apï¿½s a inicializaï¿½ï¿½o da runtime.
+    // por isso nï¿½o deu pra limpar a tela antes.
     printf(">>>debug hang: after video");
     refresh_screen(); 
     while (1){ asm ("hlt"); };
@@ -870,9 +881,9 @@ int videoInit (void){
 /*
  *********************
  * videoVideo:
- *     Método construtor.
- *     Funçao interna. 
- *     Confgura algumas variáveis.
+ *     Mï¿½todo construtor.
+ *     Funï¿½ao interna. 
+ *     Confgura algumas variï¿½veis.
  *     @todo: isso poderia ter retorno void.
  */
 

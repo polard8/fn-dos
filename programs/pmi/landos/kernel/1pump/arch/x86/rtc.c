@@ -3,9 +3,9 @@
  *
  * Real-Time Clock
  * 
- * Descrição:
+ * Descriï¿½ï¿½o:
  *     Controlador RTC, Data e Hora.
- * @todo: Criar métodos para acessar os valores salvos na estrutura Rtc.
+ * @todo: Criar mï¿½todos para acessar os valores salvos na estrutura Rtc.
  *     
  * Ambiente: (RING 0).
  *
@@ -38,6 +38,13 @@
  
 #include <kernel.h>
 
+unsigned long g_ticks=0;
+struct rtc_d *Rtc;
+struct rtc_d *rtc;	
+
+
+
+
 //Internas.
 unsigned long rtcTicks;
 int rtcStatus;
@@ -47,7 +54,7 @@ int rtcError;
 
 //
 //  @todo:    
-//      As portas do controlador ainda estão subutilizadas.
+//      As portas do controlador ainda estï¿½o subutilizadas.
 //      fazer um driver mais completo utilizando melhor o controlador.
 //
 
@@ -55,7 +62,7 @@ int rtcError;
 
 
 //
-// Variáveis internas.
+// Variï¿½veis internas.
 //
 //int rtcStatus;
 //int rtcError;
@@ -73,12 +80,12 @@ void DeviceInterface_RTC(void){
 
     unsigned i=0;
 
-	// Se o rtc não estiver inicializado !
+	// Se o rtc nï¿½o estiver inicializado !
     if ( __breaker_rtc_initialized == 0 ){
         return;
     }
 
-    // Contando as interrupções desse tipo.
+    // Contando as interrupï¿½ï¿½es desse tipo.
     g_profiler_ints_irq8++;
 
 
@@ -105,7 +112,7 @@ void DeviceInterface_RTC(void){
  * irq8_RTC:
  *     irq8 interrupt handler.
  *     System CMOS, Realtime clock.
- *     Isso é uma interface para chamar a rotina verdadeira.
+ *     Isso ï¿½ uma interface para chamar a rotina verdadeira.
  */
 
 __VOID_IRQ 
@@ -128,7 +135,7 @@ unsigned char bcd_to_binary(unsigned char bcd)
 /* 
  **************************************************
  * read_cmos_bcd:
- *     Lê da CMOS um determinado registro. 
+ *     Lï¿½ da CMOS um determinado registro. 
  */
 
 unsigned long read_cmos_bcd ( unsigned reg ){
@@ -138,7 +145,7 @@ unsigned long read_cmos_bcd ( unsigned reg ){
     out8 ( 0x70, ( in8(0x70) & 0x80) | (reg & 0x7F) );
     high_digit = low_digit = in8(0x71);
 
-	// Converte BCD para binário. 
+	// Converte BCD para binï¿½rio. 
     high_digit >>= 4;
 
     high_digit &= 0x0F;
@@ -151,14 +158,14 @@ unsigned long read_cmos_bcd ( unsigned reg ){
 /*
  *************************************************************** 
  * get_time:
- * Pega o horário armazenado na CMOS.
+ * Pega o horï¿½rio armazenado na CMOS.
  * Formato: Cada unidade representa 1 segundo. 
  *
- * todo: Essa função pode ser trabalhada sem riscos ao sistema.
- * STATUS: Não funciona muito bem. @todo: rever isso
+ * todo: Essa funï¿½ï¿½o pode ser trabalhada sem riscos ao sistema.
+ * STATUS: Nï¿½o funciona muito bem. @todo: rever isso
  * Obs: 
- * Na verdade pode estar funcionando e o relógio da máquina virtual
- * está desatualizado.
+ * Na verdade pode estar funcionando e o relï¿½gio da mï¿½quina virtual
+ * estï¿½ desatualizado.
  */
 
 unsigned long get_time (void){
@@ -179,7 +186,7 @@ unsigned long get_time (void){
  * Pega a data armazenada na CMOS. 
  * Formato(bytes): YYMD 
  *
- * todo: Essa função pode ser trabalhada sem riscos ao sistema.
+ * todo: Essa funï¿½ï¿½o pode ser trabalhada sem riscos ao sistema.
  */
 
 unsigned long get_date (void){
@@ -302,15 +309,15 @@ unsigned short rtcGetBaseMemory (void){
 /*
  *****************************************************************
  * get_cmos_info:
- *     Obs: Essa função deve ser chamada apenas uma vez na inicialização
- * do módulo. @todo: Criar métodos que pegam esses valores salvos na 
+ *     Obs: Essa funï¿½ï¿½o deve ser chamada apenas uma vez na inicializaï¿½ï¿½o
+ * do mï¿½dulo. @todo: Criar mï¿½todos que pegam esses valores salvos na 
  * estrutura.
  */
 
 // #bugbug
-// Alocando memória toda vez que chama a função.
-// Issa alocação deveria ser feita apenas uma vez
-// na inicialização, depois somente atualizados os valores.
+// Alocando memï¿½ria toda vez que chama a funï¿½ï¿½o.
+// Issa alocaï¿½ï¿½o deveria ser feita apenas uma vez
+// na inicializaï¿½ï¿½o, depois somente atualizados os valores.
 
 void *get_cmos_info (void){
 
@@ -369,9 +376,9 @@ void *get_cmos_info (void){
  *     Inicia a data e a hora do controlador.
  *
  * @todo: 
- *     Essa função não deveria mostrar informações na tela.
- * tem que criar função pra isso.
- * essa aqui so deveria pegar as informações e colocar em estrutura.
+ *     Essa funï¿½ï¿½o nï¿½o deveria mostrar informaï¿½ï¿½es na tela.
+ * tem que criar funï¿½ï¿½o pra isso.
+ * essa aqui so deveria pegar as informaï¿½ï¿½es e colocar em estrutura.
  */
 
 int init_clock (void){

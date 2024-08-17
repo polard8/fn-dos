@@ -15,10 +15,9 @@
     // incrementados pelo timer.
     // A condição crítica é alcançar um limite, um timeout. 
 
-    int ____whatchdog_ps2_keyboard;
-    int ____whatchdog_ps2_mouse;
-    //...
-    
-#endif    
+extern int ____whatchdog_ps2_keyboard;
+extern int ____whatchdog_ps2_mouse;
+//...
 
+#endif    
 

@@ -1,9 +1,7 @@
 /*
  * File: ide.h
- *
- * Descrição:
+ * Descriï¿½ï¿½o:
  *     Header para rotinas de hardware para drivers de ide. hdd.
- *
  * //@todo ide struct 
  * 
  * 2015
@@ -11,7 +9,6 @@
 
 #ifndef ____IDE_H
 #define ____IDE_H
-
 
 
 #define IDE_ATA    0
@@ -39,12 +36,10 @@
 //3 secondary slave.
 	
 typedef enum {
-	
 	ideportsPrimaryMaster,      // 0
 	ideportsPrimarySlave,       // 1
 	ideportsSecondaryMaster,    // 2
 	ideportsSecondarySlave      // 3
-	
 }ide_ports_t;	
 
 
@@ -101,7 +96,7 @@ struct ide_port_d
     //
     // #todo
     // Salvar aqui o canal usado pela porta
-    // e se o dispositivo é master ou slave.
+    // e se o dispositivo ï¿½ master ou slave.
     //
   
     uint8_t channel;   // #bugbug: penso que seja para primary ou secondary.
@@ -111,20 +106,16 @@ struct ide_port_d
     // ...
 
 
-    // Dá pra colocar aqui mais informações sobre 
+    // Dï¿½ pra colocar aqui mais informaï¿½ï¿½es sobre 
     // o dispositivo conectado a porta.
     // podemos usar ponteiros para estruturas.
 };
 
 // Four ports.
-struct ide_port_d  ide_ports[4];
+extern struct ide_port_d  ide_ports[4];
 
-
-
-unsigned long ide_handler_address;
+extern unsigned long ide_handler_address;
  
-
-
 
 //estrutura para canais da controladora IDE. 
 typedef struct ide_channel_d ide_channel_t; 
@@ -176,14 +167,14 @@ struct ide_disk_d
     
     struct ide_channel_d *channel; 
 
-    //@todo: estrutura para partições.
+    //@todo: estrutura para partiï¿½ï¿½es.
 
     //
 	// Podemos ter muitos elementos aqui.
 	//
 };
 
-typedef struct ide_disk_d ide_disk_t;
+typedef struct ide_disk_d  ide_disk_t;
 
 
 
@@ -192,12 +183,12 @@ typedef struct ide_disk_d ide_disk_t;
  *
  * #IMPORTANTE
  * Estrutura para configurar a interface IDE. 
- * Essa será a estrutura raiz para gerenciamento do controlador de IDE.
+ * Essa serï¿½ a estrutura raiz para gerenciamento do controlador de IDE.
  */
 
 struct ide_d
 {
-    // devemos colocar aqui um ponteiro para estrutura de informações 
+    // devemos colocar aqui um ponteiro para estrutura de informaï¿½ï¿½es 
     // sobre o dispositivo controlador de ide.	
 	
     int current_port;
@@ -208,10 +199,9 @@ struct ide_d
     struct ide_ports_d *secondary_slave; 
 };
 
-typedef struct ide_d ide_t;
+typedef struct ide_d  ide_t;
 
-struct ide_d IDE;
-
+extern struct ide_d  IDE;
 
 
 struct hdd_d
@@ -220,7 +210,7 @@ struct hdd_d
 	int dummy;
 	//unsigned long hdd_handler_address;
 };
-typedef struct hdd_d hdd_t;
+typedef struct hdd_d  hdd_t;
 
 //
 // == prototypes ========================================

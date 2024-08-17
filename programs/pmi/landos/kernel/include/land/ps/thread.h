@@ -776,8 +776,7 @@ extern int conductorIndex;
 // N�mero m�ximo de threads.
 #define THREAD_COUNT_MAX 1024  
 
-unsigned long threadList[THREAD_COUNT_MAX];
-
+extern unsigned long threadList[THREAD_COUNT_MAX];
 
 
 struct thread_list_d 

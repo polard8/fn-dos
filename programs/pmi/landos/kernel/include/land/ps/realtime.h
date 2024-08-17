@@ -1,14 +1,14 @@
 /*
  * Arquivo: realtime.h
  *
- * Descrição:
- *     Header do módolo realtime do kernel.
- *     Rotinas em realtime para multiprocessadores, ou quando está rodando 
+ * Descriï¿½ï¿½o:
+ *     Header do mï¿½dolo realtime do kernel.
+ *     Rotinas em realtime para multiprocessadores, ou quando estï¿½ rodando 
  * apenas uma tarefa, a idle.
- *     As tarefas são confinadas em um processador, 
+ *     As tarefas sï¿½o confinadas em um processador, 
  * destinado para tarefas em real time.
  *
- * @todo: Fazer uma estrutura para gerenciar operações em realtime.
+ * @todo: Fazer uma estrutura para gerenciar operaï¿½ï¿½es em realtime.
  */ 
 
 
@@ -17,13 +17,12 @@
 
 
 /*
- * Flag para tornar realtime uma opção.
+ * Flag para tornar realtime uma opï¿½ï¿½o.
  */
-int realtimeStatus; 
+//int realtimeStatus; 
 
 //lista de processadores dedicados a tarefa de realtime.
-unsigned long realtimeprocessorList[32];
-
+//unsigned long realtimeprocessorList[32];
 
 #endif    
 

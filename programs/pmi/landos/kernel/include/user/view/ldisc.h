@@ -1,13 +1,13 @@
 /*
  * File: ldisc.h 
  *
- * Descrição:
- *     >> header para o módulo ldisc do kernel base.
+ * Descriï¿½ï¿½o:
+ *     >> header para o mï¿½dulo ldisc do kernel base.
  *
  *     Header do driver de teclado presente dentro do kernel. 
- *     Manter aqui parâmetros gerais, que possam ser úteis pra qualquer 
+ *     Manter aqui parï¿½metros gerais, que possam ser ï¿½teis pra qualquer 
  * driver de teclado.
- *     Coisas como estrutura para identificação do modele, nome do driver,
+ *     Coisas como estrutura para identificaï¿½ï¿½o do modele, nome do driver,
  *      pathname do driver.
  *
  * Ambiente:
@@ -73,9 +73,9 @@
  * 0xF0-0xFF (Pulse output port) - Pulses command's lower nibble onto lower nibble 
  * of output port (see Output Port definition.)
  *
- * Histórico:
- *     Versão 1.0, 2015 - Esse arquivo foi criado por Fred Nora.
- *     Versão 1.0, 2016 - Aprimoramento geral das rotinas básicas.
+ * Histï¿½rico:
+ *     Versï¿½o 1.0, 2015 - Esse arquivo foi criado por Fred Nora.
+ *     Versï¿½o 1.0, 2016 - Aprimoramento geral das rotinas bï¿½sicas.
  *     //...
  */ 
  
@@ -88,7 +88,7 @@
  
  
  
-//?? Não sei quem usa isso. 
+//?? Nï¿½o sei quem usa isso. 
 //size should always be a power of 2
 #define QUEUE_INITIAL_SIZE 32 //16 
  
@@ -111,20 +111,20 @@
 #define LDISC_CHANGE_MESSAGE1 7     //use long1 como mensagem
 #define LDISC_CHANGE_MESSAGE2 8     //use long2 como mensagem
 
-//pega a próxima mensagem da fila fifo. circular.
+//pega a prï¿½xima mensagem da fila fifo. circular.
 #define LDISC_GET_NEXT_MESSAGE 9    
 
-//pega o próximo scancode da fila fifo. circular.
+//pega o prï¿½ximo scancode da fila fifo. circular.
 #define LDISC_GET_NEXT_SCANCODE 10  
 
-//Um endereço em usermode espera pelos 4 argumentos da mensagem.	
+//Um endereï¿½o em usermode espera pelos 4 argumentos da mensagem.	
 #define LDISC_RECEIVE_MESSAGE   11  
 #define LDISC_LOAD_ARGS   12
 //...
  
  
  
-//variável de ambiente. 
+//variï¿½vel de ambiente. 
 #define KEYBOARD_DRIVER_PATHNAME "/root/drivers/keyboard.bin" 
 //... 
  
@@ -136,48 +136,38 @@
  
 
 //
-// @todo: Sondando scancode. (provisório.)
+// @todo: Sondando scancode. (provisï¿½rio.)
 //
 
-//ldisc
-int scStatus;
 
+//ldisc
+extern int scStatus;
+
+/*
 //#todo
 int ESCAPE_E0;
- 
  
 //??ldisc
 unsigned long ambiente;
 unsigned long destroy_window;
 unsigned long quit_message;
-
+*/
 
 
 //
 // Prototypes.
 //
-
  
-
- 
-
 //#bugbug
-//?? Onde está essa função ??
-//Não lembro onde está a função desse protótipo.
+//?? Onde estï¿½ essa funï¿½ï¿½o ??
+//Nï¿½o lembro onde estï¿½ a funï¿½ï¿½o desse protï¿½tipo.
 //input pega caracteres digitados.
 unsigned long input(unsigned long ch);
-
-
-
- 
 
 
 //
 //*************************** line discipline ***********************
 //
-
-
-
 
 // #todo
 // Outros esquemas de input podem ser criados aqui.
@@ -185,11 +175,11 @@ unsigned long input(unsigned long ch);
 
 /*
  * ldisc_dialog:
- *     Procedimento de dialogo usado para a manipulação de 
+ *     Procedimento de dialogo usado para a manipulaï¿½ï¿½o de 
  * eventos de teclado.
  *     esse procedimento deve ser chamado quando o sistema 
  * ou algum processo deseja interagir com o driver de teclado 
- *  ?? planejando a funcionalidade desse diálogo ??
+ *  ?? planejando a funcionalidade desse diï¿½logo ??
  */
  
 unsigned long 

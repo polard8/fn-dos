@@ -1,13 +1,13 @@
 /*
  * File: cpu.h 
  *
- * Descrição:
+ * Descriï¿½ï¿½o:
  *     Header para gerenciamento de cpus.
  *
  *     CPUs em Desktops:
  *         Intel, AMD, ARM etc ...
  *
- * #todo: boa parte do que está aqui pode ir 
+ * #todo: boa parte do que estï¿½ aqui pode ir 
  * para /hardware/intel.h e hardware/amd.h
  *
  * 2015 - Created by Fred Nora.
@@ -68,7 +68,7 @@ struct processor_d
 	// Processor State ???
 	
 	
-	//@todo: Reservar espaço ???
+	//@todo: Reservar espaï¿½o ???
 	//ULONG   KernelReserved[16];         // For use by the kernel
     //ULONG   HalReserved[16];            // For use by Hal
 	
@@ -196,13 +196,11 @@ struct processor_d
 
     struct processor_d  *next;
 };
-struct processor_d *processor;
+extern struct processor_d *processor;
 
 
 /*
- ******************************************************
  * ProcessorBlock_d:
- * 
  *     Processor Block.
  *     Used in the task switch routines.
  *     It handles information about CPU and the process running
@@ -212,12 +210,9 @@ struct processor_d *processor;
 
 struct ProcessorBlock_d
 {
-
     object_type_t   objectType;
     object_class_t  objectClass;
-
     int id;
-
     int used;
     int magic;
 
@@ -270,20 +265,15 @@ struct ProcessorBlock_d
     struct ProcessorBlock_d *next;
 };
 
-// struct ProcessorBlock_d *???;
-
 
 #define PROCESSORS_MAX_COUNT 32
 
 //processors count
-int processors_count;
+extern int processors_count;
 
 // all processors's structs.
 // ProcessorBlock_d
-unsigned long processorsList[PROCESSORS_MAX_COUNT];
-
-
-
+extern unsigned long processorsList[PROCESSORS_MAX_COUNT];
 
 //
 // == prototypes ===========================================
@@ -302,7 +292,7 @@ int cpu_get_parameters (void);
 unsigned long get_processor_feature(int i);
 
 // #bugbug
-// Esse nome não é apropriado.
+// Esse nome nï¿½o ï¿½ apropriado.
 // #todo: 
 // Isso deve isr para include/ke.h.
 int KeTestCPU (void);   

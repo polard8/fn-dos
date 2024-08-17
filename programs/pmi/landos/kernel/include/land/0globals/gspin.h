@@ -5,8 +5,9 @@
 #define ____GSPIN_H 1
 
 
-//generic.
-int __spinlock_ipc;
+// Global
+// see: main.c
+extern int __spinlock_ipc;
 
 
 //#test

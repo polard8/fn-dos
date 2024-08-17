@@ -65,16 +65,12 @@
 //#bugbug
 //#todo
 //Isso deve ir para uma posição abaixo da estrutura.
-struct process_d *xxxClonedProcess;
-
+extern struct process_d *xxxClonedProcess;
 
 //#bugbug
 //talvez aqui nao seja o melhor lugar pra definir isso.
-#define gramado_pid_t pid_t
+#define gramado_pid_t  pid_t
 
-
-
-//
 //#define FIRST_PROCESS processList[0]
 //#define LAST_PROCESS  processList[PROCESS_COUNT_MAX-1] 
 
@@ -293,11 +289,8 @@ struct process_info_d
 */
 
 
-
 /*
- *********************************************
  * process_d: 
- *
  *    PCB - Process Control Block.
  *
  *    Estruturas para processos.
@@ -383,7 +376,6 @@ struct process_d
 	// error.
 	//unsigned long error; 
 
-
 //
 // Name
 //
@@ -444,9 +436,6 @@ struct process_d
 	//esse processo e o processo criar� janelas.
 
     appmode_t appMode;
-
-
-
 
 //
 //  Banco de dados
@@ -553,9 +542,7 @@ struct process_d
 	// Quantas trocas de context sofreu durante um determinado tempo de an�lise.
 	// Esse deve ser o mesmo tempo de an�lise usado para calcular o working set.
 
-
 	//unsigned long ContextSwitchesDelta;  
-
 
 //
 // MEMORY SUPPORT
@@ -575,20 +562,17 @@ struct process_d
 	// ORDEM: 
 	// O que segue � referenciado durante o processo de task switch.
 
-
 	// Page directory information:
 	// ==========================
 	//     Todo processo deve ter seu pr�prio diret�rio.
 	//     As threads usam o diret�rio do processo ao qual pertencem.
 	//     O endere�o do diret�rio � carregado no CR3.
  
-
     unsigned long DirectoryVA;                  
     unsigned long DirectoryPA;
 
     // Ponteiro para a estrutura do diret�rio de p�ginas do processo.
     struct page_directory_d *page_directory;  
-
 
 //
 // Image support.
@@ -623,14 +607,12 @@ struct process_d
     unsigned long childStack; 
     unsigned long childStackPA; 
 
-
 	//#todo: estrutura com informa��es sobre a imagem do processo.
 	//see: pc/image.h
     struct image_info_d *image_info;
 	
 	//#test
 	//struct page_control_t *page_list_head;
-
 
 //
 // Heap
@@ -657,8 +639,6 @@ struct process_d
 	unsigned long StackOffset;    //Deslocamento da pilha em rela��o ao in�cio do kernel.	
 	//struct stack_d *processStack;  //@todo: Criar essa estrutura.
 
-
-
 	// Teste: 
 	// Blocos de memoria usados pelo processo.
 
@@ -668,11 +648,9 @@ struct process_d
 	//Muitas informa��es sobre a mem�ria usada pro um processo.
 	//struct process_memory_info_d *processMemoryInfo;
 
-
 	//
 	//  Environment.
 	//
-
 
 	//IOPL of the task. (ring).
     unsigned long iopl; 
@@ -741,7 +719,6 @@ struct process_d
 	//unsigned long ws_number_of_frames; 
 	//...
 
-
 //
 // profiler
 //
@@ -777,7 +754,6 @@ struct process_d
 
     unsigned long PreviousMode;
 
-
     // Quantas threads o processo tem.
     int thread_count;
 
@@ -802,7 +778,6 @@ struct process_d
 	struct thread_d *threadListHead;
 	//struct thread_d *threadReadyListHead;
 	//...
-
 
 	/*
 	 * event: 
@@ -831,7 +806,6 @@ struct process_d
 
 	//ponteiros para as streams do fluxo padr�o.
     unsigned long standard_streams[3];
-
 
 //
 // == fs ===============
@@ -971,8 +945,6 @@ struct process_d
 
     //========================================
 
-
-
     //Motivo do processo fechar.
     int exit_code;
 
@@ -981,22 +953,14 @@ struct process_d
     struct process_d *prev;
     struct process_d *next;
 };
-
-//
-// Primeiros processos.
-//
-
-struct process_d *KernelProcess;     // Base kernel
-struct process_d *InitProcess;       // init process.
-
-
+extern struct process_d *KernelProcess;     // Base kernel
+extern struct process_d *InitProcess;       // init process.
 
 
 /*
  *    processList:
  *        Tabela de processos.
- *
- *    **** LONG-TERM SCHEDULER FOR PROCESSES ****
+ * LONG-TERM SCHEDULER FOR PROCESSES
  *
  *     Essa � a thread job list, ou job queue.
  *     Armazena todos os processos do sistema.
@@ -1006,20 +970,7 @@ struct process_d *InitProcess;       // init process.
 // Max number of processes.
 #define  PROCESS_COUNT_MAX  1024    
 
-unsigned long processList[PROCESS_COUNT_MAX];
-
-
-//
-// @todo: Aqui pode haver outras tabelas de processos:
-//
-
-//unsigned long running_processList[8];
-//unsigned long running_processList[8];
-//unsigned long running_processList[8];
-//unsigned long running_processList[8];
-//...
-
-
+extern unsigned long processList[PROCESS_COUNT_MAX];
 
 
 /*
@@ -1031,20 +982,9 @@ unsigned long processList[PROCESS_COUNT_MAX];
 struct proc_list_d
 {
     unsigned long len;
-
     struct process_d  *head;
     struct process_d  *tail;
 };
-
-// #todo:
-// Rever essas listas.
-//struct proc_list_d *system_procs;      //Processos do sistema.
-//struct proc_list_d *periodic_procs;    //Processos peri�dicos.
-//struct proc_list_d *rr_procs;          //Processos do tipo round robin.
-//struct proc_list_d *waiting_procs;     //Processos que est�o esperando.
-//...  
-
-
 
 
 /*
@@ -1052,7 +992,6 @@ struct proc_list_d
  *    Informa��es b�sicas sobre um processo. 
  *    Quick access.
  */
-
 struct process_info_d 
 {
     int processId;
@@ -1087,7 +1026,6 @@ int getprocessname ( int pid, char *buffer );
 //cria uma estrutura do tipo processo, mas n�o inicializada.
 struct process_d *processObject (void);
 
-
 /*
  * getNewPID:
  *     Pegar um slot vazio na lista de processos.
@@ -1103,7 +1041,6 @@ processSendSignal (
     struct process_d *p, 
     unsigned long signal );
 
-
 //
 // Page directory support.
 //
@@ -1116,7 +1053,6 @@ void
 SetProcessDirectory ( 
     struct process_d *process, 
     unsigned long Address );
-
 
 //
 // Process support.
@@ -1133,13 +1069,11 @@ void init_processes (void);
 void show_currentprocess_info (void);
 void show_process_information (void);
 
-
 void process_copy_files (struct process_d *from, struct process_d *to);
 
 // fecha todos os arquivos que podem ser fechados,
 // mas se a flag estiver acionada, fecha todos mesmo.
 void process_close_files(struct process_d *process, int all);
-
 
 // Copia a imagem do processo que est� carregada na mem�ria.
 int processCopyMemory ( struct process_d *process );
@@ -1191,12 +1125,9 @@ void process_open_gate(int pid);    //228 open
 
 
 void set_caller_process_id (int pid);
-
 int get_caller_process_id (void);
 
 int init_process_manager (void);
-
-
 
 file *process_get_file_from_pid ( pid_t pid, int fd );
 file *process_get_file ( int fd );
@@ -1211,16 +1142,13 @@ __execute_new_process (
 // Pega o n�mero da tty de um processo, dado o pid.
 int process_get_tty ( int pid );
 
-
 int 
 process_execve ( 
     const char *arg1, 
     const char *arg2, 
     const char *arg3 );
 
-
 #endif    
-
 
 //
 // End.

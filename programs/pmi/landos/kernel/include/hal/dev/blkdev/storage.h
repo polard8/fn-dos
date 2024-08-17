@@ -44,12 +44,10 @@ struct storage_d
     struct volume_d    *boot_volume;
     struct volume_d  *system_volume;
 
-
     // vfs
     // virtual file system
     
     struct vfs_d *vfs;
-
 
     //
     //  fs ???
@@ -63,8 +61,6 @@ struct storage_d
     //Ponteiro para o sistema de arquivos atual.
     //Se isso for NULL, então não temos sistema de arquivos.
     struct filesystem_d *fs;
-
-
 
     //
     // file ??
@@ -90,10 +86,7 @@ struct storage_d
 
 // Essa será a esttrutura usada para saber informações sobre o 
 // sistema de arquivos atual e gerenciar o sistema de arquivos atual.
-
-struct storage_d *storage;
-//struct storage_d *CurrentStorage;
-// ...
+extern struct storage_d *storage;
 
 #endif    
 

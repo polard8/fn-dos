@@ -1,11 +1,11 @@
 /*
  * File: ps/sched/schedi.c
  *
- * Descrição:
+ * Descriï¿½ï¿½o:
  *     Scheduler (Internal).
  *     Chama rotinas de scheduler dentro do kernel base. (internal).
  *     Faz parte do Process Manager, parte fundamental do Kernel Base.
- *     Rotinas de apoio ao módulo scheduler.
+ *     Rotinas de apoio ao mï¿½dulo scheduler.
  *
  * History:
  *     2015 - Created by Fred Nora.
@@ -17,19 +17,18 @@
 
 
 /*
- *****************************
  * do_waitpid:
  *     espera por qualquer um do processo filho.
  */
 
 //#todo 
 //vamos apenas lidar com a estrutura de processo.
-//#importante: o kernel terá a obrigação de 
-//finalizar o processo quando sua thread primária ficar em zombie. 
-//poi um processo tem várias threads, e se uma fechar não significa que o 
+//#importante: o kernel terï¿½ a obrigaï¿½ï¿½o de 
+//finalizar o processo quando sua thread primï¿½ria ficar em zombie. 
+//poi um processo tem vï¿½rias threads, e se uma fechar nï¿½o significa que o 
 //processo terminou. Por isso vamos apenas checar o estado dos processos e 
-//não das threads.
-//rever essa função, há muito o que fazer nela 
+//nï¿½o das threads.
+//rever essa funï¿½ï¿½o, hï¿½ muito o que fazer nela 
 //ela precisa retornar valores padronizados e configurar 
 //o status recebido
 
@@ -43,7 +42,7 @@ int do_waitpid (pid_t pid, int *status, int options){
         //current_process, pid );
 
     // #todo
-    // tem que bloquear o processo atual até que um dos seus 
+    // tem que bloquear o processo atual atï¿½ que um dos seus 
     // processos filhos seja fechado.
 
     p = (struct process_d *) processList[current_process];
@@ -58,7 +57,7 @@ int do_waitpid (pid_t pid, int *status, int options){
             debug_print ("do_waitpid: validation\n");
         }
         
-        // #todo: Esse if não é necessário.
+        // #todo: Esse if nï¿½o ï¿½ necessï¿½rio.
         if ( p->used == 1 && p->magic == 1234 )
         {
 
@@ -68,11 +67,11 @@ int do_waitpid (pid_t pid, int *status, int options){
             p->state = PROCESS_BLOCKED;
 
 
-			//significa que está esperando por qualquer
+			//significa que estï¿½ esperando por qualquer
 			//um dos filhos.
             p->wait4pid = (pid_t) pid; 
 
-            //checando se a thread atual é a thread de controle. 
+            //checando se a thread atual ï¿½ a thread de controle. 
             if (current_thread == p->control->tid )
             {
                 //#debug
@@ -88,7 +87,7 @@ int do_waitpid (pid_t pid, int *status, int options){
    };
 
 
-	//aqui precisamos dar informações sobre o status 
+	//aqui precisamos dar informaï¿½ï¿½es sobre o status 
 	//do processo
 
     // #bugbug: Isso pode ter falhado.
@@ -202,7 +201,7 @@ void block_for_a_reason ( int tid, int reason ){
             debug_print ("block_for_a_reason: t validation\n");
         }
 
-        // #todo: Esse if não é necessário.  
+        // #todo: Esse if nï¿½o ï¿½ necessï¿½rio.  
         if ( t->used == 1 && t->magic == 1234 )
         {
             t->wait_reason[reason] = 1;
@@ -221,7 +220,7 @@ void block_for_a_reason ( int tid, int reason ){
 
 //acordar uma determinada thread se ela estiver 
 //esperando por um evento desse tipo.
-//uma outra função pode fazer um loop acordando 
+//uma outra funï¿½ï¿½o pode fazer um loop acordando 
 //todas as threads que esperam pelo memso motivo.
 
 int wakeup_thread_reason ( int tid, int reason ){
@@ -317,7 +316,7 @@ done:
  * 
  */
 
-// Acorda todas as threads da lista que estão esperando por 
+// Acorda todas as threads da lista que estï¿½o esperando por 
 // evento de determinado tipo.
 
 int wakeup_scan_thread_reason ( int reason ){
@@ -359,18 +358,18 @@ fail:
  *************************************************
  * KiScheduler:
  *    Interface para chamar a rotina de scheduler.
- *    Troca as threads que estão em user mode, 
- * usando o método cooperativo. 
+ *    Troca as threads que estï¿½o em user mode, 
+ * usando o mï¿½todo cooperativo. 
  * Round Robing. 
  *    As tarefas tem a mesma prioridade.
  *    + Quando encontrada uma tarefa de maior prioridade, 
  * escolhe ela imediatamente.
  *    + Quando encontrar uma tarefa de menor prioridade, 
- * apenas eleva a prioridade dela em até dois valores 
- * acima da prioridade base, pegando a próxima tarefa. 
- *    + Quando uma tarefa está rodando à dois valores 
+ * apenas eleva a prioridade dela em atï¿½ dois valores 
+ * acima da prioridade base, pegando a prï¿½xima tarefa. 
+ *    + Quando uma tarefa estï¿½ rodando ï¿½ dois valores 
  * acima da sua prioridade, volta a prioridade para a 
- * sua prioridade básica e executa.
+ * sua prioridade bï¿½sica e executa.
  *
  * @todo: 
  *     Essa rotina deve ter retorno do tipo 'int'.
@@ -378,8 +377,8 @@ fail:
  
 int KiScheduler (void){
     
-	// ?? Quem está chamando ? Filtros ?
-    // @todo: Talvez haja mais casos onde não se deva trocar a tarefa.
+	// ?? Quem estï¿½ chamando ? Filtros ?
+    // @todo: Talvez haja mais casos onde nï¿½o se deva trocar a tarefa.
 
 	//#bugbug 
 	//Porque retornamos 0 ???
@@ -408,8 +407,8 @@ int KiScheduler (void){
     };
 
 	// Retornaremos se tivermos apenas um thread rodando.
-	// Pois não há o que trocar.
-	//Se só temos uma então devemos retornar a idle.
+	// Pois nï¿½o hï¿½ o que trocar.
+	//Se sï¿½ temos uma entï¿½o devemos retornar a idle.
 
     //if ( ProcessorBlock.threads_counter == 1 )
     if ( UPProcessorBlock.threads_counter == 1 )
@@ -478,7 +477,7 @@ int KiGetCurrent (void)
 /*
  * KiGetCurrentTask:
  *     @todo: Modar para KiGetCurrentProcess.
- *     #bugbug: Esse nome é inapropriado.
+ *     #bugbug: Esse nome ï¿½ inapropriado.
  */
  
 int KiGetCurrentTask (void)
@@ -725,7 +724,7 @@ void do_thread_waiting (int tid)
  ************************************************************
  * do_thread_sleeping:
  *     Muda o state de uma thread pra blocked.
- *     @todo: Mudar o nome da função para do_thread_blocked.
+ *     @todo: Mudar o nome da funï¿½ï¿½o para do_thread_blocked.
  */
 
 // 7
@@ -756,7 +755,7 @@ void do_thread_blocked (int tid){
 
 // Desiste do tempo de processamento.
 // cooperativo.
-// Muda o seu tempo executando para: Próximo de acabar.
+// Muda o seu tempo executando para: Prï¿½ximo de acabar.
 
 void yield (int tid){
 
@@ -777,7 +776,7 @@ void yield (int tid){
         if ( t->used == 1 && t->magic == 1234 )
         {
 	        // flag. 
-	        // 1 = Sinaliza que a thread está dando a preferência
+	        // 1 = Sinaliza que a thread estï¿½ dando a preferï¿½ncia
 	        // e que deve sair quando for seguro fazer isso.
             // Agenda o yield.
             // >>> O ts.c vai fazer isso na hora certa.
@@ -823,8 +822,8 @@ void wakeup_thread (int tid){
    
     }else{
     
-		//Se o contexto não foi salvo. 
-		//Não tem como acorda-la.
+		//Se o contexto nï¿½o foi salvo. 
+		//Nï¿½o tem como acorda-la.
 		//Pois acordar significa apenas retornar 
 		//ao estado RUNNING.
 		if ( t->saved == 0 ){ 
@@ -832,14 +831,14 @@ void wakeup_thread (int tid){
 		}
 		
 		// Se estiver bloqueada, 
-		// não tem como acordar ainda. 
+		// nï¿½o tem como acordar ainda. 
 		// precisa desbloquear.
 		if (t->state == BLOCKED){ 
 	        return; 
 		}
 			
 	    //Isso acorda a thread,
-		//mas não coloca ela imediatamente para rodar,
+		//mas nï¿½o coloca ela imediatamente para rodar,
 		//nem precisa.
 
         do_thread_running (tid);
@@ -852,7 +851,7 @@ void wakeup_thread (int tid){
 /*
  ***************************************
  * SelectNextThread:
- *     Configurando a próxima thread da thread
+ *     Configurando a prï¿½xima thread da thread
  * indicada via argumento.
  *
  * @todo: Mudar para schediSelectNextThread(int current);.
@@ -884,10 +883,10 @@ int SelectNextThread (int current)
         
     }else{
 
-        //Se não existe indicação de próxima.
+        //Se nï¿½o existe indicaï¿½ï¿½o de prï¿½xima.
         if ( (void *) t->next == NULL )
         {
-		    //Procura a próxima tarefa, de acordo com a prioridade.
+		    //Procura a prï¿½xima tarefa, de acordo com a prioridade.
 		    Next = (int) find_higher_priority();
 
 		    n = (void *) threadList[Next];
@@ -901,7 +900,7 @@ int SelectNextThread (int current)
                 return (int) Next;
             };
 
-		//Aceita a indicação de próxima.
+		//Aceita a indicaï¿½ï¿½o de prï¿½xima.
         }else{
 
             n = (void *) t->next;
@@ -934,8 +933,8 @@ int SelectNextThread (int current)
  * 
  * Procura na lista de threads no estado StandyBy.
  * Se tiver uma thread nessa lista, ela se torna 
- * a current. Para rodar pela primeira vez, atravéz de Spawn.
- * Não retorna se encontrar uma threa na lista.
+ * a current. Para rodar pela primeira vez, atravï¿½z de Spawn.
+ * Nï¿½o retorna se encontrar uma threa na lista.
  */
 
 // Called by task_switch().
@@ -1010,7 +1009,7 @@ do_spawn:
 
 /*
  * check_quantum:
- *     Checa o quantum atribuido às threads da lista.
+ *     Checa o quantum atribuido ï¿½s threads da lista.
  *     Seleciona a primeira thread encontrada com o 
  * quantum no limite. #todo: rever isso.
  *

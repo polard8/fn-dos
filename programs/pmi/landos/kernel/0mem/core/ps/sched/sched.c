@@ -1,27 +1,27 @@
 /*
  * File: ps/sched/sched.c
  *
- * Descrição:
+ * Descriï¿½ï¿½o:
  *     O escalonador de processos do Kernel.
  *     Faz parte do Process Manager, parte fundamental do Kernel Base.
  *     The kernel schedules threads, not processes.
  *     Priority: +boosts for GUI foreground.
  *
- * Atribuições:
+ * Atribuiï¿½ï¿½es:
  *     + Salva o contexto da tarefa OLD.
  *     + Incrementa a tarefa atual. (RR).
  *     + Retorna o contexto da tarefa NEW.
  *
  * Obs:
- *     O Scheduler não salva nem restaura contexto de tarefa.
- * Apenas troca a tarefa atual e faz um agendamento das próximas
+ *     O Scheduler nï¿½o salva nem restaura contexto de tarefa.
+ * Apenas troca a tarefa atual e faz um agendamento das prï¿½ximas
  * threads a rodarem.
- *     Será possível usar mais de um método de escalonamento. No momento,
- * o método usado é escalonamento Round Robin, preemptivo,
- * com múltiplas filas e prioridade.
+ *     Serï¿½ possï¿½vel usar mais de um mï¿½todo de escalonamento. No momento,
+ * o mï¿½todo usado ï¿½ escalonamento Round Robin, preemptivo,
+ * com mï¿½ltiplas filas e prioridade.
  *
  * @todo:
- *     Não por interface nessa rotina. Perde velocidade.
+ *     Nï¿½o por interface nessa rotina. Perde velocidade.
  *
  * History:
  *     2015 - Created by Fred Nora.
@@ -32,23 +32,28 @@
  /*
   * #importante:
   * Para implementarmos um scheduler como um processo, devemos separar 
-  * as funções em funções de biblioteca e funções primitivas, que serão 
-  * aquelas presentes no stub do scheduler. As funções primitivas 
-  * serão as mesmas para todos os schedulers que criarmos.
+  * as funï¿½ï¿½es em funï¿½ï¿½es de biblioteca e funï¿½ï¿½es primitivas, que serï¿½o 
+  * aquelas presentes no stub do scheduler. As funï¿½ï¿½es primitivas 
+  * serï¿½o as mesmas para todos os schedulers que criarmos.
   */
  
 
 #include <kernel.h>
 
 
+int schedulerType=0;
+unsigned long schedulerQueue[4]; 
+
+// ========================================
+
 /*
  * pick_next_thread:
  *     Selecionamos a 'next_thread' olhando nas filas em QUEUE[].
- *     QUEUE[] contém ponteiros para listas encadeadas.
- *     Se não tiver nada nas filas então usaremos a InitThread.
+ *     QUEUE[] contï¿½m ponteiros para listas encadeadas.
+ *     Se nï¿½o tiver nada nas filas entï¿½o usaremos a InitThread.
  *
- *     #bugbug: Essa InitThread está configurada corretamente. ?
- *     #bugbug: E se não existir IfleThread? 
+ *     #bugbug: Essa InitThread estï¿½ configurada corretamente. ?
+ *     #bugbug: E se nï¿½o existir IfleThread? 
  */
 
 struct thread_d *pick_next_thread (void){
@@ -73,7 +78,7 @@ struct thread_d *pick_next_thread (void){
     } else if ( QUEUES[1] != 0 ){
         i = 1;
 
-	//nos resta a fila de apps de usuário.
+	//nos resta a fila de apps de usuï¿½rio.
     }else{
         i = 2;
     };
@@ -84,7 +89,7 @@ struct thread_d *pick_next_thread (void){
 	//
 
 
-	//se o elemento tem um valor não nulo..
+	//se o elemento tem um valor nï¿½o nulo..
     if (QUEUES[i] != 0)
     {
 	    //Ok temos uma fila.
@@ -98,7 +103,7 @@ struct thread_d *pick_next_thread (void){
 		// filas foi construida.
 		// nos reata usarmos a thread idle. 
 		
-		//podemos fica nessa condiç~ao at'e que uma thread seja acordada ...
+		//podemos fica nessa condiï¿½~ao at'e que uma thread seja acordada ...
 		//talvez ela esteja esperando alguma recurso,.
 		//quando ela acordar ir'a pra alguma fila.
 		
@@ -107,7 +112,7 @@ struct thread_d *pick_next_thread (void){
 		// #todo
 		// Mudar para ____IDLE;
 		// Selecionamos a idle.
-		// Isso está errado, estamos selecionando a thread de controle
+		// Isso estï¿½ errado, estamos selecionando a thread de controle
 		// do processo init.bin, mas queremos a idle do kernel.
         t = InitThread;
         //t = ____IDLE;
@@ -125,7 +130,7 @@ struct thread_d *pick_next_thread (void){
     }else{
 
         // #bugbug
-        // Se a estrutura falhou então não podemos usar essa thread.
+        // Se a estrutura falhou entï¿½o nï¿½o podemos usar essa thread.
         // Tem que abortar a tentativa.
         
         if ( t->used != 1 || t->magic != 1234 )
@@ -152,8 +157,8 @@ prepare_next:
     {
 	    //fail
 	    // #debug
-	    //Não conseguimos selecionar nenhuma thread como próxima.
-		//não temos nem mesmo uma thread idle para inicializarmos o round.
+	    //Nï¿½o conseguimos selecionar nenhuma thread como prï¿½xima.
+		//nï¿½o temos nem mesmo uma thread idle para inicializarmos o round.
 			
 		//#debug
 		//printf ("#DEBUG\n");
@@ -166,8 +171,8 @@ prepare_next:
         {
 	        //fail
 	        // #debug
-	        //Não conseguimos selecionar nenhuma thread como próxima.
-		    //não temos nem mesmo uma thread idle para inicializarmos o round.
+	        //Nï¿½o conseguimos selecionar nenhuma thread como prï¿½xima.
+		    //nï¿½o temos nem mesmo uma thread idle para inicializarmos o round.
 		    //#debug
 			//printf ("#DEBUG\n");
             printf ("pick_next_thread: No next_thread, we could't initialize the round\n");
@@ -216,11 +221,11 @@ void sched_double_shot(void)
  * scheduler:
  *    Troca a thread atual, escolhe uma nova thread atual 
  * para rodar no momento.
- *    O método é cooperativo, Round Robing.
+ *    O mï¿½todo ï¿½ cooperativo, Round Robing.
  *
  * Ordem de escolha:
  * ================
- *  +fase 1 - Pega a próxima indicada na estrutura.
+ *  +fase 1 - Pega a prï¿½xima indicada na estrutura.
  *  +fase 2 - Pega nos slots a de maior prioridade.
  *  +fase 3 - Pega a Idle. 
  *            @todo: Nessa fase devemos usar a idle atual, 
@@ -228,8 +233,8 @@ void sched_double_shot(void)
  *  //...
  *
  * Obs:
- *     O que estamos fazendo aqui é incrementar a tarefa atual e olhando se a
- * próxima tarefa da lista threadList[] está pronta pra rodar.
+ *     O que estamos fazendo aqui ï¿½ incrementar a tarefa atual e olhando se a
+ * prï¿½xima tarefa da lista threadList[] estï¿½ pronta pra rodar.
  *
  * Obs:
  *     Pega na fila ReadyQueue.
@@ -240,10 +245,10 @@ void sched_double_shot(void)
 // Podemos contar os rounds.
 // Obs: 
 // ## IMPORTANTE  ##
-// A thread idle somente é usada quando o sistema 
-// estiver ocioso ou quando ela for a única thread.
-// E é importante que a thread idle seja usada, pois 
-// ela tem as instruções sti/hlt que atenua a utilização 
+// A thread idle somente ï¿½ usada quando o sistema 
+// estiver ocioso ou quando ela for a ï¿½nica thread.
+// E ï¿½ importante que a thread idle seja usada, pois 
+// ela tem as instruï¿½ï¿½es sti/hlt que atenua a utilizaï¿½ï¿½o 
 // da CPU, reduzindo o consumo de energia.
 
 
@@ -390,7 +395,7 @@ void scheduler_unlock (void)
 
 /*
  * scheduler_get_status:
- *     Pega o status do scheduler, se ele está travado ou não.
+ *     Pega o status do scheduler, se ele estï¿½ travado ou nï¿½o.
  */
  
 unsigned long scheduler_get_status (void)
@@ -408,9 +413,9 @@ unsigned long scheduler_get_status (void)
  */
 
 	// #todo: 
-	// Implementar inicialização de variaveis do scheduler.
+	// Implementar inicializaï¿½ï¿½o de variaveis do scheduler.
 	// O nome poderia ser schedulerInit().
-	// Formato de classes.Init é um método. 
+	// Formato de classes.Init ï¿½ um mï¿½todo. 
 
 // Called by init_microkernel in mk.c
 

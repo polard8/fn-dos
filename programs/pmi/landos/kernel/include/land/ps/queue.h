@@ -1,9 +1,9 @@
 /*
  * File: queue.h
  *
- * Descrição:
+ * Descriï¿½ï¿½o:
  *     Header para queue.
- *     No fim da fila a prioridade é maior.
+ *     No fim da fila a prioridade ï¿½ maior.
  *    
  * History:
  *     2015 - Created by Fred Nora.
@@ -15,27 +15,27 @@
 #define __QUEUE_H    1
 
 
-// Ordenação das listas de filas.
+// Ordenaï¿½ï¿½o das listas de filas.
 
 #define QUEUE_NULL     0
 #define QUEUE_STANDBY  1
 #define QUEUE_RUNNING  2
 #define QUEUE_READY    3
-#define QUEUE_WAITING  4  //Fila das threads que estão esperando.
+#define QUEUE_WAITING  4  //Fila das threads que estï¿½o esperando.
 #define QUEUE_BLOCKED  5
 #define QUEUE_ZOMBIE   6
 #define QUEUE_DEAD     7
 #define QUEUE_INITIALIZED   8
-#define QUEUE_SYSCOOP       9  // Sistema, cooperação.   
-#define QUEUE_USERCOOP     10  // Usuário, cooperação.   
-#define QUEUE_SYSCONC      11  // Sistema, concorrência. 
-#define QUEUE_USERCONC     12  // Usuário, concorrencia.  
+#define QUEUE_SYSCOOP       9  // Sistema, cooperaï¿½ï¿½o.   
+#define QUEUE_USERCOOP     10  // Usuï¿½rio, cooperaï¿½ï¿½o.   
+#define QUEUE_SYSCONC      11  // Sistema, concorrï¿½ncia. 
+#define QUEUE_USERCONC     12  // Usuï¿½rio, concorrencia.  
 #define QUEUE_REALTIME     13 
 #define QUEUE_DEFAULT      14
 //...
 
 // ??
-// Níveis de prioridade.
+// Nï¿½veis de prioridade.
 #define QUEUE_LEVEL_MIN 15
 #define QUEUE_LEVEL_MED 16
 #define QUEUE_LEVEL_MAX 17
@@ -44,26 +44,25 @@
 #define MAX_QUEUES 3
 
 
-// Essa é a organização padrão de uma lista de ponteiros de lista encadeada.
+// Essa ï¿½ a organizaï¿½ï¿½o padrï¿½o de uma lista de ponteiros de lista encadeada.
 // 0 = DRIVERS
 // 1 = SERVERS
 // 2 = USER APPS
 // 3 = NULL 
-
-unsigned long QUEUES[3];
+extern unsigned long QUEUES[3];
  
  
 /*
  **********************************************************
  * queue_d:
- *     Estrutura para organizar várias listas de ponteiros de lista encadeada.
+ *     Estrutura para organizar vï¿½rias listas de ponteiros de lista encadeada.
  */
 
 struct queue_d
 {
 	// #importante
-	// MAX_QUEUES é o número máximo de filas que pode haver na lista.
-	// A lista contém o potneiro head de uma lista encadeada.
+	// MAX_QUEUES ï¿½ o nï¿½mero mï¿½ximo de filas que pode haver na lista.
+	// A lista contï¿½m o potneiro head de uma lista encadeada.
 	//
    	
 	//Movimento 1, initialized --> standby. 
@@ -91,7 +90,7 @@ struct queue_d
 	 
 	 
 	//Movimento 5, ready --> waiting.
-    //Esperando para retomar a execução.	
+    //Esperando para retomar a execuï¿½ï¿½o.	
     int waitingHead;
     int waitingTail;
     int waitingMax;
@@ -128,34 +127,34 @@ struct queue_d
 	/*
      * RACE: 
 	 *    Filas do loop do sistema. 
-	 *    Cooperação e Concorrência.
+	 *    Cooperaï¿½ï¿½o e Concorrï¿½ncia.
      */ 
 	  
 	  
-    //Cooperação, sistema.
+    //Cooperaï¿½ï¿½o, sistema.
     int syscoopHead; 
     int syscoopTail;
     int syscoopMax;
     unsigned long syscoopList[MAX_QUEUES+1];   
 
-	//Concorrência, sistema.
+	//Concorrï¿½ncia, sistema.
     int sysconcHead; 
     int sysconcTail;
     int sysconcMax;
     unsigned long sysconcList[MAX_QUEUES+1];
 
 	/*
-     * RACE: Filas do loop do usuário. Cooperação e Concorrência.
+     * RACE: Filas do loop do usuï¿½rio. Cooperaï¿½ï¿½o e Concorrï¿½ncia.
      */ 
 
 	
-	//Cooperação, usuário.
+	//Cooperaï¿½ï¿½o, usuï¿½rio.
     int usercoopHead; 
     int usercoopTail;
     int usercoopMax;
     unsigned long usercoopList[MAX_QUEUES+1];  	
 
-	//Concorrência, usuário.
+	//Concorrï¿½ncia, usuï¿½rio.
     int userconcHead; 
     int userconcTail;
     int userconcMax;
@@ -184,33 +183,31 @@ struct queue_d
     // Listas para filas de threads que se encaixam emdeterminadas faixas de prioridade.
 	
 	
-	//Mínimo = 'level <= PRIORITY_LOW'
+	//Mï¿½nimo = 'level <= PRIORITY_LOW'
     int minHead; 
     int minTail;
     int minMax;
     unsigned long minList[MAX_QUEUES+1];
 	
-	//Médio == 'PRIORITY_LOW > level <= PRIORITY_NORMAL'
+	//Mï¿½dio == 'PRIORITY_LOW > level <= PRIORITY_NORMAL'
     int medHead; 
     int medTail;
     int medMax;
     unsigned long medList[MAX_QUEUES+1];
     
-	//Màximo = ' level > PRIORITY_NORMAL '
+	//Mï¿½ximo = ' level > PRIORITY_NORMAL '
 	int maxHead; 
     int maxTail;
     int maxMax;
     unsigned long maxList[MAX_QUEUES+1];
 	
 };
-
-struct queue_d *queue;
+extern struct queue_d *queue;
 
 
 /*
- ****************************************************
  * wait_queue_d:
- *     Lista encadeada que pode ser usada para threads que estão esperando 
+ *     Lista encadeada que pode ser usada para threads que estï¿½o esperando 
  * por algum evento.
  */
 
@@ -220,9 +217,7 @@ struct wait_queue_d
 	struct thread_d *head;
 	struct thread_d *tail;
 };
-
-struct wait_queue_d *wait_queue;
-
+extern struct wait_queue_d *wait_queue;
 
 
 
@@ -245,9 +240,7 @@ queue_insert_data(
     unsigned long data, 
     int type );
 
-
 struct thread_d *queue_get_data ( struct queue_d *q, int type );
-
   
 void show_queue_information(struct queue_d *q);
 void ScanReadyQueue(struct queue_d *q);

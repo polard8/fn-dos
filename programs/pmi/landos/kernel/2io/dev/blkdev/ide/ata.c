@@ -9,11 +9,22 @@
  *     ...
  */
 
+#include <kernel.h>
+
+
+// Four ports.
+struct ide_port_d  ide_ports[4];
+
+unsigned long ide_handler_address=0;
+
+struct ide_d  IDE;
+
+
+// ======================================================
 
 void ata_soft_reset (void);
 static inline int getpid_dev (void);
 static inline int getnport_dev (void);
-
 
     
 /*
@@ -41,9 +52,6 @@ static const char *ata_sub_class_code_register_strings[] = {
 
 // Obs: 
 // O foco est� na lista de discos. diskList
-
-
-#include <kernel.h>
 
 extern st_dev_t *current_dev;
 

@@ -20,8 +20,8 @@
 // Herdadas do Boot Loader.
 // De onde vem isso ?? head.s
 // #todo: 
-// Devemos chamar o módulo hal para obtermos esses valores.
-// Depois salvamos em variáveis internas usadas pela gui.
+// Devemos chamar o mï¿½dulo hal para obtermos esses valores.
+// Depois salvamos em variï¿½veis internas usadas pela gui.
 
 extern unsigned long SavedBootBlock;
 extern unsigned long SavedLFB;
@@ -30,12 +30,37 @@ extern unsigned long SavedY;
 extern unsigned long SavedBPP; 
 
 
-// Internas.
+
+int g_inputmode=0;
+
+char prompt[PROMPT_SIZE];      //buffer para stdin
+char prompt_out[PROMPT_SIZE];  //buffer para stdout
+char prompt_err[PROMPT_SIZE];  //buffer para strerr
+
+unsigned long prompt_pos=0;
+unsigned long prompt_status=0;
 
 
+int stdio_terminalmode_flag=0;
+int stdio_verbosemode_flag=0;
+
+// file table.
+file *stdin;            // 0
+file *stdout;           // 1
+file *stderr;           // 2
+file *vfs;              // 3 - vfs root dir. 
+file *volume1_rootdir;  // 4 - boot volume root dir.
+file *volume2_rootdir;  // 5 - system volume root dir. 
+
+
+unsigned long file_table[NUMBER_OF_FILES]; 
+
+int kstdio_standard_streams_initialized=0;
+
+
+// =========================================
 
 /*
- *********************************************
  * k_fclose:
  *     Close a file. 
  */
@@ -56,7 +81,7 @@ int k_fclose (file *f)
 
         // #todo
         // Talvez possamos reaproveitar a estrutura
-        // mudando o magic e não estragando a estrutura.
+        // mudando o magic e nï¿½o estragando a estrutura.
 
         f->used  = TRUE;
         f->magic = 1234;
@@ -108,17 +133,17 @@ int k_fclose (file *f)
  *     Open a file.
  *     
  *     #todo: 
- *     Mas já temos recursos para abrimos arquivos maiores 
- *     usando essa função. É só obtermos o tamanho do arquivo 
- *     e alocarmos um buffer do tamanho necessário
+ *     Mas jï¿½ temos recursos para abrimos arquivos maiores 
+ *     usando essa funï¿½ï¿½o. ï¿½ sï¿½ obtermos o tamanho do arquivo 
+ *     e alocarmos um buffer do tamanho necessï¿½rio
  */
 
 //#bugbug
 //ainda nao usamos o argumento mode.
 
 //#bugbug
-//na máquina real falhou no momento de pegar o tamanho do arquivo.
-//debug: vamos colocar verbose nessa rotina e olhar na máquina real
+//na mï¿½quina real falhou no momento de pegar o tamanho do arquivo.
+//debug: vamos colocar verbose nessa rotina e olhar na mï¿½quina real
 //se o problema aparece.
 
 //#bugbug
@@ -191,7 +216,7 @@ file *k_fopen ( const char *filename, const char *mode )
     };
 
     // Reserva um slot.
-    // Começa no 3.
+    // Comeï¿½a no 3.
     for ( i=3; i< NUMBER_OF_FILES; i++ )
     {
         if ( Process->Objects[i] == 0 ){ __slot = i; break; }
@@ -221,20 +246,20 @@ file *k_fopen ( const char *filename, const char *mode )
 	//printf ("klibc: fopen limits. size=%d \n", s);
 	//refresh_screen ();
 
-	//alocando apenas uma página.
+	//alocando apenas uma pï¿½gina.
 	//4KB
 	//Buffer do arquivo.
 	//@todo: Deve ser maior. Do tamanho do arquivo.
-	//Podemos usar outra rotina de alocação de página.
+	//Podemos usar outra rotina de alocaï¿½ï¿½o de pï¿½gina.
 	
 	//#todo:
-	//já temos recursos para alocar memória para um buffer maior.
-	//obs: Essa alocação vai depender do tamanho do arquivo.
+	//jï¿½ temos recursos para alocar memï¿½ria para um buffer maior.
+	//obs: Essa alocaï¿½ï¿½o vai depender do tamanho do arquivo.
 
 
     // Check size.
     // #todo
-    // Não devemos alocar se o arquivo for grande.
+    // Nï¿½o devemos alocar se o arquivo for grande.
 
     if ( Size <= 0 ){
         panic ("k_fopen: [FAIL] Size\n");
@@ -320,7 +345,7 @@ file *k_fopen ( const char *filename, const char *mode )
 
 
 	// #bugbug:
-	// Atenção !!
+	// Atenï¿½ï¿½o !!
 	// Por enquanto esse esquema de pwd mais atrapalha que ajuda.
 
     // pwd support.
@@ -452,11 +477,11 @@ fail:
 
 /*
  *===========================================================================
- *  ==== Segue aqui o suporte a função 'printf' ====
+ *  ==== Segue aqui o suporte a funï¿½ï¿½o 'printf' ====
  *
  * #obs:
  * Em user mode temos uma modelo mais tradiciona de printf,
- * talvez seja bom implementa-lo aqui também.
+ * talvez seja bom implementa-lo aqui tambï¿½m.
  */
 
 
@@ -594,7 +619,7 @@ printi (
 
 
 	// #obs: 
-	// retorna pc + o retorno da função.
+	// retorna pc + o retorno da funï¿½ï¿½o.
     
     // ugly shit
     
@@ -611,9 +636,9 @@ printi (
 // #bugbug
 // E se essa rotina for chamada com o primeiro argumento nulo?
 // vai escrever na IVT ?
-// Vai chamar alguma rotina passando esse emsmo endereço de buffer.
+// Vai chamar alguma rotina passando esse emsmo endereï¿½o de buffer.
 
-//Atençao:
+//Atenï¿½ao:
 // print() nao analisa flags como runlevel ou kernel phase.
 
 int print ( char **out, int *varg ){
@@ -726,10 +751,10 @@ int print ( char **out, int *varg ){
 // #bugbug
 // #todo:
 // Devemos tentar usar o mesmo printf implementado na libc
-// Essa aqui não está no padrão.
+// Essa aqui nï¿½o estï¿½ no padrï¿½o.
 
 // #todo:
-// Vamos substtuir essa função por uma de licensa bsd.
+// Vamos substtuir essa funï¿½ï¿½o por uma de licensa bsd.
 // Olhar na biblioteca.
 
 int printk ( const char *format, ... )
@@ -738,10 +763,10 @@ int printk ( const char *format, ... )
 
     // #bugbug:
     
-    // Se print() está usando '0' como buffer,
-    // então ele está sujando a IVT. 
+    // Se print() estï¿½ usando '0' como buffer,
+    // entï¿½o ele estï¿½ sujando a IVT. 
 
-    //Atençao:
+    //Atenï¿½ao:
     // print() nao analisa flags.
 
     return (int) print ( 0, varg );
@@ -763,7 +788,7 @@ int vsprintf(char *string, const char *format, va_list ap)
 /*
  ******************
  * kputs: 
- *     provisório ...
+ *     provisï¿½rio ...
  */
 
 int kputs ( const char *str )
@@ -806,16 +831,16 @@ int sprintf ( char *str, const char *format, ... )
 /*
  ************************************************
  * fprintf:
- *     A estrtutura é gerenciada em ring0.
- *     A libc em ring3 apenas chamará essa rotina.
- *     serviço 234.
+ *     A estrtutura ï¿½ gerenciada em ring0.
+ *     A libc em ring3 apenas chamarï¿½ essa rotina.
+ *     serviï¿½o 234.
  */
 
-// fflush é line buffered,
-// Então fflush envia pra tela aquilo que está somente no arquivo
-// pois ainda não tem um '\n' '\r' no arquivo.
-// Isso significa que fprintf não pode ativar a rotina de pintura
-// enquanto não encontrar um '\n'
+// fflush ï¿½ line buffered,
+// Entï¿½o fflush envia pra tela aquilo que estï¿½ somente no arquivo
+// pois ainda nï¿½o tem um '\n' '\r' no arquivo.
+// Isso significa que fprintf nï¿½o pode ativar a rotina de pintura
+// enquanto nï¿½o encontrar um '\n'
 
 int fprintf ( file *f, const char *format, ... )
 {
@@ -849,7 +874,7 @@ int fprintf ( file *f, const char *format, ... )
 
     status = (int) print (&str, varg);
 
-	// Depois de ter imprimido então atualizamos o ponteiro de entrada 
+	// Depois de ter imprimido entï¿½o atualizamos o ponteiro de entrada 
 	// no arquivo.
 
     // This is a pointer.
@@ -938,7 +963,7 @@ int k_fileno ( file *f )
 /*
  *********************************
  * fgetc:
- *     #precisamos exportar isso como serviço. (#136)
+ *     #precisamos exportar isso como serviï¿½o. (#136)
  */
 
 int k_fgetc(file *f)
@@ -960,7 +985,7 @@ int k_fgetc(file *f)
 		
 		//#fim.
 		//cnt decrementou e chegou a zero.
-		//Não há mais caracteres disponíveis entre 
+		//Nï¿½o hï¿½ mais caracteres disponï¿½veis entre 
 		//stream->_ptr e o tamanho do buffer.
 		
 		/*
@@ -980,7 +1005,7 @@ int k_fgetc(file *f)
 		*/
 		
 		//#debug
-		//nao podemos acessar um ponteiro nulo... no caso endereço.
+		//nao podemos acessar um ponteiro nulo... no caso endereï¿½o.
 
 
     // if ( (void*) f->_p == NULL ){
@@ -994,7 +1019,7 @@ int k_fgetc(file *f)
     }else{
  
 	// #obs: 
-	// Tem que ter a opção de pegarmos usando o posicionamento
+	// Tem que ter a opï¿½ï¿½o de pegarmos usando o posicionamento
 	// no buffer. O terminal gosta dessas coisas.
 
         //
@@ -1159,7 +1184,7 @@ int __swsetup(file *fp)
  */
 
 // #importante
-// Isso é usado em __sputc no bsd.
+// Isso ï¿½ usado em __sputc no bsd.
 
 /*
 int __swbuf (int c, file *fp);
@@ -1182,18 +1207,18 @@ int k_fputc ( int ch, file *f )
         return EOF;
     }else{
 
-		// se tivermos um posicionamento válido de escrita no buffer ou
-		// se a posição de escrita no buffer for maior que o limite
+		// se tivermos um posicionamento vï¿½lido de escrita no buffer ou
+		// se a posiï¿½ï¿½o de escrita no buffer for maior que o limite
 		// do buffer e o char for diferente de fim de linha
-		// então usaremos ponteiro absoluto para escrever no arquivo.
+		// entï¿½o usaremos ponteiro absoluto para escrever no arquivo.
 		// Isso acontece poque desejamos continuar colocando coisa no arquivo
 		// mesmo depois que o buffer se esgota.
 		
-		// caso contrário escreveremos no buffer.
+		// caso contrï¿½rio escreveremos no buffer.
 			
 			
-		// Se ainda não esgotamos o buffer,
-		// ou se esgotamos o buffer mas o caractere não é um 
+		// Se ainda nï¿½o esgotamos o buffer,
+		// ou se esgotamos o buffer mas o caractere nï¿½o ï¿½ um 
 		// caractere de fim de linha;
 
 		// if ( stream->_w-- >= 0 || 
@@ -1213,7 +1238,7 @@ int k_fputc ( int ch, file *f )
              return (int) ch;  
         }
         
-        // se o buffer está cheio.
+        // se o buffer estï¿½ cheio.
         
         /*
         //Now writing. 
@@ -1259,7 +1284,7 @@ int k_fscanf (file *f, const char *format, ... )
 
     // #obs:
     // Existe um scanf completo em ring3.
-    // Talvez não precisamos de outro aqui.
+    // Talvez nï¿½o precisamos de outro aqui.
 
     return (int) -1;
 }
@@ -1310,21 +1335,21 @@ void k_rewind ( file *f )
  *******************************************************
  * printchar:
  *     Coloca o caractere na string ou imprime.
- * Essa função chama uma rotina que deverá tratar o caractere e 
- * em seguida enviá-lo para a tela.
- * Essa rotina é chamada pelas funções: /print/printi/prints.
+ * Essa funï¿½ï¿½o chama uma rotina que deverï¿½ tratar o caractere e 
+ * em seguida enviï¿½-lo para a tela.
+ * Essa rotina ï¿½ chamada pelas funï¿½ï¿½es: /print/printi/prints.
  */
 
 void printchar (char **str, int c)
 {
 	// #importante
 	// Se a string existe colocamos nela,
-	// caso contrário imprimimos no backbuffer.
+	// caso contrï¿½rio imprimimos no backbuffer.
 	// Vamos aproveitar esse momento para ativarmos a
 	// pintura no caso dos caraters enviados para uma 
 	// stream de output, como stdout.
 
-	// Ativaremos a rotina de mostrar na tela só no momento em que 
+	// Ativaremos a rotina de mostrar na tela sï¿½ no momento em que 
 	// encontramos um fim de linha.
 
     if (str)
@@ -1347,8 +1372,8 @@ void printchar (char **str, int c)
  * putchar:
  *     Put a char on the screen. (libC).
  *     Essa rotina chama uma rotina de tratamento de caractes, somente
- * depois é que o caractere será enviado para a tela.
- *     Essa rotina é chamada pelas funções: /printchar/input/.
+ * depois ï¿½ que o caractere serï¿½ enviado para a tela.
+ *     Essa rotina ï¿½ chamada pelas funï¿½ï¿½es: /printchar/input/.
  */
 
 int putchar (int ch)
@@ -1371,7 +1396,7 @@ int putchar (int ch)
  ****************************
  * getchar:
  *    #todo: 
- *    Isso deve er oferecido como serviço pelo kernel.
+ *    Isso deve er oferecido como serviï¿½o pelo kernel.
  *    The getchar function is equivalent to getc with stdin as 
  *    the value of the stream argument.
  */
@@ -1396,10 +1421,10 @@ done:
 
 
 /*
- essa função é legal ... habilitar quando der.
+ essa funï¿½ï¿½o ï¿½ legal ... habilitar quando der.
  
 void stdio_ClearToEndOfLine();
-//limpa com caracteres em branco até antes da posição do cursor.
+//limpa com caracteres em branco atï¿½ antes da posiï¿½ï¿½o do cursor.
 void stdio_ClearToEndOfLine()
 {
     unsigned u;
@@ -1408,7 +1433,7 @@ void stdio_ClearToEndOfLine()
     OldX = g_cursor_x;
 	OldY = g_cursor_y;
 	
-	//de onde o cursor está até o fim da linha.
+	//de onde o cursor estï¿½ atï¿½ o fim da linha.
 	for( u = g_cursor_x; u < g_cursor_right; u++ )
 	{
        _outbyte(' ', current_vc);
@@ -1422,10 +1447,10 @@ void stdio_ClearToEndOfLine()
 
 
 /*
- essa função é legal ... habilitar quando der.
+ essa funï¿½ï¿½o ï¿½ legal ... habilitar quando der.
  
 void stdio_ClearToStartOfLine();
-//limpa com caracteres em branco até antes da posição do cursor.
+//limpa com caracteres em branco atï¿½ antes da posiï¿½ï¿½o do cursor.
 void stdio_ClearToStartOfLine()
 {
     unsigned u;
@@ -1434,11 +1459,11 @@ void stdio_ClearToStartOfLine()
     OldX = g_cursor_x;
 	OldY = g_cursor_y;
 	
-	//Início da linha.
+	//Inï¿½cio da linha.
     g_cursor_x = 0;
 	g_cursor_y = OldY;	
 	
-	//de onde o cursor está até o fim da linha.
+	//de onde o cursor estï¿½ atï¿½ o fim da linha.
 	for( u = g_cursor_x; u < g_cursor_right; u++ )
 	{
        _outbyte(' ',current_vc);
@@ -1456,9 +1481,9 @@ void stdio_ClearToStartOfLine()
  ******************************************************************
  * input:
  *     Coloca os caracteres digitados em um buffer, (string). 
- * Para depois comparar a string com outra string, que é um comando.
+ * Para depois comparar a string com outra string, que ï¿½ um comando.
  * 
- *     Devemos nos certificar que input(.) não imprima nada.
+ *     Devemos nos certificar que input(.) nï¿½o imprima nada.
  *
  * History:
  *     2015 - Created by Fred Nora.
@@ -1466,7 +1491,7 @@ void stdio_ClearToStartOfLine()
  */
 
 // #bugbug
-// Acho que essa rotina em rin0 não é usada!
+// Acho que essa rotina em rin0 nï¿½o ï¿½ usada!
 // Usamos apenas a que tem em ring3.
 
 unsigned long input ( unsigned long ch )
@@ -1481,12 +1506,12 @@ unsigned long input ( unsigned long ch )
     
     // #bugbug:
     // Estamos nos referindo ao tipo de linha, 
-    // se é simples ou multiplas linhas.
-    //  Mas temos outra flag relativa à imput mode 
+    // se ï¿½ simples ou multiplas linhas.
+    //  Mas temos outra flag relativa ï¿½ imput mode 
     // que trata dos eventos.
     
     // See: ???
-    // Onde estão as flags ???
+    // Onde estï¿½o as flags ???
 
     if ( g_inputmode == INPUT_MODE_LINE )
     {
@@ -1525,7 +1550,7 @@ unsigned long input ( unsigned long ch )
 			{
 			    prompt[prompt_pos] = (char )'\0'; //end of line.
 			    //@todo: ?? ldiscCompare();
-				//o compare está no aplicativo.
+				//o compare estï¿½ no aplicativo.
 	            for(i=0; i<PROMPT_MAX_DEFAULT;i++)
 	            {
 		            prompt[i]     = (char) '\0';
@@ -1560,7 +1585,7 @@ unsigned long input ( unsigned long ch )
 
 		//...
 
-        // Para qualquer caractere que não sejam os especiais tratados acima.
+        // Para qualquer caractere que nï¿½o sejam os especiais tratados acima.
         default:
             prompt[prompt_pos] = c;  
             prompt_pos++;
@@ -1583,21 +1608,21 @@ fail:
  ******************************************
  * stdioInitialize:
  *     Inicializando stdio pertencente ao kernel base.
- *     Inicializa as estruturas do fluxo padrão.
- *     Quem chamou essa inicialização ?? Em que hora ??
+ *     Inicializa as estruturas do fluxo padrï¿½o.
+ *     Quem chamou essa inicializaï¿½ï¿½o ?? Em que hora ??
  *
- * #bugbug: Pelo jeito somente depois dessa inicialização é que temos mensagens 
- * com printf decentes. Então a inicialização do kernel precisa disso.
- * >> precisamos antecipar essa inicilização. Mas ela precisa ser depois da
- * inicialização da paginação.
+ * #bugbug: Pelo jeito somente depois dessa inicializaï¿½ï¿½o ï¿½ que temos mensagens 
+ * com printf decentes. Entï¿½o a inicializaï¿½ï¿½o do kernel precisa disso.
+ * >> precisamos antecipar essa inicilizaï¿½ï¿½o. Mas ela precisa ser depois da
+ * inicializaï¿½ï¿½o da paginaï¿½ï¿½o.
  */
  
 // Estamos no kernel base em ring 0.
-// Queremos que as streams sejam acessíveis para as rotinas
+// Queremos que as streams sejam acessï¿½veis para as rotinas
 // da libc em ring3. Para a libc alterar os elementos
 // da estrutura.
-// #bugbug: Talvez seja possível criar essas estruturas
-// em memória compartilhada, usado o alocaro apropriado.
+// #bugbug: Talvez seja possï¿½vel criar essas estruturas
+// em memï¿½ria compartilhada, usado o alocaro apropriado.
 // kmalloc com certeza e ring0.
 
 // In this routine:
@@ -1626,14 +1651,14 @@ int stdioInitialize (void)
     }
     
 
-    // Ùltimo erro registrado.
+    // ï¿½ltimo erro registrado.
     errno = 0;
     
 
     // Os buffers dos arquivos acima.
     // prompt[]
-    // Esses prompts são usados como arquivos.
-    // São buffers para as streams.
+    // Esses prompts sï¿½o usados como arquivos.
+    // Sï¿½o buffers para as streams.
     // See: kstdio.h
 
     // Clean
@@ -1913,7 +1938,7 @@ void k_setbuf (file *f, char *buf)
 
 
 		//#todo
-		//se o buffer é válido.
+		//se o buffer ï¿½ vï¿½lido.
         //if (stream->_bf._base != NULL) 
         //{
             //if (stream->cnt > 0)
@@ -1976,7 +2001,7 @@ void k_setbuffer (file *f, char *buf, size_t size)
     }else{
 
 		//#todo
-		//se o buffer é válido.
+		//se o buffer ï¿½ vï¿½lido.
         //if (stream->_bf._base != NULL) 
         //{
             //if (stream->cnt > 0)
@@ -2035,7 +2060,7 @@ int k_setvbuf (file *f, char *buf, int mode, size_t size)
     }else{
 
 		//#todo
-		//se o buffer é válido.
+		//se o buffer ï¿½ vï¿½lido.
         //if (f->_bf._base != NULL) 
         //{
             //if (f->cnt > 0)

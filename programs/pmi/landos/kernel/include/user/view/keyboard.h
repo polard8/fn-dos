@@ -14,13 +14,13 @@
 // Esses offsets precisar estar dentro da estrutura de tty
 // pois lidam com um buffer dentro dela.
  
-int keybuffer_index; 
-int keybuffer_head;
-int keybuffer_tail;
-int keyboard_message_head;
-int keyboard_message_tail;
+extern int keybuffer_index; 
+extern int keybuffer_head;
+extern int keybuffer_tail;
+extern int keyboard_message_head;
+extern int keyboard_message_tail;
 
-struct tty_d PS2keyboardTTY;
+extern struct tty_d PS2keyboardTTY;
 
 
 // Estrutura para enviar mensagens de teclado do kernel para 
@@ -43,9 +43,7 @@ struct keyboard_message_d
     unsigned long  long1;
     unsigned long  long2;
 }; 
-
-struct keyboard_message_d keyboard_queue[8]; 
-
+extern struct keyboard_message_d  keyboard_queue[8]; 
 
 
 //

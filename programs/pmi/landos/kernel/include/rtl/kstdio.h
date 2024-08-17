@@ -17,7 +17,7 @@
 // input() function support?
 #define INPUT_MODE_LINE                0
 #define INPUT_MODE_MULTIPLE_LINES      1
-int g_inputmode;
+extern int g_inputmode;
  
  
 #define REVERSE_ATTRIB  0x70
@@ -151,12 +151,12 @@ int g_inputmode;
 #define PROMPT_SIZE         256 
 #define PROMPT_MAX_DEFAULT  256
 
-char prompt[PROMPT_SIZE];      //buffer para stdin
-char prompt_out[PROMPT_SIZE];  //buffer para stdout
-char prompt_err[PROMPT_SIZE];  //buffer para strerr
+extern char prompt[PROMPT_SIZE];      //buffer para stdin
+extern char prompt_out[PROMPT_SIZE];  //buffer para stdout
+extern char prompt_err[PROMPT_SIZE];  //buffer para strerr
 
-unsigned long prompt_pos; 
-unsigned long prompt_status;
+extern unsigned long prompt_pos; 
+extern unsigned long prompt_status;
 
 // =======================================
 
@@ -178,16 +178,13 @@ unsigned long prompt_status;
 //
 // flag usada por _outbyte para decidir
 // se desenha um char transparente ou n�o.
-int stdio_terminalmode_flag;
-
+extern int stdio_terminalmode_flag;
 
 //verbose mode do kernel.
 //permite que a tela do kernel funcione igual a um 
 //terminal, imprimindo os printfs um abaixo do outro.
 //sempre reiniciando x.
-int stdio_verbosemode_flag;
-
-
+extern int stdio_verbosemode_flag;
 
 /* 
  * This is fairly grotesque, but pure ANSI code must not inspect the
@@ -282,12 +279,10 @@ struct kstdio_sync_d
 
 
 /*
- **********************************************
  * FILE:
  *     File structure.
  *     ring 0.
  */
-
 struct file_d
 {
 
@@ -445,10 +440,7 @@ struct file_d
     // If the file is a tty, we need a tty structure.
     struct tty_d *tty;
 
-
     int iopl;
-
-
 
     // dead line discipline    
     // #todo: delete?
@@ -456,8 +448,6 @@ struct file_d
     int (*_read)  __P((void *, char *, int));
     fpos_t (*_seek)  __P((void *, fpos_t, int));
     int (*_write) __P((void *, const char *, int));
-
-
 
     //
     // == device ============
@@ -474,33 +464,19 @@ struct file_d
     
     int deviceId;  //�ndice na lista deviceList[]
 };
-
-typedef struct file_d file; 
+typedef struct file_d   file; 
 
 // file table.
+extern file *stdin;            // 0
+extern file *stdout;           // 1
+extern file *stderr;           // 2
+extern file *vfs;              // 3 - vfs root dir. 
+extern file *volume1_rootdir;  // 4 - boot volume root dir.
+extern file *volume2_rootdir;  // 5 - system volume root dir. 
 
-file *stdin;            // 0
-file *stdout;           // 1
-file *stderr;           // 2
-file *vfs;              // 3 - vfs root dir. 
-file *volume1_rootdir;  // 4 - boot volume root dir.
-file *volume2_rootdir;  // 5 - system volume root dir. 
+extern unsigned long file_table[NUMBER_OF_FILES]; 
 
- 
-unsigned long file_table[NUMBER_OF_FILES]; 
-
-
-int kstdio_standard_streams_initialized;
-
-
-// N� usaremos o array de estrutura.
-//#define stdin     (_io_table[0])
-//#define stdout    (_io_table[1])
-//#define stderr    (_io_table[2])
-//#define stdin     (&_io_table[0])
-//#define stdout    (&_io_table[1])
-//#define stderr    (&_io_table[2])
-
+extern int kstdio_standard_streams_initialized;
 
 
 //

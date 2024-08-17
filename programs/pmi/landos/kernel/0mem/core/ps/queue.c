@@ -21,12 +21,15 @@
 #include <kernel.h>
 
 
-/*
- **********************************
- * init_queue:
- *     Inicializa uma estrutura de fila.
- */
+unsigned long QUEUES[3];
 
+struct queue_d *queue;
+struct wait_queue_d *wait_queue;
+
+// ====================================================
+
+// init_queue:
+// Inicializa uma estrutura de fila.
 int init_queue (struct queue_d *q)
 {
 

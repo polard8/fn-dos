@@ -20,10 +20,11 @@
 
 #define PROCESS    10
 #define THREAD     20
-#define BACKGROUND 100 
-#define FOREGROUND 200
+#define BACKGROUND  100 
+#define FOREGROUND  200
 
-int microkernelStatus; 
+
+// int microkernelStatus; 
  
 
 //

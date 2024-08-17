@@ -1,7 +1,7 @@
 /*
  * Arquivo: sata.h
  *
- * Descrição:
+ * Descriï¿½ï¿½o:
  *     Header para rotinas de hardware para drivers de SATA. hdd.
  *
  * The actual SATA specification is split into three distinct protocol 'layers'.
@@ -18,7 +18,7 @@
  * On the Primary ATA bus, you get the signature bytes by reading IO ports 
  * 0x1F4 and 0x1F5, and you should see values of 0x3C and 0xC3.
  *
- * Opções:
+ * Opï¿½ï¿½es:
  * Virtual box: // 8086, 2829  //Intel(R) ICH8M SATA AHCI Controller.
  *
  * 2015 - Created by Fred Nora.
@@ -46,9 +46,7 @@
 #define  HBA_PORT_IPM_ACTIVE     1
 #define  HBA_PORT_DET_PRESENT    3
 
-
- 
-unsigned long sata_handler_address; 
+//unsigned long sata_handler_address; 
 
 void probe_port(HBA_MEM *abar); 
 static int check_type(HBA_PORT *port);

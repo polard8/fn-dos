@@ -46,6 +46,37 @@
 
 unsigned short fat16ClustersToSave[CLUSTERS_TO_SAVE_MAX];
 
+
+// Found in the base/ of the project.
+struct directory_facility_d directory_facility_RootDir;
+struct directory_facility_d directory_facility_EFIDir;
+struct directory_facility_d directory_facility_GramadoDir;
+struct directory_facility_d directory_facility_ProgramsDir;
+struct directory_facility_d directory_facility_ubaseDir;
+struct directory_facility_d directory_facility_usersDir;
+// ...
+
+struct cwd_d  CWD;
+
+
+// Boot partition.
+int fat_cache_saved=0;
+int fat_cache_loaded=0;
+
+
+unsigned long search_path_dir_address=0;
+unsigned long search_path_dir_entries=0;
+
+// List of clusters. 
+// Usado na rotina de carregamento de arquivo.
+unsigned short file_cluster_list[1024]; 
+
+
+struct target_dir_d  current_target_dir;
+
+struct fat_d *fat;
+struct filesystem_d *root;
+
 // ========================================
 
 
