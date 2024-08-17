@@ -29,7 +29,6 @@
 #ifndef __MODULES_H
 #define __MODULES_H    1
 
-int zicaaaaadasf;
 
 /*
  * module_d:

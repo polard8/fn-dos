@@ -57,6 +57,15 @@ techniques:
 #define RECEIVE_BUFFER_MAX   32
 
 
+struct intel_nic_info_d *currentNIC;
+
+unsigned long nicList[8]; 
+
+int e1000_interrupt_flag=0;
+int e1000_irq_count=0;
+
+
+// ============================================
 
 // irq handler.
 void 

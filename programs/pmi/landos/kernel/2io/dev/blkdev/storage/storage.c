@@ -14,6 +14,12 @@
 #include <kernel.h>
 
 
+struct partition_table_d *partition; 
+struct mbr_d *mbr; 
+
+struct disk_d  *____boot____disk;
+
+unsigned long diskList[DISK_COUNT_MAX];
 
 //
 //  disk support

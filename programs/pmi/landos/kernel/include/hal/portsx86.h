@@ -131,16 +131,11 @@
  
  
 // IO Delay.
-#define io_delay() asm("out %%al,$0x80"::);
- 
- 
- 
+#define io_delay()  asm("out %%al,$0x80"::);
 
-//
+
 // #todo: 
 // Criar a estrutura e o objeto do tipo porta.
-//
- 
  
  
 // goal

@@ -119,11 +119,9 @@ Protocol addresses of the source and destination hosts
 // Transmit Descriptor
 struct legacy_tx_desc 
 {
-
     //uint64_t addr;
     uint32_t addr;  //endereço físico do buffer.
     uint32_t addr2;
-
 
     uint16_t length;
     uint8_t cso;      /* checksum offset */
@@ -133,8 +131,6 @@ struct legacy_tx_desc
     uint8_t css;      /* checksum start */
     uint16_t special;
 };
-
-
 
 
 //==========
@@ -191,22 +187,17 @@ struct legacy_rx_desc
 };
 
 
-
-
 //
 // arp cache item
 //
 
 struct arp_cache_item_d
 {
-
     int used;
-    int magic;
-    
+    int magic;   
     uint8_t mac_address[6];
     uint8_t ipv4_address[4];
 };
-
 
 
 //
@@ -279,22 +270,17 @@ struct intel_nic_info_d
 // Esse nome genério não deveria ser usado para o caso 
 // específico da intel.
 
-struct intel_nic_info_d *currentNIC;
+extern struct intel_nic_info_d *currentNIC;
 // ...
-
-
 
  
 // Lista de placas de rede.
 // #todo:
 // O valor máximo precisa ser definido. 
-unsigned long nicList[8]; 
+extern unsigned long nicList[8]; 
 
-
-int e1000_interrupt_flag;
-
-int e1000_irq_count;
-
+extern int e1000_interrupt_flag;
+extern int e1000_irq_count;
 
 //
 // == prototypes ===========================

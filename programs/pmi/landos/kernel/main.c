@@ -18,6 +18,101 @@
 
 #include <kernel.h>
 
+// see: minit.h
+struct initialization_d  Initialization;
+
+
+
+// timer interrupt
+// kdrivers/timer.c
+int __breaker_timer_initialized=0;
+
+// ps2 keyboard
+// x/i8042/ps2kbd.c
+int __breaker_ps2keyboard_initialized=0;
+
+// Serial ports.
+// See: kdrivers/serial.c
+int __breaker_com1_initialized=0;
+int __breaker_com2_initialized=0;
+int __breaker_com3_initialized=0;
+int __breaker_com4_initialized=0;
+
+// real time clock
+// kdrivers/rtc.c
+int __breaker_rtc_initialized=0;
+
+// ps2 mouse
+// x/i8042/ps2mouse.c
+int __breaker_ps2mouse_initialized=0;
+
+// ata
+// kdrivers/ide/ata.c
+int __breaker_ata1_initialized=0;
+int __breaker_ata2_initialized=0;
+
+//...
+
+
+
+
+
+int system_disk=0;
+int system_volume=0;
+
+
+int gLogonPID=0;
+int gLogoffPID=0;
+
+
+//?? rever esse coment�rio.
+// Aqui salvaremos o n�mero que identifica o tipo de sistema dado o tamanho.
+// Se o sistema tiver 288 MB ou mais ent�o ele ser� do tipo Full
+// e conter� 8 bancos de mem�ria de 32Mb mais uma user session de tamnaho variado.
+int systemSize;
+
+//Flag para habilitar as op��es para o desenvolvedor.
+int gDeveloperOptions;
+
+// ??
+int gSystemEdition;
+
+int gSystemStatus; //?? Usado pelo construtor.
+
+unsigned long shutdown_address=0;
+
+// see: system.h
+struct version_d  *Version;
+struct version_info_d *VersionInfo;
+struct system_d *System;
+
+int g_is_qemu=0;
+
+// Salvando o �ltimo endere�o v�lido de mem�ria ram.
+// usado em head.asm
+unsigned long blSavedLastValidAddress=0;
+unsigned long blSavedMetafileAddress=0;
+unsigned long blSavedDiskNumber=0;
+unsigned long blSavedHeads=0;
+unsigned long blSavedSPT=0;
+unsigned long blSavedCylinders=0;
+//...
+
+// see: gdef.h
+struct boot_block_d  BootBlock;
+
+
+unsigned long g_frontbuffer_va=0;
+unsigned long g_frontbuffer_pa=0;
+
+unsigned long g_backbuffer_va=0;
+unsigned long g_backbuffer_pa=0;
+
+
+int gNextKeyboardMessage=0;
+
+
+
 // pints.h
 unsigned long g_profiler_ints_gde_services=0;
 

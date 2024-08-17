@@ -16,12 +16,11 @@
 //Se tivermos apenas um banco, a user session dever� ficar dentro desse banco.
 //se tivermos 2 bancos a user session ficar� no �ltimo banco.
 //Se tivermos at� oito banco de mem�ria a user session ficar� no �ltimo banco.
-int banksCount;
-
+//int banksCount;
 
 //*Importante: A user session ficar� no �ltimo banco.
 //caso o sistema tenha apenas um banco, ent�o a user session ficar� no fim do banco.
-int lastBank;
+//int lastBank;
 
 typedef enum {
     banktypeLDB,    // LDB - Local Data Base.   (private)
@@ -29,7 +28,6 @@ typedef enum {
     banktypeKDB,    // KDB - Kernel Data Base.  (kernel only)
 	banktypeFDB,    // FDB - Free Data Base.    (free memory)
 }bank_type_t;
-
 
 typedef struct bank_d bank_t;
 struct bank_d
@@ -66,7 +64,7 @@ struct bank_d
 	//Navega��o.
 	struct bank_d *Next;  
 };
-bank_t *Bank;
+//bank_t *Bank;
 //bank_t *KernelBank;
 //...
 

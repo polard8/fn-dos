@@ -16,7 +16,7 @@
  *     e come�am com 'sys_'.
  */
 
-int current_taskman_server; 
+// int current_taskman_server; 
 
 //
 // getpid_t:
@@ -37,10 +37,10 @@ typedef enum {
 //
 // ## sys storage support ##
 //
- 
-int system_disk;
-int system_volume; 
 
+// see: main.c
+extern int system_disk;
+extern int system_volume; 
  
 //======================================== 
 //Esses s�o os principais arquivos usandos na 
@@ -57,10 +57,9 @@ int system_volume;
 //========================================
  
 
-#define SYSTEMMODE_EDITBOX  0
-#define SYSTEMMODE_TERMINAL 1
-int g_system_mode;  //terminal ou edibox. 
-
+//#define SYSTEMMODE_EDITBOX  0
+//#define SYSTEMMODE_TERMINAL 1
+//int g_system_mode;  //terminal ou edibox. 
 
 
 //
@@ -81,21 +80,15 @@ int g_system_mode;  //terminal ou edibox.
 // enviar uma flag de seguran�a e ter atributos v�lidos 
 // para efetuar o logoff.
 //
-//
 
-int gLogonPID;
-int gLogoffPID;
+// see: main.c
+extern int gLogonPID;
+extern int gLogoffPID;
  
- 
-
-
-
 /*
  * Abaixo temos uma lista de variaveis de ambiente usadas
  * pelo sistema, come�adas com SYSTEM_.
- *
  */ 
-
 
 /*
  * Disks
@@ -122,7 +115,6 @@ int gLogoffPID;
 #define BOOT_VOLUME   SYSTEM_VOLUME1
 #define SYSTEM_VOLUME SYSTEM_VOLUME2  
 //...
-
 
 #define SYSTEM_ROOT      "root:/"
 #define SYSTEM_ROOTDIR   SYSTEM_ROOT      
@@ -201,9 +193,8 @@ int gLogoffPID;
 //...
 
 
-
 //
-//    ****    SYSTEM METRICS INDEX **** 
+//  SYSTEM METRICS INDEX
 //
 
 
@@ -270,32 +261,25 @@ typedef enum {
 // Aqui salvaremos o n�mero que identifica o tipo de sistema dado o tamanho.
 // Se o sistema tiver 288 MB ou mais ent�o ele ser� do tipo Full
 // e conter� 8 bancos de mem�ria de 32Mb mais uma user session de tamnaho variado.
-int systemSize;
-
+extern int systemSize;
 
 //Flag para habilitar as op��es para o desenvolvedor.
-int gDeveloperOptions;
-
+extern int gDeveloperOptions;
 
 // ??
-int gSystemEdition;
+extern int gSystemEdition;
 
-
-int gSystemStatus; //?? Usado pelo construtor.
-
+extern int gSystemStatus; //?? Usado pelo construtor.
 
 //
-//  **** Shutdown support   ****
+//  Shutdown support
 //
 
 //Salvar aqui o endere�o da rotina do BM que desliga a m�quina via APM.
 //O endere�o e a rotina s�o de 32bit.
-unsigned long shutdown_address;
-
+extern unsigned long shutdown_address;
 
 static char *default_user_name = DEFAULT_USERNAME;
-
-
 
 /*
  * version_d:
@@ -319,9 +303,8 @@ struct version_d
     unsigned long Minor;
     unsigned long Build;
 };
-struct version_d *Version;
+extern struct version_d  *Version;
 //...
-
 
 /*
  * version_info_d:
@@ -336,10 +319,8 @@ struct version_info_d
     char *copyright_string;   //"ex: (c) Copyright Nora Code"
     // ...
 };
+extern struct version_info_d *VersionInfo;
 
-struct version_info_d *VersionInfo;
-
- 
 
 /*
  * system_d:
@@ -359,7 +340,6 @@ struct system_d
     struct version_d *version;
     struct version_info_d *version_info;
 
-
     // storage 
     int disk;
     int volume;
@@ -369,14 +349,11 @@ struct system_d
     int NumberOfProcessors;
     int PageSize;
 
-
     struct devices_d *deviceList;
 
     //...
 };
-
-struct system_d *System;
-
+extern struct system_d *System;
 
 
 //
@@ -385,10 +362,7 @@ struct system_d *System;
 
 
 void servicesPutChar(int c);
-
 unsigned long serviceCreateWindow ( char * message_buffer );
- 
-
 
 /*
  * SendMessage:
@@ -402,19 +376,14 @@ SendMessage (
     unsigned long long1, 
     unsigned long long2 );
 
-
-
 // System Server support.
 int init_systemserver (void);
-
 
 //Metodo nulo.
 //Pode ser usado em di�logos.
 void *systemNull (void);  
 
-	
 /*
- *******************************************************
  * systemLinkDriver:
  *     Linkando um driver ao sistema operacional
  */
@@ -424,9 +393,7 @@ void *systemLinkDriver (
     unsigned long arg2, 
     unsigned long arg3 );
  
- 
 /*
- **********************************************************
  * systemShowDevicesInfo:
  *     Mostrar informa��es sobre o sistema, seguindo a ordem de
  *     velocidade dos dispositivos e barramentos.
@@ -436,11 +403,7 @@ void *systemLinkDriver (
  
 void systemShowDevicesInfo (void);
 
-
-
 void systemSetupVersion (void); 
-
-
 
 /*
  * SystemMenu: 
@@ -451,21 +414,16 @@ void systemSetupVersion (void);
 int SystemMenu (void);
 
 
-
 /*
- ************************************* 
  * system_get_pid: 
  *     A api solicita o pid de alguns servidores e drivers.
  * 
  */ 
 int system_get_pid (int index);
 
-
 /*
- ************************************* 
  * systemGetSystemMetrics: 
  *     A api solicita algumas informa��es de m�trica de sistema.
- * 
  */ 
 unsigned long systemGetSystemMetrics ( int index );
  
@@ -483,14 +441,12 @@ SystemMenuProcedure (
     unsigned long long1, 
     unsigned long long2 );
    
-
 void systemReboot (void);    //systemReboot: Reboot stuff.
 
 void systemShutdown (void);      //systemShutdown: Shut down stuff.
 
 //Chamar a fun��o de 32 bit herdado do BM.
 void systemShutdownViaAPM (void); 
-
 
 //Pega informa��es de medida de elementos do sistema.
 void *systemGetSystemMetric(int number);
@@ -499,7 +455,6 @@ void *systemGetSystemMetric(int number);
 void *systemGetSystemStatus(int number);
 
 int init_executive (void);
-
 
 #endif   
 

@@ -66,8 +66,7 @@ dessa conta.
 */
 
 #ifndef ____GDEF_H
-#define ____GDEF_H 1
-
+#define ____GDEF_H  1
 
 //#define BIOS_FONT8X8 0x000FFA6E
 
@@ -82,7 +81,6 @@ dessa conta.
 #define MICROKERNEL 3   //3
 #define HAL         4   //4
 
-
 //IOPL constants.
 #define KernelMode 0
 #define UserMode   3
@@ -90,8 +88,6 @@ dessa conta.
 #define RING1 1
 #define RING2 2
 #define RING3 3
-
-
 
 //Kernel status constants.
 #define  KERNEL_NULL          0
@@ -107,8 +103,6 @@ dessa conta.
 
 // user
 //#define SUPER_USER    0
-
-
 
 /*
 // Classes of processes queues.
@@ -126,29 +120,25 @@ dessa conta.
 // used by listen()
 // See: process.h
 
-#define SOCKET_MAX_PENDING_CONNECTIONS 32
+#define SOCKET_MAX_PENDING_CONNECTIONS  32
 
 
-
-
-int g_is_qemu;
+// see: main.c
+extern int g_is_qemu;
 
 
 // ===================================================
 
-
+// see: main.c
 // Salvando o �ltimo endere�o v�lido de mem�ria ram.
 // usado em head.asm
-unsigned long blSavedLastValidAddress;
-unsigned long blSavedMetafileAddress;
-unsigned long blSavedDiskNumber;
-unsigned long blSavedHeads;
-unsigned long blSavedSPT;
-unsigned long blSavedCylinders;
+extern unsigned long blSavedLastValidAddress;
+extern unsigned long blSavedMetafileAddress;
+extern unsigned long blSavedDiskNumber;
+extern unsigned long blSavedHeads;
+extern unsigned long blSavedSPT;
+extern unsigned long blSavedCylinders;
 //...
-
-
-
 
 /*
  * Os Type:
@@ -164,20 +154,15 @@ unsigned long blSavedCylinders;
  */
 
 typedef enum {
-	
-	OsTypeClient,
+    OsTypeClient,
 	OsTypeServer,
 	OsTypeHeadlessServer,
-
-    // ...
-    
 }os_type_t;
 
 
 //
 // The boot block structure.
 //
-
 
 struct boot_block_d
 {
@@ -197,12 +182,8 @@ struct boot_block_d
     //...
     int initialized;
 };
-
-struct boot_block_d BootBlock;
-
-
-
-
+// see: main.c
+extern struct boot_block_d  BootBlock;
 
 //
 // buffer support
@@ -214,14 +195,12 @@ struct boot_block_d BootBlock;
 
 // frontbuffer lfb
 // The framebuffer
-unsigned long g_frontbuffer_va;   
-unsigned long g_frontbuffer_pa; 
+extern unsigned long g_frontbuffer_va;   
+extern unsigned long g_frontbuffer_pa; 
 
 // backbuffer
-unsigned long g_backbuffer_va;
-unsigned long g_backbuffer_pa;
-
-
+extern unsigned long g_backbuffer_va;
+extern unsigned long g_backbuffer_pa;
 
 //
 //
@@ -241,38 +220,32 @@ struct display_info_d
 
 
 //pagedpool virtual address
-unsigned long g_pagedpool_va;
+extern unsigned long g_pagedpool_va;
 
 // endere�o virtual do pool de heaps.
 // os heaps nessa �rea ser�o dados para os processos.
-unsigned long g_heappool_va;
-int g_heap_count;
-int g_heap_count_max;
-unsigned long g_heap_size;
-#define G_DEFAULT_PROCESSHEAP_SIZE (1024*128)
-#define G_DEFAULT_PROCESSHEAP_COUNTMAX 16     //16 PROCESSOS #BUGBUG
+extern unsigned long g_heappool_va;
+extern int g_heap_count;
+extern int g_heap_count_max;
+extern unsigned long g_heap_size;
 
-
+#define G_DEFAULT_PROCESSHEAP_SIZE  (1024*128)
+#define G_DEFAULT_PROCESSHEAP_COUNTMAX  16     //16 PROCESSOS #BUGBUG
 
 #define  G_DEFAULT_EXTRAHEAP_SIZE  0x400000;  //4MB
 
-unsigned long g_extraheap1_va;
-unsigned long g_extraheap1_size;
-unsigned long g_extraheap2_va;
-unsigned long g_extraheap2_size;
-unsigned long g_extraheap3_va;
-unsigned long g_extraheap3_size;
+extern unsigned long g_extraheap1_va;
+extern unsigned long g_extraheap1_size;
+extern unsigned long g_extraheap2_va;
+extern unsigned long g_extraheap2_size;
+extern unsigned long g_extraheap3_va;
+extern unsigned long g_extraheap3_size;
 
-
-int gNextKeyboardMessage;
-
-
+extern int gNextKeyboardMessage;
 
 #endif   
 
-
-
 //
-// End.
+// End
 //
 

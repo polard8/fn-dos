@@ -38,13 +38,20 @@ extern void asm_reboot (void);
 //
 
 
-// 256 interrupções
-// 8 extras para handlers default.
-//unsigned long HANDLERS[256+8];
+unsigned long VECTORS[256];
+unsigned long HANDLERS[256+8];
 
 
-//Esse handler será instalando em todas as entradas
-//da tabela antes da configuração.
+unsigned long g_machine_type=0;
+
+
+struct hardware_d  *Hardware;
+struct firmware_d  *Firmware;
+struct drive_context_d  *DriveContext;  
+
+
+//Esse handler serï¿½ instalando em todas as entradas
+//da tabela antes da configuraï¿½ï¿½o.
 
 void hal_default_handler (void)
 {
@@ -79,8 +86,8 @@ void hal_invalidate_handler (int number)
 //  ## Interrupt vectors support ##
 //
 
-//Esses endereços foram configurados pelo assembler na inicialização.
-//Vamos salvá los na tabela em seus respectivos slots.
+//Esses endereï¿½os foram configurados pelo assembler na inicializaï¿½ï¿½o.
+//Vamos salvï¿½ los na tabela em seus respectivos slots.
 
 extern unsigned long fault_N0;
 extern unsigned long fault_N1;
@@ -140,8 +147,8 @@ hal_setup_new_vectors_table_entry (
 }
 
 
-// Esses endereços foram configurados pelo assembler na inicialização.
-// Vamos salvá los na tabela em seus respectivos slots.
+// Esses endereï¿½os foram configurados pelo assembler na inicializaï¿½ï¿½o.
+// Vamos salvï¿½ los na tabela em seus respectivos slots.
 
 void hal_init_vectors_table (void)
 {
@@ -274,7 +281,7 @@ void hal_init_vectors_table (void)
  
 /*
  * Beep support
- * #bugbug: Não quero comprometer a programação do PIT.
+ * #bugbug: Nï¿½o quero comprometer a programaï¿½ï¿½o do PIT.
 */
 
 /*
@@ -403,7 +410,7 @@ hal_lfb_putpixel (
 /*
  *********************************************************
  * hal_hardware_detect:
- *     Detecta fabricantes específicos suportados pelo núcleo.
+ *     Detecta fabricantes especï¿½ficos suportados pelo nï¿½cleo.
  *
  * 8086, 1237  //PCI & Memory.
  * 8086, 7000  //PIIX3 PCI-to-ISA Bridge (Triton II).
@@ -425,10 +432,10 @@ int hal_hardware_detect (void)
 }
 
 
-//#bugbug: tem algo errado aqui nos nomes das funções.
+//#bugbug: tem algo errado aqui nos nomes das funï¿½ï¿½es.
 //hal_showpciinfo deveria ser a rotina que pci.c chama 
-//para obter acesso as informações em baixo nível.
-//@todo: rever os nomes das funções.
+//para obter acesso as informaï¿½ï¿½es em baixo nï¿½vel.
+//@todo: rever os nomes das funï¿½ï¿½es.
 
 int hal_showpciinfo (void){
 
@@ -474,7 +481,7 @@ unsigned long hal_get_machine_type (void)
 /*
  *****************************************************
  *  hal_init_machine:
- *      Faz inicializações dado o tipo de máquina.
+ *      Faz inicializaï¿½ï¿½es dado o tipo de mï¿½quina.
  *      @todo: Trocar o nome para hal_init_current_machine. 
  */
  
@@ -586,7 +593,7 @@ void hal_vsync (void)
 
 /*
  * hal_reboot:
- *     O hal é a camada mis próxima do hardware, não há tratamento nenhum
+ *     O hal ï¿½ a camada mis prï¿½xima do hardware, nï¿½o hï¿½ tratamento nenhum
  * para fazer, somente chamar o reboot via teclado. 
  * em headlib.s 
  */
@@ -602,11 +609,11 @@ void hal_reboot (void)
 /*
  ********************************
  * hal_shutdown: 
- *     Interface usada pelos outros módulos
- *     #todo: Todos os possiveis métodos ficarão nessa rotina.
- *     máquina real e máquina virtual.
- *     #importante: Essa será a única função em hal para chamar shutdown.
- * quanquer outra interfce deve ficar fora do módulo hal.
+ *     Interface usada pelos outros mï¿½dulos
+ *     #todo: Todos os possiveis mï¿½todos ficarï¿½o nessa rotina.
+ *     mï¿½quina real e mï¿½quina virtual.
+ *     #importante: Essa serï¿½ a ï¿½nica funï¿½ï¿½o em hal para chamar shutdown.
+ * quanquer outra interfce deve ficar fora do mï¿½dulo hal.
  
  APM:
  ===
@@ -681,20 +688,20 @@ int init_hal (void){
 
 
     // #todo: 
-    // Essa inicialização deve ser adiada.
+    // Essa inicializaï¿½ï¿½o deve ser adiada.
     // deixando para o processo init fazer isso.
 
     //timerInit ();
 
     
     // #todo:
-    // Chamaremos essa inicialização básica nesse momento.
-    // A inicialização completa será chamada pelo processo init.
+    // Chamaremos essa inicializaï¿½ï¿½o bï¿½sica nesse momento.
+    // A inicializaï¿½ï¿½o completa serï¿½ chamada pelo processo init.
     
     early_timer_init ();
     
     
-	// Detecta fabricantes específicos suportados pelo núcleo.  
+	// Detecta fabricantes especï¿½ficos suportados pelo nï¿½cleo.  
 
 	hal_hardware_detect();
 	
@@ -713,8 +720,8 @@ int init_hal (void){
 
 #ifdef BREAKPOINT_TARGET_AFTER_HAL
     //#debug 
-	//a primeira mensagem só aparece após a inicialização da runtime.
-	//por isso não deu pra limpar a tela antes.
+	//a primeira mensagem sï¿½ aparece apï¿½s a inicializaï¿½ï¿½o da runtime.
+	//por isso nï¿½o deu pra limpar a tela antes.
 	printf(">>>debug hang: after init");
 	refresh_screen(); 
 	while (1){ asm ("hlt"); }

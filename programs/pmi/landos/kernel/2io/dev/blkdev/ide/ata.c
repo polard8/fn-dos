@@ -40,14 +40,40 @@ static const char *ata_sub_class_code_register_strings[] = {
 
 
 // Obs: 
-// O foco está na lista de discos. diskList
+// O foco estï¿½ na lista de discos. diskList
 
 
 #include <kernel.h>
 
-
-
 extern st_dev_t *current_dev;
+
+//
+// Variables.
+//
+
+int ATAFlag=0;
+unsigned short  *ata_identify_dev_buf;
+
+unsigned char ata_record_dev=0;
+unsigned char ata_record_channel=0;
+
+int g_current_ide_channel;  //primary or secondary.
+int g_current_ide_device;   //master or slave
+
+int g_boottime_ide_channel;  //primary or secondary.
+int g_boottime_ide_device;   //master or slave
+
+
+struct pci_device_d *PCIDeviceATA;
+
+struct dev_nport  dev_nport;
+
+struct ata_d  ata;
+
+
+
+
+
 
 
 void ata_wait (int val)
@@ -143,7 +169,7 @@ void ata_soft_reset (void)
 
 
 // #bugbug
-// Lê o status de um disco determinado, se os valores na estrutura 
+// Lï¿½ o status de um disco determinado, se os valores na estrutura 
 // estiverem certos.
 
 unsigned char ata_status_read (void)
@@ -171,8 +197,8 @@ void ata_cmd_write (int cmd_val)
 // Set up the ata.xxx structure.
 // #todo: Where is that structure defined?
 // See: hal/dev/blkdev/ata.h
-// De acordo com a porta, saberemos se é 
-// primary ou secondary e se é
+// De acordo com a porta, saberemos se ï¿½ 
+// primary ou secondary e se ï¿½
 // master ou slave.
 
 unsigned char ata_assert_dever (char nport)
@@ -223,8 +249,8 @@ unsigned char ata_assert_dever (char nport)
  */
 
 // ??
-// O número da porta identica qual disco queremos pegar informações.
-// Slavaremos algumas informações na estrutura de disco.
+// O nï¿½mero da porta identica qual disco queremos pegar informaï¿½ï¿½es.
+// Slavaremos algumas informaï¿½ï¿½es na estrutura de disco.
 
 int ide_identify_device ( uint8_t nport )
 {
@@ -261,10 +287,10 @@ int ide_identify_device ( uint8_t nport )
 
 
     // #bugbug
-    // O que é isso?
+    // O que ï¿½ isso?
     // Se estamos escrevendo em uma porta de input/output
-    // então temos que nos certificar que esses valores 
-    // são válidos.
+    // entï¿½o temos que nos certificar que esses valores 
+    // sï¿½o vï¿½lidos.
 
     out8 ( ata.cmd_block_base_address + ATA_REG_SECCOUNT, 0 );  // Sector Count 7:0
     out8 ( ata.cmd_block_base_address + ATA_REG_LBA0,     0 );  // LBA  7-0
@@ -278,7 +304,7 @@ int ide_identify_device ( uint8_t nport )
 
 
     //
-    // Solicitando informações sobre o disco.
+    // Solicitando informaï¿½ï¿½es sobre o disco.
     //
 
     // cmd
@@ -304,7 +330,7 @@ int ide_identify_device ( uint8_t nport )
 
 
     // #todo
-    // Use esses registradores para pegar mais informações.
+    // Use esses registradores para pegar mais informaï¿½ï¿½es.
     // See:
     // hal/dev/blkdev/ata.h
 
@@ -340,8 +366,8 @@ int ide_identify_device ( uint8_t nport )
 
     /*
     // #test
-    // Isso provavelmente é o número de setores envolvidos em
-    // uma operação de leitura ou escrita.
+    // Isso provavelmente ï¿½ o nï¿½mero de setores envolvidos em
+    // uma operaï¿½ï¿½o de leitura ou escrita.
     //===============
     unsigned long NumberOfSectors=0;
     NumberOfSectors = in8( ata.cmd_block_base_address + ATA_REG_SECCOUNT );
@@ -355,7 +381,7 @@ int ide_identify_device ( uint8_t nport )
 
     
     // #test
-    // vamos pegar mais informações. 
+    // vamos pegar mais informaï¿½ï¿½es. 
     
     
 
@@ -642,7 +668,7 @@ int ide_identify_device ( uint8_t nport )
 
 
 
-// #atenção.
+// #atenï¿½ï¿½o.
 extern st_dev_t *current_dev;
 
 
@@ -676,19 +702,19 @@ void set_ata_addr (int channel)
 
 /* 
  * Obs:
- * O que segue são rotinas de suporte ao controlador IDE.
+ * O que segue sï¿½o rotinas de suporte ao controlador IDE.
  */
 
 st_dev_t *current_dev;       // A unidade atualmente selecionada.
-st_dev_t *ready_queue_dev;   // O início da lista.
+st_dev_t *ready_queue_dev;   // O inï¿½cio da lista.
 
-uint32_t  dev_next_pid = 0;  // O próximo ID de unidade disponível. 
+uint32_t  dev_next_pid = 0;  // O prï¿½ximo ID de unidade disponï¿½vel. 
 
 
 /*
  ********************************************************
  * ide_mass_storage_initialize:
- *     Rotina de inicialização de dispositivo de armazenamento de dados.
+ *     Rotina de inicializaï¿½ï¿½o de dispositivo de armazenamento de dados.
  */
 
 void ide_mass_storage_initialize (void)
@@ -747,13 +773,13 @@ void ide_mass_storage_initialize (void)
 /*
  ***********************************
  * ide_dev_init:
- *     ?? Alguma rotina de configuração de dispositivos.
+ *     ?? Alguma rotina de configuraï¿½ï¿½o de dispositivos.
  */
 
 // This routine was called by ata_initialize.
 
 // #todo
-// Agora essa função precisa receber um ponteiro 
+// Agora essa funï¿½ï¿½o precisa receber um ponteiro 
 // para a estrutura de disco usada pelo gramado.
 // Para salvarmos os valores que pegamos nos registradores.
 
@@ -819,7 +845,7 @@ int ide_dev_init (char port)
         // Where ATAFlag was defined?
         // Where FORCEPIO was defined?
         
-        // Com esse só funciona em pio
+        // Com esse sï¿½ funciona em pio
         if (ATAFlag == FORCEPIO){
             new_dev->dev_modo_transfere = 0;
 
@@ -853,7 +879,7 @@ int ide_dev_init (char port)
 
         // Pegando o size.
         // Quantidade de setores.
-        // Uma parte está em 61 e outra em 60.
+        // Uma parte estï¿½ em 61 e outra em 60.
  
         value = ata_identify_dev_buf[61];  
         value = ( value << 16 );           
@@ -876,7 +902,7 @@ int ide_dev_init (char port)
 
 
         // #todo
-        // Agora essa função precisa receber um ponteiro 
+        // Agora essa funï¿½ï¿½o precisa receber um ponteiro 
         // para a estrutura de disco usada pelo gramado.
 
           // Unidades ATAPI. 
@@ -892,7 +918,7 @@ int ide_dev_init (char port)
               // Where ATAFlag was defined?
               // Where FORCEPIO was defined?
 
-              // Com esse só funciona em pio 
+              // Com esse sï¿½ funciona em pio 
               if (ATAFlag == FORCEPIO){
                   new_dev->dev_modo_transfere = 0; 
 
@@ -926,7 +952,7 @@ int ide_dev_init (char port)
 
               // Pegando o size.
               // Quantidade de setores.
-              // Uma parte está em 61 e outra em 60.
+              // Uma parte estï¿½ em 61 e outra em 60.
  
               value = ata_identify_dev_buf[61];  
               value = ( value << 16 );           
@@ -948,7 +974,7 @@ int ide_dev_init (char port)
               //}
 
              // #todo
-             // Agora essa função precisa receber um ponteiro 
+             // Agora essa funï¿½ï¿½o precisa receber um ponteiro 
              // para a estrutura de disco usada pelo gramado.
 
 
@@ -966,12 +992,12 @@ int ide_dev_init (char port)
     //
     // ??
     // Salvando na estrutura de dispositivo as
-    // informações sobre a porta ide.
+    // informaï¿½ï¿½es sobre a porta ide.
     // channel and device.
     // ex: primary/master.
     // #bugbug
-    // Mas temos um problema. Talvez quando essa função
-    // foi chamada o dev_num ainda não tenha cido inicializado.
+    // Mas temos um problema. Talvez quando essa funï¿½ï¿½o
+    // foi chamada o dev_num ainda nï¿½o tenha cido inicializado.
     //
 
     new_dev->dev_channel = ata.channel;
@@ -996,10 +1022,10 @@ int ide_dev_init (char port)
         case 2:  dev_nport.dev2 = 0x83;  break;
         case 3:  dev_nport.dev3 = 0x84;  break;
 
-        // #atenção
-        // Essa estrutura é para 32 portas.
+        // #atenï¿½ï¿½o
+        // Essa estrutura ï¿½ para 32 portas.
         // para listar as portas AHCI.
-        // Mas aqui está apenas listando as 4 portas IDE.
+        // Mas aqui estï¿½ apenas listando as 4 portas IDE.
 
         default:
             debug_print ("ide_dev_init: [ERROR] default port number\n");
@@ -1054,7 +1080,7 @@ static inline void dev_switch (void)
 {
 
     // ??
-    // Pula, se ainda não tiver nenhuma unidade.
+    // Pula, se ainda nï¿½o tiver nenhuma unidade.
 
     if ( !current_dev )
     {
@@ -1062,9 +1088,9 @@ static inline void dev_switch (void)
     }
 
 
-    // Obter a próxima tarefa a ser executada.
-    // Se caímos no final da lista vinculada, 
-    // comece novamente do início.
+    // Obter a prï¿½xima tarefa a ser executada.
+    // Se caï¿½mos no final da lista vinculada, 
+    // comece novamente do inï¿½cio.
 
     current_dev = current_dev->next;    
     
@@ -1147,7 +1173,7 @@ int nport_ajuste ( char nport )
 
 /*
  * Obs: 
- * O que segue são rotinas de suporte a ATA.
+ * O que segue sï¿½o rotinas de suporte a ATA.
  */
 
 
@@ -1182,7 +1208,7 @@ void ata_pio_write ( void *buffer, int bytes )
 
 /*
  * Obs: 
- * O que segue são rotinas de suporte a IDE ATAPI.
+ * O que segue sï¿½o rotinas de suporte a IDE ATAPI.
  */
 
 
@@ -1219,7 +1245,7 @@ unsigned char *dma_addr;
 /*
  *******************************************
  * ata_initialize:
- *     Inicializa o IDE e mostra informações sobre o disco.
+ *     Inicializa o IDE e mostra informaï¿½ï¿½es sobre o disco.
  */
  
 int ata_initialize ( int ataflag )
@@ -1250,10 +1276,10 @@ int ata_initialize ( int ataflag )
 
     // #importante 
     // HACK HACK
-    // usando as definições feitas em config.h
-    // até que possamos encontrar o canal e o dispositivo certos.
-    // __IDE_PORT indica qual é o canal.
-    // __IDE_SLAVE indica se é master ou slave.
+    // usando as definiï¿½ï¿½es feitas em config.h
+    // atï¿½ que possamos encontrar o canal e o dispositivo certos.
+    // __IDE_PORT indica qual ï¿½ o canal.
+    // __IDE_SLAVE indica se ï¿½ master ou slave.
     // ex: primary/master.
     // See: config.h
 
@@ -1264,7 +1290,7 @@ int ata_initialize ( int ataflag )
     // Configumos o atual como sendo o mesmo
     // usado durante o boot.
     // #todo
-    // Poderemos mudar o atual conforme nossa intenção
+    // Poderemos mudar o atual conforme nossa intenï¿½ï¿½o
     // de acessarmos outros discos.
     
     g_current_ide_channel =  g_boottime_ide_channel;
@@ -1298,7 +1324,7 @@ int ata_initialize ( int ataflag )
 	// controlador de disco IDE.
 	// #importante:
 	// Estamos sondando uma lista que contruimos quando fizemos
-	// uma sondagem no começo da inicializaçao do kernel.
+	// uma sondagem no comeï¿½o da inicializaï¿½ao do kernel.
 	// #todo: podemos salvar essa lista.
 	
 	// #todo
@@ -1329,7 +1355,7 @@ int ata_initialize ( int ataflag )
 	//
 
 	// #bugbug: 
-	// Esse data é só um código de erro.
+	// Esse data ï¿½ sï¿½ um cï¿½digo de erro.
 
     Ret = (unsigned long) diskATAPCIConfigurationSpace(PCIDeviceATA);
 
@@ -1341,12 +1367,12 @@ int ata_initialize ( int ataflag )
     }
 
 	//
-	// Salvando informações.
+	// Salvando informaï¿½ï¿½es.
 	//
 
-	// Aqui estamos pegando informações na estrutura PCIDeviceATA sobre as BARs 
-	// e manipulando essas informações.
-	// ?? Não sei o que está fazendo aqui, talvez procurando endereço de porta.
+	// Aqui estamos pegando informaï¿½ï¿½es na estrutura PCIDeviceATA sobre as BARs 
+	// e manipulando essas informaï¿½ï¿½es.
+	// ?? Nï¿½o sei o que estï¿½ fazendo aqui, talvez procurando endereï¿½o de porta.
 
 
     // Initialize base address
@@ -1403,7 +1429,7 @@ int ata_initialize ( int ataflag )
 
 
 	    //
-	    // As estruturas de disco serão colocadas em uma lista encadeada.
+	    // As estruturas de disco serï¿½o colocadas em uma lista encadeada.
 	    //
 
         //ide_mass_storage_initialize();
@@ -1504,7 +1530,7 @@ fail:
 done:
 
     // Setup interrupt breaker.
-    // Só liberamos se a inicialização fncionou.
+    // Sï¿½ liberamos se a inicializaï¿½ï¿½o fncionou.
 
     if ( Status == 0 ){
         debug_print("ata_initialize: Turn off interrupt breaker\n");
@@ -1578,7 +1604,7 @@ void ata_set_boottime_ide_device(int device)
 /*
  **************************************************
  * show_ide_info:
- *     Mostrar as informações obtidas na inicializações 
+ *     Mostrar as informaï¿½ï¿½es obtidas na inicializaï¿½ï¿½es 
  * do controlador.
  */
 
@@ -1640,7 +1666,7 @@ void show_ide_info (void){
 	// Qual lista ??
 
 	// Estrutura 'st_dev'
-	// Estão na lista 'ready_queue_dev'	
+	// Estï¿½o na lista 'ready_queue_dev'	
 
     //refresh_screen ();
 }

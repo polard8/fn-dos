@@ -18,25 +18,18 @@
 //
 
 
-
-
-#define  HZ  100
+#define HZ  100
 
 
 // total ticks
-unsigned long jiffies;
-
+extern unsigned long jiffies;
 // por quantos segundos o sistema esta rodando
 // jiffies/sys_time_hz
-unsigned long seconds;
-
+extern unsigned long seconds;
 // Por quantos ms o sistema esta rodando.
-unsigned long sys_time_ms;
-
+extern unsigned long sys_time_ms;
 // pit frequency
-unsigned long sys_time_hz;
-
-
+extern unsigned long sys_time_hz;
 
 
 //
@@ -52,45 +45,27 @@ unsigned long sys_time_hz;
 // Será o tempo de referência para o profiler.
 
 
-#define PROFILER_TICKS_DEFAULT_LIMIT 200
+#define PROFILER_TICKS_DEFAULT_LIMIT  200
+
 
 //contador do profiler ticks.
 //só vai de zero até o limite configurável.
-unsigned long profiler_ticks_count;
-
+extern unsigned long profiler_ticks_count;
 //limite da contagem do profile ticks.
 //quando chegar aqui, então devemos calcular 
 //a porcentagem para todas as threads e processos.
-unsigned long profiler_ticks_limit;
- 
- 
- 
-unsigned long profiler_percentage_all_normal_threads;
- 
-unsigned long profiler_percentage_idle_thread;
- 
-
-
-
- 
-
-
+extern unsigned long profiler_ticks_limit;
+extern unsigned long profiler_percentage_all_normal_threads;
+extern unsigned long profiler_percentage_idle_thread;
 
 //Usado no Linux. 
 //#define CT_TO_SECS(x)	((x) / HZ)
 //#define CT_TO_USECS(x)	(((x) % HZ) * 1000000/HZ) 
 //... 
 
-
-
 // Em que tempo estávamos quando iniciamos a contagem;
 //#define TIMER_PROFILE_TICKS_DEADLINE 1000
 //unsigned long timer_profile_ticks;
-
-
-
-
-
 
 //Counting how much ticks the kernel is running.
 //unsigned long kernel_tick;
@@ -98,13 +73,11 @@ unsigned long profiler_percentage_idle_thread;
 // #extra
 // Aciona uma flag para que o ts.c realize atividades extras,
 // como gc, dead thread collector, request.
-	
-int extra; 
 
- 
- 
-//PIT. 
-#define TIMER_DRIVER_PATHNAME "root:/volume2/drivers/timer.bin"  
+extern int extra; 
+
+// PIT 
+#define TIMER_DRIVER_PATHNAME  "root:/volume2/drivers/timer.bin"  
  
  
 /*
@@ -127,32 +100,23 @@ int extra;
 //#define RR_TIMESLICE            (100 * HZ / 1000)
 
 //a flag indica se o cursor está habilitado ou não.
-int timer_cursor_used;
-
+extern int timer_cursor_used;
 //status do cursor.
-int timer_cursor_status;
-
-unsigned long time_out;
-
-unsigned long timer_handler_address;    //global _irq0:
-
+extern int timer_cursor_status;
+extern unsigned long time_out;
+extern unsigned long timer_handler_address;    //global _irq0:
 
 
 /*
- *******************************************************
  * timer_d:
  * Estrutura do objeto timer que será usado pelos aplicativos.
- * 
  * Precisamos identificar quem está usando para podermos enviar 
  * mensagem para quem possui o timer.
- *
  */
-
 struct timer_d 
 {
-    object_type_t   objectType;
-    object_class_t  objectClass;
-
+    object_type_t objectType;
+    object_class_t objectClass;
     int used;
     int magic;
 
@@ -161,7 +125,6 @@ struct timer_d
 	//1 = one shot 
 	//2 = intermitent
     int type;
-
 
     // Owner
     struct process_d  *process;
@@ -182,22 +145,15 @@ struct timer_d
 
     // ??
     int status;
-
     unsigned long flag;
-
     unsigned long error;
-
-    //Navigation
-
+//Navigation
     struct timer_d  *next;
 };
-
 // struct timer_d *XXXXXXTimer;
 
-
 // lista de timers.
-unsigned long timerList[32];
-
+extern unsigned long timerList[32];
 
 //
 // == prototypes ===========================
@@ -246,9 +202,7 @@ void DeviceInterface_PIT(void);
 
 #endif   
 
-
-
 //
-// End.
+// End
 //
 

@@ -1,14 +1,11 @@
+// heap.h
+// 2016 - Created by Fred Nora.
+
 /*
- * File: heap.h
- *
  *    Its used to manage the heap support.
  *    The heap is used to allocate memory for malloc.
  *    + Manage the pointer of the current heap.
- * 
- * History:
- *     2016 - Created by Fred Nora.
  */
-
 
 #ifndef __MM_HEAP_H
 #define __MM_HEAP_H    1
@@ -17,13 +14,13 @@
  * Kernel Heap support.
  */
 
-unsigned long heapCount;            // Conta os heaps do sistema.
+extern unsigned long heapCount;            // Conta os heaps do sistema.
 
-unsigned long kernel_heap_start;    // Start.
-unsigned long kernel_heap_end;      // End.
+extern unsigned long kernel_heap_start;    // Start.
+extern unsigned long kernel_heap_end;      // End.
 
-unsigned long g_heap_pointer;       // Pointer.
-unsigned long g_available_heap;     // Available.
+extern unsigned long g_heap_pointer;       // Pointer.
+extern unsigned long g_available_heap;     // Available.
 
 /*
  * heap_d:
@@ -114,29 +111,21 @@ struct heap_d
 };
 
 
-
 #define HEAP_COUNT_MAX  8
 
-unsigned long heapList[HEAP_COUNT_MAX];  
-
-
+// see: memory.c
+extern unsigned long heapList[HEAP_COUNT_MAX];  
 
 //
-// Prototypes.
+// Prototypes =======================================================
 //
-
-
-int init_heap (void);
-
 
 struct heap_d *memory_create_new_head ( 
     unsigned long start_va, 
     unsigned long size );
 
-
 // Destr�i um heap se as flags permitirem.
 void memory_destroy_heap (struct heap_d *heap );
-
 
 // Pega o endere�o do in�cio do header da pr�xima aloca��o.
 unsigned long get_process_heap_pointer (int pid);
@@ -146,8 +135,9 @@ unsigned long get_process_heap_pointer (int pid);
 //
 
 unsigned long heapAllocateMemory (unsigned long size);
-
 void FreeHeap (void *ptr);
+
+int init_heap (void);
 
 #endif  
 

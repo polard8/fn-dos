@@ -140,8 +140,7 @@ typedef __sa_family_t  sa_family_t;
 // #todo: checar a tipagem dos elementos 
 struct in_addr {
     in_addr_t  s_addr;    /* address in network byte order */
-} __packed;
-
+};
 
 //#todo: checar a tipagem dos elementos  
 // Socket address, internet style.

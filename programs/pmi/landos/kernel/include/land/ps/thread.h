@@ -716,7 +716,7 @@ struct thread_d
 // para mostrar qual ser� a nova idle thread.
 // Cada idle thread pode prestar um servi�o diferente, como o
 // gerenciamento de energia.
-struct thread_d *____IDLE;
+extern struct thread_d *____IDLE;
 
 
 // Essa � a criada para o processo kernel.
@@ -732,17 +732,16 @@ struct thread_d *____IDLE;
     // podemos deixar ela como idle thread somente nos est�gios 
     // iniciais, sendo substituida por outra quando fot poss�vel.
 
-struct thread_d *EarlyRING0IDLEThread;    
+extern struct thread_d *EarlyRING0IDLEThread;    
 
 
 // Essa � a thread de controle do processo init2.bin
 // � o primeiro processo em ring3.
 // Idle Thread. TID=0    
-struct thread_d *InitThread;         
-
+extern struct thread_d *InitThread;         
 
 // Ponteiro para a thread usada na hora da clonagem de processos.
-struct thread_d *ClonedThread;
+extern struct thread_d *ClonedThread;
 
 /* 
  * Listas encadeadas de threads.
@@ -750,14 +749,13 @@ struct thread_d *ClonedThread;
  */
 
 // The fixed conductor to mark the start.
-struct thread_d *Conductor;
+extern struct thread_d *Conductor;
 // The flexible conductor to create the list.
-struct thread_d *tmpConductor;  //Conductor2;
+extern struct thread_d *tmpConductor;  //Conductor2;
 // The created root conductor.
-struct thread_d *rootConductor;
+extern struct thread_d *rootConductor;
 
-int conductorIndex;
-
+extern int conductorIndex;
 
 
 // #todo

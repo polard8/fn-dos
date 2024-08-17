@@ -27,8 +27,21 @@
 #include <kernel.h>
 
 
+struct thread_d *____IDLE;
+struct thread_d *EarlyRING0IDLEThread;    
+struct thread_d *InitThread;         
+struct thread_d *ClonedThread;
+// The fixed conductor to mark the start.
+struct thread_d *Conductor;
+// The flexible conductor to create the list.
+struct thread_d *tmpConductor;  //Conductor2;
+// The created root conductor.
+struct thread_d *rootConductor;
+
+int conductorIndex=0;
+
+
 /*
- *******************************************************
  * exit_thread:
  *     Exit a thread.
  *     Torna o estado ZOMBIE mas não destrói a estrutura.

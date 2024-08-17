@@ -1,9 +1,9 @@
 /*
  * File: blkdev/disk.h 
  *
- * Descrição:
+ * Descriï¿½ï¿½o:
  *     Gerenciador de discos. 
- *     Header para rotinas de operação com discos.
+ *     Header para rotinas de operaï¿½ï¿½o com discos.
  *
  * Obs: 
  *     Part of hal.
@@ -132,30 +132,25 @@
  */
  
 typedef enum {
-
     DISK_TYPE_NULL, 
     DISK_TYPE_PATA,
     DISK_TYPE_PATAPI,
     DISK_TYPE_SATA,
     DISK_TYPE_SATAPI
     //...
-
 }disk_type_t;
 
 
 
 // #Obs:
-// Um disco pode ser físico ou virtual.
-// Um disco virtual também pode ter muitos volumes virtuais.
+// Um disco pode ser fï¿½sico ou virtual.
+// Um disco virtual tambï¿½m pode ter muitos volumes virtuais.
 
 typedef enum {
-
     DISK_CLASS_NULL,
     DISK_CLASS_PHYSICAL,
     DISK_CLASS_VIRTUAL
-
 }disk_class_t;
-
 
 
 // bios parameter block
@@ -191,28 +186,21 @@ struct partition_table_d
     // Sectors in partition.
     unsigned long size;
 };
-struct partition_table_d *partition; 
-
-
+extern struct partition_table_d *partition; 
 
 // This is a good code.
 // It is easy to handle the partition table values.
-
 struct mbr_d
 {
     unsigned char boot_code[446];
     struct partition_table_d p[4];
     unsigned short signature;
 }; 
-struct mbr_d *mbr; 
-
-
-
+extern struct mbr_d *mbr; 
 
 /*
- ***************************************************
  * disk_d:
- *     Estrutura para acesso rápido a discos.
+ *     Estrutura para acesso rï¿½pido a discos.
  *     Deve ser simples e com poucos elementos.
  */
 
@@ -233,22 +221,22 @@ struct disk_d
     char boot_disk_number;  // ID herdado do boot block.
 
     // Ponteiro para o nome do disco,
-    // Talvez não precise ser um ponteiro, pode ser um array.
+    // Talvez nï¿½o precise ser um ponteiro, pode ser um array.
     
     char *name; 
 
 
     //#todo
-    // se está funcionando ... se está inicializado ...
+    // se estï¿½ funcionando ... se estï¿½ inicializado ...
     //int status;
     
     //#todo
-    // que tipo de operação esta sendo realizada. ou nenhuma.
-    // se ele está ocupoado o escretor terá que esperar.
+    // que tipo de operaï¿½ï¿½o esta sendo realizada. ou nenhuma.
+    // se ele estï¿½ ocupoado o escretor terï¿½ que esperar.
     //int state;
 
     // Security
-    pid_t pid;     // Qual processo está usando.
+    pid_t pid;     // Qual processo estï¿½ usando.
     gid_t gid;
     // ...
 
@@ -272,17 +260,13 @@ struct disk_d
 
     struct disk_d *next;
 };
-
 // Disks
-
-struct disk_d  *____boot____disk;
+extern struct disk_d  *____boot____disk;
 // ...
 
 // Disk list.
-// Essa lista é preenchida pelo driver de IDE.
-
-unsigned long diskList[DISK_COUNT_MAX];
-
+// Essa lista ï¿½ preenchida pelo driver de IDE.
+extern unsigned long diskList[DISK_COUNT_MAX];
 
 //
 // == variables ==================================
@@ -308,7 +292,7 @@ void *disk_get_current_disk_info (void);
 
 int disk_init (void);
 
-//*teste de operação com disco.
+//*teste de operaï¿½ï¿½o com disco.
 void init_test_disk (void);   
 
 int get_ide_disk_info ( int port, unsigned long buffer, int master );

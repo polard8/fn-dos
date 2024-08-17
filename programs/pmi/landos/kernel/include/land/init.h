@@ -26,11 +26,11 @@ struct initialization_d
     // ...
 }; 
 
-// No pointer.
-struct initialization_d Initialization;
+// see: main.c
+extern struct initialization_d  Initialization;
 
 //
-//
+// ==================================
 //
 
 void init_globals (void);

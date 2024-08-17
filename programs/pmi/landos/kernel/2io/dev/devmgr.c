@@ -21,6 +21,26 @@
  
 #include <kernel.h>
 
+struct device_d  *devices;  //?? What
+
+// List of legacy devices.
+// 'file->device'
+struct device_d  *PS2KeyboardDevice;
+struct device_d  *PS2MouseDevice;
+// ...
+
+unsigned long deviceList[DEVICE_LIST_MAX];    
+
+
+file *PS2KeyboardDeviceObject;
+file *PS2MouseDeviceObject;
+
+struct tty_d *PS2KeyboardDeviceTTY;
+struct tty_d *PS2MouseDeviceTTY;
+
+struct ttydrv_d *PS2KeyboardDeviceTTYDriver;
+struct ttydrv_d *PS2MouseDeviceTTYDriver;
+
 
 /*
     As classes poderiam ter nomes amigáveis e 

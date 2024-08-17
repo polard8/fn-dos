@@ -17,6 +17,8 @@
 
 #include <kernel.h>
 
+struct ioControl_d *ioControl_keyboard;   //0
+
 //see: events.h
 int current_keyboard_responder=0;
 

@@ -55,12 +55,12 @@
 // Vari�veis v�lidas para todas as linhas.
 //
 
+/*
 int lineLine;    //Troca de linha;(up down)
 int lineLineMax;       //N�mero m�ximo de linhas suportadas.
 int lineOffset;    //Deslocamento dentro da linha; (left right).
 int lineOffsetMax;       //N�mero m�ximo de caracteres por linha.
-
-
+*/
 
 //
 // Estrutura para linha.
@@ -79,22 +79,20 @@ struct line_d
     //FILE *line_file; //Test.	
 };
 
-line_t *Line;
-line_t *LineShell;
+//line_t *Line;
+//line_t *LineShell;
 //line_t *Linex;
 //line_t *Linex;
 //line_t *Linex;
 //...
 
-
 //Linked list head.
-struct line_d *LineHead;  
-
+//struct line_d *LineHead;  
 
 //Fluxo.
-file *line_stdin;
-file *line_stdout;
-file *line_stderr;
+//file *line_stdin;
+//file *line_stdout;
+//file *line_stderr;
 
 #endif  
 

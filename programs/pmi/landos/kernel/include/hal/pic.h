@@ -34,21 +34,14 @@ struct irq_d
     struct irq_d *next;
 };
 
-
 struct pic_d
 {
 	object_type_t objectType;
 	object_class_t objectClass;
-
     int dummy;
-
     // 8 entries for pic controller.
 };
-struct pic_d *Pic;
-
-
-
-
+extern struct pic_d  *Pic;
 
 
 //
@@ -59,21 +52,17 @@ struct pic_d *Pic;
 __VOID_IRQ 
 irq0_TIMER (void);
 
-
 // See: keyboard.c
 __VOID_IRQ 
 irq1_KEYBOARD (void);
-
 
 // See: x86/rtc.c
 __VOID_IRQ 
 irq8_RTC (void); 
 
-
 // See: e1000.c
 __VOID_IRQ 
 irq_E1000 (void);
-
 
 // See: mouse.c
 __VOID_IRQ 
@@ -96,11 +85,7 @@ irq14_PRIMARY_IDE (void);
 __VOID_IRQ 
 irq15_SECONDARY_IDE (void);
 
-
-
 #endif   
-
-
 
 //
 // End.

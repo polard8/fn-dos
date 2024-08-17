@@ -42,17 +42,13 @@
 // ...
 #define GRAMADO_PORT_MAX 32
 
-int gramado_ports[GRAMADO_PORT_MAX];
+extern int gramado_ports[GRAMADO_PORT_MAX];
 //--
-//=====================================================
-
-
 //=====================================================
 
 // #atenção. 
 // Variável global;
-int current_socket;
-
+extern int current_socket;
 
 //=============================================
 
@@ -60,7 +56,7 @@ int current_socket;
 // #todo Mudar isso mais para baixo.
 
 // Create an empty structure.
-struct socket_d *create_socket_object (void);
+struct socket_d *create_socket_object(void);
 
 unsigned long getSocketIP ( struct socket_d *socket );
 unsigned long getSocketPort ( struct socket_d *socket );
@@ -381,10 +377,7 @@ struct sockpeercred {
 	pid_t		pid;
 };
 
-
-
 typedef unsigned  socklen_t;
-
 
 
 //bsd
@@ -412,7 +405,6 @@ struct	accept_filter_arg {
  * Level number for (get/set)sockopt() to apply to socket itself.
  */
 //#define	SOL_SOCKET	0xffff		/* options for socket level */
-
 
 
 // See:
@@ -460,28 +452,22 @@ struct sockaddr_big {
 
 
 /* Device structure */
-typedef struct socket_context {
-
+typedef struct socket_context 
+{
     struct socket_context *next, *prev;
     unsigned fd;
     int family;
     int type;
     int protocol;
-
 }socket_t;
 
 
 typedef struct {
-
     char *h_addr;
     unsigned h_length;
-
 }hostent;
 
-
 //=========
-
-
 
 /*
 #ifndef pid_t
@@ -533,7 +519,6 @@ struct socket_d
     object_type_t  objectType;
     object_class_t objectClass;
 
-
     int used;
     int magic;
 
@@ -545,7 +530,6 @@ struct socket_d
     pid_t pid;  // Process
     uid_t uid;  // User 
     gid_t gid;  // Group
-
 
     unsigned long  ip;
     unsigned short port;
@@ -568,12 +552,8 @@ struct socket_d
     // write() copy the data to the connected socket.
     int conn_copy; 
     
-
-
-
     // The server finds a place in the server_process->Objects[i].
     int clientfd_on_server;
-    
     
     // Nosso arquivo.
     // Eh o objecto socket ??
@@ -594,16 +574,14 @@ struct socket_d
     // usada em endereços AF_INET
     struct sockaddr_in addr_in; 
 };
-struct socket_d *CurrentSocket;
-struct socket_d *LocalHostHTTPSocket;
-//...
-
+extern struct socket_d  *CurrentSocket;
+extern struct socket_d  *LocalHostHTTPSocket;
 
 // #todo:
 // Refazer esse limite proviório.
-#define SOCKET_COUNT_MAX 32
+#define SOCKET_COUNT_MAX  32
 
-unsigned long socketList[SOCKET_COUNT_MAX];
+extern unsigned long socketList[SOCKET_COUNT_MAX];
 
 
 //
@@ -618,7 +596,6 @@ socket_gramado (
     int family, 
     int type, 
     int protocol );
-
 
 int 
 socket_unix ( 
@@ -639,9 +616,7 @@ int sys_socket ( int family, int type, int protocol );
 // libc shutdown() function.
 int sys_socket_shutdown (int socket, int how);
 
-
 struct socket_d *get_socket_from_fd (int fd);
-
 
 int
 sock_socketpair ( 
@@ -662,14 +637,11 @@ socket_dialog (
     unsigned long arg3, 
     unsigned long arg4 );
 
-
 int 
 sys_connect ( 
     int sockfd, 
     const struct sockaddr *addr,
     socklen_t addrlen );
-
-
 
 // Alternative way.
 // It returns the fd of the server and write() will copy the data.  
@@ -705,7 +677,6 @@ int sys_listen (int sockfd, int backlog);
 int socket_read (unsigned int fd, char *buf, int count);
 int socket_write (unsigned int fd,char *buf,int count);
 
-
 // #test
 // vamos pegar um descritor que aponta para
 // um arquivo do tipo soquete que deseja se concetar 
@@ -716,13 +687,11 @@ int socket_set_gramado_port(int port, int pid);
 
 void show_socket_for_a_process(int pid);
 
-
 int is_socket (file *f);
 int is_virtual_console (file *f);
 //...
 
 #endif   
-
 
 
 //

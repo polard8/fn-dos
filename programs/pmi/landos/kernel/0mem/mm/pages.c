@@ -338,6 +338,25 @@ unsigned long memorysizeTotalVirtualMemory=0;
 unsigned long memorysizeAvailableVirtualMemory=0;
 
 
+//pagedpool virtual address
+unsigned long g_pagedpool_va=0;
+
+// endere�o virtual do pool de heaps.
+// os heaps nessa �rea ser�o dados para os processos.
+unsigned long g_heappool_va=0;
+int g_heap_count=0;
+int g_heap_count_max=0;
+unsigned long g_heap_size=0;
+
+
+unsigned long g_extraheap1_va=0;
+unsigned long g_extraheap1_size=0;
+unsigned long g_extraheap2_va=0;
+unsigned long g_extraheap2_size=0;
+unsigned long g_extraheap3_va=0;
+unsigned long g_extraheap3_size=0;
+
+
 // ===================================================================
 //
 // #important: DANGER !!!

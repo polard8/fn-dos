@@ -24,6 +24,9 @@
 
 #include <kernel.h>
 
+struct ioControl_d *ioControl_mouse;      //1
+
+
 //see: events.h
 int current_mouse_responder=0;
 // ...

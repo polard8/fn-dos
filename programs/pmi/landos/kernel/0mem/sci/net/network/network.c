@@ -82,11 +82,17 @@ uint_t switch_endian32(uint_t nb)
 #include <kernel.h>
 
 
+struct network_buffer_d  NETWORK_BUFFER;
+
+// Essa flag poderia ir para dentro da estrutura acima,
+int ____network_late_flag=0;
+
+
+
 // Status do driver de network
 // 0 - uninitialized
 // 1 - initialized
-
-int network_status;   
+int network_status=0;
 
 
 // Status para notificações.
@@ -94,14 +100,10 @@ int network_status;
 // O shell vai habilitar essa notificação no momento em que
 // envia um stream para mensagens de texto.
 
-int notification_status; 
-
-
+int notification_status=0;
 
 // Usado por esse módulo.
 file *____network_file;
-
-
 
 
 // Colocar um buffer numa lista de buffers.

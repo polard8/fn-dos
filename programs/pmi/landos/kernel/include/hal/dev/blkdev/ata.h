@@ -81,8 +81,6 @@
 #define ATA_IDE_BAR5  0      // Usado pelo AHCI.
 
 
-
-
 // ATA/ATAPI Command Set.
 
 #define ATA_CMD_CFA_ERASE_SECTORS               0xC0
@@ -204,11 +202,11 @@
 // Variables.
 //
 
-int ATAFlag;
-unsigned short  *ata_identify_dev_buf;
+extern int ATAFlag;
+extern unsigned short  *ata_identify_dev_buf;
 
-unsigned char ata_record_dev;
-unsigned char ata_record_channel;
+extern unsigned char ata_record_dev;
+extern unsigned char ata_record_channel;
 
 
 // #important
@@ -216,22 +214,18 @@ unsigned char ata_record_channel;
 // pela rotina de leitura e escrita.
 // See: config.h ata.c hdd.c
 
-int g_current_ide_channel;  //primary or secondary.
-int g_current_ide_device;   //master or slave
-
+extern int g_current_ide_channel;  //primary or secondary.
+extern int g_current_ide_device;   //master or slave
 
 // #important
 // Qual é o canal e o dispositivo usado no momento do boot 
 // pela rotina de leitura e escrita.
 // See: config.h ata.c hdd.c
 
-int g_boottime_ide_channel;  //primary or secondary.
-int g_boottime_ide_device;   //master or slave
-
-
+extern int g_boottime_ide_channel;  //primary or secondary.
+extern int g_boottime_ide_device;   //master or slave
 
 /*
- **************************************************************
  * PCIDeviceATA:
  *     Estrutura de dispositivos pci para um disco ata.
  *     #bugbug: E se tivermos mais que um instalado ???
@@ -240,18 +234,14 @@ int g_boottime_ide_device;   //master or slave
  *     Esssa é uma estrutura de dispositivos pci criada para o gramado, 
  * definida em pci.h
  */
-
-struct pci_device_d *PCIDeviceATA;
-// struct pci_device_d *PCIDeviceATA2;
+extern struct pci_device_d *PCIDeviceATA;
 // ...
 
 
 /*
- **********************************
  * dev_nport:
  *     AHCI ports;
  */
-
 struct dev_nport 
 { 
     unsigned char dev0;
@@ -287,15 +277,12 @@ struct dev_nport
     unsigned char dev30;
     unsigned char dev31;
 };
-struct dev_nport dev_nport;
-
-
+extern struct dev_nport  dev_nport;
 
 // História:
 //     Programação do ATA a partir do ICH5/9 e suporte a IDE legado.
 //     ICH5 integraçao do SATA e suporte total ACPI 2.0.
 //     ICH6 implementaram os controladores AHCI SATA pela primeira vez.
-
 
 /*
  * ata:
@@ -319,15 +306,9 @@ struct ata_d
     uint32_t bus_master_base_address;
     uint32_t ahci_base_address;
 };
-
-// Not a pointer.
-
-struct ata_d ata;
-
-
+extern struct ata_d  ata;
 
 /*
- ******************************************************************
  * st_dev:
  * É uma estrutura para dispositivos de armazenamento.
  */
@@ -352,7 +333,6 @@ typedef struct st_dev
 
     unsigned long long dev_total_num_sector_lba48;
 
-
     unsigned long dev_size;
     
     // #test
@@ -362,16 +342,12 @@ typedef struct st_dev
     struct st_dev *next;
 
 }st_dev;
-
 // Defining the type.
-typedef struct st_dev st_dev_t;
-
-
+typedef struct st_dev   st_dev_t;
 
 //
 // == Prototypes ==============================================
 //
-
 
 // current channel and device.
 int ata_get_current_ide_channel(void);
@@ -384,8 +360,6 @@ int ata_get_boottime_ide_channel(void);
 int ata_get_boottime_ide_device(void);
 void ata_set_boottime_ide_channel(int channel);
 void ata_set_boottime_ide_device(int device);
-
-
 
 int nport_ajuste(char nport);
 
@@ -470,40 +444,12 @@ uint32_t diskPCIScanDevice ( int class );
 
 int diskATAPCIConfigurationSpace ( struct pci_device_d *D );
 
-
-
 void DeviceInterface_PrimaryIDE(void);
 void DeviceInterface_SecondaryIDE(void);
 
-
-/*
- *******************************************************
- * ata_initialize:
- *     Inicializa o IDE e mostra informações sobre o disco.
- */
-
-int ata_initialize ( int ataflag );
-
-
-
-/*
- *******************************************
- * ataDialog:
- *     Rotina de diálogo com o driver ATA.
- */
-
-int 
-ataDialog ( 
-    int msg, 
-    unsigned long long1, 
-    unsigned long long2 );
-
-
 int disk_ata_wait_irq (void);
 
-
 void show_ide_info (void);
-
 
 int 
 ata_ioctl ( 
@@ -561,10 +507,8 @@ static unsigned long ATA_BAR5;    // AHCI Base Address / SATA Index Data Pair Ba
 /* ide_dma_prdt: */
 
 struct {
-
     uint32_t addr;
     uint32_t len;
-
 }ide_dma_prdt[4];
 
 
@@ -581,6 +525,24 @@ struct {
                        ((uint32_t)(offset) &0xfc)|0x80000000)
 
 
+
+
+/*
+ * ata_initialize:
+ *     Inicializa o IDE e mostra informações sobre o disco.
+ */
+
+int ata_initialize ( int ataflag );
+
+/*
+ * ataDialog:
+ *     Rotina de diálogo com o driver ATA.
+ */
+int 
+ataDialog ( 
+    int msg, 
+    unsigned long long1, 
+    unsigned long long2 );
 
 #endif
 

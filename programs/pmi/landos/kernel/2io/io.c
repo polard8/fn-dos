@@ -10,6 +10,9 @@
 #include <kernel.h> 
 
 
+unsigned long ioControl[32];
+
+
 //==========================================
 // This is called by ioctl() in ring3.
 

@@ -23,8 +23,8 @@
 /*
  * vari�veis usadas no hal.
  */  
- 
-unsigned long g_machine_type;  
+
+extern unsigned long g_machine_type;
 
 //
 //....
@@ -40,7 +40,7 @@ unsigned long g_machine_type;
 // Endere�os das rotinas b�sicas chamadas pelos vetores de interrup��es.
 // Essas rotinas devem chamar seus handlers espec�ficos.
 // 256 interrup��es
-unsigned long VECTORS[256];
+extern unsigned long VECTORS[256];
 
 
 //
@@ -54,7 +54,7 @@ unsigned long VECTORS[256];
 // 256 interrup��es
 // 8 extras para handlers default.
 
-unsigned long HANDLERS[256+8];
+extern unsigned long HANDLERS[256+8];
 
 
 // Hardware:
@@ -69,7 +69,6 @@ struct hardware_d
 	struct processor_d *Processor;   //@todo: mudar para processo_d
 	int ProcessorArchitecture;
 	int NumberOfProcessors;
-	
 	
 	//
 	// Chipset info. (north /south)
@@ -129,12 +128,9 @@ struct hardware_d
     struct ps2_keyboard_d *ps2_keyboard;
     struct ps2_mouse_d    *ps2_mouse;
 
-
-
 	//floppy fdd
 	struct fdd_d *Fdd;
 	//struct floppy_d *Floppy;
-	
 	
 	//ide hdd
 	struct hdd_d *Hdd;
@@ -145,8 +141,7 @@ struct hardware_d
 	
 	//continua ...
 };
-struct hardware_d *Hardware;  
-
+extern struct hardware_d  *Hardware;  
 
 
 //Firmware:
@@ -156,14 +151,12 @@ struct firmware_d
 	int dummy;
 	//bios
 	//...	
-};  
-struct firmware_d *Firmware;
+};
+extern struct firmware_d  *Firmware;
 
 //
 //....
 //
-
-
   
 //Estrutura de disco. @todo: Colocar em outro arquivo.  
 struct drive_context_d 
@@ -174,8 +167,7 @@ struct drive_context_d
     unsigned long Heads;
     unsigned long Sectors;
 };
-struct drive_context_d *DriveContext;  
-
+extern struct drive_context_d  *DriveContext;  
 
 //Estrutura para informa��es sobre a placa m�e.  
 struct motherboard_d
@@ -184,10 +176,11 @@ struct motherboard_d
     //...	
 };  
 
-
-
-  
 //...
+
+//
+// =================================================
+//
 
 
 //
@@ -202,9 +195,6 @@ void hal_speaker_off (void);
 
 // Testando o beep;
 void hal_test_speaker (void);
-
-
-
 
 //
 // GUI support.
@@ -225,9 +215,6 @@ hal_lfb_putpixel (
     unsigned long cx, 
     unsigned long dx ); 
 
-
-
- 
 /*
 VOID
 NSDumpMemory(
@@ -246,9 +233,6 @@ NSDumpMemory(
     }
 }
 */
-
-
-
 
 /*
  * @todo: unsigned long bios_call(unsigned long a, b c d edi esi ebp);
@@ -274,8 +258,6 @@ IoWritePartitionTable(
     IN struct _DRIVE_LAYOUT_INFORMATION *PartitionBuffer
     ); 
 */				
- 
- 
  
  
 //Initialization support.
@@ -313,11 +295,8 @@ void hal_shutdown (void);
 // gdt and idt
 //
 
-
 unsigned long getGdt(void);
 unsigned long getIdt(void);
-
-
 
 void 
 hal_setup_new_vectors_table_entry ( 
@@ -339,7 +318,6 @@ hal_idt_register_interrupt (
     unsigned char i, 
     unsigned long callback );
 
-
 void hal_default_handler (void);
 
 void hal_init_handlers_table (void);
@@ -349,9 +327,7 @@ void hal_invalidate_handler (int number);
 
 #endif   
 
-
-
 //
-// End.
+// End
 //
 

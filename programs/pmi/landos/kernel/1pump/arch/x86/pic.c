@@ -2,10 +2,10 @@
  * File: pic.c
  *
  *    Controlador PIC.
- *    Arquivo principal do módulo interno do kernel de 32bit. 
+ *    Arquivo principal do mï¿½dulo interno do kernel de 32bit. 
  *    PIC - Programmable Interrupt Controller
  *
- * Versão 1.0, 2016.
+ * Versï¿½o 1.0, 2016.
  */
  
 
@@ -16,7 +16,7 @@
 //  PIC - Programmable Interrupt Controller register addresses.
 //
  
-//Ninguém além do driver precisa dessas constantes. 
+//Ninguï¿½m alï¿½m do driver precisa dessas constantes. 
 // master PIC.
 #define PIC1_PORT0 0x20  
 #define PIC1_PORT1 0x21
@@ -26,14 +26,14 @@
  
  
 //
-// Variáveis internas.
+// Variï¿½veis internas.
 // 
 
-int picStatus;
-int picError;
+int picStatus=0;
+int picError=0;
 //... 
- 
- 
+
+struct pic_d  *Pic;
 
  
 /* 

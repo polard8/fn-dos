@@ -44,7 +44,6 @@
 //...
 
 
-
 /*
  * 386 processor status longword.
  * credits: netBSD
@@ -108,17 +107,12 @@ int x86_init_intel (void);
 // SEE feature support.
 void x86_sse_init(void);
 
-
 // Debug support.
 void show_cpu_intel_parameters(void);
 
-
 #endif   
 
-
-
 //
-// End.
+// End
 //
-
 

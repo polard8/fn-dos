@@ -1,12 +1,12 @@
 /*
  * File: io.h
  *
- * Descrição:
+ * Descriï¿½ï¿½o:
  *     Arquivo principal do I/O Manager.
  *     Todo gerenciamento de dispositivos,
- *     toda concessão de acesso passará por 
+ *     toda concessï¿½o de acesso passarï¿½ por 
  *     esse gerenciador, que faz parte da
- *     camada de abstração de hardware oferecidad pelo
+ *     camada de abstraï¿½ï¿½o de hardware oferecidad pelo
  *     kernel base.
  *
  * History:
@@ -31,23 +31,12 @@ struct ioBuffer_d
     int size;                          // size in number of bytes.
 }; 
 
-// #test
-struct ioBuffer_d *CurrentIOBuffer;
-
-//struct ioBuffer_d *lineBuffer;    //Buffer para uma linha de caracteres.
-//struct ioBuffer_d *fileBuffer;    //buffer para um arquivo de texto.
-//struct ioBuffer_d *CurrentBuffer;
-//struct ioBuffer_d *ipcBuffer;    //IPC buffer. (Área de transferência.)
-// ... 
-
- 
- 
  // Escalonamento de dispositivo.
 // Todo dispositivo tem uma fila de threads esperando 
 // para usar o dispositivo.
-// Nessas variáveis colocaremos qual é a thread que 
-// está usando o dispositivo no momento.
-// #bugbug essa informações deve estar na estrutura de dispositivo.
+// Nessas variï¿½veis colocaremos qual ï¿½ a thread que 
+// estï¿½ usando o dispositivo no momento.
+// #bugbug essa informaï¿½ï¿½es deve estar na estrutura de dispositivo.
 //
 // ## input control 
 //
@@ -59,43 +48,36 @@ struct ioControl_d
     int used;
     int magic;
 
-    //identificação do dispisitivo
+    //identificaï¿½ï¿½o do dispisitivo
     int did; 
 
-	// Aqui identificaremos qual a thread que está 
+	// Aqui identificaremos qual a thread que estï¿½ 
 	// usando o dispositivo no momento.
 
-    //identificação da thread.
+    //identificaï¿½ï¿½o da thread.
     int tid; 
 
     // a janela que esta usando o dispositivo.
     int wid;  
 };
 
-struct ioControl_d *ioControl_keyboard;   //0
-struct ioControl_d *ioControl_mouse;      //1
+extern struct ioControl_d *ioControl_keyboard;   //0
+extern struct ioControl_d *ioControl_mouse;      //1
 
-unsigned long ioControl[32];
+extern unsigned long ioControl[32];
 
 
-
- 
 //
-// Prototypes.
+// Prototypes =========================================================
 // 
  
-
 // Handler for services.
 int io_ioctl ( int fd, unsigned long request, unsigned long arg );
-
-
 int ioInit (void);
-
 
 #endif   
 
-
 //
-// End.
+// End
 //
 

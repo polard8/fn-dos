@@ -1,22 +1,22 @@
 /*
  * File: pit.c 
  *  
- * Descrição:
+ * Descriï¿½ï¿½o:
  *     Arquivo principal do driver do PIT. 
  *     Trara a irq0.
  *     Rotinas envolvendo tempo.
  *
  *  Ambiente: 
  *     (RING 0).
- *      Módulo interno, dentro do kernenel base.
+ *      Mï¿½dulo interno, dentro do kernenel base.
  *
- * @todo: Criar funções que criam a estrutura timer ...
- * que será usada peloa aplicativos na forma de objeto .
- * elas devem ter um contador que enviará mensagens para o 
+ * @todo: Criar funï¿½ï¿½es que criam a estrutura timer ...
+ * que serï¿½ usada peloa aplicativos na forma de objeto .
+ * elas devem ter um contador que enviarï¿½ mensagens para o 
  * aplicativo sempre que se esgota a contagem.
  *
- * Histórico:
- *     Versão: 1.0, 2013 - Esse arquivo foi criado por Fred Nora.
+ * Histï¿½rico:
+ *     Versï¿½o: 1.0, 2013 - Esse arquivo foi criado por Fred Nora.
  */
 
  
@@ -64,56 +64,81 @@ Bits         Usage
 
 #include <kernel.h>
 
+// total ticks
+unsigned long jiffies=0;
+// por quantos segundos o sistema esta rodando
+// jiffies/sys_time_hz
+unsigned long seconds=0;
+// Por quantos ms o sistema esta rodando.
+unsigned long sys_time_ms=0;
+// pit frequency
+unsigned long sys_time_hz=0;
+
+
+//contador do profiler ticks.
+//sÃ³ vai de zero atÃ© o limite configurÃ¡vel.
+unsigned long profiler_ticks_count=0;
+//limite da contagem do profile ticks.
+//quando chegar aqui, entÃ£o devemos calcular 
+//a porcentagem para todas as threads e processos.
+unsigned long profiler_ticks_limit=0;
+unsigned long profiler_percentage_all_normal_threads=0;
+unsigned long profiler_percentage_idle_thread=0;
+
+
+int extra=0;
+
+//a flag indica se o cursor estÃ¡ habilitado ou nÃ£o.
+int timer_cursor_used=0;
+//status do cursor.
+int timer_cursor_status=0;
+unsigned long time_out=0;
+unsigned long timer_handler_address=0;    //global _irq0:
+
+
+// lista de timers.
+unsigned long timerList[32];
 
 
 //
-// Variáveis internas.
+// Variï¿½veis internas.
 //
 
-//Status do módulo.
-int timerStatus;
+//Status do mï¿½dulo.
+int timerStatus=0;
 
 //Contador de ticks.
 //unsigned long timerTicks;
 
 //??  
-int timerColor;
+int timerColor=0;
 
 //??
-unsigned long timerLine;
+unsigned long timerLine=0;
 
 //??
-unsigned long timerIdleState;
+unsigned long timerIdleState=0;
 
 //??
-int timerLock;
+int timerLock=0;
 
 //??
-int timerError;
-
+int timerError=0;
 
 //
 // Text cursor
 //
 
-int timerShowTextCursor;  
-
-
+int timerShowTextCursor=0;
 
 //??
 //unsigned long timerCountSeconds;  //Count Seconds.
 //...
 
 
-
-
-
 /*
- *****************************************************
  * DeviceInterface_PIT: 
- *    
  *     device interface for pit device.
- *
  *     (Contagem de tempo, tempo das tarefas, 
  * quantum ...).
  *     (tick tick tick)
@@ -123,13 +148,10 @@ void DeviceInterface_PIT (void){
 
     // Timers.
     int i = 0;
-
     struct timer_d  *Timer;
-
     struct thread_d *Thread;
 
-
-    // Se o timer não estiver inicializado !
+    // Se o timer nï¿½o estiver inicializado !
     if ( __breaker_timer_initialized == 0 )
         return;
 
@@ -138,7 +160,7 @@ void DeviceInterface_PIT (void){
 	// Profiler
 	//
 
-	// Contando as interrupções desse tipo.
+	// Contando as interrupï¿½ï¿½es desse tipo.
     g_profiler_ints_irq0++;
 
 
@@ -188,8 +210,8 @@ void DeviceInterface_PIT (void){
 	// ## threads time ##
 	//
 
-	//Atribui um número de request a ser atendido futuramente.
-	//Tratará o tempo das tarefas de acordo com o tipo.
+	//Atribui um nï¿½mero de request a ser atendido futuramente.
+	//Tratarï¿½ o tempo das tarefas de acordo com o tipo.
 	//#obs: Isso poderia ser usado para atualizar o time dos processos.
 	
 	//#suspenso
@@ -203,7 +225,7 @@ void DeviceInterface_PIT (void){
 	//
     
     // #todo
-    // As variáveis de working set estão em timer.h
+    // As variï¿½veis de working set estï¿½o em timer.h
 	
 
 	//Working set and profiler support.
@@ -213,7 +235,7 @@ void DeviceInterface_PIT (void){
 	    
     if ( jiffies % profiler_ticks_limit == 0 )
 	{   
-	    //quantidade de frames num determinado período de tempo.
+	    //quantidade de frames num determinado perï¿½odo de tempo.
 	    // mm_profiler (); 
 	    
 	    //calcule.
@@ -225,10 +247,10 @@ void DeviceInterface_PIT (void){
     // Whatch dogs
     if ( jiffies % 100 == 0 )
     {
-       // Incrementa o tempo em que o usuário está sem digitar.
+       // Incrementa o tempo em que o usuï¿½rio estï¿½ sem digitar.
         ____whatchdog_ps2_keyboard++;
         
-        // Incrementa o tempo em que o usuário está sem usar o mouse. 
+        // Incrementa o tempo em que o usuï¿½rio estï¿½ sem usar o mouse. 
         ____whatchdog_ps2_mouse++;
         
         
@@ -240,7 +262,7 @@ void DeviceInterface_PIT (void){
             //mostra_reg (current_thread);
             //refresh_screen();
 
-            // Isso não surtiu efeito na máquina real.
+            // Isso nï¿½o surtiu efeito na mï¿½quina real.
             // printf ("whatchdog timer: Reinitializing ps2 controller ...\n");
             // refresh_screen();
             // ps2 ();
@@ -268,7 +290,7 @@ void DeviceInterface_PIT (void){
 	// como gc, dead thread collector, request.
 
     // #todo
-    // Podemos fazer isso com menos frequência.
+    // Podemos fazer isso com menos frequï¿½ncia.
 
     if ( jiffies % 100 == 0 ){ extra = 1; }
 
@@ -303,7 +325,7 @@ void DeviceInterface_PIT (void){
     // Lista de timers.
     // Podemos percorrer a lista de timer e decrementar,
     // quando um timer chegar a 0, mandamos uma mensagem
-    // para a thread associada à esse timer..
+    // para a thread associada ï¿½ esse timer..
 
     // #todo
     // Call a helper function for that.
@@ -326,7 +348,7 @@ void DeviceInterface_PIT (void){
                     if ( Timer->count_down == 0 )
                     {
                         // Enviamos a mensagem para a thread 
-                        // que é dona do timer.
+                        // que ï¿½ dona do timer.
                         // #todo:
                         // Create a helper function for that.
 
@@ -353,7 +375,7 @@ void DeviceInterface_PIT (void){
                         }
 
 						//analisando o tipo.
-						//dependendo do tipo, devemos parar ou recomeçar.
+						//dependendo do tipo, devemos parar ou recomeï¿½ar.
 						//one shot or intermitente
 
                         if ( Timer->type == 1 ){ Timer->count_down = 0; }
@@ -377,7 +399,7 @@ done:
 /*
  ************************************
  * irq0_TIMER:
- *     Chama o handler do kernel que está no kernel base.
+ *     Chama o handler do kernel que estï¿½ no kernel base.
  * #todo: Observar alguns procedimentos antes de chamar a rotina.
  */
  
@@ -563,18 +585,18 @@ fail:
  * timerInit8253:
  *    @todo: Compreender melhor isso.
  *
- * Seta a frequência de funcionamento do 
+ * Seta a frequï¿½ncia de funcionamento do 
  * controlador 8253. "3579545 / 3" 
  * instead of 1193182 Hz. 
- * Pois o valor é mais preciso, considera até os 
+ * Pois o valor ï¿½ mais preciso, considera atï¿½ os 
  * quebrados. 
  * Reprograma o timer 8253 para operar 
- * à uma frequencia de "HZ".
+ * ï¿½ uma frequencia de "HZ".
  * Obs: Essa rotina substitui a rotina init_8253.
  */
  
 //#importante 
-//Essa rotina poderá ser chamada de user mode,
+//Essa rotina poderï¿½ ser chamada de user mode,
 //talvez precisaremos de mais argumentos. 
  
 void timerInit8253 ( unsigned long hz ){
@@ -586,7 +608,7 @@ void timerInit8253 ( unsigned long hz ){
 
     unsigned short period =  ( (3579545L/3) / clocks_per_sec );
 
-    // Canal 0, LSB/MSB, modo 3, contar em binário.
+    // Canal 0, LSB/MSB, modo 3, contar em binï¿½rio.
     out8 ( 0x43, 0x36 );
 
     // LSB.
@@ -598,16 +620,16 @@ void timerInit8253 ( unsigned long hz ){
     //out8 ( 0x40, 0x04 );   // test 1000
 
 
-	//#BUGBUG Não faremos isso aqui,
+	//#BUGBUG Nï¿½o faremos isso aqui,
 	//faremos quando ermos spawn da idle thread.
 	//irq_enable(0x00); // Timer
 	
 	// #importante
-	// Isso será uma variável para fazermos testes de desempenho. 
+	// Isso serï¿½ uma variï¿½vel para fazermos testes de desempenho. 
 
     // #??
     // Onde isso foi definido.
-    // Podemos ter uma variável global com nome melhor?
+    // Podemos ter uma variï¿½vel global com nome melhor?
 
     sys_time_hz = (unsigned long) hz;
 }
@@ -702,7 +724,7 @@ unsigned long get_systime_info (int n){
 
     // #todo 
     // Criar um enum para isso.
-    // Comentar uma descrição em cada item.
+    // Comentar uma descriï¿½ï¿½o em cada item.
 
     switch (n){
 
@@ -737,7 +759,7 @@ unsigned long get_systime_info (int n){
  * 
  * #todo
  *     Apenas uma espera, um delay.
- *     Essa não é a função que coloca uma 
+ *     Essa nï¿½o ï¿½ a funï¿½ï¿½o que coloca uma 
  * tarefa pra dormir no caso de evento.
  *   #todo: Usar o ms do contador do sys_time
  */
@@ -780,7 +802,7 @@ unsigned long get_timeout (void)
  **************************************
  * timerTimer: 
  *     Constructor.
- *     Inciaialização de variáveis do módulo.
+ *     Inciaializaï¿½ï¿½o de variï¿½veis do mï¿½dulo.
  */
 
 int timerTimer (void){
@@ -817,7 +839,7 @@ int timerTimer (void){
  ********************************************
  * timerInit:
  *     Inicializa o driver de timer.
- *     Inicializa as variáveis do timer.
+ *     Inicializa as variï¿½veis do timer.
  *     @todo: KiTimerInit 
  * (unsigned long CallBackExemplo); 
  */
@@ -848,18 +870,18 @@ int timerInit (void){
     //set handler.
    
     //
-    // @todo: Habilitar esse configuração pois é mais precisa.
+    // @todo: Habilitar esse configuraï¿½ï¿½o pois ï¿½ mais precisa.
     //
    
-    //config frequências...
-    //@todo: Isso poderia ser por último.
+    //config frequï¿½ncias...
+    //@todo: Isso poderia ser por ï¿½ltimo.
     //?? Isso pertence a i386 ??
-    //?? Quais máquinas possuem esse controlador ??
+    //?? Quais mï¿½quinas possuem esse controlador ??
     
 	// #importante
-	// Começaremos com 100 HZ
-	// Mas o timer poderá ser atualizado por chamada.
-	// e isso irá atualizar a variável que inicializamos agora.
+	// Comeï¿½aremos com 100 HZ
+	// Mas o timer poderï¿½ ser atualizado por chamada.
+	// e isso irï¿½ atualizar a variï¿½vel que inicializamos agora.
 
     sys_time_hz = (unsigned long) HZ;
 
@@ -871,7 +893,7 @@ int timerInit (void){
 	// alocar memoria para a estrutura do timer.
 	// inicializar algumas variaveis do timer.
 	// por enquanto estamos usando variaveis globais.
-	// ?? Não se se ja foi configurado o timer.
+	// ?? Nï¿½o se se ja foi configurado o timer.
 	// ou devemos chamr init_8253() agora. ou depois.
 
 
@@ -895,9 +917,9 @@ int timerInit (void){
     //
 
     // Initializing whatchdogs.
-    // Eles serão zerados pelas interrupções dos dipositivos e
+    // Eles serï¿½o zerados pelas interrupï¿½ï¿½es dos dipositivos e
     // incrementados pelo timer.
-    // A condição crítica é alcançar um limite, um timeout.
+    // A condiï¿½ï¿½o crï¿½tica ï¿½ alcanï¿½ar um limite, um timeout.
     ____whatchdog_ps2_keyboard = 0;
     ____whatchdog_ps2_mouse    = 0;
     //...
@@ -924,11 +946,11 @@ int timerInit (void){
 
 /*
  * early_timer_init:
- *     Inicialização prévia do módulo timer.
- *     Uma outra inicialização mais aourada poderá ser feita
+ *     Inicializaï¿½ï¿½o prï¿½via do mï¿½dulo timer.
+ *     Uma outra inicializaï¿½ï¿½o mais aourada poderï¿½ ser feita
  * posteriormente.
- *     Porém ainda existe uma inicialização feita em Assembly
- * quando o kernel é inicialazado.
+ *     Porï¿½m ainda existe uma inicializaï¿½ï¿½o feita em Assembly
+ * quando o kernel ï¿½ inicialazado.
  * 
  */
 
@@ -990,9 +1012,9 @@ int early_timer_init (void){
 
 	
     // Initializing whatchdogs.
-    // Eles serão zerados pelas interrupções dos dipositivos e
+    // Eles serï¿½o zerados pelas interrupï¿½ï¿½es dos dipositivos e
     // incrementados pelo timer.
-    // A condição crítica é alcançar um limite, um timeout.
+    // A condiï¿½ï¿½o crï¿½tica ï¿½ alcanï¿½ar um limite, um timeout.
     ____whatchdog_ps2_keyboard = 0;
     ____whatchdog_ps2_mouse    = 0;
     //...

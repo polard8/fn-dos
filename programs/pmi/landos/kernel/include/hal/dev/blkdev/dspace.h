@@ -2,30 +2,24 @@
  * File: blkdev\dspace.h 
  * 
  * Disk Space. 
- *    Gerenciamento de espaço em disco. Isso está no módulo de memória 
- * para servir de interface entre o gerente de memória e o gerente de disco 
- * no suporte a memória virtual. Principalmente swap.
+ *    Gerenciamento de espaï¿½o em disco. Isso estï¿½ no mï¿½dulo de memï¿½ria 
+ * para servir de interface entre o gerente de memï¿½ria e o gerente de disco 
+ * no suporte a memï¿½ria virtual. Principalmente swap.
  *      
  * Obs: O lugar natural desse disco seria na classe de dispositivos, certo ?
- *      Mas ficará aqui, porque tem uma grande realção com memória ram,
- *      pois são desses endereços de disco que sairão as páginas usadas nas contas
- * de páginas.  
+ *      Mas ficarï¿½ aqui, porque tem uma grande realï¿½ï¿½o com memï¿½ria ram,
+ *      pois sï¿½o desses endereï¿½os de disco que sairï¿½o as pï¿½ginas usadas nas contas
+ * de pï¿½ginas.  
  */
-
 
 #ifndef  __DSPACE_H
 #define  __DSPACE_H    1
 
-
 typedef enum {
-
     dspacetypeNull,
     dspacetypeShared,
     dspacetypePersonal
-
 }dspace_type_t;
-
-
 
 struct dspace_d
 {
@@ -38,11 +32,11 @@ struct dspace_d
 
 	dspace_type_t type;
 	
-	char *name;  //Qual é o nome desse Disk Apace.
-	file *_file;   //Qual arquivo é referente à esse espaço.
+	char *name;  //Qual ï¿½ o nome desse Disk Apace.
+	file *_file;   //Qual arquivo ï¿½ referente ï¿½ esse espaï¿½o.
 	//metafile??	
 
-	//Endereço correspondente na memória ram.
+	//Endereï¿½o correspondente na memï¿½ria ram.
 	unsigned long virtual_address;
 	unsigned long physical_address;
 	
@@ -57,13 +51,11 @@ struct dspace_d
 	
 	//...
 	
-	//navegação.
+	//navegaï¿½ï¿½o.
 	struct dspace_d *next;
 };
-struct dspace_d *DSpace;
+//struct dspace_d *DSpace;
 // dspace_t *DSpace;
 //...
 
 #endif    
-
-

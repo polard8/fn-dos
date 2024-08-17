@@ -11,28 +11,29 @@
 #include <kernel.h>
 
 
+// see: x86gdt.h
+struct segment_descriptor_d  xxx_gdt[32];
+struct gdt_ptr_d  xxx_gdt_ptr;
+
+
+
 /*
 #define NSLOTS(sz)	\
 	(((sz) - DYNSEL_START) / sizeof(union descriptor))
 #define NDYNSLOTS	NSLOTS(MAXGDTSIZ)
 */
 
-#define NDYNSLOTS 8
+#define NDYNSLOTS  8
 
 
 typedef struct {
-
     int busy[NDYNSLOTS];
     //bool busy[NDYNSLOTS];
-
     size_t nslots;
-
 } gdt_bitmap_t;
 
 /* bitmap of busy slots */
 static gdt_bitmap_t gdt_bitmap;
-
-
 
 /*
 //pega

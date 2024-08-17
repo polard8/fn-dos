@@ -31,7 +31,6 @@ struct device_class_d
     //object_type_t  objectType;
     //object_class_t objectClass;
     
-
     int device_class;
     int device_subclass;    
 };
@@ -46,7 +45,6 @@ struct device_d
 
     object_type_t  objectType;
     object_class_t objectClass;
-
 
     int index;
     int used;
@@ -65,7 +63,6 @@ struct device_d
     // pci, legacy ...
     int type;
 
-
     //
     // == (1) storage ========
     //
@@ -78,8 +75,6 @@ struct device_d
     // do mesmo tipo usado no sistema de arquivos.
     // /dev/tty0
     char *mount_point;
-    
-
     
     // Se o tipo for pci.
     struct pci_device_d *pci_device;
@@ -136,17 +131,13 @@ struct device_d
     //struct device_d *next;
 };
 
-struct device_d *devices;  //?? What
-// struct device_d *CurrentDevice;
-//...
-
+extern struct device_d  *devices;  //?? What
 
 // List of legacy devices.
 // 'file->device'
-struct device_d *PS2KeyboardDevice;
-struct device_d *PS2MouseDevice;
+extern struct device_d  *PS2KeyboardDevice;
+extern struct device_d  *PS2MouseDevice;
 // ...
-
 
 // #todo: 
 // Parece uma lista muito grande para o número de dispositivos.
@@ -164,9 +155,7 @@ struct device_d *PS2MouseDevice;
 
 #define DEVICE_LIST_MAX 512   //NUMBER_OF_FILES
 
-unsigned long deviceList[DEVICE_LIST_MAX];    
-
-
+extern unsigned long deviceList[DEVICE_LIST_MAX];    
 
 //
 // == Objects ======================
@@ -175,10 +164,9 @@ unsigned long deviceList[DEVICE_LIST_MAX];
 // #bugbug
 // Temos um header no lugar certo para isso?
 
-file *PS2KeyboardDeviceObject;
-file *PS2MouseDeviceObject;
+extern file *PS2KeyboardDeviceObject;
+extern file *PS2MouseDeviceObject;
 // ...
-
 
 //
 // == ttys ======================
@@ -187,10 +175,9 @@ file *PS2MouseDeviceObject;
 // #bugbug
 // Temos um header no lugar certo para isso?
 
-struct tty_d *PS2KeyboardDeviceTTY;
-struct tty_d *PS2MouseDeviceTTY;
+extern struct tty_d *PS2KeyboardDeviceTTY;
+extern struct tty_d *PS2MouseDeviceTTY;
 // ...
-
 
 //
 // == tty drivers ======================
@@ -199,8 +186,8 @@ struct tty_d *PS2MouseDeviceTTY;
 // #bugbug
 // Temos um header no lugar certo para isso?
 
-struct ttydrv_d *PS2KeyboardDeviceTTYDriver;
-struct ttydrv_d *PS2MouseDeviceTTYDriver;
+extern struct ttydrv_d *PS2KeyboardDeviceTTYDriver;
+extern struct ttydrv_d *PS2MouseDeviceTTYDriver;
 // ...
 
 

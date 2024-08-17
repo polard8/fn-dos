@@ -49,7 +49,6 @@ struct channel_d
     object_type_t objectType;
     object_class_t objectClass;
 
-
     int id;
     
     int used;
@@ -89,8 +88,6 @@ struct channel_d
     //struct thread_d *SenderThread;
     //struct thread_d *ReceiverThread;
 
-
-
 	//#importante:
 	//context ??
 	//me parece que um ponteiro pra uma estrutura do 
@@ -104,17 +101,14 @@ struct channel_d
 	//me parece que � necess�rio.
 	//struct channel_d *serverchannel;
 };
-struct channel_d *CurrentChannel;
+//struct channel_d *CurrentChannel;
 //...
 
-
-unsigned long channelList[32];
-
-
+//unsigned long channelList[32];
 
 
 //
-// Prototypes.
+// Prototypes ====================================================
 //
 
 //#todo: arguments.

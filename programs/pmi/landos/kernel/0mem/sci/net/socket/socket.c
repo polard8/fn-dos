@@ -1,19 +1,25 @@
 /*
  * File: socket.c
- * 
  *     unix-like socket support.
- *
- * 
  * History:
  *     2020 - Created by Fred Nora. 
  */
-
 
 #include <kernel.h>
 
 
 // Internal
-#define SYS_SOCKET_IP(a, b, c, d) (a << 24 | b << 16 | c << 8 | d)
+#define SYS_SOCKET_IP(a, b, c, d)  (a << 24 | b << 16 | c << 8 | d)
+
+
+int gramado_ports[GRAMADO_PORT_MAX];
+
+int current_socket=0;
+
+struct socket_d  *CurrentSocket;
+struct socket_d  *LocalHostHTTPSocket;
+
+unsigned long socketList[SOCKET_COUNT_MAX];
 
 
 /*

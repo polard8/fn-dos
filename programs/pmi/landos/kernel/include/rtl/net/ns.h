@@ -19,14 +19,6 @@
 #define ____NS_H
  
  
-struct process_d *serverSP;  //Processo Cliente.
-
-file *server_stdio;
-file *server_stdout;
-file *server_stderr;
-
-//...  
- 
 #endif    
 
 

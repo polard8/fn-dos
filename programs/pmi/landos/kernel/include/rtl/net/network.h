@@ -1,24 +1,18 @@
 /*
  * File: network.h 
  *     header para o gerenciamento de rede.
- * 
  *  History: 
  *      2019 - Created by Fred Nora.
  */
 
-
 #ifndef ____NETWORK_H
 #define ____NETWORK_H
-
-
 
 // >> The register at offset 0x00 is the "IOADDR" window. 
 // >> The register at offset 0x04 is the "IODATA" window. 
 
-
 // packet format
 // Ethernet IPv4 TCP/UDP DATA FCS
-
 
 // See: 
 // https://en.wikipedia.org/wiki/EtherType
@@ -27,9 +21,6 @@
 #define ETH_TYPE_ARP   0x0806
 #define ETH_TYPE_IPV6  0x86DD
 // ...
-
-
-
 
 // little endian ?
 
@@ -62,8 +53,6 @@ struct network_device_d
 */
 
 
-
-
 struct network_buffer_d
 {
     int receive_tail;
@@ -82,20 +71,14 @@ struct network_buffer_d
     // O status de cada buffer, se ele está vazio ou não.
     int send_status[8];
 
-
     int initialized;
 };
-struct network_buffer_d NETWORK_BUFFER;
-
-
-
-
+extern struct network_buffer_d  NETWORK_BUFFER;
 
 /*
  * network_info_d:
  *     Estrutura de rede.
  */ 
-
 struct network_info_d
 {
     int id;
@@ -123,18 +106,12 @@ struct network_info_d
 //struct network_info_d *Network;
 
 // Essa flag poderia ir para dentro da estrutura acima,
-int ____network_late_flag;
-
+extern int ____network_late_flag;
 
 
 //
-// Prototypes.
+// Prototypes =================================
 //
-
-
-// Init.
-int networkInit (void);
-
 
 
 unsigned long 
@@ -210,6 +187,8 @@ int do_ipv4 ( unsigned long buffer );
 int do_ipv6 ( unsigned long buffer );
 int do_arp ( unsigned long buffer );
 
+// Init.
+int networkInit (void);
 
 
 #endif    
