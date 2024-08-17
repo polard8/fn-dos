@@ -20,7 +20,7 @@
 // 
  
 //flag, usar ou na� o default user. 
-int g_use_default_user; 
+//int g_use_default_user; 
 
 //
 // == Prototypes ====================================

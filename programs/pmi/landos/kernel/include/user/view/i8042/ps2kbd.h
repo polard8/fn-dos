@@ -78,9 +78,6 @@
 //...
 
 
-
-
-
 /*
 enum KYBRD_CTRL_STATS_MASK {
  
@@ -130,10 +127,6 @@ uint8_t kybrd_ctrl_read_status () {
 }
 */
 
-
-
-
-//
 // Sobre charmaps:
 // ?? quem deve possuir o char map ??
 // Obviamente o kernel base precis de algum controle sobre isso.
@@ -141,24 +134,14 @@ uint8_t kybrd_ctrl_read_status () {
 // Se a intenção é que o driver de teclado passe para a line discipline 
 // somente o scancode, então não há a necessidade de o driver de teclado 
 // ter um char map, ele apenas passa o scancode.
-//
-
-
-
-
 
 
 // Enumerando os tipos de teclados.
 typedef enum {
-
     KEYBOARD_VIRTUAL,
     KEYBOARD_PS2,
     KEYBOARD_USB,
-    // ...
-
 }keyboard_type_t;
-
-
 
 
 // keyboardMessage
@@ -185,9 +168,7 @@ struct ps2_keyboard_d
 {
     object_type_t  objectType;
     object_class_t objectClass;
-    
     keyboard_type_t type;
-
     int dummy;
 
     // #todo
@@ -197,48 +178,33 @@ struct ps2_keyboard_d
 };
 
 
-
 //
 // ======================================================
 //
 
 
-//
-// Stop
-//
-
-// The interrupt handler will not work.
-
-//int ps2kbdStopped;
-
-
 //Se há uma nova mensagem de teclado. 
-int kbMsgStatus;
+extern int kbMsgStatus;
 
 //Status
 //@todo: Status pode ser (int).
 //variáveis usadas pelo line discipline para controlar o 
 //estado das teclas de controle.
-
-unsigned long key_status;
-unsigned long escape_status;
-unsigned long tab_status;
-unsigned long winkey_status;
-unsigned long ctrl_status;
-unsigned long alt_status;
-unsigned long shift_status;
-unsigned long capslock_status;
-unsigned long numlock_status;
-unsigned long scrolllock_status;
+extern unsigned long key_status;
+extern unsigned long escape_status;
+extern unsigned long tab_status;
+extern unsigned long winkey_status;
+extern unsigned long ctrl_status;
+extern unsigned long alt_status;
+extern unsigned long shift_status;
+extern unsigned long capslock_status;
+extern unsigned long numlock_status;
+extern unsigned long scrolllock_status;
 //...
 
 
-//
 // Driver handler support.
-//
-
-unsigned long keyboard_handler_address;
-
+extern unsigned long keyboard_handler_address;
 
 
 //
@@ -248,17 +214,12 @@ unsigned long keyboard_handler_address;
 void xxx_keyboard_write (uint8_t data);
 uint8_t xxx_keyboard_read (void);
 
-
-
-
 int ps2kbd_globals_initialize (void);
 void ps2kbd_initialize_device (void);
 
 void ldisc_init_modifier_keys (void);
 
 void ldisc_init_lock_keys (void);
-
-
 
 //Enable and disable keyboard.
 
@@ -268,7 +229,6 @@ void keyboardDisable (void);
 //Set flags.
 void keyboard_set_leds(char flag); 
 
-
 /*
  * Get window procedure parameters.
  */
@@ -276,7 +236,6 @@ void *KdGetWindowPointer(int tid);
 int KbGetMessage(int tid);
 unsigned long KbGetLongParam1(int tid);
 unsigned long KbGetLongParam2(int tid);
-
 
 //get status 
 int get_alt_status (void);
@@ -286,11 +245,8 @@ int get_shift_status (void);
 
 void kbdc_wait (unsigned char type);
 
-
 //Pega o status das teclas de modificação.
 unsigned long keyboardGetKeyState (unsigned char key);
-
-
 
 // Service
 // Chamado por gde_serv.c
@@ -299,7 +255,6 @@ void *__do_35 ( unsigned long buffer );
 // Service
 // Chamado por gde_serv.c
 void *__do_111 ( unsigned long buffer );
-
 
 #endif   
 

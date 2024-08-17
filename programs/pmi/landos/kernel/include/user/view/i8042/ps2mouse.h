@@ -34,15 +34,11 @@
 #define MOUSE_RESEND                   0xFE
 #define MOUSE_RESET                    0xFF
 
-
-
-
 // 8042 mouse responses.
 #define MOUSE_ID_BYTE       0x00
 #define WHEELMOUSE_ID_BYTE  0x03 
 #define MOUSE_COMPLETE      0xAA 
 //...
- 
  
  
 // Generic PS/2 Mouse Packet Bits
@@ -54,7 +50,6 @@
 #define  MOUSE_X_OVERFLOW     0x40
 #define  MOUSE_Y_OVERFLOW     0x80
  
- 
 //=======================================================
 //++ Usadas pelo mouse.
 // hardwarelib.inc
@@ -64,21 +59,15 @@
 #define MOUSE_Y_SIGN	0x20
 
 
-
-
-
-
 //
 // =====================================================
 //
 
-
 // this is gonna be used by PS2 structure in ps2.h
 struct ps2_mouse_d
 {
-    object_type_t  objectType;
+    object_type_t objectType;
     object_class_t objectClass;
-
     int dummy;
 
     // #todo
@@ -87,112 +76,72 @@ struct ps2_mouse_d
     // pid_t pid;
 };
 
-
-
-
-//
-// Stop
-//
-
-// The interrupt handler will not work.
-
-//int ps2mouseStopped;
+//bmp - buffer para o bmp
+extern void *mouseBMPBuffer; 
 
 
 //usado pra exibir provisoriamente alguma imagem em cima da janela 
 //que o mouse passa por cima.
-unsigned long savedmouseoverwindowX;
-unsigned long savedmouseoverwindowY;
+extern unsigned long savedmouseoverwindowX;
+extern unsigned long savedmouseoverwindowY;
 
 //usado pelo ponteiro.
-int saved_mouse_x;
-int saved_mouse_y;
-
-
-//#deletar
-//Coisas que antes eram importadas de hwlib.inc e qua não são mais.
-//Coordenadas do cursor.
-//extern int mouse_x;
-//extern int mouse_y;
-//Bytes do controlador.
-//extern char mouse_packet_data;
-//extern char mouse_packet_x;
-//extern char mouse_packet_y;
-//extern char mouse_packet_scroll;
-//extern void update_mouse();
-
+extern int saved_mouse_x;
+extern int saved_mouse_y;
 
 //Estado dos botões do mouse
-int mouse_buttom_1; 
-int mouse_buttom_2;
-int mouse_buttom_3;
+extern int mouse_buttom_1; 
+extern int mouse_buttom_2;
+extern int mouse_buttom_3;
 
 //Estado anterior dos botões do mouse.
-int old_mouse_buttom_1; 
-int old_mouse_buttom_2;
-int old_mouse_buttom_3;
+extern int old_mouse_buttom_1; 
+extern int old_mouse_buttom_2;
+extern int old_mouse_buttom_3;
 
 //se ouve alguma modificação no estado 
 //dos botões.
-int mouse_button_action;
+extern int mouse_button_action;
 
 //--
 //=========================================================
 
+extern unsigned long g_mousepointer_width;
+extern unsigned long g_mousepointer_height;
 
 //
-// Mouse support
+// =======================================================
 //
-
-
-unsigned long g_mousepointer_width;
-unsigned long g_mousepointer_height;
-
 
 // read and write the controller.
 // ?? not used ??
 void xxx_mouse_write (unsigned char data);
 unsigned char xxx_mouse_read (void);
 
-
 void expect_ack (void);
-
-
 
 // #test
 // pegamos os tres char do inout de mouse e transformamos em
 // uma mensagem que será enviada para uma thread.
 
-int MOUSE_SEND_MESSAGE ( void *buffer );
-
-
-
+int MOUSE_SEND_MESSAGE (void *buffer);
 
 static unsigned char getMouseData (void);
 
 void kernelPS2MouseDriverReadData (void);
 
-
-//bmp - buffer para o bmp
-void *mouseBMPBuffer; 
 int load_mouse_bmp (void);
-
-
 
 void ps2mouse_parse_data_packet (void);
 
 //ps2mouse.c
 void DeviceInterface_PS2Mouse(void);
 
-
 int ps2_mouse_globals_initialize (void);
 void ps2mouse_initialize_device (void);   
 
-
-
 void set_ps2_mouse_status(int status);
 int get_ps2_mouse_status(void);
-
 
 // Conversando com o driver para fazer configurações.
 unsigned long 
@@ -201,18 +150,15 @@ ps2_mouse_dialog (
     unsigned long long1,
     unsigned long long2 );
                    
-                   
+                  
 unsigned long ps2_mouse_get_info(int i);
 
 // ?
 void ps2mouse_change_and_show_pointer_bmp (int number);
 
-
 #endif   
 
-
-
 //
-// End.
+// End
 //
 

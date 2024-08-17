@@ -1,20 +1,22 @@
-/*
- * File: vt.c
- * 
- *     2019 - Created by Fred Nora.
- */
+// vt.c
+// 2019 - Created by Fred Nora.
 
 
 // #importante
 // Um dispositivo terminal virtual
 // usará o objeto tty para configurar suas características.
 
-
 #include <kernel.h>
 
 
-int fg_console;
+int fg_console=0;
 
+// Listar os terminais virtuais.
+// Isso vai ajudar a mandar as mensagens;
+unsigned long vtList[32];
+
+
+// ==================================================================
 
 // Wrapper to tty_ioctl
 // #bugbug:

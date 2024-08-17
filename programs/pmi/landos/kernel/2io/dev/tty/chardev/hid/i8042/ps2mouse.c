@@ -26,10 +26,41 @@
 
 struct ioControl_d *ioControl_mouse;      //1
 
-
 //see: events.h
 int current_mouse_responder=0;
 // ...
+
+//bmp - buffer para o bmp
+void *mouseBMPBuffer; 
+
+//usado pra exibir provisoriamente alguma imagem em cima da janela 
+//que o mouse passa por cima.
+unsigned long savedmouseoverwindowX=0;
+unsigned long savedmouseoverwindowY=0;
+
+//usado pelo ponteiro.
+int saved_mouse_x=0;
+int saved_mouse_y=0;
+
+
+//Estado dos botões do mouse
+int mouse_buttom_1=0;
+int mouse_buttom_2=0;
+int mouse_buttom_3=0;
+
+//Estado anterior dos botões do mouse.
+int old_mouse_buttom_1=0; 
+int old_mouse_buttom_2=0;
+int old_mouse_buttom_3=0;
+
+//se ouve alguma modificação no estado 
+//dos botões.
+int mouse_button_action=0;
+
+
+unsigned long g_mousepointer_width=0;
+unsigned long g_mousepointer_height=0;
+
 
 //++
 // ===================

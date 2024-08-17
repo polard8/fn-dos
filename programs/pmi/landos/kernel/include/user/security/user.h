@@ -200,18 +200,14 @@ typedef enum {
 
 
 
-/*
- * ?? Se há um usuário configurado conforme registrado em arquivo de configuração.
- */ 
-int userconfig_Status;
+// ?
+// Se há um usuário configurado conforme registrado em arquivo de configuração.
+extern int userconfig_Status;
  
  
-
-//
 // @todo: 
 // Revendo: para cada grupo pode ter 2 tipos, major e minor.
-// 
- 
+
  
 /*
  * kernel_token_t:
@@ -220,6 +216,7 @@ int userconfig_Status;
  * usuários com token do tipo KERNEL_TOKEN_MAJOR.
  * @todo: Esse era um esquema de autoridades que será revisto.
  */
+
 /* 
 typedef enum {
     KERNEL_TOKEN_NULL,	
@@ -284,7 +281,6 @@ typedef enum {
 
 
 /*
- ***************************************************
  * user_info_d:
  *     Estrutura para perfil de usuário do computador.
  */ 
@@ -381,15 +377,12 @@ struct user_info_d
     // navigation.
     struct user_info_d  *Next;
 }; 
-
-struct user_info_d *RootUser;       // Super user
-struct user_info_d *CurrentUser;    // Current user
-
+// userenv.c
+extern struct user_info_d *RootUser;       // Super user
+extern struct user_info_d *CurrentUser;    // Current user
 // user list:
 // root user is the user '0'.
-unsigned long userList[USER_COUNT_MAX];
-
-
+extern unsigned long userList[USER_COUNT_MAX];
 
  
 //

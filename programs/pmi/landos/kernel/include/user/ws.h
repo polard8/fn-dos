@@ -28,17 +28,13 @@
 #define __WS_H    1
 
 
-
 // Counters.
 #define USER_SESSION_COUNT_MAX  16
 #define ROOM_COUNT_MAX          16
 #define DESKTOP_COUNT_MAX       16
 
-
 #define WINDOW_COUNT_MAX          1024 
 #define MAX_WINDOWS WINDOW_COUNT_MAX 
-
-
 
 // # video mode support #
 #define VIDEO_MODE_TEXT     1
@@ -51,7 +47,6 @@
 #define DEFAULT_CHAR_WIDTH   8
 #define DEFAULT_CHAR_HEIGHT  8
 //...
-
 
 
 //
@@ -215,17 +210,15 @@ struct color_scheme_d
     //...
 };
 
+// gkws.c
 // #ps:
 // The kernel only have two color schemes:
 // Humility and Pride.
-
-struct color_scheme_d *HumilityColorScheme; // Simples.
-struct color_scheme_d *PrideColorScheme;    // Colorido.
-
-struct color_scheme_d *CurrentColorScheme;
+extern struct color_scheme_d *HumilityColorScheme; // Simples.
+extern struct color_scheme_d *PrideColorScheme;    // Colorido.
+extern struct color_scheme_d *CurrentColorScheme;
 
 // ===============================================================
-
 
 
 //
@@ -233,54 +226,51 @@ struct color_scheme_d *CurrentColorScheme;
 //
 
 // monitor. (hardware)
-int current_display; 
+extern int current_display; 
    
 // superficie.
 // Um monitor pode ter varias screens
 // e uma screen pode estar em mais de um monitor
-int current_screen;      
+extern int current_screen;      
 
-
-
-int guiStatus;       //Status da Interface gráfica do usuário.
-
+extern int guiStatus;       //Status da Interface gráfica do usuário.
 
 
 //Status de ambientes gráficos.
-int logonStatus;              //Logon status.
-int logoffStatus;             //Logoff status.
-int userenvironmentStatus;    //User environment status.
+extern int logonStatus;              //Logon status.
+extern int logoffStatus;             //Logoff status.
+extern int userenvironmentStatus;    //User environment status.
 
 
 //Contagens de ambientes;
-int rooms_count;  
-int desktops_count;
-int windows_count;  
+extern int rooms_count;  
+extern int desktops_count;
+extern int windows_count;  
 
 
-int current_window;         //gws
-int current_menu;           //gws
+extern int current_window;         //gws
+extern int current_menu;           //gws
 
 //
 // # Outras variáveis globais #
 //
 
 //a janela que está em full screen.
-int fullscreen_window;
+extern int fullscreen_window;
 //janela ativa
-int active_window;
+extern int active_window;
 //janela com foco de entrada. 
-int window_with_focus;
+extern int window_with_focus;
 //janela com o mouse em cima.(captured mouse);
-int mouseover_window;
+extern int mouseover_window;
 //Indice 0 na zorder atual.  
-int top_window;
+extern int top_window;
 //edit box atual
-int editbox_window;
+extern int editbox_window;
 //combobox atual
-int combobox_window;
+extern int combobox_window;
 //janela atual do terminal atual.
-int terminal_window;
+extern int terminal_window;
 
 // ## tests ##
 //int mouseover_window;
@@ -295,45 +285,42 @@ int terminal_window;
 
 
 //As fontes usadas pelo servidor gws
-unsigned long gws_currentfont_address;  // fonte atual.
-unsigned long g8x8fontAddress;          // 8×8, 80×25,CGA, EGA
-unsigned long g8x14fontAddress;         // 8x14,80×25,EGA
-unsigned long g8x16fontAddress;         // ??
-unsigned long g9x14fontAddress;         // 9x14,80×25,MDA, Hercules
-unsigned long g9x16fontAddress;         // 9x16,80×25,VGA
+extern unsigned long gws_currentfont_address;  // fonte atual.
+extern unsigned long g8x8fontAddress;          // 8×8, 80×25,CGA, EGA
+extern unsigned long g8x14fontAddress;         // 8x14,80×25,EGA
+extern unsigned long g8x16fontAddress;         // ??
+extern unsigned long g9x14fontAddress;         // 9x14,80×25,MDA, Hercules
+extern unsigned long g9x16fontAddress;         // 9x16,80×25,VGA
 //...
 
-int gfontSize;
+extern int gfontSize;
 
 // draw char support
-int gcharWidth;
-int gcharHeight;
+extern int gcharWidth;
+extern int gcharHeight;
 
-unsigned long g_system_color;
-unsigned long g_char_attrib;
-
+extern unsigned long g_system_color;
+extern unsigned long g_char_attrib;
 
 
 // LFB - address for kernel graphic mode
-unsigned long g_kernel_lfb; 
+extern unsigned long g_kernel_lfb; 
 
 //video mode
-unsigned long g_current_vm;          //video memory
-unsigned long g_current_video_mode;  //video mode
-
+extern unsigned long g_current_vm;          //video memory
+extern unsigned long g_current_video_mode;  //video mode
 
 
 //status do cursor.
 //se ele deve aparecer e piscar ou não.
-int g_show_text_cursor;
+extern int g_show_text_cursor;
 
 //status: aceso ou apagado.
 //0=apaga 1=acende.
-int textcursorStatus;      
+extern int textcursorStatus;      
 
-
-unsigned long g_mousepointer_x;
-unsigned long g_mousepointer_y;
+extern unsigned long g_mousepointer_x;
+extern unsigned long g_mousepointer_y;
 
 
 //
@@ -342,14 +329,11 @@ unsigned long g_mousepointer_y;
 
 // types of window server.
 typedef enum {
-
     WindowServerTypeNull,
     WindowServerTypeEmbedded,       // Embedded inside the base kernel.
     WindowServerTypeRing0Process,
     WindowServerTypeRing3Process
-    
     // ...
-
 } window_server_t;
 
 // The window server struct.
@@ -384,24 +368,24 @@ typedef enum {
     // ps: We are using the embedded command, 'metrics' on gdeshell.
     // Maybe the problem is in the gdeshell application.
 
-    int WindowServer_initialized;
+    extern int WindowServer_initialized;
     
-    window_server_t WindowServer_type;  // tipo de window server.
+    extern window_server_t WindowServer_type;  // tipo de window server.
     
     // the pid for loadable window servers.
     // When the window server is the embedded so this pid needs to be
     // the pid of the kernel process.
     
-    pid_t WindowServer_pid; 
+    extern pid_t WindowServer_pid; 
     //struct desktop_d *desktop;    // the desktop associated with the widnow server. 
 
     // Limiting the nale to 64.
-    char WindowServer_name[64];
+    extern char WindowServer_name[64];
 
     //file *ws_file;
     
     // the virtual console used by this window server.
-    int WindowServer_virtual_console;
+    extern  int WindowServer_virtual_console;
     
     //no navigation.
 //};

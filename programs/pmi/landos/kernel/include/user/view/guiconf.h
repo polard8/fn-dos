@@ -26,24 +26,16 @@ dos elementos etc ...
 */
 
 
-//
 // Poderíamos ter apenas uma estrutura de configuração de estilo 
 // contemplando o estilo selecionado para todos os elementos 
 // ao invés de uma estrutura para cada elemento.
-//
 
-//
 // #importante
 // Essas serão as configurações padrão do sistema.
 // haverá uma maneira de aplicativos personalizarem 
 // seus próprios elementos, mas as configurações do sistema 
 // só serão configuradas por gerenciadores do sistema.
 // talvez precisem de credencial de administrador.
-//
-
-
-
-
 
 typedef struct gui_config_d gui_config_t;
 struct gui_config_d
@@ -73,7 +65,6 @@ struct gui_config_d
 	// estrutura principal. windows.h
     struct gui_d *gui;	
 };
-struct gui_config_d GUI_CONFIG;
 
 #endif   
 

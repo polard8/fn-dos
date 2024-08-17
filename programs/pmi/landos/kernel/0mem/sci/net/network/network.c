@@ -77,12 +77,21 @@ uint_t switch_endian32(uint_t nb)
  Network security
 */
 
-
-
 #include <kernel.h>
 
 
 struct network_buffer_d  NETWORK_BUFFER;
+
+// see: host.h
+struct host_info_d *HostInfo;
+
+// see: host.h
+struct connection_d *CurrentConnection;
+
+// see: host.h
+unsigned long connectionList[CONNECTION_MAX];
+
+
 
 // Essa flag poderia ir para dentro da estrutura acima,
 int ____network_late_flag=0;

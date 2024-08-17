@@ -31,8 +31,6 @@
  * >>>>>>> Não é responsabilidade do driver de teclado
  * encontrar o destino certo da mensagem, ele só precisa entregar ela pro
  * serviço de sistema responsável.
- *     
- *
  * History
  *     2005 - Created by Fred nora.
  */
@@ -47,21 +45,9 @@
 #include <kernel.h>
 
 
-
-
-
-
-
-
-
-
-
 /*
- *********************
  * irq1_KEYBOARD:
- * 
  *     # Keyboard handler #
- * 
  *     Interface pra chamar o driver de teclado atual.
  *     Essa é a rotina chamada na hora da interrupção de teclado.
  *     IRQ1.

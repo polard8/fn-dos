@@ -11,16 +11,213 @@
 
 #include <kernel.h>
 
+int kgws_status=0;
+int kgws_ws_PID=0;
+int kgws_ws_status=0;
+
+
+// window.h
+unsigned long Windows[KGWS_ZORDER_MAX];
+
+// window.h
+//id da janela que o mouse est� em cima.
+int window_mouse_over=0;
+
+// window.h
+void *shared_buffer_app_icon;  //1
+void *shared_buffer_file_icon; 
+void *shared_buffer_folder_icon;
+void *shared_buffer_terminal_icon;
+void *shared_buffer_cursor_icon;
+// ... 
+
+
+int _lockfocus=0;
+int gFocusBlocked=0;
+
+
+// #todo: deletar.
+unsigned long g_mainwindow_width=0;
+unsigned long g_mainwindow_height=0;
+unsigned long g_navigationbar_width=0;
+unsigned long g_navigationbar_height=0;
+
+
+//Bot�es na janela principal. 
+struct button_d *mainButton1;  
+struct button_d *mainButton2;  
+struct button_d *mainButton3;  
+//...
+
+struct taskbar_d *TaskBar;
+struct menubar_d *MenuBar; 
+
+
+struct tagRGBA *RGBA;
+
+
+
+struct window_d *CurrentWindow;    //Janela atual
+struct window_d *ActiveWindow;     //Janela atual.
+struct window_d *WindowWithFocus;  //Janela com o foco de entrada.   
+//...
+
+// Lista encadeada de janelas.
+struct window_d *window_Conductor2;
+struct window_d *window_Conductor;
+struct window_d *window_rootConductor;
+//...
+
+
+// Window list.
+unsigned long windowList[WINDOW_COUNT_MAX];
+
+
+struct window_d *FULLSCREEN_TABWINDOW;   
+
+int zorder=0;
+int zorderCounter=0;         //contador de janelas incluidas nessa lista.   
+int zorderTopWindow=0;
+//...
+
+
+struct backbufferinfo_d *BackBufferInfo;
+struct frontbufferinfo_d *FrontBufferInfo;
+
+// window.h
+struct gui_d  *gui; 
+
+// ws.h
+struct color_scheme_d *HumilityColorScheme; // Simples.
+struct color_scheme_d *PrideColorScheme;    // Colorido.
+struct color_scheme_d *CurrentColorScheme;
+
+
+//
+// # Principais variáveis globais #
+//
+
+// monitor. (hardware)
+int current_display=0;
+   
+// superficie.
+// Um monitor pode ter varias screens
+// e uma screen pode estar em mais de um monitor
+int current_screen=0;    
+
+int guiStatus=0;       //Status da Interface gráfica do usuário.
+
+
+//Status de ambientes gráficos.
+int logonStatus=0;              //Logon status.
+int logoffStatus=0;            //Logoff status.
+int userenvironmentStatus=0;    //User environment status.
+
+
+//Contagens de ambientes;
+int rooms_count=0;
+int desktops_count=0;
+int windows_count=0;
+
+
+int current_window=0;         //gws
+int current_menu=0;           //gws
+
+//
+// # Outras variáveis globais #
+//
+
+//a janela que está em full screen.
+int fullscreen_window=0;
+//janela ativa
+int active_window=0;
+//janela com foco de entrada. 
+int window_with_focus=0;
+//janela com o mouse em cima.(captured mouse);
+int mouseover_window=0;
+//Indice 0 na zorder atual.  
+int top_window=0;
+//edit box atual
+int editbox_window=0;
+//combobox atual
+int combobox_window=0;
+//janela atual do terminal atual.
+int terminal_window=0;
+
+// ## tests ##
+//int mouseover_window;
+//int current_button_window;
+////cada janela tem seu controle first responder.
+//int current_first responder.
+//...
+
+//
+// gws fonts
+//
+
+
+//As fontes usadas pelo servidor gws
+unsigned long gws_currentfont_address=0; // fonte atual.
+unsigned long g8x8fontAddress=0;          // 8×8, 80×25,CGA, EGA
+unsigned long g8x14fontAddress=0;        // 8x14,80×25,EGA
+unsigned long g8x16fontAddress=0;       // ??
+unsigned long g9x14fontAddress=0;         // 9x14,80×25,MDA, Hercules
+unsigned long g9x16fontAddress=0;         // 9x16,80×25,VGA
+//...
+
+int gfontSize=0;
+
+// draw char support
+int gcharWidth=0;
+int gcharHeight=0;
+
+unsigned long g_system_color=0;
+unsigned long g_char_attrib=0;
+
+
+// LFB - address for kernel graphic mode
+unsigned long g_kernel_lfb=0;
+
+//video mode
+unsigned long g_current_vm=0;          //video memory
+unsigned long g_current_video_mode=0;  //video mode
+
+
+//status do cursor.
+//se ele deve aparecer e piscar ou não.
+int g_show_text_cursor=0;
+
+//status: aceso ou apagado.
+//0=apaga 1=acende.
+int textcursorStatus=0;  
+
+unsigned long g_mousepointer_x=0;
+unsigned long g_mousepointer_y=0;
+
+
+    int WindowServer_initialized=0;
+    
+    window_server_t WindowServer_type=0;  // tipo de window server.
+    
+    // the pid for loadable window servers.
+    // When the window server is the embedded so this pid needs to be
+    // the pid of the kernel process.
+    
+    pid_t WindowServer_pid=0;
+    //struct desktop_d *desktop;    // the desktop associated with the widnow server. 
+
+    // Limiting the nale to 64.
+    char WindowServer_name[64];
+
+    //file *ws_file;
+    
+    // the virtual console used by this window server.
+    int WindowServer_virtual_console=0;
+
+
+
 
 static int EnableKGWS = TRUE;
-
-
-int kgws_status;
-int kgws_ws_PID;
-int kgws_ws_status;
-
-
-
 
 //==========================================================
 

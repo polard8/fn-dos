@@ -17,6 +17,11 @@
 
 #include <kernel.h>
 
+struct room_d *room0;
+struct room_d *CurrentRoom;
+//...
+unsigned long roomList[ROOM_COUNT_MAX];
+
 
 /*
  * get_current_windowstation:

@@ -31,8 +31,6 @@ linha de relï¿½gio. Quando o hospedeiro puxa o relï¿½gio para baixo, a comunicaï
 #define  PS2_ACK     0xFA 
 //...
 
-
-
 // ================================
 
 struct ps2_d
@@ -65,13 +63,11 @@ struct ps2_d
     
     // ...
 };
-
-
+// see: i8042.c
 // #important:
 // use ps2_ioctl to setup this structure.
 // The app needs to open the file /PS2, something like that.
-
-struct ps2_d PS2;
+extern struct ps2_d  PS2;
 // ================================
 
 
@@ -86,18 +82,13 @@ void early_ps2_init (void);
 int PS2_initialize(void);
 int PS2_early_initialization(void);
 
-
 // See:
 // i8042.c
-
 int ps2_ioctl ( int fd, unsigned long request, unsigned long arg );
-
-
 
 #endif  
 
-
 //
-// End.
+// End
 //
 

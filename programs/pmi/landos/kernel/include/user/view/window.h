@@ -17,23 +17,13 @@
 #define KGWS_ZORDER_TOP     1023   //top window
 #define KGWS_ZORDER_MAX     1024   //max
 
- 
-unsigned long Windows[KGWS_ZORDER_MAX];
+// kgws.c
+extern unsigned long Windows[KGWS_ZORDER_MAX];
 
-
-// pega a janela que est� mais ao topo da zorder e que
-// corresponda �s cordenadas do mouse.
-// retorna window id
-int top_at ( int x, int y );
-
-//
-// =========
-// 
- 
- 
+// kgws.c
 //id da janela que o mouse est� em cima.
-int window_mouse_over; 
- 
+extern int window_mouse_over; 
+
 //
 //  ## Ponteiros para �cones ##
 // 
@@ -44,12 +34,21 @@ int window_mouse_over;
 // queremos saber se o endere�o alocado eh compartilhado ...
 // para o window server usar ... entao chamaremos de sharedbufferIcon.
 
-void *shared_buffer_app_icon;  //1
-void *shared_buffer_file_icon; 
-void *shared_buffer_folder_icon;
-void *shared_buffer_terminal_icon;
-void *shared_buffer_cursor_icon;
+// kgws.c
+extern void *shared_buffer_app_icon;  //1
+extern void *shared_buffer_file_icon; 
+extern void *shared_buffer_folder_icon;
+extern void *shared_buffer_terminal_icon;
+extern void *shared_buffer_cursor_icon;
 // ... 
+
+// =======================
+
+
+// pega a janela que est� mais ao topo da zorder e que
+// corresponda �s cordenadas do mouse.
+// retorna window id
+int top_at ( int x, int y );
 
 
 void *ui_get_system_icon( int n );
@@ -65,10 +64,6 @@ int windowLoadGramadoIcons (void);
 
 int window_getch (void); 
 
-
-
-
-//
 // #importante:
 // Tipos de mensagem de comunica��o nos di�logos 
 // e procesimento de janelas:
@@ -78,7 +73,6 @@ int window_getch (void);
 // STREAMMSG_    Streams. O argumento � um ponteiro para uma stream.
 // BUFFER_MSG_   Buffer. O argumento � um ponteiro para um buffer.
 // CAT_MSG_      Concatenate. Os argumentos long1 e long devem ser concatenados.
-//
  
 //
 // Window handle status
@@ -104,11 +98,7 @@ int window_getch (void);
 //desktop window. (�rea de trabalho) 
 //#define MAINWINDOW_DEFAULTX  ?
 //#define MAINWINDOW_DEFAULTY  ?
- 
-
- 
-
- 
+  
 // N�mero m�ximo de janelas.
 //@todo: Aumentar esse tamanho.
 
@@ -119,21 +109,18 @@ int window_getch (void);
 
 
 /*
- ***********************************************
  * Messages.
  * mensagens para procedimentos de janelas e 
  * para di�logos dentro do gws.
  * Obs: Isso refere-se principalmente � janelas.
  */
 
- 
  //??tipos de mensagens ??
 #define MSG_NULL          0 
 #define SIGNAL_NULL       0 
 #define STREAM_MSG_NULL   0 
 #define BUFFER_MSG_NULL   0 
 #define CAT_MSG_NULL      0  
-
  
 //window (1-19)  
 #define MSG_CREATE        1
@@ -178,7 +165,6 @@ int window_getch (void);
 #define MSG_MOUSEEXITED	       39   //?? descapturou ??
 //#define MSG_MOUSEMOVEBYOFFSET
 //#define MSG_MOUSEMOVETOELEMENT
-
 
 //outros (40 - ...)
 #define MSG_COMMAND       40
@@ -293,9 +279,6 @@ int window_getch (void);
 #define WINDOW_REALATIONSHIPSTATUS_ZAXIS_BOTTOM   6000
 //...
 
-
-
-
 // Apresenta��o.
 #define VIEW_NULL       0
 #define VIEW_FULL       1
@@ -341,8 +324,7 @@ int window_getch (void);
 #define HWND_DESKTOP 0
 
 
- 
- 
+
 /*
  * Dimens�es: 
  * 
@@ -365,10 +347,6 @@ int window_getch (void);
 //dimens�es - provisorio
 #define COL_MAX   KERNEL_COL_MAX 
 #define LINHA_MAX KERNEL_LIN_MAX  
-
-
-
-
 
 
 /*
@@ -396,36 +374,28 @@ int window_getch (void);
 //...
 
 
-
-//
-// ******** ESSA VARI�VEL BLOQUEIA O FOCO NA JANELA DO DESENVOLVEDOR   *****
-//
-int _lockfocus;
-
+//  ESSA VARI�VEL BLOQUEIA O FOCO NA JANELA DO DESENVOLVEDOR
+extern int _lockfocus;
 
 // ESSA SER� USADA DEPOIS QUANDO A INTERFACE GR�FICA ESTIVER MAIS ROBUSTA;
-int gFocusBlocked;   
-
-
+extern int gFocusBlocked;   
 
 // #todo: deletar.
-unsigned long g_mainwindow_width;
-unsigned long g_mainwindow_height;
-unsigned long g_navigationbar_width;
-unsigned long g_navigationbar_height;
+extern unsigned long g_mainwindow_width;
+extern unsigned long g_mainwindow_height;
+extern unsigned long g_navigationbar_width;
+extern unsigned long g_navigationbar_height;
 
 
 /*
- *************************************
  * button_d:
  *     Structure for button object.
  */
 
 struct button_d
 {
-    object_type_t   objectType;
-    object_class_t  objectClass;
-
+    object_type_t objectType;
+    object_class_t objectClass;
     int used;
     int magic;
 
@@ -446,7 +416,6 @@ struct button_d
 	// 3D, flat ...
     int style;
 	
-	
     //button states:
     //1. Default
     //2. Focus
@@ -454,7 +423,6 @@ struct button_d
     //4. Disabled
     //5. Hover and Active	
     int state;
-
 
 	//Check Boxes
 	//Group Boxes
@@ -471,7 +439,6 @@ struct button_d
 
     unsigned long border1;
     unsigned long border2;
-
 
     // Deslocamento em rela��o ao left da janela
     // Deslocamento em rela��o ao top da janela
@@ -490,16 +457,13 @@ struct button_d
     // Next button.    
     struct button_d *Next;  
 };
-
 //Bot�es na janela principal. 
-struct button_d *mainButton1;  
-struct button_d *mainButton2;  
-struct button_d *mainButton3;  
+extern struct button_d *mainButton1;  
+extern struct button_d *mainButton2;  
+extern struct button_d *mainButton3;  
 //...
 
-
 /*
- *************************************************
  * taskbar_d: 
  * Estrutura para a task bar.
  * Essa estrutura � marcador oficial das dimens�es da barra de tarefas.    
@@ -530,14 +494,12 @@ struct taskbar_d
     unsigned long Width;
     unsigned long Height;
 }; 
-struct taskbar_d *TaskBar;    //*Importante: Sem Ponteiro.
+extern struct taskbar_d *TaskBar; 
 
 
 /*
- *******************************************
  * menubar_d: 
  *     Estrutura para a menu bar.
- *
  *     Essa estrutura � marcador oficial das dimens�es
  *     da barra de menu.    
  *
@@ -563,25 +525,20 @@ struct menubar_d
     unsigned long Width;
     unsigned long Height;
 }; 
-struct menubar_d *MenuBar;    //*Importante: Sem Ponteiro.
+extern struct menubar_d *MenuBar; 
 
- 
 
 /*
- **************************************************
  * rect_d:
  *     Estrutura para gerenciamento de ret�ngulos.
  *     Um ret�ngulo pertence � uma janela.
  */
-
 // #todo
 // Usar isso para lidar com dirty rectangles.
-
 struct rect_d 
 {
     object_type_t  objectType;
     object_class_t objectClass;
-
     int used;
     int magic;
 
@@ -590,9 +547,7 @@ struct rect_d
     // Estilo de design
     int style;
 
-
     //int focus;
-
     //int dirty;
 
     unsigned long x;
@@ -627,11 +582,7 @@ struct surface_d
     struct surface_d *next;
 };
 
-// #todo
-// struct surface_d *backbuffer_surface;
 
-
-/* rgba */
 struct tagRGBA
 {
     object_type_t  objectType;
@@ -642,7 +593,7 @@ struct tagRGBA
    char blue;
    char alpha;
 };
-struct tagRGBA *RGBA;
+//struct tagRGBA *RGBA;
 
 
 	//
@@ -711,10 +662,8 @@ struct window_class_d
 
 	//1
     client_window_classes_t	clientClass;
-	
 	//2
 	kernel_window_classes_t	kernelClass;
-	
 	//3
 	server_window_classes_t	serverClass;
 	
@@ -723,7 +672,6 @@ struct window_class_d
 	unsigned long procedure;
     //...
 };
-
 
 
 // Single message struct model.
@@ -739,13 +687,10 @@ struct msg_d
 };
 
 
- 
 /*
- ********************************************************
  * window_d:
  *     Window - n�vel 1. 
  *     Estrutura para janelas.
- *
  * terminal:
  *     Toda estrutura de janela poder� ter apenas 
  * um terminal.
@@ -792,7 +737,6 @@ struct window_d
 
     int tid;
 
-
 	// Caracter�sticas dessa janela..
 
 	//Estado: (Full,Maximized,Minimized...)
@@ -800,7 +744,6 @@ struct window_d
 
     // Background color.
     unsigned long bg_color; 
-
 
 	//dimens�es e margens.
 	
@@ -834,7 +777,6 @@ struct window_d
     
     int dirty;
 
-
 //==================================================
 
     // Alertartando que exite uma mensagem para essa janela.
@@ -844,10 +786,8 @@ struct window_d
     int sendOffset;
     int receiveOffset;
 
-
 	//Filas para uma janela receber mensagens.
 	//S�o os quatro argumentos de um procedimento de janela padr�o.
-
 
 	//
 	// CURRENT MESSAGE !!!
@@ -865,7 +805,6 @@ struct window_d
     //'1' indica que temos uma nova mensagem.
     int newmessageFlag;
 
-
     // MESSAGE QUEUE !!!
     //shared by producer and consumer
     unsigned long hwndList[32];
@@ -882,7 +821,6 @@ struct window_d
 
 //==================================================
 
-
 //
 // Active?
 // 
@@ -893,16 +831,12 @@ struct window_d
     //FAST FLAG. Essa ser� a flag de ativa ou n�o. (decidindo isso)
     int active; 
 
-
 //
 // Focus
 //
 
     // Se tem o foco de entrada ou n�o.
-
     int focus; 
-
-
 //==================================================
 
 //
@@ -941,8 +875,6 @@ struct window_d
     //unsigned long mouse_pointer_x_pixel;
     //unsigned long mouse_pointer_y_pixel;
 
-
-
 //===============================================
 
 	// Bars support.
@@ -961,7 +893,6 @@ struct window_d
     int closebuttonUsed;
     int borderUsed;
 	// ...
-
 
 //==================================================
 
@@ -983,13 +914,8 @@ struct window_d
     struct window_class_d *window_class;
 //==================================================
 
-
 //==================================================
-
-//
 // Desktop
-//
-
     struct desktop_d  *desktop;
 
 //==================================================
@@ -998,11 +924,7 @@ struct window_d
 // == Windows ========
 //
 
-
-//
 // Parent
-//
-
     struct window_d  *parent;
 
 //
@@ -1037,10 +959,7 @@ struct window_d
     // Cor do ret�ngulo da �rea do cliente.
     unsigned long clientrect_bg_color; 
 
-
-
 //==================================================
-
 
     // We don't need menubar in this environment.
     //struct window_d  *menubar;
@@ -1055,12 +974,8 @@ struct window_d
 
     struct window_d  *toolbar;
 
-//
 // Status bar
-//
-
     struct window_d  *statusbar;
-
 
 //==================================================
 
@@ -1123,7 +1038,6 @@ struct window_d
 
     struct terminal_d  *wTerminal;
 
-
 //==================================================
 
     // style: 
@@ -1137,17 +1051,15 @@ struct window_d
 
     int style;
 
-
 //==================================================
 
-
-	//*full screen mode = modo tela cheia. 
+	//full screen mode = modo tela cheia. 
 	//( utiliza a resolu��o atual do dispositivo )
 	// deve ser a janela em primeiro plano. acima de todas as outras.
 	//mas podemos configurar para que uma jenela esteja em full screen 
 	//enquanto outra janela � a janela ativa e ainda outra tenha o foco de entrada.
 	//uma janela em modo full screen pode conter barras de rolagem.
-	//*embedded mode = dentro de uma janela ou de um navegador. 
+	//embedded mode = dentro de uma janela ou de um navegador. 
 
 //==================================================    
 
@@ -1307,7 +1219,6 @@ struct window_d
 	// HANDLE_STATUS_OPEN ou HANDLE_STATUS_CLOSE
 	int handle_status;
 
-
 //==================================================
     // Trava. 
     // Se travada, n�o pode mudar nada.
@@ -1332,48 +1243,25 @@ struct window_d
     struct window_d *next; 
 };
 
-struct window_d *CurrentWindow;    //Janela atual
-struct window_d *ActiveWindow;     //Janela atual.
-struct window_d *WindowWithFocus;  //Janela com o foco de entrada.   
+extern struct window_d *CurrentWindow;    //Janela atual
+extern struct window_d *ActiveWindow;     //Janela atual.
+extern struct window_d *WindowWithFocus;  //Janela com o foco de entrada.   
 //...
 
 // Lista encadeada de janelas.
-struct window_d *window_Conductor2;
-struct window_d *window_Conductor;
-struct window_d *window_rootConductor;
+extern struct window_d *window_Conductor2;
+extern struct window_d *window_Conductor;
+extern struct window_d *window_rootConductor;
 //...
 
-//
+// see: kgws.c
 // Window list.
-//
-
-unsigned long windowList[WINDOW_COUNT_MAX];
+extern unsigned long windowList[WINDOW_COUNT_MAX];
 
 
 // ===================================
 
-
-//
-// Browser support. (SHELL.BIN)
-//
-
-//#define TABWINDOW_COUNT_MAX 12  //F1 � F12.
-
-/* Essa � a aba onde os lementos devem ser criados ...
-quando um aplicativo chamar servi�os do kernel para criar elementos na aba.*/
-//int current_tab;
-
-//#cancelada
-//struct window_d *BROWSERWINDOW;    //Ponteiro para a janela do navegador.
-//struct window_d *TABWINDOW;        //ponteiro para a janela da tab atual..
-
-//janela full screen que ser� usada pelo navegador...
-//essa janela deve ter as dimens�es da tela...
-//Obs: j� existe uma janela com essas caracter�sticas ... que � a janela 
-//gui->screen ... lenbrando que n�o queremos que a janela gui->screen tenha 
-//os valores de sua estrutura alterados ... pois refletem as caracter�sticas do dispositivo.
-//Importante: Estragar essa estrutura pode causar muitos problemas.
-struct window_d *FULLSCREEN_TABWINDOW;   
+extern struct window_d *FULLSCREEN_TABWINDOW;   
 
 
 
@@ -1383,7 +1271,7 @@ struct window_d *FULLSCREEN_TABWINDOW;
 
 //#define ZORDER_COUNT_MAX  128  //??PROVIS�RIO   
 
-int zorder;
+extern int zorder;
 
 //esses tipo indicam algum posicionamento dentro da xorder.
 typedef enum {
@@ -1406,9 +1294,8 @@ typedef enum {
     //...	
 }zorder_layer_t;
 
-
-int zorderCounter;         //contador de janelas incluidas nessa lista.   
-int zorderTopWindow;
+extern int zorderCounter;         //contador de janelas incluidas nessa lista.   
+extern int zorderTopWindow;
 //...
 
 //
@@ -1437,17 +1324,6 @@ struct zorder_d
 	struct zorder_d *next;
 };
 
-
-/* 
-struct zorderInfo
-{
-    struct window *top_window;	
-} 
-*/
-
-
-
-
 /*
  * zorderList[] support.
  *     Sobreposi��o de janelas.    
@@ -1461,9 +1337,6 @@ struct zorderInfo
  *  >> repintaremos come�ando do zero.
  */ 
 //unsigned long zorderList[ZORDER_COUNT_MAX];
-
-
-
 
 
 //
@@ -1487,10 +1360,7 @@ struct backbufferinfo_d
 	// terminal., window, line disciplice, cursor ...
 	//input buffer? z-order ??
 };
-struct backbufferinfo_d *BackBufferInfo;
-
-
-
+extern struct backbufferinfo_d *BackBufferInfo;
 
 //
 // Frontbuffer support. (mem�ria de v�deo)
@@ -1516,15 +1386,12 @@ struct frontbufferinfo_d
 	// ?? O que nos podemos ter aqui ??	
 	// terminal., window, line disciplice, cursor ...	
 };
-struct frontbufferinfo_d *FrontBufferInfo;
-
+extern struct frontbufferinfo_d *FrontBufferInfo;
 
 /*
- **********************************************************
  * gui:
  *     N�vel 0 
  *     ## gui  ##
- *
  * Obs: Foi inclu�do aqui os ponteiros para as janelas principais usadas nos 
  * principais recursos gr�ficos, como control menu do desktop por exemplo.
  *
@@ -1534,7 +1401,6 @@ struct frontbufferinfo_d *FrontBufferInfo;
  * ...
  */
 
-
 // #bugbug
 // Muita coisa nessa estrutura precis ser revista.
 // Tendo em vista que ela apenas contempla o kgws
@@ -1542,16 +1408,12 @@ struct frontbufferinfo_d *FrontBufferInfo;
 // Dessa forma essa estrutura s� faz sentido no ambiente 
 // de setup, que usa o kgws.
 
-
 struct gui_d
 {
-
     // Se a gui est� ou n�o inicializada.
     int initialised;
-
     // Procedimento da janela ativa.
     unsigned long procedure;  
-
 
     // #bugbug
     // precisamos de estrutura de device context,
@@ -1636,7 +1498,6 @@ struct gui_d
 	int debugStatus;
 	int gridStatus;
 
-
 	/*
 	 *    ****    Windows    ****
 	 *
@@ -1661,8 +1522,6 @@ struct gui_d
 	 * Grupo 6: Outras.
 	 */
 
-
-
     // #bugbug
     // All this are pointing to the root window.
 
@@ -1673,7 +1532,6 @@ struct gui_d
     // The logo used in the initialization.
     struct window_d *logo;
 
-
     // Dividing the screen in parts:
     struct window_d *main;      // �rea de trabalho.
     struct window_d *taskbar;   // Barra de tarefas.
@@ -1683,7 +1541,6 @@ struct gui_d
 	// Grupo 2: Grid. 
 	//
 
-	
 	/*
 	 *Grid:
 	 *   (�rea para colocar o grid de �cones).
@@ -1694,8 +1551,6 @@ struct gui_d
 
     struct window_d  *grid;
 
-
-	
 	//
 	// Grupo 3: Control menu.
 	//
@@ -1778,17 +1633,13 @@ struct gui_d
 	// Frontbuffer support. (mem�ria de v�deo)
 	struct frontbufferinfo_d *frontbufferInfo; 
 
-
 //
-// Security.
+// Security
 //
-
 
     struct usession_d  *CurrentUserSession;
     struct room_d      *CurrentRoom;
     struct desktop_d   *CurrentDesktop;
-
-
 
 //
 // User info.
@@ -1799,21 +1650,17 @@ struct gui_d
     //...
 };
 
-
+// kgws.c
 // #importante
 // Estrutura global. 
 // (Usada para passar estutura entre fun��es)
 // Primeira e �nica. 
-
-struct gui_d  *gui; 
-
-
+extern struct gui_d  *gui; 
 
 
 //
 // == Prototypes ===============================================
 //
-
 
 
 /*
@@ -2144,8 +1991,10 @@ struct saved_rect_d
 
     int full; 
 };
-struct saved_rect_d *SavedRect;
+extern struct saved_rect_d *SavedRect;
 
+
+// ==================================
 
 
 int initialize_saved_rect (void);

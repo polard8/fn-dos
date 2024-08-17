@@ -4,19 +4,19 @@
  *
  * User Environment Manager, (UEM).
  *
- * Cria o ambiente do usuário, Área de trabalho, onde o usuário interage 
- * com a máquina (logo após o logon). 
+ * Cria o ambiente do usuï¿½rio, ï¿½rea de trabalho, onde o usuï¿½rio interage 
+ * com a mï¿½quina (logo apï¿½s o logon). 
  *
- * MB - Módulos incluídos no Kernel Base.
+ * MB - Mï¿½dulos incluï¿½dos no Kernel Base.
  *    
- * Tem usuários do tipo interactive e do tipo non_interactive.
- * * O ambiente gráfico é criado para usuário tipo interactive.
+ * Tem usuï¿½rios do tipo interactive e do tipo non_interactive.
+ * * O ambiente grï¿½fico ï¿½ criado para usuï¿½rio tipo interactive.
  *
- * Rotinas de criação, inicialização, finalização e configuração 
- * do ambiente do usuário.
- * Inicia programas, troca backgrounds, cor padrão de janelas ... etc.
+ * Rotinas de criaï¿½ï¿½o, inicializaï¿½ï¿½o, finalizaï¿½ï¿½o e configuraï¿½ï¿½o 
+ * do ambiente do usuï¿½rio.
+ * Inicia programas, troca backgrounds, cor padrï¿½o de janelas ... etc.
  * Criar session, window stations, desktops. 
- * (usando as rotinas que estão em outros módulos.)
+ * (usando as rotinas que estï¿½o em outros mï¿½dulos.)
  *
  * History:
  *     2015 - Created by Fred Nora.
@@ -29,9 +29,9 @@
 
 
 // User Environment Manager (UEM)
-// Segue uma lista de operações que poderão ser realizadas para configuração
-// do ambiente gráfico do usuário. Obs: Nesse módulo, apenas chamaremos
-// algumas funções primitivas. Todo o trabalho maior deve ficar para os
+// Segue uma lista de operaï¿½ï¿½es que poderï¿½o ser realizadas para configuraï¿½ï¿½o
+// do ambiente grï¿½fico do usuï¿½rio. Obs: Nesse mï¿½dulo, apenas chamaremos
+// algumas funï¿½ï¿½es primitivas. Todo o trabalho maior deve ficar para os
 // servidores em user mode.
 
 #define UEM_NULL 0
@@ -41,18 +41,28 @@
 // ...
 
 
+int userconfig_Status=0;
+
+struct user_info_d *RootUser;       // Super user
+struct user_info_d *CurrentUser;    // Current user
+// user list:
+// root user is the user '0'.
+unsigned long userList[USER_COUNT_MAX];
+
+
+// ===================================================
+
 // Internal.
 void config_user (void);
 
 
 /*
- **************************************************
  * ShowUserInfo:
- *     Mostra informações sobre o usuário atual.
+ *     Mostra informaï¿½ï¿½es sobre o usuï¿½rio atual.
  */
 
 // #todo
-// Mostrar as informações do usuário e da sessão.
+// Mostrar as informaï¿½ï¿½es do usuï¿½rio e da sessï¿½o.
 
 void ShowUserInfo (int user_id){
 
@@ -88,9 +98,9 @@ void ShowUserInfo (int user_id){
 
 /*
  * config_user:
- *     Abre o arquivo de configuração de usuário. 
- *     No arquivo ou metafile, terão todas as informações
- * sobre o usuário e serão colocanas nas estruturas.
+ *     Abre o arquivo de configuraï¿½ï¿½o de usuï¿½rio. 
+ *     No arquivo ou metafile, terï¿½o todas as informaï¿½ï¿½es
+ * sobre o usuï¿½rio e serï¿½o colocanas nas estruturas.
  */
 
 void config_user (void)
@@ -102,11 +112,11 @@ void config_user (void)
 /*
  ***************
  * CreateUser:
- *     Cria um usuário do computador.
- *     #importante: Quando criar um usuário tem que 
+ *     Cria um usuï¿½rio do computador.
+ *     #importante: Quando criar um usuï¿½rio tem que 
  * montar uma pasta para ele em /root/user/(name)
- * Se utilizar um usuário válido é só pegar os arquivos de 
- * configuração dentro da pasta.
+ * Se utilizar um usuï¿½rio vï¿½lido ï¿½ sï¿½ pegar os arquivos de 
+ * configuraï¿½ï¿½o dentro da pasta.
  * 
  */
  
@@ -213,7 +223,7 @@ void *CreateUser ( char *name, int type ){
 
 //Fail: 
 //Fim do loop. 
-//Não encontramos uma entrada livre.
+//Nï¿½o encontramos uma entrada livre.
 
 fail:
     return NULL;
@@ -222,7 +232,7 @@ fail:
 
 /*
  * SetCurrentUserId:
- *     Configura o ID do usuário atual.  
+ *     Configura o ID do usuï¿½rio atual.  
  */
 
 void SetCurrentUserId (int user_id)
@@ -239,7 +249,7 @@ void SetCurrentUserId (int user_id)
 
 /*
  * GetCurrentUserId: 
- *     Pega o ID do usuário atual.
+ *     Pega o ID do usuï¿½rio atual.
  */
 
 int GetCurrentUserId (void)
@@ -262,7 +272,7 @@ void SetCurrentGroupId (int group_id){
 
 /*
  * GetCurrentGroupId: 
- *     Pega o GID do usuário atual.
+ *     Pega o GID do usuï¿½rio atual.
  */
 
 int GetCurrentGroupId (void)
@@ -274,7 +284,7 @@ int GetCurrentGroupId (void)
 /*
  ***********************************
  * UpdateUserInfo:
- *    Atualiza todas as informações de usuário.
+ *    Atualiza todas as informaï¿½ï¿½es de usuï¿½rio.
  */
 
 void 
@@ -300,7 +310,7 @@ UpdateUserInfo (
 
     } else {
 		
-		//Estamos tentando atualizar uma estrutura válida.
+		//Estamos tentando atualizar uma estrutura vï¿½lida.
 
         if ( user->used != 1 || user->magic != 1234 )
         {
@@ -361,7 +371,7 @@ void init_user_info (void){
         panic ("init_user_info: RootUser\n");
     }else{
 
-        // Atualizando a lista de permissões.
+        // Atualizando a lista de permissï¿½es.
         // Liberando tudo.
  
         for (i=0; i<128; i++){ RootUser->permissions[i] = TRUE; }
@@ -377,7 +387,7 @@ void init_user_info (void){
         CurrentUser = (void *) RootUser;
 
         // gid
-        // Configura o grupo atual ao qual o usuário pertence.
+        // Configura o grupo atual ao qual o usuï¿½rio pertence.
         
         SetCurrentGroupId (0);
 
@@ -428,7 +438,7 @@ int __getusername (char *buffer)
         return -1;
     }
 
-	//Estrutura default para informações sobre o host.
+	//Estrutura default para informaï¿½ï¿½es sobre o host.
 	//host.h
 
     if ( (void *) CurrentUser== NULL ){
@@ -454,9 +464,9 @@ int __getusername (char *buffer)
  * 
  */
 
-// O novo nome está no buffer passado via argumento.
+// O novo nome estï¿½ no buffer passado via argumento.
 // Ele tem o limite de 64 bytes.
-// Vamos colocar ele na estrutura de usuário.
+// Vamos colocar ele na estrutura de usuï¿½rio.
 
 int __setusername ( const char *new_username)
 {
@@ -466,7 +476,7 @@ int __setusername ( const char *new_username)
         return -1;
     }
 
-    // Estrutura de usuário.
+    // Estrutura de usuï¿½rio.
      
     // #todo
     // Where is this structure defined?
@@ -495,7 +505,7 @@ int __setusername ( const char *new_username)
  */
 
 // #bugbug
-// Deletar essa função ou não usar esses argumentos.
+// Deletar essa funï¿½ï¿½o ou nï¿½o usar esses argumentos.
 
 int 
 init_user_environment_manager ( int argc, char *argv[] )

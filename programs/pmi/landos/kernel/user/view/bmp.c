@@ -13,8 +13,8 @@
  * 
  * bugbug: 
  * bmp envolve o carregamento de arquivo.
- * Temos a opção de utilizarmos arquivos que foram carregados
- * na inicialização, como parte dos elementos da interface gráfica.
+ * Temos a opï¿½ï¿½o de utilizarmos arquivos que foram carregados
+ * na inicializaï¿½ï¿½o, como parte dos elementos da interface grï¿½fica.
  *
  * History: 
  *     2015 - Created by Fred Nora. 
@@ -33,24 +33,33 @@ extern unsigned long SavedX;
 extern unsigned long SavedY;
 
 
+//flag que avisa que dve haver alguma mudanï¿½a nas cores. 
+int bmp_change_color_flag=0;
+//salva-se aqui uma cor para substituir outra. 
+unsigned long bmp_substitute_color=0; 
+//cor selecionada para ser substituida ou ignorada. 
+unsigned long bmp_selected_color=0;
+
+
+
+
+
 // 4bpp support.
 static int nibble_count_16colors = 0;
 
+// ====================================================
 
 
 // #todo 
-// kgws não pode acessar o lfb, devemos chamar o diálogo em x/video.c
-
+// kgws nï¿½o pode acessar o lfb, devemos chamar o diï¿½logo em x/video.c
 
 /*
- **********************************
  * bmpDirectDisplayBMP:
- *
- *     Decodifica uma imagem BM que já está carregada na memória. 
+ *     Decodifica uma imagem BM que jï¿½ estï¿½ carregada na memï¿½ria. 
  *    ( Pinta diretamente no LFB )
  * 
  * IN:
- *     address = endereço base
+ *     address = endereï¿½o base
  *     x       = posicionamento 
  *     y       = posicionamento
  *
@@ -92,10 +101,10 @@ bmpDirectDisplayBMP (
     struct bmp_header_d      *bh;
     struct bmp_infoheader_d  *bi;
 
-    // Endereço base do BMP que foi carregado na memória.
+    // Endereï¿½o base do BMP que foi carregado na memï¿½ria.
     unsigned char *bmp = (unsigned char *) address;
 
-    // Variável para salvar rgba.
+    // Variï¿½vel para salvar rgba.
     unsigned char *c  = (unsigned char *) &color;
     unsigned char *c2 = (unsigned char *) &color2;
 
@@ -109,7 +118,7 @@ bmpDirectDisplayBMP (
     yLimit = SavedY;
 
 
-    // Sincronização do retraço vertical.
+    // Sincronizaï¿½ï¿½o do retraï¿½o vertical.
     // Suspenso.
     // vsync();
 
@@ -123,7 +132,7 @@ bmpDirectDisplayBMP (
 
 
     // #todo:
-    // Testar validade do endereço.
+    // Testar validade do endereï¿½o.
 
     if ( address == 0 ){
         printf ("bmpDirectDisplayBMP: address \n");
@@ -210,7 +219,7 @@ bmpDirectDisplayBMP (
 
 
     // Compression support.
-    // 0 = Nenhuma compressão.
+    // 0 = Nenhuma compressï¿½o.
     // ...
     if ( bi->bmpCompression != 0 ){
         debug_print ("bmpDirectDisplayBMP: [FAIL] Compression NOT supported\n");
@@ -233,7 +242,7 @@ bmpDirectDisplayBMP (
 
 
     // #importante:
-    // A base é diferente para os tipos ?? 
+    // A base ï¿½ diferente para os tipos ?? 
 
 //#Aprendendo:
 //1     -  1 bpp (Mono)
@@ -248,7 +257,7 @@ bmpDirectDisplayBMP (
 
 
     // Obs: 
-    // Cada cor é representada com 4 bytes. RGBA.
+    // Cada cor ï¿½ representada com 4 bytes. RGBA.
 
     switch ( bi->bmpBitCount ){
 
@@ -297,7 +306,7 @@ bmpDirectDisplayBMP (
             }
 
             // 256 cores
-            // Próximo pixel para 8bpp
+            // Prï¿½ximo pixel para 8bpp
             if ( bi->bmpBitCount == 8 )
             {
                 offset = base;
@@ -305,7 +314,7 @@ bmpDirectDisplayBMP (
                 base = (base + 1); 
             }
 
-            // Próximo pixel para 16bpp
+            // Prï¿½ximo pixel para 16bpp
             if ( bi->bmpBitCount == 16 )
             {
                 //a
@@ -331,7 +340,7 @@ bmpDirectDisplayBMP (
                 base = (base + 2);
             }
 
-            // Próximo pixel para 24bpp.
+            // Prï¿½ximo pixel para 24bpp.
             if ( bi->bmpBitCount == 24 )
             {  
                 c[0] = 0;  // A
@@ -348,7 +357,7 @@ bmpDirectDisplayBMP (
                 base = (base + 3);
             }
 
-            // Próximo pixel para 32bpp.
+            // Prï¿½ximo pixel para 32bpp.
             if ( bi->bmpBitCount == 32 )
             {
                 c[0] = 0;  // A
@@ -366,16 +375,16 @@ bmpDirectDisplayBMP (
             }
 
             // Put pixel
-            // Nesse momento já temos a cor selecionada 
+            // Nesse momento jï¿½ temos a cor selecionada 
             // no formato 0xaarrggbb ... 
             // Agora se a flag de mascara estiver selecionada,
-            // então devemos ignora o pixel e não pintá-lo.
+            // entï¿½o devemos ignora o pixel e nï¿½o pintï¿½-lo.
 
             switch (bmp_change_color_flag)
             {
                 // 1000
                 // flag para ignorarmos a cor selecionada.
-                // Não pinte nada.
+                // Nï¿½o pinte nada.
                 // Devemos pintar caso a cor atual seja  
                 // diferente da cor selecionada.
                 
@@ -392,7 +401,7 @@ bmpDirectDisplayBMP (
 
 				//2000
 				//Substitua pela cor indicada.
-				//Se a cor atual é igual a cor selecionada,
+				//Se a cor atual ï¿½ igual a cor selecionada,
 				//devemos substituir a cor atual pela substituta.
 				//Mas se a cor atual for diferente da cor selecionada,
 				//pintamos normalmente a cor atual.
@@ -471,11 +480,11 @@ fail:
  ***********************************
  * bmpDisplayBMP:
  *
- *     Decodifica uma imagem BMP que já está carregada na memória. 
+ *     Decodifica uma imagem BMP que jï¿½ estï¿½ carregada na memï¿½ria. 
  *     (Pinta no backbuffer)
  *
  * IN:
- *     address = endereço base
+ *     address = endereï¿½o base
  *     x       = posicionamento 
  *     y       = posicionamento
  *
@@ -517,10 +526,10 @@ bmpDisplayBMP (
     struct bmp_header_d      *bh;
     struct bmp_infoheader_d  *bi;
 
-    // Endereço base do BMP que foi carregado na memória
+    // Endereï¿½o base do BMP que foi carregado na memï¿½ria
     unsigned char *bmp = (unsigned char *) address;
 
-    // Variável para salvar rgba.
+    // Variï¿½vel para salvar rgba.
     unsigned char *c  = (unsigned char *) &color;
     unsigned char *c2 = (unsigned char *) &color2;
 
@@ -546,7 +555,7 @@ bmpDisplayBMP (
     }
 
     // #todo:
-    // Testar validade do endereço.
+    // Testar validade do endereï¿½o.
 
     if ( address == 0 ){
         printf ("bmpDisplayBMP: address \n");
@@ -632,7 +641,7 @@ bmpDisplayBMP (
 	//}
 
     // Compression support.
-    // 0 = Nenhuma compressão.
+    // 0 = Nenhuma compressï¿½o.
     // ...
 
     if ( bi->bmpCompression != 0 ){
@@ -675,9 +684,9 @@ bmpDisplayBMP (
 //32    - 32 bpp (True color, RGB)
 //320   - 32 bpp (True color, RGBA)	
 
-    // Início da área de dados do BMP.
-    // #importante: A base é diferente para os tipos ?? 
-    // Obs: Cada cor é representada com 4 bytes. RGBA.
+    // Inï¿½cio da ï¿½rea de dados do BMP.
+    // #importante: A base ï¿½ diferente para os tipos ?? 
+    // Obs: Cada cor ï¿½ representada com 4 bytes. RGBA.
 
     // 1 bit
     // 2 bit    
@@ -732,7 +741,7 @@ bmpDisplayBMP (
 	        }
 
 			// 256 cores
-			// Próximo pixel para 8bpp
+			// Prï¿½ximo pixel para 8bpp
 	        if( bi->bmpBitCount == 8 )
 	        {   
 				offset = base;
@@ -742,7 +751,7 @@ bmpDisplayBMP (
 	        }
 			
 			
-			// Próximo pixel para 16bpp
+			// Prï¿½ximo pixel para 16bpp
 	        if( bi->bmpBitCount == 16 )
 	        {
 				//a
@@ -769,7 +778,7 @@ bmpDisplayBMP (
 	        }
 			
 
-			// Próximo pixel para 24bpp.
+			// Prï¿½ximo pixel para 24bpp.
 	        if( bi->bmpBitCount == 24 )
 	        {  
 			    c[0] = 0; //A
@@ -786,7 +795,7 @@ bmpDisplayBMP (
 		        base = (base + 3); 
 	        }
 
-			// Próximo pixel para 32bpp.
+			// Prï¿½ximo pixel para 32bpp.
 	        if( bi->bmpBitCount == 32 )
 	        {
 			    c[0] = 0;  //A
@@ -807,16 +816,16 @@ bmpDisplayBMP (
 			// # Put pixel #
 			//
 			
-			//Nesse momento já temos a cor selecionada 
+			//Nesse momento jï¿½ temos a cor selecionada 
 			//no formato 0xaarrggbb ... 
 			//Agora se a flag de mascara estiver selecionada,
-			//então devemos ignora o pixel e não pintá-lo.	
+			//entï¿½o devemos ignora o pixel e nï¿½o pintï¿½-lo.	
 			
 			switch(bmp_change_color_flag)
 			{
 				//1000
 				//flag para ignorarmos a cor selecionada.
-				//Não pinte nada.
+				//Nï¿½o pinte nada.
 				//Devemos pintar caso a cor atual seja  
 				//diferente da cor selecionada.
                 case BMP_CHANGE_COLOR_TRANSPARENT:
@@ -837,7 +846,7 @@ bmpDisplayBMP (
 					
 				//2000	
 				//Substitua pela cor indicada.
-				//Se a cor atual é igual a cor selecionada,
+				//Se a cor atual ï¿½ igual a cor selecionada,
 				//devemos substituir a cor atual pela substituta.
 				//Mas se a cor atual for diferente da cor selecionada,
 				//pintamos normalmente a cor atual.
@@ -937,7 +946,7 @@ fail:
  */
 
 //mostra no lfb
-//levando em consideração tratamento de transparência.
+//levando em consideraï¿½ï¿½o tratamento de transparï¿½ncia.
 
 int 
 bmpDisplayMousePointerBMP ( 
@@ -950,8 +959,8 @@ bmpDisplayMousePointerBMP (
     bmp_change_color_flag = BMP_CHANGE_COLOR_TRANSPARENT;
 
 	//#importante:
-	//Selecionamos a cor que será ignorada.
-    //background do bitmap é branco.
+	//Selecionamos a cor que serï¿½ ignorada.
+    //background do bitmap ï¿½ branco.
     bmp_selected_color = COLOR_WHITE;
  
     // Display !!
@@ -968,7 +977,7 @@ bmpDisplayMousePointerBMP (
 
 
 //mostra no lfb
-//levando em consideração tratamento de transparência.
+//levando em consideraï¿½ï¿½o tratamento de transparï¿½ncia.
 
 int 
 bmpDisplayCursorBMP ( 
@@ -981,8 +990,8 @@ bmpDisplayCursorBMP (
     bmp_change_color_flag = BMP_CHANGE_COLOR_TRANSPARENT;
 
     //#importante:
-    //Selecionamos a cor que será ignorada.
-    //background do bitmap é branco.
+    //Selecionamos a cor que serï¿½ ignorada.
+    //background do bitmap ï¿½ branco.
     bmp_selected_color = COLOR_WHITE;
 
     // Display !!

@@ -1,25 +1,25 @@
 /*
  * File: security/desktop.c
  *
- * Descrição:
- *     Gerência a criação de desktops.
- *     Cada desktop pertence à uma window station. Cada desktop contém várias 
- * janelas e menus. Cada desktop tem um propósito, as vezes genérico, as vezes 
- * específico. 
- *     Define como as janelas estão empilhadas, qual está em foregroud (Por cima).
+ * Descriï¿½ï¿½o:
+ *     Gerï¿½ncia a criaï¿½ï¿½o de desktops.
+ *     Cada desktop pertence ï¿½ uma window station. Cada desktop contï¿½m vï¿½rias 
+ * janelas e menus. Cada desktop tem um propï¿½sito, as vezes genï¿½rico, as vezes 
+ * especï¿½fico. 
+ *     Define como as janelas estï¿½o empilhadas, qual estï¿½ em foregroud (Por cima).
  *     Define uma lista encadeada de janelas, trocando a janela ativa e o 
  * foco de entrada. Etc...  
- *     Faz parte do módulo Window Manager do tipo MB.
+ *     Faz parte do mï¿½dulo Window Manager do tipo MB.
  *
  * Obs:
- *     Os aplicativos poderão acessar esses serviços em user mode. Através de 
+ *     Os aplicativos poderï¿½o acessar esses serviï¿½os em user mode. Atravï¿½s de 
  * um subsistema em user mode que gerencia janelas.
- *     O desktop abarca vários componentes como janelas especiais, 
- * janelas normais, áreas de memória para usos diversos, permissoes, 
- * características diversas ... etc ...
- *    Obs: *IMPORTANTE: Um desktop tem um heap de memória. A gerente de
- * memória alocará memória para os processos pertencentes à um desktop
- * específico no próprio heap do desktop ao qual o processo pertence. 
+ *     O desktop abarca vï¿½rios componentes como janelas especiais, 
+ * janelas normais, ï¿½reas de memï¿½ria para usos diversos, permissoes, 
+ * caracterï¿½sticas diversas ... etc ...
+ *    Obs: *IMPORTANTE: Um desktop tem um heap de memï¿½ria. A gerente de
+ * memï¿½ria alocarï¿½ memï¿½ria para os processos pertencentes ï¿½ um desktop
+ * especï¿½fico no prï¿½prio heap do desktop ao qual o processo pertence. 
  *
  * 
  * History:
@@ -28,6 +28,16 @@
 
 
 #include <kernel.h>
+
+
+// This is the desktop used by the base kernel.
+// So, the kgws and the kgwm can be here. 
+struct desktop_d *desktop0;
+// O desktop atual.
+struct desktop_d *CurrentDesktop;
+//List.
+unsigned long desktopList[DESKTOP_COUNT_MAX];
+
 
 
 /*
@@ -84,7 +94,7 @@ int RegisterDesktop (struct desktop_d *d)
 
 /*
  * get_current_desktop:
- *     Pega o endereço da estrutura do desktop atual.
+ *     Pega o endereï¿½o da estrutura do desktop atual.
  *     @todo: Mudar para desktopGetCurrentDesktop().
  */
 
@@ -108,7 +118,7 @@ void *get_current_desktop (void)
  *     @todo: Mudar para desktopSetCurrentDesktop(.). 
  */
 
-//Configura a variável global.
+//Configura a variï¿½vel global.
 
 void 
 set_current_desktop ( struct desktop_d *desktop )
@@ -166,7 +176,7 @@ void *CreateDesktop ( struct room_d *room )
 
 	//
 	// #todo: 
-	// O usuário precisa de permissão pra criar desktops.
+	// O usuï¿½rio precisa de permissï¿½o pra criar desktops.
 	//
 
 
@@ -327,13 +337,13 @@ void change_foreground ( struct desktop_d *desktop ){
         return;
     }
 
-    //Use a próxima janela indicada na estrutura da atual.
+    //Use a prï¿½xima janela indicada na estrutura da atual.
 
     // Deixa a mesma que estava.
     if ( (void *) fw->next == NULL ){
         desktop->foregroundWindow = (void *) fw;
 
-    // Muda para a próxima.
+    // Muda para a prï¿½xima.
     }else{
         desktop->foregroundWindow = (void *) fw->next;
         return;
@@ -471,7 +481,7 @@ void init_desktop (void){
 	    // #todo
 	    // Depois precisamos colocar aqui
 	    // o pid do processo kernel.
-	    // Cada desktop terá sem ws e sua wm.
+	    // Cada desktop terï¿½ sem ws e sua wm.
         desktop0->ws = -1;
         desktop0->wm = -1;
         // ...

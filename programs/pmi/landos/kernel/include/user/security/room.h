@@ -1,10 +1,10 @@
 /*
  * File: room.h
  *
- * Descrição:
+ * Descriï¿½ï¿½o:
  *     Window station. 
- *     Estação de janelas. 
- *     (Contém desktops).
+ *     Estaï¿½ï¿½o de janelas. 
+ *     (Contï¿½m desktops).
  *
  *     WINDOW -> DESKTOP -> WINDOW STATION -> USER SECTION.
  *
@@ -12,10 +12,10 @@
  *     (interactive, non_interactive).
  *
  * OBS:
- *     Cada PROCESSO está associado à 
- *     uma window station e só podem rodar lá.
- *     Uma window station tem vários desktops.
- *     Os desktops tem várias janelas e menus.
+ *     Cada PROCESSO estï¿½ associado ï¿½ 
+ *     uma window station e sï¿½ podem rodar lï¿½.
+ *     Uma window station tem vï¿½rios desktops.
+ *     Os desktops tem vï¿½rias janelas e menus.
  *
  * History:
  *     2015 - Created by Fred Nora.
@@ -27,7 +27,6 @@
  
 /*
  * room:
- * 
  *     A room os a place to handle a set of desktops.
  *     ( window stations )
  */ 
@@ -37,17 +36,15 @@ struct room_d
     object_type_t  objectType;
     object_class_t objectClass;
 
-
 	//object control
 	struct object_d *object;
 	
     int id;
-	
+
 	int used;
 	int magic;
 	
 	int userID;
-
 
     //
     // Desktops
@@ -69,52 +66,29 @@ struct room_d
 	//next
 	struct room_d *next;
 };
-
-struct room_d *room0;
-struct room_d *CurrentRoom;
+extern struct room_d *room0;
+extern struct room_d *CurrentRoom;
 //...
-
-
-unsigned long roomList[ROOM_COUNT_MAX];
-
+extern unsigned long roomList[ROOM_COUNT_MAX];
 
 //
 // == prototypes ==================================
 //
 
-//
-// #todo
-// Change the name of all these functions.
-// Use the prefix 'room_'.
-//
-
-
-/*
- * Contagem de window stations.
- */
-
-//movido para gws.h 
-//int windowstations_count;  
-
-void init_room_manager (void);
-
-void init_room_list (void);
-
-int RegisterRoom(struct room_d *room);
 
 void set_current_room(struct room_d *room);
-
 void *get_current_room (void);
 
+int RegisterRoom(struct room_d *room);
 void *CreateRoom (struct room_d *room);
 
-
+void init_room_list (void);
+void init_room_manager (void);
 
 #endif   
 
-
 //
-// End.
+// End
 //
 
 

@@ -63,23 +63,14 @@ The system creates a new terminal when it starts a terminal process,
 
 #define TERMINAL_COUNT_MAX 8
 
-//
-// 
-//
-
 
 // Vamos contar os terminais criados.
-int terminal_count;
+extern int terminal_count;
 
-
-int terminalLine;       //Troca de linha;(up down)
-int terminalOffset;     //Deslocamento dentro da linha; (left right).
-int terminalLineMax;    //N�mero m�ximo de linhas suportadas.
-int terminalOffsetMax;  //N�mero m�ximo de caracteres por linha.
-
-
-//char teminalfeedCH;
-//int teminalfeedCHStatus;
+extern int terminalLine;       //Troca de linha;(up down)
+extern int terminalOffset;     //Deslocamento dentro da linha; (left right).
+extern int terminalLineMax;    //N�mero m�ximo de linhas suportadas.
+extern int terminalOffsetMax;  //N�mero m�ximo de caracteres por linha.
 
 
 /*
@@ -112,7 +103,6 @@ configur�vel.
 
 
 /*
- **********************************************
  * terminal_d:
  *     Terminal struct.
  */
@@ -135,8 +125,9 @@ struct terminal_d
     // #na estrutura de tty ficar� tudo o que o terminal precisa.
     struct tty_d *tty;    
 
-}TERMINAL[TERMINAL_COUNT_MAX];
-
+};
+// see: main.c
+extern struct terminal_d  TERMINAL[TERMINAL_COUNT_MAX];
 
 
 //

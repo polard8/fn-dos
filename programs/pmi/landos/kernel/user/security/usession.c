@@ -1,21 +1,33 @@
 /*
  * File: security/usession.c
  *
- * Descrição:
+ * Descriï¿½ï¿½o:
  *     User Session.
- *     Faz parte do módulo Window Manager do tipo MB.
+ *     Faz parte do mï¿½dulo Window Manager do tipo MB.
  *     Arquivo principal do gerenciador de user session. 
- *     Secões usuário.
+ *     Secï¿½es usuï¿½rio.
  *
  * *importante:
- *     Quando um usuário loga, ele cria uma 'seção', que conterá uma 
- * 'window station', que conterá um 'desktop', que conterá 'janelas'.
+ *     Quando um usuï¿½rio loga, ele cria uma 'seï¿½ï¿½o', que conterï¿½ uma 
+ * 'window station', que conterï¿½ um 'desktop', que conterï¿½ 'janelas'.
  *
  * 2015 - Created by Fred Nora.
  */
 
 
 #include <kernel.h>
+
+
+unsigned long usersession_start=0;
+
+// usession.h
+struct raw_graphics_d  *RawGraphics;
+struct window_server_d *WindowServer;
+struct window_manager_d *WindowManager;
+struct desktop_environment_d *DesktopEnvironment;
+struct usession_d *usession0;
+struct usession_d *CurrentUserSession;
+unsigned long usessionList[USER_SESSION_COUNT_MAX];
 
 
 /*
@@ -25,9 +37,6 @@
 
 void *get_current_user_session (void)
 {
-
-    //return (void*) CurrentUserSession;
-
     if ( current_usersession < 0 || 
          current_usersession >= USER_SESSION_COUNT_MAX )
     {
@@ -36,8 +45,6 @@ void *get_current_user_session (void)
 
     return (void *) usessionList[current_usersession];
 }
-
-
 
 void 
 set_current_user_session ( 
@@ -48,22 +55,18 @@ set_current_user_session (
         debug_print ("set_current_user_session: [FAIL] usession \n");
         return; 
     }
-
     if ( usession->sid < 0 ){
         debug_print ("set_current_user_session: [FAIL] sid \n");
         return; 
     }
 
     current_usersession = (int) usession->sid;
-
     CurrentUserSession = usession;
 }
 
-
 /*
- *********************************
  * CreateUserSection:
- *     Cria uma user section para um usuário válido.
+ *     Cria uma user section para um usuï¿½rio vï¿½lido.
  */
 
 void *CreateUserSession (int user_id)
@@ -147,8 +150,8 @@ void open_user_session (void){
     }
 
 	// #todo: 
-	// Criar tempo de início de sessão.
-	// tempo de inicio de sessão
+	// Criar tempo de inï¿½cio de sessï¿½o.
+	// tempo de inicio de sessï¿½o
 
     CurrentUserSession->BeginTime = (unsigned long) 0;
 
@@ -170,8 +173,8 @@ void close_user_session (void)
     }
 
 	// #todo: 
-	// Criar tempo de fim de sessão.
-	// tempo de fim de sessão
+	// Criar tempo de fim de sessï¿½o.
+	// tempo de fim de sessï¿½o
 
     CurrentUserSession->EndTime = (unsigned long) 0;
 

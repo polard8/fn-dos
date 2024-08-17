@@ -1,10 +1,10 @@
 /*
  * Arquivo: desktop.h 
  *
- * Descrição:
- *     Header para o módulo gerenciador de desktops.
- *     Um desktop pertence à uma window station.
- *     Um desktop contém janelas, menus e outras coisas.
+ * Descriï¿½ï¿½o:
+ *     Header para o mï¿½dulo gerenciador de desktops.
+ *     Um desktop pertence ï¿½ uma window station.
+ *     Um desktop contï¿½m janelas, menus e outras coisas.
  *     ...
  *
  * #importante:
@@ -30,11 +30,10 @@
 
 struct desktop_d
 {
-    object_type_t   objectType;
-    object_class_t  objectClass;
+    object_type_t objectType;
+    object_class_t objectClass;
 
     struct object_d *object;
-
 
     int desktopId;
 
@@ -42,7 +41,7 @@ struct desktop_d
     int desktopMagic;
 
 
-    // usando o mesmo esquema do usuário.
+    // usando o mesmo esquema do usuï¿½rio.
     char __name[64];
     int name_lenght;
 
@@ -65,20 +64,19 @@ struct desktop_d
     
 
     // #todo
-    // A estrutura de eventos também desve estar associado
+    // A estrutura de eventos tambï¿½m desve estar associado
     // a um desktop;
-    // Cada wm poderá pegar eventos em um desktop específico.
-    // Dessa forma poderemos ter vários wm, um para cada desktop.
+    // Cada wm poderï¿½ pegar eventos em um desktop especï¿½fico.
+    // Dessa forma poderemos ter vï¿½rios wm, um para cada desktop.
     // no desktop 0 ficam o ws e o wm que pertencem ao base kernel.
     // kgws e kgwm, :)
     
 
-
 	// #importante
 	// #quantidades
 	// Isso limita as quantidades que podem ser criadas em um desktop.
-	// permitindo o fácil gerenciamento de drivers em desktops específicos.
-	// Pois alguns desktops podem ter seus próprios gerenciadores de servidores.
+	// permitindo o fï¿½cil gerenciamento de drivers em desktops especï¿½ficos.
+	// Pois alguns desktops podem ter seus prï¿½prios gerenciadores de servidores.
 	// Como o caso do gramado core. Que fica a cargo apenas do kernel 
 	// gerenciar esses servidores especiais.
 	
@@ -87,8 +85,6 @@ struct desktop_d
 	int servers_max;
 	int apps_max;
 	
-	
-	
 
 	// #importante
 	//unsigned long backbuffer_address;
@@ -96,14 +92,11 @@ struct desktop_d
 
     int userID;
 	
-	
 	//prompt de comandos. ??
 	//int terminal_TID; 
 	
-	
 	//Heap do desktop.
     struct heap_d *heap;
-
 
 //
 // Windows and menus
@@ -119,16 +112,14 @@ struct desktop_d
     struct window_d *menuWindow;   //Ponteiro para a janela do menu.
     struct menu_d *sysMenu;        //control menu do sistema.(no icone da janela.)
     struct menu_d *dialogsysMenu;  //control menu para dialogo. (todos outros control menus)
-    struct menu_d *menuHScroll;    //menu genérico horizontal. (usado no momento) ??
-    struct menu_d *menuVScroll;    //menu genérico vertical.   (usado no momento) ??
-
-
+    struct menu_d *menuHScroll;    //menu genï¿½rico horizontal. (usado no momento) ??
+    struct menu_d *menuVScroll;    //menu genï¿½rico vertical.   (usado no momento) ??
 
 	//Parametros da janela ativa.
 	int active_window;             //Id da janela ativa.  
 	struct window_d *activeWindow;    //Ponteiro da estrutura da janela ativa.
 	
-	//Parâmetros da janela com o foco de entrada.
+	//Parï¿½metros da janela com o foco de entrada.
 	int window_with_focus;            //Id da janela com foco de entrada.
 	struct window_d *focusWindow;     //Ponteiro da estrutura da janela com foco de entrada.
 	unsigned long procedure;          //Procedimento da janela ativa.	
@@ -136,15 +127,14 @@ struct desktop_d
 	
 	struct window_d *foregroundWindow;    //A janela que em cima das outras.
 	struct window_d *messageWindow;       //Janelinha amarela de mensagem. 
-	                                      //(tem botão fechar)
-										  //(NÃO é uma message box). 
-	
+	                                      //(tem botï¿½o fechar)
+										  //(Nï¿½O ï¿½ uma message box). 
 	//Janela para uma tray do sistema (bandeija atual). 
 	//( bandeija de uma janela) 
 	//(uma janela pode ter mais de uma badeija).
     struct window_d *trayWindow;         
 	
-	//Janelinha de informação sobre itens 
+	//Janelinha de informaï¿½ï¿½o sobre itens 
 	//que o mouse repousa em cima. (quadrado).	
     struct window_d *tooltipWindow;      
 	
@@ -153,8 +143,6 @@ struct desktop_d
 	//O TAB troca a bandeija.
 	//As SETAS trocam o item dentro da bandeija.
 	//As bandeijas podem estar ligadas por *next.
-	
-	
 	
 	//struct window_d *arrayWindow;    //Ponteiro para um array de estruturas de janelas.
 	//struct window_d *desktop;
@@ -175,7 +163,6 @@ struct desktop_d
 
     //struct window_d *o_list;
 
-    
 
     // Only the app window. 'Overlapped'.
 
@@ -196,7 +183,7 @@ struct desktop_d
 	
 
 	//Window Station. 
-	//( à qual window station pertence esse desktop ? ).
+	//( ï¿½ qual window station pertence esse desktop ? ).
 	//struct wstation_d *wstation;
 	
 	struct room_d *room;
@@ -211,50 +198,27 @@ struct desktop_d
 	
     struct desktop_d *next;
 };
-
 // This is the desktop used by the base kernel.
 // So, the kgws and the kgwm can be here. 
-
-struct desktop_d *desktop0;
-
+extern struct desktop_d *desktop0;
 // O desktop atual.
-struct desktop_d *CurrentDesktop;
-
-
-
-
+extern struct desktop_d *CurrentDesktop;
 //List.
-unsigned long desktopList[DESKTOP_COUNT_MAX];
-
-
+extern unsigned long desktopList[DESKTOP_COUNT_MAX];
 
 // Desktop info
 struct desktop_info_d 
 {
     // struct desktop_d *desktop; 
-
     struct window_d  *window; 
-
     int pid;
     int tid;
 };
-// struct desktop_info_d  *DesktopInfo;
-
 
 //
 // == prototypes ==================================
 //
 
-//
-// #todo
-// Change the name of all these functions.
-// Use the prefix 'desktop_'.
-//
-
-
-void init_desktop (void);
-
-void init_desktop_list (void);
 
 int RegisterDesktop(struct desktop_d *d); 
 void set_current_desktop(struct desktop_d *desktop);
@@ -333,11 +297,14 @@ int desktop_setup_ws ( struct desktop_d *desktop, int ws_pid );
 int desktop_setup_wm ( struct desktop_d *desktop, int wm_pid );
 
 
+void init_desktop_list (void);
+void init_desktop (void);
+
+
 #endif   
 
 
 //
-// End.
+// End
 //
-
 

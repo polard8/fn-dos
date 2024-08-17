@@ -6,8 +6,6 @@
  *     Ring 0. Kernel base persistent code.
  * 2018 - Created by Fred Nora.
  */
-
-
  
 // When the keyboard and mouse are USB devices, the BIOS uses SMM code 
 // to emulate PS/2 devices. 
@@ -17,7 +15,11 @@
 
 #include <kernel.h>
 
+// see: ps2.h
+struct ps2_d  PS2;
 
+
+// =======================================
 
 void I8042Controller_do_drain(void)
 {
@@ -38,7 +40,7 @@ void I8042Controller_do_drain(void)
 /*
  *********************
  * kbdc_wait:
- *     Espera por flag de autorização para ler ou escrever.
+ *     Espera por flag de autorizaï¿½ï¿½o para ler ou escrever.
  */
 
 #define __local_out_any_b(p)  asm volatile ( "outb %%al,%0" : : "dN"((p)) : "eax" )
@@ -235,18 +237,18 @@ void wait_then_write ( int port, int data )
  * ps2:
  *     Inicializa o controlador ps2.
  * 
- *     Essa rotina de inicialização do controlador 
- * poderá ter seu próprio módulo.
+ *     Essa rotina de inicializaï¿½ï¿½o do controlador 
+ * poderï¿½ ter seu prï¿½prio mï¿½dulo.
  * 
  *     Inicializa a porta do teclado no controlador.
  *     Inicializa a porta do mouse no controlador.
  *     Obs: *importante: A ordem precisa ser respeitada.
- *     As vezes os dois não funcionam ao mesmo tempo se a 
- *     inicialização não for feita desse jeito. 
+ *     As vezes os dois nï¿½o funcionam ao mesmo tempo se a 
+ *     inicializaï¿½ï¿½o nï¿½o for feita desse jeito. 
  */
 
 
-// Essa é uma inicializaçao completa.
+// Essa ï¿½ uma inicializaï¿½ao completa.
 // See:
 // https://wiki.osdev.org/%228042%22_PS/2_Controller
 
@@ -308,7 +310,7 @@ void ps2(void)
 
     // # todo
     // # Essa rotina desabilita as irqs
-    // precisamos reabilita-las ao fim da inicializaçao
+    // precisamos reabilita-las ao fim da inicializaï¿½ao
     wait_then_write (0x64,I8042_READ);    // I8042_READ = 0x20    
     configuration = wait_then_read(0x60);
     //wait_then_write (0x64,I8042_WRITE);   // I8042_WRITE = 0x60
@@ -357,8 +359,8 @@ void ps2(void)
     // Then (if it's a "dual channel" controller) use command 0xA9 
     // to test the second PS/2 port, then check the result. 
 
-    // Nesse momento podemos desistir se a porta que queremos não
-    // está disponível. Ou prosseguirmos apenas com o que temos.
+    // Nesse momento podemos desistir se a porta que queremos nï¿½o
+    // estï¿½ disponï¿½vel. Ou prosseguirmos apenas com o que temos.
 
     // ==============================
     // Test ports and enable them if available
@@ -409,7 +411,7 @@ void ps2(void)
         PS2.keyboard_initialized = TRUE;
         wait_then_write(I8042_STATUS, 0xae);  // enable keyboard port
         
-        //ignoramos isso se é single channel
+        //ignoramos isso se ï¿½ single channel
         // configuration |= 1;
         // configuration &= ~(1 << 4);
         // wait_then_write(I8042_STATUS, 0x60);
@@ -486,18 +488,18 @@ void ps2(void)
  * 
  */
 
-// Inicialização preliminar. Sem mouse.
-// Ela existe porque a emulação de ps2 na máquina real 
+// Inicializaï¿½ï¿½o preliminar. Sem mouse.
+// Ela existe porque a emulaï¿½ï¿½o de ps2 na mï¿½quina real 
 // apresenta falhas.
 // No gdeshell.bin incluiremos os comando "ps2-init"
-// para obtermos a inicialização completa.
+// para obtermos a inicializaï¿½ï¿½o completa.
 
 // #importante
-// Nao chamamos a rotina de inicializaçao do mouse.
+// Nao chamamos a rotina de inicializaï¿½ao do mouse.
 // mas poderiamos. O importante eh deixar a porta desabilitada
 // ao final da rotina.
 // Ao fim dessa rotina, reabilitamos apenas a porta de teclado.
-// A porta de mouse permaneçe fechada.
+// A porta de mouse permaneï¿½e fechada.
 
 void early_ps2_init (void)
 {

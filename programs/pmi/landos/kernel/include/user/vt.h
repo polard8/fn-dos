@@ -32,11 +32,9 @@ struct vt_d
     // ...
 };
 
-
 // Listar os terminais virtuais.
 // Isso vai ajudar a mandar as mensagens;
-unsigned long vtList[32];
-
+extern unsigned long vtList[32];
 
 
 //

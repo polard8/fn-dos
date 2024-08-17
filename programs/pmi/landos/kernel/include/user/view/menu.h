@@ -4,11 +4,9 @@
 /*
  * Descrição:
  *     Header para gerenciamento de menus.
- *
  * Menus:
  *     São três os componentes principais: 
  *     (MenuItem < Menu < MenuBar).
- *
  * Control Menu:
  *     O control menu aparece apenas na janela ativa.
  *     @todo: Sua estrutura de indica em quan janela ele está aparecento. 
@@ -78,9 +76,8 @@ struct menuitem_d
 	//...
 
 };
-struct menuitem_d *menuitemDefault;
+//extern struct menuitem_d *menuitemDefault;
 //...
-
 
 
 /*
@@ -139,28 +136,17 @@ struct menu_d
 	//...
    
 };
-struct menu_d *logonMenu;
-struct menu_d *guiMenu;
-struct menu_d *menubarDefault;
-struct menu_d *menuDefault;
+extern struct menu_d *logonMenu;
+extern struct menu_d *guiMenu;
+extern struct menu_d *menubarDefault;
+extern struct menu_d *menuDefault;
 //...
 
+// Lista de Menus.
+extern unsigned long menuList[MENU_COUNT_MAX];
 
-
-/*
- * Lista de Menus.
- */ 
-
-unsigned long menuList[MENU_COUNT_MAX];
-
-
-
-
-/*
- * Contagem de menus.
- */
-
-int menus_count;
+// Contagem de menus.
+extern int menus_count;
 
   
 
@@ -192,13 +178,9 @@ struct current_menu_d
 //Protótipos.
 
 int init_menus (void);
-
 void set_current_menu (struct menu_d *menu);
-
 void *get_current_menu (void);
-
 int RegisterMenu (struct menu_d *menu);
-
 void initmenuArray (struct menu_d *a, int initialSize);
 
 
@@ -235,11 +217,8 @@ int create_menu_item (struct menu_d *menu, unsigned char *string, int status);
 
 
 int select_menubar_item(int n);
-
 int unselect_menubar_item(int n);
-
 int get_menubar_selected_item (void);
-
 int redraw_menubar_item( int n);
 
 

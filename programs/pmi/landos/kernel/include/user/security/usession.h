@@ -1,7 +1,7 @@
 /*
  * File: usession.h
  *
- * Descrição:
+ * Descriï¿½ï¿½o:
  *     Header do gerenciador de user sections.
  *     
  *     WINDOW -> DESKTOP -> ROOM           -> USER SECTION.
@@ -13,7 +13,7 @@
  *      +Page Directory Pool. 
  *
  *
- *  Tipos de usuários: 
+ *  Tipos de usuï¿½rios: 
  *     Interactive e non_interactive.
  *
  * History:
@@ -26,8 +26,8 @@
 
 
 //user session start
-//No caso de termos apenas uma user session, esse será o endereço dela.
-unsigned long usersession_start; 
+//No caso de termos apenas uma user session, esse serï¿½ o endereï¿½o dela.
+extern unsigned long usersession_start; 
 
 
 // The persistent window server.
@@ -42,9 +42,8 @@ struct raw_graphics_d
     char name[32];
     // ...
 };
-struct raw_graphics_d    *RawGraphics;
-
-
+// usession.c
+extern struct raw_graphics_d  *RawGraphics;
 
 // The loadable window server.
 // It is a ring 3 application.
@@ -58,8 +57,8 @@ struct window_server_d
     char name[32];
     // ...
 };
-struct window_server_d *WindowServer;
-
+// usession.c
+extern struct window_server_d *WindowServer;
 
 // The loadable window manager.
 // It is a ring 3 application.
@@ -73,8 +72,8 @@ struct window_manager_d
     char name[32];
     // ...
 };
-struct window_manager_d *WindowManager;
-
+// usession.c
+extern struct window_manager_d *WindowManager;
 
 // This is a set of application used as
 // components of a GUI.
@@ -99,12 +98,11 @@ struct desktop_environment_d
 
     // ...
 };
-struct desktop_environment_d *DesktopEnvironment;
-
+// usession.c
+extern struct desktop_environment_d *DesktopEnvironment;
 
 
 /*
- * **********************************************
  * usession_d:
  *     The user section structure. 
  *     (u.session)
@@ -112,9 +110,8 @@ struct desktop_environment_d *DesktopEnvironment;
 
 struct usession_d
 {
-
-    object_type_t   objectType;
-    object_class_t  objectClass;
+    object_type_t objectType;
+    object_class_t objectClass;
     struct object_d  *object;
 
     int used;
@@ -184,41 +181,29 @@ struct usession_d
 	//ou vetores de ponteiros para pools.
 	//
 	
-	//Início da lista encadeada de ponteiros para pools.
+	//Inï¿½cio da lista encadeada de ponteiros para pools.
 	unsigned long *dpHead;     //Desktop Pools.(wstations).
 	unsigned long *opHead;     //Object Pools.
 	unsigned long *pdpHead;    //Page Directory Pools. (page directory lists) 
 
     struct usession_d *next;	
 };
+// usession;c
+extern struct usession_d *usession0;
+extern struct usession_d *CurrentUserSession;
 
-struct usession_d *usession0;
-struct usession_d *CurrentUserSession;
-
-// Um mesmo usuário pode usar sessoes diferentes para atividades diferentes.
-// -Qual é a user session do usuário logado? Sabendo a user session que o usuário está
-// podemos determinar quais os pools que que estão disponíveis para ele, como pools de desktop
+// Um mesmo usuï¿½rio pode usar sessoes diferentes para atividades diferentes.
+// -Qual ï¿½ a user session do usuï¿½rio logado? Sabendo a user session que o usuï¿½rio estï¿½
+// podemos determinar quais os pools que que estï¿½o disponï¿½veis para ele, como pools de desktop
 // pools de pagedirectory, pool de objetos...
-
-unsigned long usessionList[USER_SESSION_COUNT_MAX];
-
-
+extern unsigned long usessionList[USER_SESSION_COUNT_MAX];
 
 
 //
 // == prototypes =======================================
 //
 
-//
-// #todo
-// Change the name of all these functions.
-// Use the prefix 'us_'.
-//
-
-void init_user_session (void); 
-
 void *CreateUserSession(int user_id); 
-
 void *get_current_user_session (void);
 
 void 
@@ -226,15 +211,13 @@ set_current_user_session (
     struct usession_d *usession );
 
 void open_user_session (void);
-
 void close_user_session (void);
 
+void init_user_session (void); 
 
 #endif   
 
-
 //
-// End.
+// End
 //
-
 

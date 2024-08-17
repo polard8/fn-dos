@@ -31,20 +31,18 @@ struct connection_d
 
     struct channel_d *channel;
 };
-struct connection_d *CurrentConnection;
+// see: network.c
+extern struct connection_d *CurrentConnection;
 
 
+// see: network.c
 // Colocaremos nesse array os ponteiros para as estruturas
 // de coneção. connection_d
-unsigned long connectionList[CONNECTION_MAX];
-
+extern unsigned long connectionList[CONNECTION_MAX];
 
 //conectando um processo à uma porta
 //int network_connect_process (unsigned short port);
 //int network_connect_process (unsigned short port){}
 
-
 #endif    
-
-
 

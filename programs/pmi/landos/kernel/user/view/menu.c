@@ -11,14 +11,32 @@
 
 #include <kernel.h>
 
+
+struct menuitem_d *menuitemDefault;
+struct menu_d *logonMenu;
+struct menu_d *guiMenu;
+struct menu_d *menubarDefault;
+struct menu_d *menuDefault;
+//...
+
+// Lista de Menus.
+unsigned long menuList[MENU_COUNT_MAX];
+
+
+// Contagem de menus.
+int menus_count=0;
+
+
+// ===============================================
+
 /*
  * create_menu:
  *     Deprecated.
  */
 void *create_menu ( 
     struct window_d *pwindow,    // Parent window. 
-    unsigned long iCount,        // Contagem de ítems. 
-    unsigned long sCount,        // Contagem de espaçadores.
+    unsigned long iCount,        // Contagem de ï¿½tems. 
+    unsigned long sCount,        // Contagem de espaï¿½adores.
     int type,                    // Horizontal ou vertical
     int style )                  // Estilo.
 {

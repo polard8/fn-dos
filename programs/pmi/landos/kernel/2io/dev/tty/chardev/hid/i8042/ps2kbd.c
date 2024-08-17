@@ -17,10 +17,35 @@
 
 #include <kernel.h>
 
+
 struct ioControl_d *ioControl_keyboard;   //0
 
 //see: events.h
 int current_keyboard_responder=0;
+
+
+//Se há uma nova mensagem de teclado. 
+int kbMsgStatus=0;
+
+//Status
+//@todo: Status pode ser (int).
+//variáveis usadas pelo line discipline para controlar o 
+//estado das teclas de controle.
+unsigned long key_status=0;
+unsigned long escape_status=0;
+unsigned long tab_status=0;
+unsigned long winkey_status=0;
+unsigned long ctrl_status=0;
+unsigned long alt_status=0;
+unsigned long shift_status=0;
+unsigned long capslock_status=0;
+unsigned long numlock_status=0;
+unsigned long scrolllock_status=0;
+//...
+
+
+// Driver handler support.
+unsigned long keyboard_handler_address=0;
 
 
 /*

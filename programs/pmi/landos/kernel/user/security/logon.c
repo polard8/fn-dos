@@ -54,6 +54,9 @@
 #include <kernel.h>
 
 
+
+
+
 //
 // == prototypes (internal) =====================================
 //
@@ -61,12 +64,10 @@
 void logon_create_screen_window (void);
 int ExitLogon (void);
 
-
+// ===============================================
 
 /* 
- ***************************************************
  * init_logon_manager:
- * 
  *     Cria a interface gr�fica do Logon.
  *     � o ambiente onde o processo de logon deve rodar. 
  *

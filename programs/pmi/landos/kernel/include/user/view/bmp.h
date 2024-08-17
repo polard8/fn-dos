@@ -14,16 +14,15 @@
 #define  BMP_CHANGE_COLOR_SUBSTITUTE   2000
 //...
   
- 
+
 //flag que avisa que dve haver alguma mudan�a nas cores. 
-int bmp_change_color_flag; 
- 
+extern int bmp_change_color_flag; 
 //salva-se aqui uma cor para substituir outra. 
-unsigned long bmp_substitute_color; 
- 
+extern unsigned long bmp_substitute_color; 
 //cor selecionada para ser substitu�da ou ignorada. 
-unsigned long bmp_selected_color;  
+extern unsigned long bmp_selected_color;  
  
+
 /* ## Cancelada ! ## */
 static unsigned long cga_16colors_palette[1] = { 0x000000, };
 
@@ -31,15 +30,9 @@ static unsigned long cga_16colors_palette[1] = { 0x000000, };
 static unsigned long vga_256colors_palette[1] = { 0x00000000, };
 
 
-
-      
-
 /*
- ******************************************************
  * bmpDirectDisplayBMP:
- *
  * Mostra na tela uma imagem bmp carregada na mem�ria. (no LFB)
- * 
  * IN:
  *     address = endere�o base
  *     x       = posicionamento 
@@ -52,11 +45,8 @@ int bmpDirectDisplayBMP( char *address,
 
 
 /*
- ******************************************************
  * bmpDisplayBMP:
- *
  * Mostra na tela uma imagem bmp carregada na mem�ria. no backbuffer()
- * 
  * IN:
  *     address = endere�o base
  *     x       = posicionamento 
@@ -71,7 +61,7 @@ int bmpDisplayMousePointerBMP( char *address,
                                unsigned long x, 
 				               unsigned long y );
 							   
-		   
+
 //mostra no lfb
 //levando em considera��o tratamento de transpar�ncia.
 int bmpDisplayCursorBMP( char *address, 
@@ -84,5 +74,3 @@ int bmpDisplayCursorBMP( char *address,
 //
 // End
 //
-
-

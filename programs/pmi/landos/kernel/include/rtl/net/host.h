@@ -123,14 +123,13 @@ struct host_info_d
 	
 	//...
 };
-struct host_info_d *HostInfo;
+// see: network.c
+extern struct host_info_d *HostInfo;
 //...
 
 #endif    
 
-
-
 //
-// End.
+// End
 //
 

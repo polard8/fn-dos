@@ -23,6 +23,24 @@ struct initialization_d  Initialization;
 
 
 
+// see: terminal.h
+// Vamos contar os terminais criados.
+int terminal_count=0;
+int terminalLine=0;       //Troca de linha;(up down)
+int terminalOffset=0;     //Deslocamento dentro da linha; (left right).
+int terminalLineMax=0;   //N�mero m�ximo de linhas suportadas.
+int terminalOffsetMax=0;  //N�mero m�ximo de caracteres por linha.
+
+// see: terminal.h
+struct terminal_d  TERMINAL[TERMINAL_COUNT_MAX];
+
+
+// security.h
+int current_usersession=0;
+int current_room=0;
+int current_desktop=0; 
+
+
 // timer interrupt
 // kdrivers/timer.c
 int __breaker_timer_initialized=0;
