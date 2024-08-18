@@ -1,14 +1,9 @@
-
-# gws - Gramado Window Server.
+# ring3 32bit display server for fn-dos.
 # 2020 - Created by Fred Nora.
-
-
-
 
 # todo:
 # Os aplicativos em /init/core ainda usam PE, assim como o base kernel.
 # É desejável que isso mude.
-
 
 VERSION = 0
 PATCHLEVEL = 1
@@ -33,8 +28,6 @@ PYTHON2	= python2
 PYTHON3	= python3
 RUBY	= ruby
 
-
-
 # usermode cross compiler flags.
 user_ccflags = -m32 \
 	-std=gnu89 \
@@ -54,8 +47,6 @@ user_ccflags = -m32 \
 
 # usermode linker flags.
 user_ldflags = -m elf_i386 -T ../link.ld
-
-
 
 
 #todo

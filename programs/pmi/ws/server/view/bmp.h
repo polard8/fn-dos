@@ -1,15 +1,10 @@
-/*
- * File: bmp.h
- *
- *    Header para rotinas de BMP.
- *
- * History:
- *    2015 - Created by Fred Nora.
- *           24bpp support. 
- *    2018 - 4bpp, 8bpp, 32bpp support.
- */
- 
- 
+// bmp.h
+// BMP support for the 32bit display server.
+// 2015 - Created by Fred Nora.
+
+#ifndef __DS_BMP_H
+#define __DS_BMP_H    1
+
 /* "MB" */ 
 #define BMP_TYPE 0x4D42        
  
@@ -19,20 +14,12 @@
 //...
   
  
-//flag que avisa que dve haver alguma mudança nas cores. 
-int bmp_change_color_flag; 
- 
+//flag que avisa que dve haver alguma mudanï¿½a nas cores. 
+extern int bmp_change_color_flag; 
 //salva-se aqui uma cor para substituir outra. 
-unsigned long bmp_substitute_color; 
- 
-//cor selecionada para ser substituída ou ignorada. 
-unsigned long bmp_selected_color; 
-
-
-
-
-
-
+extern unsigned long bmp_substitute_color; 
+//cor selecionada para ser substituï¿½da ou ignorada. 
+extern unsigned long bmp_selected_color; 
 
 
 //
@@ -80,21 +67,17 @@ struct gws_bmp_infoheader_d
 // Pointer.
 //
 
-char *gwssrv_bmp_cursor_pointer;
-char *gwssrv_bmp_mouse_pointer;
-// ...
+extern char *gwssrv_bmp_cursor_pointer;
+extern char *gwssrv_bmp_mouse_pointer;
 
-
+// ======================================
 
 
 /*
- ******************************************************
  * bmpDisplayBMP:
- *
- * Mostra na tela uma imagem bmp carregada na memória. no backbuffer()
- * 
+ * Mostra na tela uma imagem bmp carregada na memï¿½ria. no backbuffer()
  * IN:
- *     address = endereço base
+ *     address = endereï¿½o base
  *     x       = posicionamento 
  *     y       = posicionamento
  */
@@ -105,13 +88,12 @@ bmpDisplayBMP (
     unsigned long x, 
     unsigned long y );
 
-
-
 void *gwssrv_get_system_icon(int n);
 
 //void __test_load_bmp2(void);
 int gwssrv_display_system_icon ( int index, unsigned long x, unsigned long y );
 
+#endif  
 
 //
 // End.

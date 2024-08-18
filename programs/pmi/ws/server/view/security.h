@@ -13,22 +13,17 @@
 #define __SECURITY_H    1
 
 
-
-
-
 // user session
 struct gwssrv_usession_d
 {
     int used;
-    int magic;
-    
+    int magic;  
     char name[64];
-
     // ...
-
     struct gwssrv_usession_d *next;
 };
-struct gwssrv_usession_d *CurrentUserSession;
+// main.c
+extern struct gwssrv_usession_d *CurrentUserSession;
 
 
 // room
@@ -36,17 +31,14 @@ struct gwssrc_room_d
 {
     int used;
     int magic;
-
     char name[64];
-
     // belongs to this user session.
     struct gwssrv_usession_d *usession;
-
     // ...
-    
     struct gwssrc_room_d *next;
 };
-struct gwssrc_room_d *CurrentRoom;
+// main.c
+extern struct gwssrc_room_d *CurrentRoom;
 
 
 // desktop
@@ -54,17 +46,14 @@ struct gwssrc_desktop_d
 {
     int used;
     int magic;
-
     char name[64];
-
     // belongs to this room.
     struct gwssrc_room_d *room;
-    
     // ...
-    
     struct gwssrc_desktop_d *next;
 };
-struct gwssrc_desktop_d *CurrentDesktop;
+// main.c
+extern struct gwssrc_desktop_d *CurrentDesktop;
 
 
 

@@ -7,6 +7,18 @@
 #include <gws.h>
 
 
+int gfontSize=0;
+//As fontes usadas pelo servidor gws
+unsigned long gws_currentfont_address=0;  // fonte atual.
+unsigned long g8x8fontAddress=0;          // 8×8, 80×25,CGA, EGA
+unsigned long g8x14fontAddress=0;         // 8x14,80×25,EGA
+unsigned long g8x16fontAddress=0;         // ??
+unsigned long g9x14fontAddress=0;       // 9x14,80×25,MDA, Hercules
+unsigned long g9x16fontAddress=0;         // 9x16,80×25,VGA
+
+unsigned long gws_eye_sprite_address=0;
+
+
 
 static unsigned char TableBitReverse[] = {
 

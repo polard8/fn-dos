@@ -1,5 +1,6 @@
 
-
+#ifndef __VIEW_EVENT_H
+#define __VIEW_EVENT_H    1
 
 // #todo: 
 // no gramado as mensagens do systema
@@ -54,13 +55,13 @@ struct gws_event_d
     struct gws_event_d *next;
 };
 
-
+// see: main.c
 //#test
 // Main structure for event.
-struct gws_event_d gwsEvent;
-
+extern struct gws_event_d gwsEvent;
+// see: main.c
 //#test
-struct gws_event_d *gwsCurrentEvent;
+extern struct gws_event_d *gwsCurrentEvent;
 
 
 /*
@@ -74,6 +75,7 @@ struct gws_keyboad_focus_d
 };
 */
 
+#endif   
 
 
 

@@ -1,5 +1,6 @@
 
-
+#ifndef __VIEW_MENU_H
+#define __VIEW_MENU_H    1
 
 // Menu item types
 #define MI_TYPE_SEPARATOR  1000
@@ -73,25 +74,5 @@ struct gwsssrv_menu_item_d *gwssrv_create_menu_item (
 //test
 int create_main_menu(void);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+#endif   
 

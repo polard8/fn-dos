@@ -68,7 +68,7 @@ struct gws_sprite_d
 
 #define SPRITE_MAX_NUMBER 32
 // Sprite list.
-unsigned long spriteList[SPRITE_MAX_NUMBER];
+extern unsigned long spriteList[SPRITE_MAX_NUMBER];
 
 
 /*

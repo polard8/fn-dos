@@ -4,14 +4,12 @@
 
 
 // Draw char support
-int gcharWidth;
-int gcharHeight;
-
+extern int gcharWidth;
+extern int gcharHeight;
 
 //
+// =================================
 //
-//
-
 
 
 void
@@ -19,14 +17,10 @@ DrawBorder(
     unsigned long l, unsigned long r, unsigned long t, unsigned long b,
     int solid );
     
-
-
 void charSetCharWidth ( int width );
 void charSetCharHeight ( int height );
 int charGetCharWidth (void);
 int charGetCharHeight (void);
-
-
 
 void 
 charBackbufferCharBlt ( 
@@ -35,9 +29,7 @@ charBackbufferCharBlt (
     unsigned long color, 
     unsigned long c );
 
-
 /*
- ******************************************************
  * drawchar_transparent:
  *     Desenha um caractere sem alterar o pano de fundo.
  */
@@ -49,9 +41,7 @@ charBackbufferDrawcharTransparent (
     unsigned long color, 
     unsigned long c );
 
-
 /*
- *****************************************************
  * draw_char:
  *     Constrói um caractere 8x8 (configurável) no buffer.
  *     Desenha um caractere e pinta o pano de fundo.

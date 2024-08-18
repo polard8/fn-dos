@@ -1,5 +1,8 @@
 
 
+#ifndef __FONT_H
+#define __FONT_H    1
+
    // the font support.
 
 
@@ -83,26 +86,21 @@ static unsigned char eye_sprite[6*8] = {
 
 
 
-
-
-
 //
 // Font
 //
 
-int gfontSize;
+extern int gfontSize;
 
 //As fontes usadas pelo servidor gws
-unsigned long gws_currentfont_address;  // fonte atual.
-unsigned long g8x8fontAddress;          // 8×8, 80×25,CGA, EGA
-unsigned long g8x14fontAddress;         // 8x14,80×25,EGA
-unsigned long g8x16fontAddress;         // ??
-unsigned long g9x14fontAddress;         // 9x14,80×25,MDA, Hercules
-unsigned long g9x16fontAddress;         // 9x16,80×25,VGA
+extern unsigned long gws_currentfont_address;  // fonte atual.
+extern unsigned long g8x8fontAddress;          // 8×8, 80×25,CGA, EGA
+extern unsigned long g8x14fontAddress;         // 8x14,80×25,EGA
+extern unsigned long g8x16fontAddress;         // ??
+extern unsigned long g9x14fontAddress;         // 9x14,80×25,MDA, Hercules
+extern unsigned long g9x16fontAddress;         // 9x16,80×25,VGA
 
-
-unsigned long gws_eye_sprite_address;
-
+extern unsigned long gws_eye_sprite_address;
 
 
 //
@@ -110,6 +108,9 @@ unsigned long gws_eye_sprite_address;
 //
 
 int gwssrv_init_font(void);
+
+
+#endif   
 
 
 

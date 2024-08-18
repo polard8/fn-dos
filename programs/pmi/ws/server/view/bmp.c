@@ -22,8 +22,22 @@
 #include <gws.h>
 
 
+//flag que avisa que dve haver alguma mudan�a nas cores. 
+int bmp_change_color_flag=0;
+//salva-se aqui uma cor para substituir outra. 
+unsigned long bmp_substitute_color=0; 
+//cor selecionada para ser substitu�da ou ignorada. 
+unsigned long bmp_selected_color=0;
+
+char *gwssrv_bmp_cursor_pointer;
+char *gwssrv_bmp_mouse_pointer;
+
+
+// ==========================
+
 // 4bpp support.
 static int nibble_count_16colors = 0;
+
 
 
 /*

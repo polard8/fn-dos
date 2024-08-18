@@ -273,11 +273,10 @@ struct gws_color_scheme_d
 
 	//...
 };
-
-struct gws_color_scheme_d* GWSCurrentColorScheme;
-struct gws_color_scheme_d* GWSHumilityColorScheme; // Simples.
-struct gws_color_scheme_d* GWSPrideColorScheme;    // Colorido.
-
+//see: main.c
+extern struct gws_color_scheme_d* GWSCurrentColorScheme;
+extern struct gws_color_scheme_d* GWSHumilityColorScheme; // Simples.
+extern struct gws_color_scheme_d* GWSPrideColorScheme;    // Colorido.
 
 //
 // == variables ==============================================
@@ -287,33 +286,39 @@ struct gws_color_scheme_d* GWSPrideColorScheme;    // Colorido.
 // #ordem
 // hadware, software
 
-unsigned long  ____BACKBUFFER_VA;
-unsigned long  ____FRONTBUFFER_VA;
+// see: main.c
+extern unsigned long  ____BACKBUFFER_VA;
+extern unsigned long  ____FRONTBUFFER_VA;
 
+// see: main.c
 // Saving
-unsigned long SavedBootBlock;
-unsigned long SavedLFB;   // #bugbug? VA ?
-unsigned long SavedX;
-unsigned long SavedY;
-unsigned long SavedBPP; 
+extern unsigned long SavedBootBlock;
+extern unsigned long SavedLFB;   // #bugbug? VA ?
+extern unsigned long SavedX;
+extern unsigned long SavedY;
+extern unsigned long SavedBPP; 
 
+// see: main.c
 // helper.
-unsigned long __device_width;
-unsigned long __device_height;
-unsigned long __device_bpp;
+extern unsigned long __device_width;
+extern unsigned long __device_height;
+extern unsigned long __device_bpp;
+
+
+// ----------
 
 // refresh rate of the whole screen.
-static unsigned long fps;
+extern unsigned long fps;
 
 // refresh rate for all dirty objects. In one round.
-static unsigned long frames_count;
+extern unsigned long frames_count;
 // static unsigned long frames_count_in_this_round;
 
+// main.c
 // Vamos usar ou nao.
-int use_vsync;
 #define VSYNC_YES  1
 #define VSYNC_NO   0
-
+extern int use_vsync;
 
 
 // Pointers to screens.
@@ -322,8 +327,7 @@ int use_vsync;
 #define SCREEN_BACKBUFFER      1
 //#define SCREEN_BACKBUFFER2   2
 //#define SCREEN_BACKBUFFER3   3
-static unsigned long screens[MAX_SCREENS];
-
+extern unsigned long screens[MAX_SCREENS];
 
 
 
@@ -368,8 +372,6 @@ struct vid_d vidConfig;
 // ...
 
 // ===============================================================
-
-
 
 
 //

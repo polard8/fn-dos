@@ -4,11 +4,9 @@
 #define ____CLIENT_H    1
 
 
-
 // Nesse arquivo fica a estrutura de cliente.
 // Essa estrutura vai conter as informações
 // e características dos clientes.
-
 
 //
 // Current
@@ -20,34 +18,27 @@
 // O kernel alimenta a fila de mensagens do ws qunado tem um ws
 // instalado.
 
-int current_client;
-
+extern int current_client;
 
 struct gws_client_d
 {
-
     int id;
     int used;
     int magic;
 
-
     int is_connected;
-
 
     // host, display, screen
     struct gws_host_d     host;
     struct gws_display_d  display;  
     struct gws_screen_d   screen;
 
-
     // Socket for this client.
     int fd;
-
 
     // The PID of the client.
     pid_t pid; 
     gid_t gid;
-
 
     //
     // Queue. (list)
@@ -62,18 +53,18 @@ struct gws_client_d
 
     // ...
 };
-
-struct gws_client_d  *serverClient;
-struct gws_client_d  *currentClient;
+extern struct gws_client_d  *serverClient;
+extern struct gws_client_d  *currentClient;
 // ...
 
 #define SERVER_CLIENT_INDEX 0
 #define CLIENT_COUNT_MAX 32
-unsigned long connections[CLIENT_COUNT_MAX];
+// see: connect.c
+extern unsigned long connections[CLIENT_COUNT_MAX];
 
 
 //
-// prototypes
+// prototypes =====================================
 //
 
 int servicePutClientMessage(void);

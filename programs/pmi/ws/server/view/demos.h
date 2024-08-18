@@ -14,22 +14,17 @@ struct cat_model_d
     int mouthVisible;
     // ...
 };
-struct cat_model_d CatModel;
-
+extern struct cat_model_d  CatModel;
 
 //
 // prototypes ===============
 //
 
-
 void demoClear(void);
 void demoRefresh(void);
 
-
-
 // cat model
 void setupCatModel(int eyes, int whiskers, int mouth );
-
 
 void demoLine1(void);
 

@@ -4,6 +4,16 @@
 #include <gws.h>
 
 
+int current_client=0;
+
+
+struct gws_client_d  *serverClient;
+struct gws_client_d  *currentClient;
+// ...
+// client.h
+unsigned long connections[CLIENT_COUNT_MAX];
+
+
 // Registered ?
 int __ws_registered = -1;
 

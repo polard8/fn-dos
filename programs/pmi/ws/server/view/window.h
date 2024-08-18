@@ -1,9 +1,6 @@
-/*
- * File: window.h
- * 
- * History:
- *     2020 - Created by Fred Nora.
- */
+// window.h
+// window, rect, char ... support for 32bit display server.
+// Created by Fred Nora.
 
 
 #ifndef ____WINDOW_H
@@ -14,7 +11,6 @@
 #define IS_TRANSPARENT  2000
 #define IS_ICON         3000
 
-
 //apresentação.
 #define VIEW_NULL      0
 #define VIEW_FULL      1000
@@ -22,7 +18,6 @@
 #define VIEW_MINIMIZED 1002
 #define VIEW_NORMAL    1003 //Normal (restaurada)
 //...
-
 
 // button
 // #todo: Check these numbers.
@@ -32,8 +27,6 @@
 #define BN_UP       2
 #define BN_SELECTED 3
 // ...
-
-
 
 //
 // ## botoes  ##
@@ -49,11 +42,8 @@
 #define BS_PROGRESS  6
 // ...
 
-
 #define WINDOW_LOCKED    1
 #define WINDOW_UNLOCKED  0
-
-
 
 // window status
 #define WINDOW_STATUS_ACTIVE       1
@@ -77,25 +67,17 @@
 //
 
 
-
+// see: wm.c
 // Contagem de janelas existentes.
 // precisa ser inicializada.
-unsigned long windows_count;
-
-int active_window;
-
-int window_with_focus;
-
-int top_window;
-
-// ...
-
-
-int show_fps_window;
+extern unsigned long windows_count;
+extern int active_window;
+extern int window_with_focus;
+extern int top_window;
+extern int show_fps_window;
 
 
 /*
- *************************************
  * gws_button_d:
  *     Structure for button object.
  *     Env: gws in ring3.
@@ -172,11 +154,7 @@ struct gws_button_d
 };
 
 
-
-
-
 /*
- **************************************************
  * rect_d:
  *     Estrutura para gerenciamento de retângulos.
  *     Um retângulo pertence à uma janela.
@@ -215,15 +193,14 @@ struct gws_rect_d
     //Essa é  ajanela à qual o retângulo pertence.
     struct gws_window_d *window;   //mudar. #todo
 
-
     struct gws_rect_d *next;
 };
 
 
-	//
-	// Window Class support.
-	//
-	
+//
+// Window Class support.
+//
+
  
 //enumerando classe de janela 
 typedef enum {
@@ -280,27 +257,22 @@ struct gws_window_class_d
     //tipo de classe.
 	
     gws_wc_t windowClass; 
-
 	//1
     gws_client_window_classes_t	clientClass;
-	
 	//2
     gws_kernel_window_classes_t	kernelClass;
-	
 	//3
     gws_server_window_classes_t	serverClass;
 	
 	//Endereço do procedimento de janela.
 	//(eip da thread primcipal do app)
     unsigned long procedure;
-    
     // ...
 };
 
 
 // Input pointer device type.
 typedef enum {
-
     IP_DEVICE_NULL,
     IP_DEVICE_KEYBOARD,
     IP_DEVICE_MOUSE
@@ -308,14 +280,10 @@ typedef enum {
 } gws_ip_device_t;
 
 
-
 /*
- ********************************
  * gws_window_d:
- * 
  *     The window structure.
  */
-
 // #todo
 // Se uma janela tiver o id da thread ao qual ela pertence
 // então podemos colocar ela em foreground quando a janela
@@ -323,7 +291,6 @@ typedef enum {
 
 struct gws_window_d 
 {
-
     int id;
     int used;
     int magic;
@@ -333,7 +300,6 @@ struct gws_window_d
     // tipo? ... (editbox, normal, ...)  style???
 
     unsigned long type;
-
 
     // Hierarquia. 
     // parent->level + 1;
@@ -362,7 +328,6 @@ struct gws_window_d
 
     int client_pid;
 
-
 //
 // TID
 //
@@ -389,7 +354,6 @@ struct gws_window_d
     // ?? validation
     int dirty;
 
-
 //
 // Margins and dimensions.
 //
@@ -405,11 +369,8 @@ struct gws_window_d
     unsigned long width;       //largura
     unsigned long height;      //altura   
 
-
-//
 // Margins and dimensions when this window is in fullscreen mode.
 // #todo: Maybe we can use a sctructure for that.
-//
 
     unsigned long full_left;
     unsigned long full_top;
@@ -417,7 +378,6 @@ struct gws_window_d
     unsigned long full_bottom;
     unsigned long full_width;
     unsigned long full_height;
-
 
 //
 // cursor ?
@@ -428,7 +388,6 @@ struct gws_window_d
     // Deslocamento em relação a janela mãe.
     unsigned long x;
     unsigned long y; 
-    
     
     // #todo    
     //unsigned long border_color;
@@ -465,18 +424,15 @@ struct gws_window_d
 // 
 //==================================================
 
-
     // In the window stack we have two major components:
     // + The frame (top frame and bottom frame).
-    // + The Client area.
-    
+    // + The Client area.   
 
     // Top frame has: title bar, tool bar, menu bar ...
     
     unsigned long top_frame_Height;
     unsigned long client_area_Height;
     unsigned long bottom_frame_Height;
-
 
     //
     // == window stack ================================
@@ -493,14 +449,12 @@ struct gws_window_d
     int shadow_style;
     int shadowUsed;
 
-
     // 2
     // Background
 
     unsigned long bg_color; 
     int background_style;
     int backgroundUsed;
-
 
     // 3
     // Titlebar
@@ -563,7 +517,6 @@ struct gws_window_d
     int clientarea_style;
     int clientAreaUsed;
 
-
     // 9
     // Scrollbar
 
@@ -610,31 +563,26 @@ struct gws_window_d
     // Um alerta de que exite uma mensagem para essa janela.
     int msgAlert;  
 
-
     // ??
     // #todo: 
     // Deletar isso. Isso deve fazer parte da estrutura window class.
     unsigned long procedure; 
 
-
     int active;    //FAST FLAG. Essa será a flag de ativa ou não. (decidindo isso)
     int focus;     //Se tem o foco de entrada ou não.
 
-// 
-//==================================================
 
+//==================================================
 
     // Parent support
     unsigned long parentid;       //(Número da janela mãe).
     struct gws_window_d *parent;	  //Parent window.	
-
 
     // Child support.
     // obs: gosto mais de arrays.
     struct gws_window_d *childListHead;  //Lista encadeada de janelas filhas.
     int childCount;                  //Tamanho da lista.
 
-// 
 //==================================================	
 
    // #test
@@ -652,8 +600,6 @@ struct gws_window_d
     void *BackBuffer;       //Qual backbuffer a janela usa.
     void *FrontBuffer;      //Qual frontbuffer a janela usa. (LFB).	
 
-
-// 
 //==================================================
 
 	// Desktop support.
@@ -662,15 +608,10 @@ struct gws_window_d
     int desktop_id;
 	//struct desktop_d *desktop;   //suspenso.
 
-// 
-
-
 	// If locked we can't change a simple thing. 
 	// It must affect the input events for the specified window.
     int locked; 
 
-
-// 
 //==================================================
 
     // parent window. 
@@ -681,35 +622,24 @@ struct gws_window_d
     // ?? again ??
     struct gws_window_d *child; 
 
-
-// 
 //==================================================
  
-
-
-
 	// Buffer para mensagens pequenas.
     // Será usado pelo produtor e pelo consumidor.
     // char read_buf[WINDOW_MSG_BUFFER_SIZE];
 
-
-
 	//
 	// Window Class support.
 	//
-
 
     struct gws_window_class_d *window_class;
 
     // ?? wtf
     // unsigned long scancodeList[32];	
 
-
-
 	//
 	// TERMINAL SUPPORT
 	//
-
 
     // Obs: 
     // Essas variáveis só serão inicializadas se o 
@@ -723,12 +653,10 @@ struct gws_window_d
     // é só criar uma nova aba no gerenciador de terminais virtuais ...
     // esse gerenciador de terminais virtuais poderia ser o shell.bin	
 
-
 	//flags
 
 	//configura o status do terminal dentro da janela
     int terminal_used;     //Se é um terminal ou não.
-
 
 	//validade e reusabilidade das variáveis de terminal 
 	//dentro da estrutura de janela.	
@@ -753,8 +681,6 @@ struct gws_window_d
 
 	//...
 
-
-
 	//@todo: isso deve pertencer a uma janela.
 	//se uma janela tiver o foco de entrada e for um terminal 
 	//a disciplica de linhas poderá usar essas carcterística do terminal.
@@ -763,14 +689,11 @@ struct gws_window_d
 	//struct terminal_d *wTerminal; //dd\uitm\terminal.h
 	//struct console_d *console;   //dd\uitm\console.h	
 
-
-
     // Tabs:
     // Número da aba do navegador que a janela está.
     // Se for 0, então a janela está no desktop.
     
     int tab;
-
 
     // style: 
     // Isso poderia ser estilo de design ...
@@ -782,38 +705,33 @@ struct gws_window_d
 
     int style;   
 
-
     // Again ??
     // This is a nice structure.
     // We can use this one!
     //struct msg_d *msg;
 
-
     // ?? again ??
     // unsigned long Background;
-
 
     //
 	// Características dessa janela..
 	//
 
-	//*full screen mode = modo tela cheia. 
+	//full screen mode = modo tela cheia. 
 	//( utiliza a resolução atual do dispositivo )
 	// deve ser a janela em primeiro plano. acima de todas as outras.
 	//mas podemos configurar para que uma jenela esteja em full screen 
 	//enquanto outra janela é a janela ativa e ainda outra tenha o foco de entrada.
 	//uma janela em modo full screen pode conter barras de rolagem.
-	//*embedded mode = dentro de uma janela ou de um navegador. 
+	//embedded mode = dentro de uma janela ou de um navegador. 
 
 
     // ATIVA OU NÃO.
     // unsigned long status;                
     
-    
     // Seu status de relacionamento com outras janelas.
     unsigned long relationship_status;   
     
-     
     //
     // z-order.
     //
@@ -833,8 +751,6 @@ struct gws_window_d
     // ?? again ??
     // Qual buffer dedicado a janela usa.
     // void *buffer;        
-
-
 
     // rects.
 
@@ -866,7 +782,6 @@ struct gws_window_d
     int LineArrayPointerY;      //em qual coluna o ponteiro está.
 
 
-
     // #importante
     // Estrutura de process e estrutura de thread
     // pertencem a api. Isso justifica a inclusão da api.
@@ -880,11 +795,9 @@ struct gws_window_d
     //  Process support. A que processo a janela pertence??
     //struct process_d *process;	
 
-
 	//
 	// Menus.
 	//
-
 
     // O menu para gerenciamento dessa janela se ela for overlapped.
     struct gws_window_d *menu_window;
@@ -963,28 +876,23 @@ struct gws_window_d
     struct gws_window_d  *next; 
 };
 
+// see: wm.c
 // Windows.
-
-struct gws_window_d  *__root_window; 
+extern struct gws_window_d  *__root_window; 
 // If the window server has a taskbar.
 // maybe we don't need that.
-struct gws_window_d  *__taskbar_window; 
-struct gws_window_d  *__taskbar_button; 
-
-struct gws_window_d  *keyboard_window;  // keyboard focus.
-struct gws_window_d  *mouse_window;     // ??
-
-struct gws_window_d  *cursor_window;  // Where cursor came from.
-struct gws_window_d  *button_window;  // Where button was pressed.
+extern struct gws_window_d  *__taskbar_window; 
+extern struct gws_window_d  *__taskbar_button; 
+extern struct gws_window_d  *keyboard_window;  // keyboard focus.
+extern struct gws_window_d  *mouse_window;     // ??
+extern struct gws_window_d  *cursor_window;  // Where cursor came from.
+extern struct gws_window_d  *button_window;  // Where button was pressed.
 // ...
-
 
 // #todo
 // We need to define the root window.
 // Maybe it will the the screen window.
 // Or each screen will have its own root window.
-
-
 
 //
 // == Window list =============================
@@ -994,9 +902,8 @@ struct gws_window_d  *button_window;  // Where button was pressed.
 // These indexes will be returned to the caller.
 
 #define WINDOW_COUNT_MAX 1024
-
-unsigned long windowList[WINDOW_COUNT_MAX];
-//unsigned long gwssrvWindowList[1024]
+// wm.c
+extern unsigned long windowList[WINDOW_COUNT_MAX];
 
 //
 // == z order list =============================
@@ -1011,14 +918,12 @@ unsigned long windowList[WINDOW_COUNT_MAX];
 #define BOTTOM_WINDOW 0
 // ...
 
-
-unsigned long zList[ZORDER_MAX];
+// wm.c
+extern unsigned long zList[ZORDER_MAX];
 
 //
 // ================================================================
 //
-
-
 
 // #test
 // Uma janela criada pelo kgws em ring0 será representada 
@@ -1050,7 +955,8 @@ struct gws_surface_d
     
     struct gws_surface_d *next;
 };
-struct gws_surface_d *rootSurface;
+// wm.c
+extern struct gws_surface_d *rootSurface;
 
 
 
@@ -1068,9 +974,7 @@ struct gws_surface_d *xxxCreateSurface(
 
 void wm_process_windows(void);
 
-
 void yellow_status( char *string );
-
 
 int 
 is_within ( 
@@ -1078,11 +982,8 @@ is_within (
     unsigned long x, 
     unsigned long y );
 
-
 //refaz zorder.
 void reset_zorder(void);
-
-
 
 void validate_window (struct gws_window_d *window);
 void invalidate_window (struct gws_window_d *window);
@@ -1101,10 +1002,8 @@ void *gws_draw_button (
     unsigned long height, 
     unsigned long color );
 
-
 int rect_validate_size( struct gws_rect_d *rect );
 int rect_validate_size2( struct gws_rect_d *rect );
-
 
 int 
 rect_contains_vertically ( 
@@ -1115,8 +1014,6 @@ int
 rect_contains_horizontally ( 
     struct gws_rect_d *rect,
     unsigned long x );
-
-
 
 void 
 rect_set_left ( 
@@ -1139,14 +1036,9 @@ rect_set_bottom (
     unsigned long value );
 
 
-
-
 int is_rect_null( struct gws_rect_d *rect );
-
 int is_rect_empty( struct gws_rect_d *rect );
-
 int is_rect_dirty( struct gws_rect_d *rect );
-
 
 void *rect_memcpy32 ( void *v_dst, const void *v_src, unsigned long c );
 
@@ -1176,16 +1068,12 @@ xxx_gws_refresh_rectangle (
     unsigned long width, 
     unsigned long height );
 
-
-
 void 
 gws_refresh_rectangle ( 
     unsigned long x, 
     unsigned long y, 
     unsigned long width, 
     unsigned long height );
-
-
 
 void 
 rectBackbufferDrawRectangle ( 
@@ -1247,12 +1135,9 @@ void *xxxCreateSurfaceWindow(
     unsigned long clientcolor, //11, Cor da área de cliente
     unsigned long color );      //12, Color (bg) (para janela simples).
 
-
-
 void demoTerry(void);
 
 struct gws_window_d *createwCreateRootWindow(void);
-
 
 // #important: 
 // O frame de uma janela deve fazer parte do window manager
@@ -1303,8 +1188,6 @@ void *createwCreateWindow (
     int desktopid, 
     unsigned long clientcolor, 
     unsigned long color ); 
-
-
 
 void 
 dtextDrawString ( 
@@ -1360,7 +1243,6 @@ void gwsWindowUnlock (struct gws_window_d *window);
 int gwsDefineInitialRootWindow ( struct gws_window_d *window );
 
 int gwssrv_init_windows(void);
-
 
 
 #endif    

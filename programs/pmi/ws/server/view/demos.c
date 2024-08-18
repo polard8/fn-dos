@@ -7,6 +7,10 @@
 int gUseDemos = TRUE;
 
 
+struct cat_model_d  CatModel;
+
+
+
 void demoClear(void)
 {
     // #todo

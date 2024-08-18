@@ -11,6 +11,11 @@
 #include <gws.h>
 
 
+
+struct gr_camera_d *CurrentCamera;
+struct gr_projection_d *CurrentProjection;
+
+
 // See:
 // https://wiki.osdev.org/3D_Renderer_Basics
 // http://members.chello.at/easyfilter/bresenham.html

@@ -1,4 +1,7 @@
 
+#ifndef __SERVICES_H
+#define __SERVICES_H    1
+
 // Pixel
 int servicepixelBackBufferPutpixel (void);
 
@@ -24,8 +27,6 @@ int serviceRefreshWindow(void);
 // Button
 int serviceDrawButton (void); 
 
-
-
 // When a client send us an event
 int serviceClientEvent(void);
 
@@ -35,5 +36,5 @@ int serviceNextEvent(void);
 int serviceAsyncCommand (void);
 
 
-
+#endif   
 

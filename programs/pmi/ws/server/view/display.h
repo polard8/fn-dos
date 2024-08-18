@@ -59,7 +59,8 @@ struct gws_display_d
 
     struct gws_display_d *next;
 };
-struct gws_display_d *CurrentDisplay;
+//see: main.c
+extern struct gws_display_d *CurrentDisplay;
 
 
 //#todo

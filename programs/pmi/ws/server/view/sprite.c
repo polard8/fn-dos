@@ -4,6 +4,9 @@
 #include <gws.h>
 
 
+// Sprite list.
+unsigned long spriteList[SPRITE_MAX_NUMBER];
+
 
 /*
 // #todo

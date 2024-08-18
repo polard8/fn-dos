@@ -1,4 +1,6 @@
 
+#ifndef __DS_PACKET_H
+#define __DS_PACKET_H    1
 
  // Socket packets.
  // Usados na troca de mensgens via socket.
@@ -33,6 +35,6 @@
 #define SERVER_PACKET_TYPE_DISCONNECT 1004
 
 
+#endif  
 
 
- 

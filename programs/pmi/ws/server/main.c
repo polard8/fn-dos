@@ -59,6 +59,80 @@ See: https://wiki.osdev.org/Graphics_stack
 #define VERSION_MINOR  1
 
 
+// globals.h
+struct gws_color_scheme_d* GWSCurrentColorScheme;
+struct gws_color_scheme_d* GWSHumilityColorScheme; // Simples.
+struct gws_color_scheme_d* GWSPrideColorScheme;    // Colorido.
+
+// globals.h
+unsigned long  ____BACKBUFFER_VA=0;
+unsigned long  ____FRONTBUFFER_VA=0;
+
+// globals.h
+// Saving
+unsigned long SavedBootBlock=0;
+unsigned long SavedLFB=0;   // #bugbug? VA ?
+unsigned long SavedX=0;
+unsigned long SavedY=0;
+unsigned long SavedBPP=0; 
+
+// globals.h
+// helper.
+unsigned long __device_width=0;
+unsigned long __device_height=0;
+unsigned long __device_bpp=0;
+
+// globals.h
+unsigned long fps=0;
+unsigned long frames_count=0;
+unsigned long screens[MAX_SCREENS];
+
+// globals.h
+int use_vsync=0;
+
+
+
+
+int current_mode=0;
+
+// see: display.h
+struct gws_display_d *CurrentDisplay;
+
+
+struct gws_graphics_d *Currentgraphics;
+struct engine_d Engine;
+// GWS - Gramado Window Server
+struct gws_d *gws;
+
+
+char __buffer[MSG_BUFFER_SIZE];
+unsigned long next_response[32];
+
+// see: event;h
+struct gws_event_d gwsEvent;
+struct gws_event_d *gwsCurrentEvent;
+
+// see: gui.h
+struct gui_d *gui;
+
+// security.h
+struct gwssrv_usession_d *CurrentUserSession;
+struct gwssrc_room_d *CurrentRoom;
+struct gwssrc_desktop_d *CurrentDesktop;
+
+//screen.h
+int refresh_device_screen_flag=0;
+int refresh_valid_screen_flag=0;
+
+//screen.h
+// The device screen.
+// The refresh is called by refresh_device_screen();
+// It is called explicit by the app.
+struct gws_screen_d *DeviceScreen;
+
+
+
+
 //
 // == Gramado Network Protocol ===============================
 //

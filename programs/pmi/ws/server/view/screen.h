@@ -3,13 +3,12 @@
 #define ____SCREEN_H    1
 
 
-
-int refresh_device_screen_flag;
-int refresh_valid_screen_flag;
+// see: main.c
+extern int refresh_device_screen_flag;
+extern int refresh_valid_screen_flag;
 
 struct gws_screen_d
 {
-
     int id;
     int used;
     int magic;
@@ -48,18 +47,17 @@ struct gws_screen_d
     struct gws_window_d *root;
 };
 
-
+// See: main.c
 // The device screen.
 // The refresh is called by refresh_device_screen();
 // It is called explicit by the app.
-struct gws_screen_d *DeviceScreen;
+extern struct gws_screen_d *DeviceScreen;
 
 
 
 //
 // == prototypes ================================
 //
-
 
 // Refresh the device screen
 void refresh_screen(void);
@@ -70,16 +68,5 @@ void refresh_device_screen(void);
 // Refresh the valid screen
 void refresh_valid_screen(void);
 
-
 #endif    
-
-
-
-
-
-
-
-
-
-
 

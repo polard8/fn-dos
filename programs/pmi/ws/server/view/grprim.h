@@ -123,8 +123,7 @@ struct gr_camera_d
     // Next node in the linked list.
     //struct gr_camera_d *next;
 };
-
-struct gr_camera_d *CurrentCamera;
+extern struct gr_camera_d *CurrentCamera;
 
 
 // ??
@@ -171,8 +170,7 @@ struct gr_projection_d
 
     // talvez precisamos aqui uma matrix de transformaçao.
 };
-
-struct gr_projection_d *CurrentProjection;
+extern struct gr_projection_d *CurrentProjection;
 
 
 // The Perspective Calculation
@@ -212,6 +210,23 @@ struct gr_bitmap_d
 
 
 
+#define grMIN2(a, b)  (((a) < (b)) ? (a) : (b))
+#define grMAX2(a, b)  (((a) > (b)) ? (a) : (b))
+
+#define grMIN3(x,y,z)     (x < y  ? (x < z ? x : z) : (y < z ? y : z))
+#define grMAX3(x,y,z)     ( (x>y) ? ((x>z)?x:z)     : ((y>z)?y:z) )
+
+/*
+#define MIN2(v0,v1) ((v0<v1)?v0:v1)
+#define MAX2(v0,v1) ((v0>v1)?v0:v1)
+#define MIN3(v0,v1,v2) ((v0<v1)?((v0<v2)?v0:v2):((v1<v2)?v1:v2))
+#define MAX3(v0,v1,v2) ((v0>v1)?((v0>v2)?v0:v2):((v1>v2)?v1:v2))
+*/
+
+
+// define CLAMP(x, low, high)  (((x) > (high)) ? (high) : (((x) < (low)) ? (low) : (x)))
+
+
 //
 // ===========================================
 //
@@ -225,6 +240,12 @@ static int projection4x4[4][4] = {
         {1,1,0,0}
         };
 
+
+
+//
+// ===========================================================
+//
+
  
 void multiply4 (int mat1[][4], int mat2[][4], int res[][4]);
 
@@ -237,33 +258,6 @@ multiplyMatrices (
     int r1, int c1,   // rows and columns for the first matrix
     int r2, int c2,   // rows and columns for the second matrix
     int rr, int cr );
-
-
-
-
-//
-// ===========================================================
-//
-
-
-#define grMIN2(a, b)  (((a) < (b)) ? (a) : (b))
-#define grMAX2(a, b)  (((a) > (b)) ? (a) : (b))
-
-#define grMIN3(x,y,z)     (x < y  ? (x < z ? x : z) : (y < z ? y : z))
-#define grMAX3(x,y,z)     ( (x>y) ? ((x>z)?x:z)     : ((y>z)?y:z) )
-
-
-/*
-#define MIN2(v0,v1) ((v0<v1)?v0:v1)
-#define MAX2(v0,v1) ((v0>v1)?v0:v1)
-#define MIN3(v0,v1,v2) ((v0<v1)?((v0<v2)?v0:v2):((v1<v2)?v1:v2))
-#define MAX3(v0,v1,v2) ((v0>v1)?((v0>v2)?v0:v2):((v1>v2)?v1:v2))
-*/
-
-
-// define CLAMP(x, low, high)  (((x) > (high)) ? (high) : (((x) < (low)) ? (low) : (x)))
-
-int grInit(void);
 
 
 // Camera
@@ -467,6 +461,7 @@ void grDCColorChg (
     unsigned char subpixel_dst_color );  // dst_color=COLOR_TRANSPARENT )
 
 
+int grInit(void);
 
 
 #endif    

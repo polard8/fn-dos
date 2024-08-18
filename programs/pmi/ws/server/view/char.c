@@ -12,6 +12,12 @@
 #include <gws.h>
 
 
+// Draw char support
+int gcharWidth=0;
+int gcharHeight=0;
+
+
+
 // IN: left, right, top, bottom.
 void
 DrawBorder( 

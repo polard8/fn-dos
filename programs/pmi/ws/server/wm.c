@@ -1,20 +1,41 @@
-/*
- * File: window.c 
- * 
- *     Draw windows.
- * 
- * History:
- *     2020 - Create by Fred Nora.
- */
+// wm.c
+// Window manager embedded in 32bit display server.
+// 2020 - Created by Fred Nora.
 
 
 #include <gws.h>
 
 
+// see: window.h
+// Contagem de janelas existentes.
+// precisa ser inicializada.
+unsigned long windows_count=0;
+int active_window=0;
+int window_with_focus=0;
+int top_window=0;
+int show_fps_window=0;
 
-//#todo
-//GetWindowRect
-//GetClientRect
+// see: window.h
+// Windows.
+struct gws_window_d  *__root_window; 
+// If the window server has a taskbar.
+// maybe we don't need that.
+struct gws_window_d  *__taskbar_window; 
+struct gws_window_d  *__taskbar_button; 
+struct gws_window_d  *keyboard_window;  // keyboard focus.
+struct gws_window_d  *mouse_window;     // ??
+struct gws_window_d  *cursor_window;  // Where cursor came from.
+struct gws_window_d  *button_window;  // Where button was pressed.
+// ...
+
+// window.h
+unsigned long windowList[WINDOW_COUNT_MAX];
+unsigned long zList[ZORDER_MAX];
+
+// window.h
+struct gws_surface_d *rootSurface;
+
+// ============================
 
 
 static unsigned long ____old_time=0;
