@@ -67,7 +67,7 @@
 #define LIBCORE_POOL_FOR_EVENTS  2
 
 //  The buffer for the event elements.
-unsigned long LibCoreEventBuffer[32];
+extern unsigned long LibCoreEventBuffer[32];
 
 // Get an event from the thread's event queue.
 // That old 'get system message'
@@ -94,24 +94,16 @@ int libcore_get_event (void);
 //
 
 typedef enum {
-
     GETPID_NULL,
     GETPID_WS,
     GETPID_WM
     //...
-
 }getpid_t;
-
-
-
- 
-
 
 
 // 
 //Interrupções. 
 //
-
 
 
 /*
@@ -391,8 +383,6 @@ typedef enum {
 
 // Select color scheme.
 #define  SYSTEMCALL_119  119
-
-
 
 
 // livres.
@@ -752,15 +742,12 @@ typedef enum {
 // 
 
 
-
-
 //
 // ====================================
 //
 
 
 /*
- ***********************************************
  * Messages.
  * mensagens para procedimentos de janelas e 
  * para diálogos dentro do gws.
@@ -896,9 +883,6 @@ typedef enum {
 //#define CMD_??? 1002
 //... 
  
-
-
-
 
 //
 // Process and threads priorities.
@@ -2306,7 +2290,7 @@ struct ApplicationInfo_d
     char *name;    //Name.
     //...
 };
-struct ApplicationInfo_d *ApplicationInfo;
+extern struct ApplicationInfo_d *ApplicationInfo;
 // 
 
 
@@ -2320,7 +2304,7 @@ struct buffer_info_d
     unsigned long address;
 	//...
 };
-struct buffer_info_d *BufferInfo;
+extern struct buffer_info_d *BufferInfo;
 //
 
 // Estruturas para recursos gráficos:
@@ -2337,7 +2321,7 @@ struct client_area_info_d
     struct rect_d *rect;
     int dummy;
 };
-struct client_area_info_d *ClientAreaInfo;
+extern struct client_area_info_d *ClientAreaInfo;
 //
 
 
@@ -2351,17 +2335,15 @@ struct cursor_info_d
     unsigned long image_address;  //x.cur
 	//...
 };
-struct cursor_info_d *CursorInfo;
+extern struct cursor_info_d *CursorInfo;
 //
 
 
 /*
- **************************************************
  * rect_d:
  *     Estrutura para gerenciamento de retângulos.
  *     Um retângulo pertence à uma janela.
  */
-
 // #todo
 // Usar isso para lidar com dirty rectangles.
 
@@ -2403,8 +2385,6 @@ struct rect_d
 	
     struct rect_d *next;
 };
-//struct rect_d *rect;
-
 
 //
 // == Window support ===================================
@@ -2424,13 +2404,10 @@ struct window_info_d
 
 
 /*
- ****************************************
  * window_d:
- *
  * History:
  *     2015 - Created by Fred Nora.
  */
-
 // Uma estrutura opaca,
 // usada apenas para guardar o ponteiro 
 // para a estrutura que fica dentro do kernel.
@@ -2438,23 +2415,20 @@ struct window_info_d
 // deveremos chamar uma rotina que pegue as informações 
 // com o kernel e coloque elas na estrutura window_info_d
 // criada logo acima.
- 
 struct window_d
 {
     //struct window_info_d *window_info;
     int this_is_a_opaque_structure;
 };
-
 // #todo:
 // Set this in the library's initialization routine.
-struct window_d  *libcoreCurrentRootWindow;
+extern struct window_d  *libcoreCurrentRootWindow;
 //...
 
 
 /*
  * semaphore_d:
  *     Estrutura para criação de um semáforo.        
- *
  *     Pode-se criar vários semáforos. Cada semáforo é usado para
  * controlar o fluxo em um determinado recurso.
  *  Obs: 
@@ -2477,12 +2451,10 @@ struct semaphore_d
     unsigned int count;
 
     //...
-
     struct d_wait_queue *sema_wait; 
-    
     // ...
 };
-struct semaphore_d *current_semaphore;
+extern struct semaphore_d *current_semaphore;
 // ...
 
 
@@ -2529,12 +2501,9 @@ struct bmp_infoheader_d
 };
  
 
- 
- /*
- ***************************************************
+/*
  * timer_d:
  * Estrutura do objeto timer que será usado pelos aplicativos.
- * 
  * Precisamos identificar quem está usando para podermos enviar 
  * mensagem para quem possui o timer.
  */
@@ -2545,9 +2514,7 @@ struct timer_d
     object_type_t  objectType;
     object_class_t objectClass;
 
-
     int id;
-
     int used;
     int magic;
 
@@ -2558,7 +2525,6 @@ struct timer_d
     struct process_d  *process;
     struct thread_d   *thread;
     struct window_d   *window;
-
 
     int count_down;     //--
     int initial_count_down; //base fixa
@@ -2585,16 +2551,13 @@ struct timer_d
 // Execute a command.
 int gde_system (const char *command);
 
-
 /*
- *************************************************
  * system_call: 
  *     Interrupção de sistema, número 0x80, 
  * pode chamar vários serviços do kernel com a 
  * mesma interrupção. O número do serviço é passado via 
  * argumento.
  *     Essa é a chamada mais simples.
- *
  * Argumentos:
  *    eax = arg1, o Número do serviço.
  *    ebx = arg2. 
@@ -2608,9 +2571,7 @@ void *system_call (
     unsigned long cx, 
     unsigned long dx );
 
-
 /*
- ******************************************************
  * gde_system_procedure:
  *     Chama o procedimento de janela padrão do sistema.
  *     Ele está no kernel.
@@ -2621,7 +2582,6 @@ void *gde_system_procedure (
     int msg,
     unsigned long long1,
     unsigned long long2 );
- 
  
 //Carrega bitmap 16x16.
 void 
@@ -2653,9 +2613,7 @@ int gde_dialog_box ( int type, char *string1, char *string2 );
 // ## Window support ##
 //
 
-
 /*
- **********************************************************
  * gde_create_window: 
  *     Cria uma janela com base em uma struct.
  *     Retorna o endereço da estrutura da janela criada. 
@@ -2702,7 +2660,6 @@ int gde_close_window (struct window_d *window);
 
 // Set Focus.
 int gde_set_focus (struct window_d *window);
-
 
 // Get Focus.
 // Get the pointer for the window with focus.
@@ -2794,7 +2751,6 @@ int gde_strncmp (char *s1, char *s2, int len);
 
 
 /*
- ***************************************
  * gde_print_string:
  *     int 0x80 - serviço 10.
  */
@@ -2813,8 +2769,6 @@ gde_print_string (
 
 //int 0x80 - serviços - 1,2,3,4,5,6,7,8,9.
 void gde_refresh_buffer (unsigned long n);
-
-
 
 //
 // Screen support.
@@ -2836,7 +2790,6 @@ void gde_reboot (void);
 void gde_shutdown (void);
 
 
-
 //
 // Cursor support.
 //
@@ -2848,7 +2801,6 @@ unsigned long gde_get_cursor_y(void);
 
 // set cursor.
 int __gde_set_cursor (unsigned long x, unsigned long y);
-
 
 
 //
@@ -2900,7 +2852,6 @@ void *gde_fopen (const char *filename, const char *mode);
 
 
 /*
- **********************************************
  * gde_save_file:
  *     Salva um arquivo no diretório raiz do volume de boot.
  */
@@ -2918,9 +2869,7 @@ gde_save_file (
 
 int gde_test_save_file(char *file_name);
 
-
 int gde_create_empty_file (char *file_name);
-
 int gde_create_empty_directory (char *dir_name);
 
 //
@@ -2953,12 +2902,9 @@ void gde_end_paint (void);
 
 // ====================
 
-
 /*
- ***********************************************
  * gde_def_dialog:
  *     Simply default procedute call.
- * 
  *     It will call the kernel window procedure ...
  *     #bugbug: In some cases this procedure will run for 
  * the second time.
@@ -2983,10 +2929,7 @@ unsigned long gde_get_system_metrics ( int index );
 // ?? what ?
 int gde_dialog ( const char *string );
 
-
-
 // bmp
-
 int 
 gde_display_bmp ( 
     char *address, 
@@ -3154,11 +3097,8 @@ int gde_clone_and_execute ( char *name );
 
 // ============================================================
 
-
 /*
- *************************************************************
  * gde_setup_net_buffer: 
- * 
  */
 
 // #todo

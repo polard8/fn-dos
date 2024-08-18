@@ -1,21 +1,15 @@
 /*
  * File: globals.h
- * 
  * Global variables.
- *
  * History:
  *     2018 - Created by Fred Nora.
  */
 
-
 #ifndef __GLOBALS_H 
 #define __GLOBALS_H 1
 
-
-
 #define GDESHELL_CLIENTWINDOW_COLOR  xCOLOR_GRAY1
 #define GDESHELL_WINDOW_COLOR        xCOLOR_GRAY1
-
 
 //"global command" stuff 
 #define glob_percent_sign '%' 
@@ -27,8 +21,7 @@
 #define glob_number_sign '#'
 #define glob_question_mark '?'
 //... 
- 
- 
+
 #define SHELL_TERMINAL_COLOR 0
 #define SHELL_TERMINAL_COLOR2 0x303030
 //...
@@ -118,8 +111,7 @@ struct line_d
 #define LINE_COUNT_MAX 2048
 
 //Conterá ponteiros para estruturas de linha.
-unsigned long lineList[LINE_COUNT_MAX];
-
+extern unsigned long lineList[LINE_COUNT_MAX];
 
 //
 // Estrutura de suporte ao screen buffer.
@@ -136,7 +128,6 @@ struct screen_buffer_d
 	char *name;
 	char *description;
 	
-		
     //
     // Current line support.
     //
@@ -153,7 +144,6 @@ struct screen_buffer_d
 	struct line_d *last_line;
 	//...
 	
-	
 	//Continua ...
 	
 	//Número total de linhas no buffer.
@@ -162,75 +152,70 @@ struct screen_buffer_d
 	struct screen_buffer_d *next;
 };
 
-
 #define SCREENBUFFER_COUNT_MAX 8
 
 //Conterá ponteiros para estruturas de linha.
-unsigned long screenbufferList[8];
+extern unsigned long screenbufferList[8];
 
 
 //
 // ## System Metrics ##
 //
 
-unsigned long smScreenWidth;                   //1 
-unsigned long smScreenHeight;                  //2
-unsigned long smCursorWidth;         //3
-unsigned long smCursorHeight;        //4
-unsigned long smMousePointerWidth;   //5
-unsigned long smMousePointerHeight;  //6
-unsigned long smCharWidth;           //7
-unsigned long smCharHeight;          //8
+extern unsigned long smScreenWidth;                   //1 
+extern unsigned long smScreenHeight;                  //2
+extern unsigned long smCursorWidth;         //3
+extern unsigned long smCursorHeight;        //4
+extern unsigned long smMousePointerWidth;   //5
+extern unsigned long smMousePointerHeight;  //6
+extern unsigned long smCharWidth;           //7
+extern unsigned long smCharHeight;          //8
 //...
 
-
 // Window server info.
-unsigned long sm_ws_type;             //200
-unsigned long sm_ws_pid;              //201
-unsigned long sm_ws_virtual_console;  //202
-unsigned long sm_ws_initialized;      //203
-
+extern unsigned long sm_ws_type;             //200
+extern unsigned long sm_ws_pid;              //201
+extern unsigned long sm_ws_virtual_console;  //202
+extern unsigned long sm_ws_initialized;      //203
 
 //
 // ## Window limits ##
 //
 
 //full screen support
-unsigned long wlFullScreenLeft;
-unsigned long wlFullScreenTop;
-unsigned long wlFullScreenWidth;
-unsigned long wlFullScreenHeight;
+extern unsigned long wlFullScreenLeft;
+extern unsigned long wlFullScreenTop;
+extern unsigned long wlFullScreenWidth;
+extern unsigned long wlFullScreenHeight;
 
 //limite de tamanho da janela.
-unsigned long wlMinWindowWidth;
-unsigned long wlMinWindowHeight;
-unsigned long wlMaxWindowWidth;
-unsigned long wlMaxWindowHeight;
+extern unsigned long wlMinWindowWidth;
+extern unsigned long wlMinWindowHeight;
+extern unsigned long wlMaxWindowWidth;
+extern unsigned long wlMaxWindowHeight;
 
 //quantidade de linhas e colunas na área de cliente.
-int wlMinColumns;
-int wlMinRows;
-int wlMaxColumns;
-int wlMaxRows;
+extern int wlMinColumns;
+extern int wlMinRows;
+extern int wlMaxColumns;
+extern int wlMaxRows;
 
 
 //
 //  ## Window size ##
 //
 
-unsigned long wsWindowWidth;
-unsigned long wsWindowHeight;
+extern unsigned long wsWindowWidth;
+extern unsigned long wsWindowHeight;
 //...
-
 
 //
 //  ## Window position ##
 //
 
-unsigned long wpWindowLeft;
-unsigned long wpWindowTop;
+extern unsigned long wpWindowLeft;
+extern unsigned long wpWindowTop;
 //..
-
 
 
 //
@@ -256,29 +241,26 @@ struct shell_line
 //ESSA É A PARTE DO TEXTO QUE PODERÁ SER MANIPULADA,
 //O RESTO DO TEXTO DEVERÁ FICAR ESPERANDO NO BUFFER.
 //#IMPORTANTE: 25 DESSAS 32 LINHAS SERÃO VISÍVEIS.
-struct shell_line LINES[32]; 
-
+extern struct shell_line  LINES[32]; 
 
 //#importante:
 //Linhas visíveis.
 //número da linha
 //isso será atualizado na hora do scroll.
-int textTopRow;  //Top nem sempre será '0'.
-int textBottomRow;
+extern int textTopRow;  //Top nem sempre será '0'.
+extern int textBottomRow;
 
 //linha e coluna atuais
-int textCurrentRow;
-int textCurrentCol;
+extern int textCurrentRow;
+extern int textCurrentCol;
 
-int textSavedRow;
-int textSavedCol;
+extern int textSavedRow;
+extern int textSavedCol;
 
-
-int textWheelDelta; //delta para rolagem do texto.
-int textMinWheelDelta;  //mínimo que se pode rolar o texto
-int textMaxWheelDelta;  //máximo que se pode rolar o texto
+extern int textWheelDelta; //delta para rolagem do texto.
+extern int textMinWheelDelta;  //mínimo que se pode rolar o texto
+extern int textMaxWheelDelta;  //máximo que se pode rolar o texto
 //...
-
 
 //
 // Buffer support.
@@ -296,10 +278,9 @@ int textMaxWheelDelta;  //máximo que se pode rolar o texto
 
 #define DEFAULT_BUFFER_MAX_COLUMNS 80
 #define DEFAULT_BUFFER_MAX_ROWS    25
-#define SCREEN_BUFFER_SIZE ( ((DEFAULT_BUFFER_MAX_COLUMNS*DEFAULT_BUFFER_MAX_ROWS)*2)+1)
+#define SCREEN_BUFFER_SIZE  \
+    ( ((DEFAULT_BUFFER_MAX_COLUMNS*DEFAULT_BUFFER_MAX_ROWS)*2)+1)
 
-
- 
 
 //
 //  ** SCREEN BUFFER ***
@@ -308,17 +289,13 @@ int textMaxWheelDelta;  //máximo que se pode rolar o texto
 //#bugbug: ALGUMAS AQUI NÃO SÃO MAIS USDAS. DELETAR !!!
 
 //O buffer
-char screen_buffer[SCREEN_BUFFER_SIZE]; 
-
+extern char screen_buffer[SCREEN_BUFFER_SIZE]; 
 //marcador do cursor.
-unsigned long screen_buffer_pos;    //(offset) 
-
-unsigned long screen_buffer_x;      //current col 
-unsigned long screen_buffer_y;      //current row
-
-static unsigned long screen_buffer_saved_x = 0;
-static unsigned long screen_buffer_saved_y = 0;
-
+extern unsigned long screen_buffer_pos;    //(offset) 
+extern unsigned long screen_buffer_x;      //current col 
+extern unsigned long screen_buffer_y;      //current row
+extern unsigned long screen_buffer_saved_x;
+extern unsigned long screen_buffer_saved_y;
 
 //...
 
@@ -331,13 +308,10 @@ static unsigned long screen_buffer_saved_y = 0;
 //
 // Colors
 // 
- 
-//cores do texto. 
-unsigned long backgroung_color;  //pano de fundo.
-unsigned long foregroung_color;  //texto.
 
+//cores do texto. 
+extern unsigned long backgroung_color;  //pano de fundo.
+extern unsigned long foregroung_color;  //texto.
 
 #endif    
-
-
 

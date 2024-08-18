@@ -13,6 +13,144 @@
 
 #include "gdeshell.h"
 
+// ========================================
+
+struct window_d *taskbarWindow; 
+struct window_d *menu_button;
+struct window_d *app1_button;
+struct window_d *app2_button;
+struct window_d *app3_button;
+struct window_d *app4_button;
+struct window_d *editboxWindow;  
+struct window_d *reboot_button;
+struct window_d *close_button;
+
+
+char pathname_buffer[PATHNAME_LENGHT];
+int pathname_lenght=0;              //tamanho do atual pathname.
+int pathname_initilized=0;
+
+char filename_buffer[FILENAME_LENGHT];
+int filename_lenght=0; //tamanho do nome de arquivo atual.
+int filename_initilized=0;
+
+int EOF_Reached=0;
+
+
+char *current_volume_string;
+int current_volume_id=0;
+
+int g_current_disk_id=0;
+int g_current_volume_id=0;
+int g_current_workingdirectory_id=0;
+
+char current_workingdiretory_string[WORKINGDIRECTORY_STRING_MAX];
+int pwd_initialized=0;
+
+
+struct _iobuf  *pwd; 
+struct _iobuf  *root;
+
+shell_hook_t *ShellHook; 
+shell_metrics_t *ShellMetrics;
+
+struct terminal_rect_info_d  terminal_rect; 
+
+struct shell_info_d  shell_info;
+
+COMMAND_T *CurrentCommand;  
+COMMANDHISTORY_T *CommandHistory;  
+
+
+//Conterá ponteiros para estruturas de linha.
+unsigned long lineList[LINE_COUNT_MAX];
+
+//Conterá ponteiros para estruturas de linha.
+unsigned long screenbufferList[8];
+
+unsigned long smScreenWidth=0;         //1 
+unsigned long smScreenHeight=0;        //2
+unsigned long smCursorWidth=0;         //3
+unsigned long smCursorHeight=0;        //4
+unsigned long smMousePointerWidth=0;   //5
+unsigned long smMousePointerHeight=0;  //6
+unsigned long smCharWidth=0;           //7
+unsigned long smCharHeight=0;          //8
+//...
+
+// Window server info.
+unsigned long sm_ws_type=0;             //200
+unsigned long sm_ws_pid=0;              //201
+unsigned long sm_ws_virtual_console=0;  //202
+unsigned long sm_ws_initialized=0;      //203
+
+
+//full screen support
+unsigned long wlFullScreenLeft=0;
+unsigned long wlFullScreenTop=0;
+unsigned long wlFullScreenWidth=0;
+unsigned long wlFullScreenHeight=0;
+
+//limite de tamanho da janela.
+unsigned long wlMinWindowWidth=0;
+unsigned long wlMinWindowHeight=0;
+unsigned long wlMaxWindowWidth=0;
+unsigned long wlMaxWindowHeight=0;
+
+//quantidade de linhas e colunas na área de cliente.
+int wlMinColumns=0;
+int wlMinRows=0;
+int wlMaxColumns=0;
+int wlMaxRows=0;
+
+unsigned long wsWindowWidth=0;
+unsigned long wsWindowHeight=0;
+
+unsigned long wpWindowLeft=0;
+unsigned long wpWindowTop=0;
+
+
+//PROVISÓRIO
+//O TEXTO TEM 32 LINHAS NO MÁXIMO.
+//ESSA É A PARTE DO TEXTO QUE PODERÁ SER MANIPULADA,
+//O RESTO DO TEXTO DEVERÁ FICAR ESPERANDO NO BUFFER.
+//#IMPORTANTE: 25 DESSAS 32 LINHAS SERÃO VISÍVEIS.
+struct shell_line  LINES[32]; 
+
+
+//#importante:
+//Linhas visíveis.
+//número da linha
+//isso será atualizado na hora do scroll.
+int textTopRow=0;  //Top nem sempre será '0'.
+int textBottomRow=0;
+
+//linha e coluna atuais
+int textCurrentRow=0;
+int textCurrentCol=0;
+
+int textSavedRow=0;
+int textSavedCol=0;
+
+
+int textWheelDelta=0; //delta para rolagem do texto.
+int textMinWheelDelta=0;  //mínimo que se pode rolar o texto
+int textMaxWheelDelta=0;  //máximo que se pode rolar o texto
+//...
+
+//O buffer
+char screen_buffer[SCREEN_BUFFER_SIZE]; 
+//marcador do cursor.
+unsigned long screen_buffer_pos=0;    //(offset) 
+unsigned long screen_buffer_x=0;      //current col 
+unsigned long screen_buffer_y=0;      //current row
+unsigned long screen_buffer_saved_x = 0;
+unsigned long screen_buffer_saved_y = 0;
+
+unsigned long backgroung_color=0;  //pano de fundo.
+unsigned long foregroung_color=0;  //texto.
+
+// ========================================
 
 char *gdeshell_name            = "GDESHELL.BIN";
 char *gdeshell_version_string  = "0.1";

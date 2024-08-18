@@ -1,12 +1,13 @@
 /*
 	<dir.h> 
 	-- definitions for 4.2BSD-compatible directory access
-
 	last edit:	09-Jul-1983	D A Gwyn
-	
     History:	
 	
 */
+
+#ifndef __GDESHELL_NDIR_H
+#define __GDESHELL_NDIR_H    1
 
 /*
 #ifdef VMS
@@ -22,6 +23,8 @@
 #include "dir.h"
 #endif //VMS
 */
+
+
 
 #define DIRBLKSIZ	512		/* size of directory block */
 
@@ -69,5 +72,8 @@ extern void		closedir();
 
 #define rewinddir( dirp )	seekdir( dirp, 0L )
 */
+
+#endif  
+
 
 

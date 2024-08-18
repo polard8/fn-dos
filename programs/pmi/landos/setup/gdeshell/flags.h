@@ -8,7 +8,9 @@
  Welcome to the world of Un*x, 
  where everything is slightly backwards. 
  */
- 
+
+#ifndef __GDESHELL_FLAGS_H
+#define __GDESHELL_FLAGS_H    1
  
 #define FLAG_ON '-'
 #define FLAG_OFF '+'
@@ -27,8 +29,6 @@ struct flags_alist_d
     int *value;
 };
 
-
-
 //extern struct flags_alist shell_flags[];
 
 /*
@@ -39,4 +39,7 @@ extern int
   echo_command_at_execute, lexical_scoping, no_invisible_vars,
   hashing_disabled, history_expansion, forced_interactive;
 */
+
+#endif   
+
 

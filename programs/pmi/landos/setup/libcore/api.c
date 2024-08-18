@@ -29,6 +29,18 @@
 
 #include "include/api.h"  
 
+// api.h
+unsigned long LibCoreEventBuffer[32];
+
+
+struct ApplicationInfo_d *ApplicationInfo;
+struct buffer_info_d *BufferInfo;
+struct client_area_info_d *ClientAreaInfo;
+struct cursor_info_d *CursorInfo;
+struct window_d  *libcoreCurrentRootWindow;
+struct semaphore_d *current_semaphore;
+
+
 
 
 // Buttons

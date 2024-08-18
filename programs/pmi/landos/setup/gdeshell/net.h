@@ -2,7 +2,6 @@
 // net.h
 // 
 
-
 #ifndef __NET_H
 #define __NET_H    1
 
@@ -15,7 +14,6 @@
 #define ETH_TYPE_IP     0x0800  
 #define ETH_TYPE_ARP    0x0806
 // ...
-
 
 // payload size
 // mtu ??
@@ -35,9 +33,7 @@
 #define FromNetByteOrder32(v) (((v >> 24) & 0xFF) | ((v << 8) & 0xFF0000) | ((v >> 8) & 0xFF00) | ((v << 24) & 0xFF000000))
 
 //extra
-#define gdeshell_FromNetByteOrder16(v) ((v >> 8) | (v << 8))
-
-
+#define gdeshell_FromNetByteOrder16(v)  ((v >> 8) | (v << 8))
 
 //
 // == Ethernet ==============================================
@@ -58,15 +54,13 @@ struct gdeshell_ether_header
 
 } __attribute__((packed)); 
 
-
-
 //
 // == ARP =================================================
 //
 
 
 // ARP header length
-#define ARP_HEADER_LENGHT 28      
+#define ARP_HEADER_LENGHT  28      
 
 // arp struct
 struct  gdeshell_ether_arp {
@@ -86,9 +80,6 @@ struct  gdeshell_ether_arp {
     uint8_t arp_tpa[4];    /* target protocol address ip*/
 
 } __attribute__((packed)); 
-
-
-
 
 //
 // == Prototypes ==============================================

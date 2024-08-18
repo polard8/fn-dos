@@ -1,11 +1,13 @@
 /* 
  File: variables.h 
      Data structures for shell variables. 
- 
  History:
     2018 - Ported from bash 1.05.
-	
  */
+
+
+#ifndef __GDESHELL_VARIABLES_H
+#define __GDESHELL_VARIABLES_H    1
 
 /* 
  What a shell variable looks like. 
@@ -74,11 +76,11 @@ struct variable_d
 #define array_p(var)     ((((var)->attributes) & (att_array)))
 
 // # function #
-#define function_p(var)  ((((var)->function) != (char *) NULL))
-#define function_cell(var) ((var)->function)
+#define function_p(var)     ((((var)->function) != (char *) NULL))
+#define function_cell(var)  ((var)->function)
 
 // # value #
-#define value_cell(var) ((var)->value)
+#define value_cell(var)  ((var)->value)
 
 
 
@@ -93,5 +95,5 @@ extern char **export_env;
 extern int variable_context;
 */
 
-
+#endif   
 
