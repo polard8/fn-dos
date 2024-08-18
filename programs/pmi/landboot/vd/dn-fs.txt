@@ -1,6 +1,0 @@
-
-	bootcode
-
-	todo: 
-	Create virtual disks for different file systems.
-	each virtual disk has a different boot code.

@@ -1,6 +1,0 @@
-	codename? - Gramado Network Server
-
-	gnssrv/client    -    GNS.BIN
-	gnssrv/server    -    GNSSRV.BIN
-
-
