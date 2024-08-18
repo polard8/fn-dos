@@ -47,12 +47,12 @@ struct gws_display_d
     struct gws_display_d *next;
 };
 
-
-//
+// gws.c
 // The current display
-//
+extern struct gws_display_d *libgwsCurrentDisplay;
 
-struct gws_display_d *libgwsCurrentDisplay;
+
+//=======================================
 
 int gws_set_current_display ( struct gws_display_d *display );
 

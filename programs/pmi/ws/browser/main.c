@@ -1,11 +1,6 @@
-/*
- * File: main.c
- *
- *     Client side application using gwssrv.
- *
- * 2020 - Created by Fred Nora.
- */
-
+// main.c
+// Browser client-side application
+// 2020 - Created by Fred Nora.
 
 // Connecting via AF_INET.
 
@@ -69,7 +64,9 @@
 // Tentando deixar o buffer aqui e aproveitar em mais funções.
 char __buffer[512];
 
-#define IP(a, b, c, d) (a << 24 | b << 16 | c << 8 | d)
+#define IP(a, b, c, d)  (a << 24 | b << 16 | c << 8 | d)
+
+
 
 
 // tipos de pacotes.

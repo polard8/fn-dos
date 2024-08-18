@@ -1,6 +1,5 @@
 /*
  * File: events.h
- * 
  *     Events support for libgws.
  *     This header should be included by including "gws.h".
  */
@@ -51,7 +50,8 @@ struct gws_event_d
     
     struct gws_event_d *next;
 };
-struct gws_event_d *CurrentEvent;
+// gws.c
+extern struct gws_event_d *CurrentEvent;
 
 #endif    
 

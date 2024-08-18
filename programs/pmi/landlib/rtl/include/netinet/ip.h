@@ -49,7 +49,7 @@ struct ip
     /* source and dest address */
     struct in_addr ip_src, ip_dst; 
 
-} __packed;
+} __attribute__((packed));
 
 #define IP_MAXPACKET	65535		/* maximum packet size */
 #define IP_MINFRAGSIZE	69		/* minumum size that can be fraged */

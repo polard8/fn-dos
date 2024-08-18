@@ -104,7 +104,7 @@ struct tcphdr {
     uint16_t th_sum;		/* checksum */
     uint16_t th_urp;		/* urgent pointer */
 
-} __packed;
+} __attribute__((packed));
 
 
 #define TCPOPT_EOL      0

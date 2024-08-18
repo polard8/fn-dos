@@ -53,8 +53,6 @@
 //#define	UDP_TOTAL_HEADER_SIZE (ETHERNET_HEADER_SIZE + IP_HEADER_SIZE + UDP_HEADER_SIZE)
 
 
-
-
 /*
  * Udp protocol header.
  * Per RFC 768, September, 1981.
@@ -62,13 +60,12 @@
 
 struct udphdr 
 {
-
     uint16_t uh_sport;		/* source port */
     uint16_t uh_dport;		/* destination port */
     uint16_t uh_ulen;		/* udp length */
     uint16_t uh_sum;		/* udp checksum */
 
-} __packed;
+} __attribute__((packed));
 
 
 

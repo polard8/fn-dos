@@ -1,7 +1,7 @@
-/*
- * File: socket.c
- *
- */
+// socket.c
+// ring3 libc socket support for 32bit fn-dos.
+// Created by Fred Nora.
+
 
 // See: 
 // http://man7.org/linux/man-pages/man2/socket.2.html
@@ -10,7 +10,6 @@
 #include <sys/types.h>  
 #include <sys/select.h>
 #include <sys/socket.h>
-
 
 
 //sortix style;

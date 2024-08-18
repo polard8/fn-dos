@@ -1,13 +1,6 @@
-/*
- * File: stdlib.c
- *
- *     Standard library.
- *
- * History:
- *     2016 - Created by Fred Nora.
- */
-
-
+// stdlib.c
+// Standard libc for 32bit fn-dos.
+// 2016 - Created by Fred Nora.
 
 #include <types.h> 
 #include <stddef.h>
@@ -24,22 +17,41 @@
 #include <rtl/gramado.h> 
  
  
- 
-
 // exit().
-#define  SYSTEMCALL_EXIT  70
+#define SYSTEMCALL_EXIT  70
 
 
-unsigned int randseed;
+// see: heap.h
+unsigned long HEAP_START=0; 
+unsigned long HEAP_END=0;
+unsigned long HEAP_SIZE=0;
+//@todo: padronizar 
+unsigned long heapCount=0;            //Conta os heaps da stdlib.
+unsigned long heap_start=0;    //Start.
+unsigned long heap_end=0;      //End.
+unsigned long g_heap_pointer=0;       //Pointer.
+unsigned long g_available_heap=0;     //Available. 
+
+// see: heap.h
+// Heap pointer:
+//     Isso deve apontar para o heap buffer atual. Quando acabar o heap atual
+// deve-se chamar o kernel para criar mais heap dentro da working set do processo.  
+void *Heap;    
+
+// see: heap.h
+struct heap_d *libcHeap;
+
+// see: heap.h
+//Heap list.
+unsigned long heapList[HEAP_COUNT_MAX];
 
 
+unsigned int randseed=0;
 
-//
+
 // -----------------
 // Começo do Heap support.
 // Na verdade é o gerenciamento de meória necessário para stdlib.c
-//
-
 
 // Variáveis internas. 
 unsigned long last_valid;         //Último heap pointer válido. 

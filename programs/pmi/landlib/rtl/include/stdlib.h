@@ -1,9 +1,9 @@
 /*
  * File: stdlib.h 
  *
- * Descrição:
+ * Descriï¿½ï¿½o:
  *     Parte da libC C99 para usermode 32bit.
- * Versão: 1.0, 2016 - Created.
+ * Versï¿½o: 1.0, 2016 - Created.
  */
 
  
@@ -17,42 +17,41 @@
     strtol	string para long int
     strtoul	string para unsigned long int
 
-	Geração de seqüência pseudo-aleatória
-    rand	gera um número inteiro pseudo aleatório
-    srand	seleciona a semente do gerador pseudo aleatório
+	Geraï¿½ï¿½o de seqï¿½ï¿½ncia pseudo-aleatï¿½ria
+    rand	gera um nï¿½mero inteiro pseudo aleatï¿½rio
+    srand	seleciona a semente do gerador pseudo aleatï¿½rio
     
-	Alocação e liberação de memória
+	Alocaï¿½ï¿½o e liberaï¿½ï¿½o de memï¿½ria
     malloc
     calloc
-    realloc	aloca memória do "heap"
-    free	libera memória de volta para o "heap"
+    realloc	aloca memï¿½ria do "heap"
+    free	libera memï¿½ria de volta para o "heap"
 
 	Controle de processos
-    abort	força o término da execução
-    atexit	registra uma função "callback" para saída do programa
-    exit	termina a execução do programa
-    getenv	obtém uma variável de ambiente
+    abort	forï¿½a o tï¿½rmino da execuï¿½ï¿½o
+    atexit	registra uma funï¿½ï¿½o "callback" para saï¿½da do programa
+    exit	termina a execuï¿½ï¿½o do programa
+    getenv	obtï¿½m uma variï¿½vel de ambiente
     system	executa um comando externo
 
 	Ordenamento e procura
-    bsearch	procura binária em "array"
+    bsearch	procura binï¿½ria em "array"
     qsort	ordena "array" segundo algoritmo Quick Sort
 
-	Matemática
+	Matemï¿½tica
     abs
     labs	valor absoluto
     div
-    ldiv	divisão inteira
+    ldiv	divisï¿½o inteira
    
 */   
 
 
 #ifndef _STDLIB_H
-#define _STDLIB_H 1
+#define _STDLIB_H  1
 
 
 #include <stddef.h>
-
 
 
 #ifdef	_BSD_SIZE_T_
@@ -110,6 +109,9 @@ typedef struct {
 //#define	MB_CUR_MAX	__mb_cur_max
 
 
+// ==============================================
+
+
 void *stdlib_system_call ( 
     unsigned long ax, 
     unsigned long bx, 
@@ -119,8 +121,6 @@ void *stdlib_system_call (
 
 const char	*getprogname(void);
 void setprogname(const char *progname);
-
-
 
 // pseudo-terminal support.
 int posix_openpt (int flags);
@@ -139,44 +139,27 @@ char *ptsname (int fd);
 // argument specifies the number of bytes available in buf.
 int ptsname_r (int fd, char *buf, size_t buflen);
 
-
-
 int mkostemps(char *template, int suffixlen, int flags);
-
 int mkstemps(char *template, int suffixlen);
-
 int mkostemp(char *template, int flags);
-
 int mkstemp(char *template);
 
 long labs (long j);
 
-
 int atoi (const char *str);
-
 void itoa (int n, char s[]);
-
-
-
 
 // unix v7 - like.
 char *nvmatch ( char *s1, char *s2 );
 char *v7_getenv ( char *name );
 
-
-
 //
 // environ
 //
 
-
 char *getenv (const char *name);
 int setenv (const char *name, const char *value, int overwrite);
 int unsetenv (const char *name);
-
-
-
-
 
 // mktemp - make a unique temporary filename
 //4.3BSD, POSIX.1-2001.  POSIX.1-2008 removes the specification of mktemp().
@@ -192,17 +175,12 @@ void *xmalloc ( size_t size );
 void *xmemdup (void const *p, size_t s);
 char *xstrdup(char const *string);
 
-
-
 void *calloc (size_t count, size_t size);
 void *xcalloc (size_t count, size_t size);
 void *xzalloc (size_t n);
 
 void *zmalloc ( size_t size );
-
-
 void *realloc ( void *start, size_t newsize );
-
 
 //
 // failure routines
@@ -211,29 +189,23 @@ void *realloc ( void *start, size_t newsize );
 void abort(void);
 void stdlib_die (char *str);
 
-
-
-
-
 /*
  * free:
- *     Libera a memória alocada por malloc. */
+ *     Libera a memï¿½ria alocada por malloc. */
 
 void free (void *ptr);
 
 //Returns a pseudo-random number in the range of 0 to RAND_MAX.
 int rand (void);
 
-//Alimenta a função rand.
+//Alimenta a funï¿½ï¿½o rand.
 void srand (unsigned int seed);
 
 
-//@todo: talvez essa função esteja declara erradamente em systemcall.
+//@todo: talvez essa funï¿½ï¿½o esteja declara erradamente em systemcall.
 //Obs: Essa rotina existe na API e funciona. Se ela faz parte da lib C
-// então ela deve sair de lá vir pra cá.
+// entï¿½o ela deve sair de lï¿½ vir pra cï¿½.
 int system (const char *command);
-
-
 
 //=================================
 
@@ -281,12 +253,11 @@ qsort_r (
 
 int putenv(char *string);
 
-
 int abs( int j);
 
 
 //rt support
-//pegando informações sobre o heap usado pela biblioteca C99 em user mode.
+//pegando informaï¿½ï¿½es sobre o heap usado pela biblioteca C99 em user mode.
 unsigned long rtGetHeapStart(void);
 unsigned long rtGetHeapEnd(void);
 unsigned long rtGetHeapPointer(void);
@@ -296,11 +267,11 @@ unsigned long rtGetAvailableHeap(void);
 
 /*
  * libcInitRT:
- *     Inicializa o gerenciamento em user mode de memória virtual
+ *     Inicializa o gerenciamento em user mode de memï¿½ria virtual
  * para a biblioteca libC99.
  * Obs: *IMPORTANTE: Essa rotina deve ser chamada entes que a biblioteca C 
  * seja usada.
- * Obs: Pode haver uma chamada à ela em crt0.s por exemplo.
+ * Obs: Pode haver uma chamada ï¿½ ela em crt0.s por exemplo.
  */
 int libcInitRT(void);
 

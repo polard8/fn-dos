@@ -37,6 +37,14 @@
 #include "include/connect.h"  
 #include "include/gws.h"  
 
+// gws.h
+struct libgws_version_d  libgwsVersion;
+
+// display.h
+struct gws_display_d *libgwsCurrentDisplay;
+
+// events.h
+struct gws_event_d *CurrentEvent;
 
 
 // #todo

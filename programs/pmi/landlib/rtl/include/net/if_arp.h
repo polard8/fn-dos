@@ -96,7 +96,7 @@ struct arphdr
 	uint8_t  ar_tpa[];	/* target protocol address */
 #endif
 
-} __packed;
+} __attribute__((packed));
 
 
 

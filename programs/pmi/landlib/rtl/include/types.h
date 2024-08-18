@@ -9,7 +9,9 @@
  *     2015 - Created by Fred Nora.
  */
 
- 
+#ifndef __RTL_TYPES_H
+#define __RTL_TYPES_H    1
+
 #define TRUE 1
 #define FALSE 0
 #define NULL ((void *)0)
@@ -79,6 +81,8 @@ typedef unsigned int        u32;
 #define __aligned(x)    __attribute__((aligned(x)))
 #define __optional      __attribute__((weak))
 
+
+#endif   
 
 
 //

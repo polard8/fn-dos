@@ -1,4 +1,3 @@
-# terminal
 
 #history:
 #2019 - Created by Fred Nora.
@@ -40,9 +39,9 @@ LIBGWS    = ../libgws/include/
 LIBGWSOBJ = ../libgws/obj
 
 
-	##
-	## Objects
-	##
+#
+# Objects
+#
 
 myObjects = crt0.o main.o rtl.o \
 ctype.o stdio.o fcntl.o stdlib.o string.o \

@@ -206,7 +206,7 @@ typedef __sa_family_t  sa_family_t;
 // Internet address (a structure for historical reasons)
 struct in_addr {
     in_addr_t s_addr;    /* address in network byte order */
-} __packed;
+} __attribute__((packed));
 
 // sockaddr_in:
 //     Socket address, internet style.

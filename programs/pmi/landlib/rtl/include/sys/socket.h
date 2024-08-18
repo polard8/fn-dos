@@ -1,20 +1,16 @@
-/*
- * File: sys/socket.h
- * 
- *     libc03.
- */
+// sys/socket.h
+// ring3 libc socket support for 32bit fn-dos.
+// Created by Fred Nora.
 
 
 #ifndef _SOCKET_H
-#define _SOCKET_H
-
+#define _SOCKET_H  1
 
 #include <stddef.h>
 #include <netinet/in.h>  
 
-
 /* 
- *  ** Sock types  ** 
+ * Sock types
  */
  
 /*
@@ -47,7 +43,7 @@
 // ...
 #define SOCK_PACKET       10    /* linux specified 		    */
 #define SOCK_GRAMADO_MSG  8000  /* window, msg, long1, long2 */
-#define SOCK_MAX            (SOCK_GRAMADO_MSG+1)
+#define SOCK_MAX          (SOCK_GRAMADO_MSG+1)
 
 
 //=========
@@ -91,10 +87,8 @@
 
 /*
  * Definitions for network related sysctl, CTL_NET.
- *
  * Second level is protocol family.
  * Third level is protocol number.
- *
  * Further levels are defined by the individual families below.
  */
 #define NET_MAXID	AF_MAX
@@ -140,11 +134,9 @@
 #define PF_MAX      AF_MAX
 
 
-
 /* Maximum queue length specifiable by listen().  */
 //#define SOMAXCONN	128
 #define SOMAXCONN    32
-
 
 
 /* Flags we can use with send/ and recv. 
@@ -174,8 +166,6 @@
 #else
 #define MSG_CMSG_COMPAT  0           /* We never have 32 bit fixups */
 #endif
-
-
 
 /* Setsockoptions(2) level. Thanks to BSD these must match IPPROTO_xxx */
 #define SOL_IP		0
@@ -271,12 +261,12 @@
 //#define  INADDR_BROADCAST  (unsigned long) 0xffffffff  
 
 
-
 /* 
  * Read using getsockopt() with SOL_SOCKET, SO_PEERCRED 
  */
 
-struct sockpeercred {
+struct sockpeercred 
+{
     uid_t  uid;    /* effective user id */
     gid_t  gid;    /* effective group id */
     pid_t  pid;
@@ -290,25 +280,22 @@ struct sockpeercred {
 */
 
 
-typedef unsigned socklen_t;
+typedef unsigned  socklen_t;
 
 
 /* Device structure */
 
-typedef struct socket_context {
-
+typedef struct socket_context 
+{
     struct socket_context *next, *prev;
-
     unsigned fd;
     int family;
     int type;
     int protocol;
-
 } socket_t;
 
-
 // not bsd.
-struct sockaddr{
+struct sockaddr {
     //unsigned char   sa_len;
     unsigned short  sa_family;
     char            sa_data[14];
@@ -326,16 +313,11 @@ struct sockproto {
     unsigned short sp_protocol;  // protocol 
 };
 
-
-
 typedef struct
 {
     char     *h_addr;
     unsigned  h_length;
-
 }hostent;
-
-
 
 
 /*
@@ -367,10 +349,9 @@ struct msghdr
 };
 
 
-
-
-//=========
-
+//
+// ==============================================================
+//
 
 // socket
 //socket -	create an endpoint for communication
@@ -411,8 +392,6 @@ bind (
 // The  listen()  function	call first appeared in 4.2BSD.
 int listen (int sockfd, int backlog);
 
-
-
 int accept4 (int sockfd, struct sockaddr *addr, socklen_t *addrlen, int flags);
 
 // alternative way
@@ -439,7 +418,6 @@ connect (
 //POSIX.1-2001, 
 //4.4BSD (the shutdown() function call  first  appeared  in 4.2BSD).
 int shutdown ( int sockfd, int how );
-
 
 
 //send
@@ -491,7 +469,6 @@ getpeername (
     socklen_t *addrlen );
 
 
-
 int getsockopt (int sockfd, int level, int optname, void *optval, socklen_t *optlen); 
 int setsockopt (int sockfd, int level, int optname, const void *optval, socklen_t optlen);
 int sendfd(int sockfd, int fd);
@@ -511,7 +488,6 @@ struct hostent *gethostbyaddr(
 */
 
 
-
 //
 // =========
 //
@@ -520,14 +496,12 @@ struct hostent *gethostbyaddr(
 int inet_aton(const char *cp, struct in_addr *inp);
 in_addr_t inet_addr(const char *cp);
 
-
 in_addr_t inet_network(const char *cp);
 
 char *inet_ntoa ( struct in_addr in );
 
 struct in_addr
 inet_makeaddr(in_addr_t net, in_addr_t host);
-
 
 in_addr_t
 inet_lnaof(struct in_addr in);

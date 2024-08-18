@@ -1,4 +1,8 @@
+// packet.h
+// Created by Fred Nora.
 
+#ifndef __BROWSER_PACKET_H
+#define __BROWSER_PACKET_H    1
 
  // Socket packets.
  // Usados na troca de mensgens via socket.
@@ -31,7 +35,6 @@
 #define SERVER_PACKET_TYPE_EVENT      1002
 #define SERVER_PACKET_TYPE_ERROR      1003
 
+#endif   
 
 
-
- 

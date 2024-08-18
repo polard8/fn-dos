@@ -1,12 +1,12 @@
 /*
  * File: heap.h
  *
- * Descrição:
- *     O propósito desse header é dar suporte ao gerenciamento de
- * do heap que será usado para a alocação de memória para um programa
+ * Descriï¿½ï¿½o:
+ *     O propï¿½sito desse header ï¿½ dar suporte ao gerenciamento de
+ * do heap que serï¿½ usado para a alocaï¿½ï¿½o de memï¿½ria para um programa
  * em user mode. 
  *     Um suporte oferecido pela biblioteca libC99.
- *     Obs: O kernel poderá usar tanto o heap do processo quanto o heap 
+ *     Obs: O kernel poderï¿½ usar tanto o heap do processo quanto o heap 
  * do desktop ao qual o processo pertence.
  * 
  * History:
@@ -21,39 +21,32 @@
 //Contagem de heap.
 #define HEAP_COUNT_MAX  256 
 
-
-unsigned long HEAP_START; 
-unsigned long HEAP_END;
-unsigned long HEAP_SIZE;
- 
+// see: stdlib.c
+extern unsigned long HEAP_START; 
+extern unsigned long HEAP_END;
+extern unsigned long HEAP_SIZE;
 //@todo: padronizar 
-unsigned long heapCount;            //Conta os heaps da stdlib.
+extern unsigned long heapCount;            //Conta os heaps da stdlib.
+extern unsigned long heap_start;    //Start.
+extern unsigned long heap_end;      //End.
+extern unsigned long g_heap_pointer;       //Pointer.
+extern unsigned long g_available_heap;     //Available. 
 
-unsigned long heap_start;    //Start.
-unsigned long heap_end;      //End.
 
-unsigned long g_heap_pointer;       //Pointer.
-unsigned long g_available_heap;     //Available. 
- 
- 
-// 
+// see: stdlib.c
 // Heap pointer:
 //     Isso deve apontar para o heap buffer atual. Quando acabar o heap atual
-// deve-se chamar o kernel para criar mais heap dentro da working set do processo. 
-//
- 
-void *Heap;    
+// deve-se chamar o kernel para criar mais heap dentro da working set do processo.  
+extern void *Heap;
 
 
 //
 // *** HEAP ***
 //
 
-#define HEAP_BUFFER_SIZE (32*1024)  // 32KB, provisório.
+#define HEAP_BUFFER_SIZE  (32*1024)  // 32KB, provisï¿½rio.
 
 static unsigned char HeapBuffer[HEAP_BUFFER_SIZE]; 
-
-
 
 /*
  * heap_d:
@@ -78,36 +71,31 @@ struct heap_d
     //lista linkada de blocos. 
     //struct mmblock_d *nextblock; 
 };
-struct heap_d *libcHeap;
+// stdlib.c
+extern struct heap_d *libcHeap;
 //...
 
-
+// stdlib.c
 //Heap list.
-//obs:. heapList[0] = The Kernel Heap !
-unsigned long heapList[HEAP_COUNT_MAX];
+extern unsigned long heapList[HEAP_COUNT_MAX];
 
 
 //
 // == prototypes ===============================================
 //
 
-int heapInit(void);
-void heapSetLibcHeap( unsigned long HeapStart, unsigned long HeapSize);
 
-
-//
 // Alloc and Free.
-//
-
 unsigned long heapAllocateMemory ( unsigned long size );
-
 unsigned long FreeHeap( unsigned long size );
 
+void heapSetLibcHeap( unsigned long HeapStart, unsigned long HeapSize);
+
+int heapInit(void);
 
 #endif    
 
-
 //
-// End.
+// End
 //
 
