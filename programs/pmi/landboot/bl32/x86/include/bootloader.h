@@ -3,11 +3,11 @@
  * 
  *     #todo: Change the name to 'bl.h'
  *
- * Descrição:
+ * Descriï¿½ï¿½o:
  *     Header principal do Boot Loader de 32 bits, BL.BIN.
  *     Feito em 32bit C/Assembly.
- *     Declarações e protótipos para as funções principais do Boot Loader.
- *     Oferecer o suporte necessário nessa fase de inicialização.
+ *     Declaraï¿½ï¿½es e protï¿½tipos para as funï¿½ï¿½es principais do Boot Loader.
+ *     Oferecer o suporte necessï¿½rio nessa fase de inicializaï¿½ï¿½o.
  *     ...
  * 
  * History:
@@ -24,15 +24,11 @@
 #define GRAMADO_CALIFORNIA  0x05
 // ...
 
-
-int current_mode;
-
+extern int current_mode;
 
 //
-// Variáveis para habilitações de verbose pra debug.
+// Variï¿½veis para habilitaï¿½ï¿½es de verbose pra debug.
 //
-
- 
 
 
 #include <config/config.h>  
@@ -40,7 +36,7 @@ int current_mode;
 
  
 /*
- * Variáveis importadas.
+ * Variï¿½veis importadas.
  * Stack pointers ??
  */
  
@@ -50,14 +46,14 @@ extern unsigned long task2_stack;
  
  
 //
-// Funções importadas.
+// Funï¿½ï¿½es importadas.
 //
  
 extern void refresh_screen();
  
  
 // Boot Loader version.
-#define BL_VERSION "0.1"
+#define BL_VERSION  "0.1"
 
 
 /*
@@ -65,7 +61,7 @@ extern void refresh_screen();
  */
  
 //#define LOAD_SUCCESS  0
-//#define LOAD_FAILURE  1    //Erro genérico.
+//#define LOAD_FAILURE  1    //Erro genï¿½rico.
 //#define LOAD_
 //Continua...		 
  
@@ -75,7 +71,7 @@ extern void refresh_screen();
  * FDC support.
  *
  * PORTS: Constants for support ports.
- *        @todo: Não oferecer mais suporte ao FDC. 
+ *        @todo: Nï¿½o oferecer mais suporte ao FDC. 
  */
  
 #define DOR1  0x3F2    //Digital Output Register. 
@@ -109,18 +105,18 @@ extern void refresh_screen();
 
 /*
  * Memory page tables:
- *     Mapeando memória para o Boot Loader e os arquivos que ele tem 
+ *     Mapeando memï¿½ria para o Boot Loader e os arquivos que ele tem 
  * que carregar.
- * Obs: Cada processo terá seu próprio diretório de páginas. Isso significa 
- * que para cada processo, os endereços lógicos podem mudar, mas não deve-se 
- * mecher no endereço lógico do kernel. Todos os processos terão a parte
- * mais alta da sua memória lóca resercada para o Kernel. Tipicamente 
- * reserva-se o último gigabyte da memória virtual de cada processo
+ * Obs: Cada processo terï¿½ seu prï¿½prio diretï¿½rio de pï¿½ginas. Isso significa 
+ * que para cada processo, os endereï¿½os lï¿½gicos podem mudar, mas nï¿½o deve-se 
+ * mecher no endereï¿½o lï¿½gico do kernel. Todos os processos terï¿½o a parte
+ * mais alta da sua memï¿½ria lï¿½ca resercada para o Kernel. Tipicamente 
+ * reserva-se o ï¿½ltimo gigabyte da memï¿½ria virtual de cada processo
  * para uso do Kernel.
- * Obs: O arquivo head.s configura CR3 com 0x01F00000, que é o endereço
- * do primeiro page_directory. Os diretórios e páginas são configurados 
- * em pages.c. De toda forma o Kernel pode refazer essa configuração,
- * carregando os diretórios de página onde bem entender.
+ * Obs: O arquivo head.s configura CR3 com 0x01F00000, que ï¿½ o endereï¿½o
+ * do primeiro page_directory. Os diretï¿½rios e pï¿½ginas sï¿½o configurados 
+ * em pages.c. De toda forma o Kernel pode refazer essa configuraï¿½ï¿½o,
+ * carregando os diretï¿½rios de pï¿½gina onde bem entender.
  * 
  */
 #define BOOTLOADER_PAGEDIRECTORY  0x9C000    //Directory.
@@ -134,24 +130,24 @@ extern void refresh_screen();
  * Kernel memory constants.
  */
 
-#define KERNEL_BASE     0x00100000    //1MB físico.
-#define KERNEL_ADDRESS  0x00100000    //Físico.
-#define KERNEL_VA       0xC0000000    //Lógico. 
+#define KERNEL_BASE     0x00100000    //1MB fï¿½sico.
+#define KERNEL_ADDRESS  0x00100000    //Fï¿½sico.
+#define KERNEL_VA       0xC0000000    //Lï¿½gico. 
 
 
 /*
  * User mode memory constants.
  */
  
-#define  USER_BASE       0x00400000    //4MB físico.
-//#define  USER_BASE32MB_PA   0x02000000    //32MB físico.
+#define  USER_BASE       0x00400000    //4MB fï¿½sico.
+//#define  USER_BASE32MB_PA   0x02000000    //32MB fï¿½sico.
 
 
 /*
  * Video Memory constans.
  */
-#define VM_BASE   0x000B8000    //Físico.
-#define MEM_BASE  0x000A0000    //Físico.
+#define VM_BASE   0x000B8000    //Fï¿½sico.
+#define MEM_BASE  0x000A0000    //Fï¿½sico.
 
 
 /*
@@ -160,34 +156,34 @@ extern void refresh_screen();
  
 /*
  * APP and DLL:
- *     Endereços virtuais do início dos programas.
+ *     Endereï¿½os virtuais do inï¿½cio dos programas.
  * @todo: Os programas do sistema em User Mode poderiam ser carregados 
- * na parte mais alta da memória virtual disponivel para aplicativos 
- * em user mode. Isso fica antes da área destinada ao Kernel. É um
- * forma de proteção.
+ * na parte mais alta da memï¿½ria virtual disponivel para aplicativos 
+ * em user mode. Isso fica antes da ï¿½rea destinada ao Kernel. ï¿½ um
+ * forma de proteï¿½ï¿½o.
  *
  */
-//#define DLL_VA 0             //Vínculo dinâmico, .DLL, .SO.  
-#define APP_VA 0x00400000    //Padrão para aplicativos. 4MB. 
+//#define DLL_VA 0             //Vï¿½nculo dinï¿½mico, .DLL, .SO.  
+#define APP_VA 0x00400000    //Padrï¿½o para aplicativos. 4MB. 
 //...
 
 
 // File support: 
 // Usado pelo loader pra carregar arquivos do sistema.
-// Obs: Esses são endereços físicos para carregamento das aplicaçções
-// do sistema. Porém o endereço lógico para o carregamento das
-// aplicações será 0x400000 e das bibliotecas compartilhadas será 0x0.
+// Obs: Esses sï¿½o endereï¿½os fï¿½sicos para carregamento das aplicaï¿½ï¿½ï¿½es
+// do sistema. Porï¿½m o endereï¿½o lï¿½gico para o carregamento das
+// aplicaï¿½ï¿½es serï¿½ 0x400000 e das bibliotecas compartilhadas serï¿½ 0x0.
 
 
 // #todo: delete it!
-#define INIT_ADDRESS         0x00400000    //Físico.
-#define SHELL_ADDRESS        0x00450000    //Físico. 
-#define TASKMANAGER_ADDRESS  0x004A0000    //Físico.
+#define INIT_ADDRESS         0x00400000    //Fï¿½sico.
+#define SHELL_ADDRESS        0x00450000    //Fï¿½sico. 
+#define TASKMANAGER_ADDRESS  0x004A0000    //Fï¿½sico.
 //... 
 
-//Endereços físicos.
-//#define SERVER_ADDRESS       0x00400000    //Genérico.
-//#define APP_ADDRESS          0x00400000    //Genérico.
+//Endereï¿½os fï¿½sicos.
+//#define SERVER_ADDRESS       0x00400000    //Genï¿½rico.
+//#define APP_ADDRESS          0x00400000    //Genï¿½rico.
  
  
 /*
@@ -203,7 +199,7 @@ extern void refresh_screen();
 
 /*
  * Constants for text support.
- *     @todo: Definir tamanho padrão.
+ *     @todo: Definir tamanho padrï¿½o.
  */
 
 //Char.
@@ -224,7 +220,7 @@ extern void refresh_screen();
 
 /*
  * Constants for window support.
- *     @todo: Boot Loader não deve ter suporte à janelas.
+ *     @todo: Boot Loader nï¿½o deve ter suporte ï¿½ janelas.
  *            Apenas suporte ao tamanho ta tela.
  */
 
@@ -331,8 +327,8 @@ extern void refresh_screen();
 
 
 //
-// (Boot Loader Internal). Para rotinas globais começadas com BlXXXX().
-// Acessiveis à todos os módulos do boot loader.
+// (Boot Loader Internal). Para rotinas globais comeï¿½adas com BlXXXX().
+// Acessiveis ï¿½ todos os mï¿½dulos do boot loader.
 //
 #include <bli.h>
 
@@ -340,71 +336,66 @@ extern void refresh_screen();
 #include <render/r_render.h>
 
 //
-// Variáveis globais.
+// Variï¿½veis globais.
 //
 
-//Se o boot loader está inicializado.
-int g_initialized;
-
-int g_driver_hdd_initialized;
-
+//Se o boot loader estï¿½ inicializado.
+extern int g_initialized;
+extern int g_driver_hdd_initialized;
 
 
 /*
  * Variables for text support.
- *     @todo: Usar o padrão 'g_' para todas variáveis globais
- * aqui no suporte à texto.
+ *     @todo: Usar o padrï¿½o 'g_' para todas variï¿½veis globais
+ * aqui no suporte ï¿½ texto.
  */
 
-unsigned long g_cursor_x;        //Cursor.
-unsigned long g_cursor_y;        //Cursor. 
-unsigned long g_system_color;    //Color. 
-unsigned long g_char_attrib;     //Color.  
-unsigned long CURSOR_X;
-unsigned long CURSOR_Y; 
-unsigned long STATUS_X;
-unsigned long STATUS_Y;
-unsigned long EDITBOX_X;
-unsigned long EDITBOX_Y;
-unsigned long EDITBOX_LARGURA;
-unsigned long EDITBOX_ALTURA;
-unsigned long EDITBOX_BG_COLOR;
-unsigned long EDITBOX_TEXT_COLOR;
-
+extern unsigned long g_cursor_x;        //Cursor.
+extern unsigned long g_cursor_y;        //Cursor. 
+extern unsigned long g_system_color;    //Color. 
+extern unsigned long g_char_attrib;     //Color.  
+extern unsigned long CURSOR_X;
+extern unsigned long CURSOR_Y; 
+extern unsigned long STATUS_X;
+extern unsigned long STATUS_Y;
+extern unsigned long EDITBOX_X;
+extern unsigned long EDITBOX_Y;
+extern unsigned long EDITBOX_LARGURA;
+extern unsigned long EDITBOX_ALTURA;
+extern unsigned long EDITBOX_BG_COLOR;
+extern unsigned long EDITBOX_TEXT_COLOR;
 
 
 //
 // CR3 support.
 //
 
-//unsigned long registerCR3;
-unsigned long LegacyCR3;        //Valor existente.
-unsigned long BootLoaderCR3;    //Valor configurado pelo Boot Loader.
+extern unsigned long LegacyCR3;        //Valor existente.
+extern unsigned long BootLoaderCR3;    //Valor configurado pelo Boot Loader.
 
 //CR0
 //unsigned long registerCR0;
 
 
 /*
- *  Variables for GUI support. Usar ou não o modo gráfico.
+ *  Variables for GUI support. Usar ou nï¿½o o modo grï¿½fico.
  */
-int useGUI;         
+extern int useGUI;         
 
 
 /*
  * Variables for window procedure support.
  */
- 
-unsigned long g_proc_status; 
-unsigned long g_next_app;
-unsigned long g_next_proc;
-unsigned long g_nova_mensagem;
-unsigned long next_address;  //??
 
+extern unsigned long g_proc_status; 
+extern unsigned long g_next_app;
+extern unsigned long g_next_proc;
+extern unsigned long g_nova_mensagem;
+extern unsigned long next_address;  //??
 
 /*
  * Variables for task support.
- * @todo: Não usar o termo task.
+ * @todo: Nï¿½o usar o termo task.
  */ 
 //unsigned long current_task;
 
@@ -414,9 +405,8 @@ unsigned long next_address;  //??
 /*
  * Variables for LFB Address support. 
  */
-unsigned long g_lbf_pa;    //Endereço Físico do LFB.
-unsigned long g_lbf_va;    //Endereço Lógico do LFB.
-
+extern unsigned long g_lbf_pa;    //Endereï¿½o Fï¿½sico do LFB.
+extern unsigned long g_lbf_va;    //Endereï¿½o Lï¿½gico do LFB.
 
 /*
  * Structures for Boot Loader.
@@ -436,10 +426,9 @@ struct system_d
     unsigned long video_mode;   
     //Continua...        
 };
-system_t system_info;
-//system_t systemInfo; 
-//...
- 
+// main.c
+extern system_t system_info;
+
  
 /*
  * Structure for global video parameters.
@@ -447,19 +436,19 @@ system_t system_info;
  
 /*
  * VideoBlock:
- *     Estrutura para informações sobre parâmetros de vídeo.
+ *     Estrutura para informaï¿½ï¿½es sobre parï¿½metros de vï¿½deo.
  *     @todo: criar um header para video. video.h.
  *
  */
 typedef struct video_d VideoBlock_t;
 struct video_d
 {
-	int useGui;      //Se estamos ou não usando gui. text mode, video mode.
-	int vgaMode;     //Número do modo de vídeo se estiver usando vga.
-	int vesaMode;    //Número do modo vesa.
+	int useGui;      //Se estamos ou nï¿½o usando gui. text mode, video mode.
+	int vgaMode;     //Nï¿½mero do modo de vï¿½deo se estiver usando vga.
+	int vesaMode;    //Nï¿½mero do modo vesa.
 	
-	unsigned long LFB_PA;    //Endereço Físico do LFB.
-	unsigned long LFB_VA;    //Endereço Lógico do LFB.
+	unsigned long LFB_PA;    //Endereï¿½o Fï¿½sico do LFB.
+	unsigned long LFB_VA;    //Endereï¿½o Lï¿½gico do LFB.
 	
 	//...
 	
@@ -471,10 +460,9 @@ struct video_d
 	char chAtrib;              //Atributo do caractere. 
 	//...           
 };
-VideoBlock_t VideoBlock;    //@todo: Usar um ponteiro.
+// main.c
+extern VideoBlock_t VideoBlock;    //@todo: Usar um ponteiro.
 
- 
- 
 
 /*
  * VESA support.
@@ -483,15 +471,14 @@ VideoBlock_t VideoBlock;    //@todo: Usar um ponteiro.
 typedef struct vesa_d vesa_t;
 struct vesa_d
 {
-    unsigned long mode_number;    //Número do modo.
+    unsigned long mode_number;    //Nï¿½mero do modo.
     unsigned long x_res;          //Pixels por linha.
     unsigned long y_res;          //Pixels por coluna.
     unsigned long bpp;            //Bits per pixel.		
 	//Continua...
 };
-vesa_t vesa_mode;
-
-
+//main.c
+extern vesa_t vesa_mode;
 
 
 /*
@@ -502,14 +489,14 @@ vesa_t vesa_mode;
 typedef struct procedure_d procedure_t;
 struct procedure_d
 {
-    unsigned long next;      //Endereço do procimo procedimento.     
+    unsigned long next;      //Endereï¿½o do procimo procedimento.     
     unsigned long status;    //Status do procedimento do sistema. 
     unsigned long res1;      //Reservado.
     unsigned long res2;      //Reservado.
     // ...        	
 };
-procedure_t procedure_info;
-
+// main.c
+extern procedure_t procedure_info;
 
 
 /*
@@ -543,9 +530,9 @@ struct menuitem_d
     
 };
 
-int menu_highlight;
-
-struct menuitem_d MENU[8];
+// main.c
+extern int menu_highlight;
+extern struct menuitem_d MENU[8];
 
 
 
@@ -560,8 +547,6 @@ unsigned long in32 (int port);
 void out8 ( int port, unsigned char data );
 void out16 (int port, unsigned short data);
 void out32 ( int port, unsigned long data );
-
-
 
 
 /*
@@ -623,10 +608,10 @@ int SetUpPaging();
 								   
 //
 // Disk support.
-//  @todo: usar inglês.
+//  @todo: usar inglï¿½s.
 //
-void limpa_root(); //@todo: usar inglês.
-void limpa_fat();  //@todo: usar inglês.
+void limpa_root(); //@todo: usar inglï¿½s.
+void limpa_fat();  //@todo: usar inglï¿½s.
 
 void 
 my_read_hd_sector ( 

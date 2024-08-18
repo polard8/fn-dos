@@ -26,12 +26,64 @@
  
 #include <bootloader.h>
 
-
-
 //static char *codename = "Gramado Boot";
 //char kernel_file_name[] = "kernel.bin";
 //static char **argv = { NULL, NULL, NULL };
 //static char **envp = { NULL, NULL, NULL };
+
+
+int current_mode=0;
+
+//Se o boot loader est� inicializado.
+int g_initialized=0;
+int g_driver_hdd_initialized=0;
+
+unsigned long g_cursor_x=0;        //Cursor.
+unsigned long g_cursor_y=0;      //Cursor. 
+unsigned long g_system_color=0;    //Color. 
+unsigned long g_char_attrib=0;     //Color.  
+unsigned long CURSOR_X=0;
+unsigned long CURSOR_Y=0;
+unsigned long STATUS_X=0;
+unsigned long STATUS_Y=0;
+unsigned long EDITBOX_X=0;
+unsigned long EDITBOX_Y=0;
+unsigned long EDITBOX_LARGURA=0;
+unsigned long EDITBOX_ALTURA=0;
+unsigned long EDITBOX_BG_COLOR=0;
+unsigned long EDITBOX_TEXT_COLOR=0;
+
+
+unsigned long LegacyCR3=0;        //Valor existente.
+unsigned long BootLoaderCR3=0;    //Valor configurado pelo Boot Loader.
+
+int useGUI=0;
+
+unsigned long g_proc_status=0;
+unsigned long g_next_app=0;
+unsigned long g_next_proc=0;
+unsigned long g_nova_mensagem=0;
+unsigned long next_address=0;
+
+
+unsigned long g_lbf_pa=0;    //Endere�o F�sico do LFB.
+unsigned long g_lbf_va=0;    //Endere�o L�gico do LFB.
+
+// bootloader.h
+system_t system_info;
+
+// bootloader.h
+VideoBlock_t VideoBlock;    //@todo: Usar um ponteiro.
+
+// bootloader.h
+vesa_t vesa_mode;
+
+// bootloader.h
+procedure_t procedure_info;
+
+
+int menu_highlight=0;
+struct menuitem_d MENU[8];
 
 
 //
