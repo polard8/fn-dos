@@ -5,16 +5,17 @@
 
 all: 
 
-	# the library.
+# the library.
 	make -C libcore
-
-	# These apps do not create windows.
+# These apps do not create windows.
 	make -C gdeshell
-	make -C c4
-	make -C gramc
-	make -C gramc4
-	make -C gramcnf
 
-	# Clean libcore
+# Clean libcore
 	-rm -rf libcore/obj/*.o
-	
+clean:
+	-rm -rf libcore/obj/*.o
+clean-all:
+#todo
+
+
+
