@@ -1,12 +1,10 @@
-
-# init process.
+# Init process for 32bit fn-dos.
 
 VERSION = 0
 PATCHLEVEL = 1
 SUBLEVEL = 0
 EXTRAVERSION =
 #NAME = Init
-
 
 # Make variables (CC, etc...)
 AS	= as
@@ -62,31 +60,25 @@ LIBC    =  ../../landlib/rtl/include/
 LIBCOBJ =  ../../landlib/rtl/obj
 
 
-	#
-	# Objects
-	#
+#
+# Objects
+#
 
 myObjects = crt0.o main.o \
 ctype.o stdio.o stdlib.o string.o conio.o unistd.o \
 termios.o ioctl.o fcntl.o rtl.o    
 
 
-
-
 .PHONY: all all-c shell-link finalize clean
 
 all: crt0.o main.o all-c shell-link finalize clean
 	@echo "Init Ok?"
-
 head.o:
-	# Nothing.
-
+# Nothing.
 crt0.o:
 #	gcc  -c  crt0.c -I $(LIBC) -I $(API) $(CFLAGS) -o crt0.o
-
 main.o:
 	$(CC)  -c  main.c -I $(LIBC) $(CFLAGS) -o main.o
-
 all-c:
 
 # We need some api and libc objects.
@@ -114,7 +106,6 @@ shell-link:
 
 finalize:
 #	cp INIT.BIN ../../bin/
-
 
 clean:
 	-rm *.o

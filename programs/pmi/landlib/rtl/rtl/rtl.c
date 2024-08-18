@@ -14,6 +14,8 @@
 
 #include <pthread.h>
 
+// gramado.h
+unsigned long RTLEventBuffer[32];
 
 // =============================================================
 

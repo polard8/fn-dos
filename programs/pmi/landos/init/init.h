@@ -12,12 +12,10 @@
 #include <rtl/gramado.h>
 
 
-
 // #bugbug: 
 // not defined here. see: crt0.
 // Delete this thing
-
-int main ( int argc, char *argv[] );
+// int main ( int argc, char *argv[] );
 
 //
 // End.

@@ -196,9 +196,9 @@ struct _iobuf
 
 
 // Standard stream.
-FILE *stdin;
-FILE *stdout;
-FILE *stderr;
+extern FILE *stdin;
+extern FILE *stdout;
+extern FILE *stderr;
 
 
 // Ajust.
@@ -210,7 +210,7 @@ FILE *stderr;
 // A list of stream in the library.
 //
 
-unsigned long Streams[NUMBER_OF_FILES];
+extern unsigned long Streams[NUMBER_OF_FILES];
 
 #endif    //__FILE_H__
 

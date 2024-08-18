@@ -9,20 +9,20 @@
  * Purpose:
  *     + To call interrupt 129 to enable maskable interrupts.
  *     + Hang forever. Some new process will reuse this process.
- *     Esse programa deverá ser chamado sempre que o sistema estiver ocioso,
- * ou com falta de opções viáveis. Então esse programa deve ficar 
- * responsável por alguma rotina de manutenção do equilíbrio de sitema, 
- * ou por gerência de energia, com o objetivo de poupar energia 
+ *     Esse programa deverï¿½ ser chamado sempre que o sistema estiver ocioso,
+ * ou com falta de opï¿½ï¿½es viï¿½veis. Entï¿½o esse programa deve ficar 
+ * responsï¿½vel por alguma rotina de manutenï¿½ï¿½o do equilï¿½brio de sitema, 
+ * ou por gerï¿½ncia de energia, com o objetivo de poupar energia 
  * nesse momento de ociosidade.
  * O processo idle pode solicitar que processos de gerencia de energia entrem em
- * atuação. Pois a chamada do processo idle em si já é um indicativo de ociosidade
- * do sistema. Pode-se também organizar bancos de dados, registros, memória, buffer,
+ * atuaï¿½ï¿½o. Pois a chamada do processo idle em si jï¿½ ï¿½ um indicativo de ociosidade
+ * do sistema. Pode-se tambï¿½m organizar bancos de dados, registros, memï¿½ria, buffer,
  * cache etc.
- *     O sistema pode configurar o que esse processo faz quando a máquina 
- * está em idle mode. Quando não há nenhum processo pra rodar ou a cpu se 
+ *     O sistema pode configurar o que esse processo faz quando a mï¿½quina 
+ * estï¿½ em idle mode. Quando nï¿½o hï¿½ nenhum processo pra rodar ou a cpu se 
  * encontra ociosa, pode-se usar alguma rotina otimizada presente neste 
- * programa. Parece que a intel oferece sujestões pra esse caso, não sei.
- * Obs: O entry point está em head.s
+ * programa. Parece que a intel oferece sujestï¿½es pra esse caso, nï¿½o sei.
+ * Obs: O entry point estï¿½ em head.s
  *      Agora idle pode fazer systemcalls. 
  * #todo: 
  *     Criar argumento de entrada.
@@ -281,7 +281,7 @@ int ExecRedPillApplication(void)
     // This way we can use the mouse.
 
     // #bugbug
-    // Suspendendo essa inicialização ...
+    // Suspendendo essa inicializaï¿½ï¿½o ...
     // Estamos tendo problemas com a redpill, talvez por causa disso.
 
     /*
@@ -379,31 +379,24 @@ int initDialog (int message)
 }
 
 
-
 /*
- **********************
  * main:
- *
  */
-
 // See: sw.asm in the kernel. 
-// O objetivo é chamar a interrupção 129.
-// Uma interrupção para habilitar as interrupções mascaráveis.
-// Só depois disso a interrupção de timer vai funcionar.
-
+// O objetivo ï¿½ chamar a interrupï¿½ï¿½o 129.
+// Uma interrupï¿½ï¿½o para habilitar as interrupï¿½ï¿½es mascarï¿½veis.
+// Sï¿½ depois disso a interrupï¿½ï¿½o de timer vai funcionar.
 // #todo
 // Checar se temos uma linha de comandos.
-// Mas o fato eh que essa funçao nao deve retornar para o crt0.c.
+// Mas o fato eh que essa funï¿½ao nao deve retornar para o crt0.c.
 
 int main ( int argc, char *argv[] )
 {
     char *_string = "init.bin: Init is alive! Calling int 129";
     char runlevel_string[128];
 
-
     debug_print ("--------------------------\n"); 
     debug_print ("init.bin: Initializing ...\n");
-
 
     // Initialize with error value.
     __current_runlevel = (int) -1;
@@ -454,13 +447,13 @@ int main ( int argc, char *argv[] )
 
 
     // #important
-    // O task switching e o scheduler só vão funcionar
-    // depois que o processo init habilitar as interrupções.
+    // O task switching e o scheduler sï¿½ vï¿½o funcionar
+    // depois que o processo init habilitar as interrupï¿½ï¿½es.
 
     // #bugbug
-    // O processo init está rodando sozinho, mas tem seus ticks
-    // contados até que sofra preempção.
-    // Não queremos que ele sofra prempção antes de habilitar
+    // O processo init estï¿½ rodando sozinho, mas tem seus ticks
+    // contados atï¿½ que sofra preempï¿½ï¿½o.
+    // Nï¿½o queremos que ele sofra prempï¿½ï¿½o antes de habilitar
     // o taskswitch e o scheduler.
     
 //
