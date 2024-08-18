@@ -1,9 +1,6 @@
-/*
- * File: stdio.h
- *
- * Descrição:
- *     Parte da lib C, C99.
- */
+// stdio.h
+// stdio for bootloader.
+// Created by Fred Nora.
 
 
 #ifndef __STDIO_H
@@ -56,7 +53,7 @@ void scroll(void);
 int bl_clear(int color);
 int kprintf(char *message, unsigned int line, int color);
 
-//@todo: Não faz parte da libc.
+//@todo: Nï¿½o faz parte da libc.
 void vsync();
 char gui_inb(int port);
 void my_buffer_put_pixel( unsigned long ax, unsigned long bx, unsigned long cx, unsigned long dx);

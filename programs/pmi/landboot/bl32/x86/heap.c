@@ -1,28 +1,35 @@
-/*
- * File: heap.c
- *     2015 - Created by Fred Nora.
- */
-
-
+// heap.c
+// Heap support for bootloader.
+// 2015 - Created by Fred Nora.
 
 #include <bootloader.h>
 
 
+// heap.h
+unsigned long heapCount=0;            //Conta os heaps do sistema.
+unsigned long bl_heap_start=0;    //Start.
+unsigned long bl_heap_end=0;      //End.
+unsigned long g_heap_pointer=0;       //Pointer.
+unsigned long g_available_heap=0;     //Available.
+unsigned long mmblockCount=0;         //Conta os blocos de memória dentro de um heap. 
+struct mmblock_d *current_mmblock;
+unsigned long mmblockList[MMBLOCK_COUNT_MAX]; 
+unsigned long heapList[HEAP_COUNT_MAX]; 
+
+
+// ===================================
+
 //Variáveis internas. 
 
 //int mmStatus;
-unsigned long last_valid;         // Último heap pointer válido. 
-unsigned long last_size;          // Último tamanho alocado.
-unsigned long mm_prev_pointer;    // Endereço da úntima estrutura alocada.
-
-
+unsigned long last_valid=0;         // Último heap pointer válido. 
+unsigned long last_size=0;          // Último tamanho alocado.
+unsigned long mm_prev_pointer=0;    // Endereço da úntima estrutura alocada.
 
 /*
- ************************************************************
  * heapAllocateMemory:
  *     Aloca memória no heap do bl.
- *
- * *IMPORTANTE: 
+ * IMPORTANTE: 
  *     Aloca BLOCOS de memória dentro do heap do bl.
  *
  * @todo: 

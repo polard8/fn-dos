@@ -1,11 +1,7 @@
-
-#
-# Compiling Gramado Boot Loader 1.0 
+# Compiling bootloader 
 # BSD License 
-#
 # 2018 - Created by Fred Nora.
-#      - Adapted from Matheus Castello's script.
-#
+
 
 VERSION = 1
 PATCHLEVEL = 0

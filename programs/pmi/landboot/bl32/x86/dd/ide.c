@@ -14,19 +14,43 @@
 // Usar os nomes tradicionais para os tipos.
 
 // Obs: 
-// O foco está na lista de discos. 
+// O foco estï¿½ na lista de discos. 
 // diskList
 
 
 #include <bootloader.h>
 
+extern st_dev_t *current_dev;
 
 
 #define PCI_PORT_ADDR  0xCF8
 #define PCI_PORT_DATA  0xCFC
 
 
-extern st_dev_t *current_dev;
+int ATAFlag=0;
+
+struct dev_nport  dev_nport;
+struct ata_pci  ata_pci;
+struct ata  ata;
+
+_u16 *ata_identify_dev_buf;
+_u8 ata_record_dev;
+_u8 ata_record_channel;
+
+
+int g_current_ide_channel=0;
+int g_current_ide_device=0;
+
+struct ide_ports_d  ide_ports[4];
+
+unsigned long ide_handler_address=0;
+
+struct ide_channel_d idechannelList[8];
+
+struct ide_d  IDE;
+
+// ===============================================
+
 
 // IRQ support.
 //static _u32 ata_irq_invoked = 1; 
@@ -164,7 +188,7 @@ void ata_soft_reset()
 
 
 //#bugbug
-//Lê o status de um disco determinado, se os valores  
+//Lï¿½ o status de um disco determinado, se os valores  
 //na estrutura estiverem certos.
 
 _u8 ata_status_read()
@@ -428,7 +452,7 @@ void set_ata_addr (int channel){
 
 
     // #bugbug
-    // Porque estamos checando se é primário ou
+    // Porque estamos checando se ï¿½ primï¿½rio ou
     // secundario?
 
     switch (channel){
@@ -454,7 +478,7 @@ void set_ata_addr (int channel){
 
 /* 
  * #Obs: 
- * O que segue são rotinas de suporte ao controlador IDE.
+ * O que segue sï¿½o rotinas de suporte ao controlador IDE.
  */
 
 
@@ -464,14 +488,14 @@ const char *dev_type[] = {
 };
 
 st_dev_t *current_dev;       // A unidade atualmente selecionada.
-st_dev_t *ready_queue_dev;   // O início da lista.
-uint32_t  dev_next_pid = 0;  // O próximo ID de unidade disponível. 
+st_dev_t *ready_queue_dev;   // O inï¿½cio da lista.
+uint32_t  dev_next_pid = 0;  // O prï¿½ximo ID de unidade disponï¿½vel. 
 
 
 /*
  ********************************************************
  * ide_mass_storage_initialize:
- *     Rotina de inicialização de dispositivo de armazenamento de dados.
+ *     Rotina de inicializaï¿½ï¿½o de dispositivo de armazenamento de dados.
  */
 
 void ide_mass_storage_initialize ()
@@ -525,7 +549,7 @@ void ide_mass_storage_initialize ()
 /*
  ****************************************************
  * ide_dev_init:
- *    Obtendo informações sobre um dos dispositivos.
+ *    Obtendo informaï¿½ï¿½es sobre um dos dispositivos.
  */
 
 int ide_dev_init (char port){
@@ -564,7 +588,7 @@ int ide_dev_init (char port){
         
 		if(ATAFlag == FORCEPIO)
 		{
-			//com esse só funciona em pio
+			//com esse sï¿½ funciona em pio
 		    new_dev->dev_modo_transfere = 0;	
 		}else{
 		    //com esse pode funcionar em dma
@@ -595,7 +619,7 @@ int ide_dev_init (char port){
               
 			  if(ATAFlag == FORCEPIO)
 			  {
-                  //com esse só funciona em pio 				  
+                  //com esse sï¿½ funciona em pio 				  
 			      new_dev->dev_modo_transfere = 0; 
 			  }else{
 			      //com esse pode funcionar em dma
@@ -704,7 +728,7 @@ int ide_dev_init (char port){
 static inline void dev_switch (void){
 
 	// ??
-	// Pula, se ainda não tiver nenhuma unidade.
+	// Pula, se ainda nï¿½o tiver nenhuma unidade.
 
     if ( !current_dev )
     {
@@ -712,9 +736,9 @@ static inline void dev_switch (void){
     }
 
 
-    // Obter a próxima tarefa a ser executada.
-    // Se caímos no final da lista vinculada, 
-    // comece novamente do início.
+    // Obter a prï¿½xima tarefa a ser executada.
+    // Se caï¿½mos no final da lista vinculada, 
+    // comece novamente do inï¿½cio.
 
     current_dev = current_dev->next;    
 
@@ -794,7 +818,7 @@ int nport_ajuste ( char nport ){
 
 // ===============================================
 // Obs: 
-// O que segue são rotinas de suporte a ATA.
+// O que segue sï¿½o rotinas de suporte a ATA.
 
 
 // #bugbug
@@ -874,7 +898,7 @@ static inline _void ata_set_device_and_sector (
             out8 ( ata.cmd_block_base_address + ATA_REG_DEVSEL, 
 			    0x40 | (ata.dev_num << 4) | (addr >> 24 &0x0f) );
      
-			// Verifique se e a mesma unidade para não esperar pelos 400ns.
+			// Verifique se e a mesma unidade para nï¿½o esperar pelos 400ns.
 			
             if ( ata_record_dev != ata.dev_num && 
 			     ata_record_channel != ata.channel )
@@ -902,7 +926,7 @@ static inline _void ata_set_device_and_sector (
 			out8 ( ata.cmd_block_base_address + ATA_REG_DEVSEL,
 			    0x40 | ata.dev_num << 4 );   // Modo LBA active, Select device,        
             
-			// Verifique se e a mesma unidade para não esperar pelos 400ns.
+			// Verifique se e a mesma unidade para nï¿½o esperar pelos 400ns.
             if ( ata_record_dev     != ata.dev_num && 
                  ata_record_channel != ata.channel )
             {
@@ -932,7 +956,7 @@ static inline _void ata_set_device_and_sector (
  */
 
 // ==========================
-// O que segue é um suporte ao controlador de DMA para uso nas rotinas de IDE.
+// O que segue ï¿½ um suporte ao controlador de DMA para uso nas rotinas de IDE.
 
 //
 // DMA support
@@ -941,8 +965,8 @@ static inline _void ata_set_device_and_sector (
 
 // ============
 // Legacy Bus Master Base Address
-// #todo Nelson, Não se esqueça de habiliatar o // Bus Master Enable
-// no espaço de configuraçao PCI (offset 0x4 Command Register)
+// #todo Nelson, Nï¿½o se esqueï¿½a de habiliatar o // Bus Master Enable
+// no espaï¿½o de configuraï¿½ao PCI (offset 0x4 Command Register)
 
 // Commands dma 
 #define dma_bus_start   1
@@ -1023,7 +1047,7 @@ ide_dma_data (
         ata.bus_master_base_address + ide_dma_reg_cmd, 
         data | flg << 3 );
 
-    // Limpar o bit de interrupção e 
+    // Limpar o bit de interrupï¿½ï¿½o e 
 	// o bit de erro no registo de status.
 	
     data = in8 ( ata.bus_master_base_address + ide_dma_reg_status );
@@ -1198,7 +1222,7 @@ diskWritePCIConfigAddr (
  ***********************************************
  * diskATAPCIConfigurationSpace:
  * 
- *     Espaço de configuraçao PCI Mass Storage
+ *     Espaï¿½o de configuraï¿½ao PCI Mass Storage
  *     Aqui vamos analisar o tipo de dispositivo.
  */
 
@@ -1220,7 +1244,7 @@ diskATAPCIConfigurationSpace (
     // Indentification Device
     data = (uint32_t) diskReadPCIConfigAddr ( bus, dev, fun, 0 );
 	
-	// Salvando configurações.
+	// Salvando configuraï¿½ï¿½es.
     ata_pci.vendor_id = data       & 0xffff;
     ata_pci.device_id = data >> 16 & 0xffff;
 
@@ -1233,12 +1257,12 @@ diskATAPCIConfigurationSpace (
 
 
 
-	// Obtendo informações.
+	// Obtendo informaï¿½ï¿½es.
 	// Classe code, programming interface, revision id.
 	
     data  = (uint32_t) diskReadPCIConfigAddr ( bus, dev, fun, 8 );
     
-	// Salvando informações.
+	// Salvando informaï¿½ï¿½es.
 
 
     // Classe, sub-classe, prog if and revision.
@@ -1251,7 +1275,7 @@ diskATAPCIConfigurationSpace (
 
 	// #importante:
 	// Aqui detectamos o tipo de dispositivo com base 
-	// nas informações de classe e subclasse.
+	// nas informaï¿½ï¿½es de classe e subclasse.
 
 
 	//
@@ -1424,9 +1448,9 @@ diskATAPCIConfigurationSpace (
                 };
 
 	// #obs:
-	// Nesse momento já sabemos se é IDE, RAID, AHCI.
-	// Vamos pegar mais informações,
-	// Salvaremos as informações na estrutura.
+	// Nesse momento jï¿½ sabemos se ï¿½ IDE, RAID, AHCI.
+	// Vamos pegar mais informaï¿½ï¿½es,
+	// Salvaremos as informaï¿½ï¿½es na estrutura.
 
 
 	// PCI cacheline, Latancy, Headr type, end BIST
@@ -1502,8 +1526,8 @@ done:
  ***********************************
  * diskPCIScanDevice:
  *
- * Esta função deve retornar o número de barramento, 
- * o dispositivo e a função do dispositivo conectado ao barramento PCI 
+ * Esta funï¿½ï¿½o deve retornar o nï¿½mero de barramento, 
+ * o dispositivo e a funï¿½ï¿½o do dispositivo conectado ao barramento PCI 
  * de acordo a classe.
  */
 
@@ -1571,7 +1595,7 @@ uint32_t diskPCIScanDevice ( int class )
 /*
  ********************
  * diskATAInitialize:
- *     Inicializa o IDE e mostra informações sobre o disco.
+ *     Inicializa o IDE e mostra informaï¿½ï¿½es sobre o disco.
  * Credits: Nelson Cole;
  */
 
@@ -1594,10 +1618,10 @@ int diskATAInitialize ( int ataflag )
 
     // #importante 
     // HACK HACK
-    // usando as definições feitas em config.h
-    // até que possamos encontrar o canal e o dispositivo certos.
-    // __IDE_PORT indica qual é o canal.
-    // __IDE_SLAVE indica se é master ou slave.
+    // usando as definiï¿½ï¿½es feitas em config.h
+    // atï¿½ que possamos encontrar o canal e o dispositivo certos.
+    // __IDE_PORT indica qual ï¿½ o canal.
+    // __IDE_SLAVE indica se ï¿½ master ou slave.
     // ex: primary/master.
     // See: config.h
 
@@ -1672,12 +1696,12 @@ int diskATAInitialize ( int ataflag )
           };
 
 	//
-    // Salvando informações.
+    // Salvando informaï¿½ï¿½es.
     //	
 	
-	// Aqui estamos pegando informações na estrutura ata_pci sobre as BARs 
-	// e manipulando essas informações.
-	// ?? Não sei o que está fazendo aqui, talvez procurando endereço de porta.
+	// Aqui estamos pegando informaï¿½ï¿½es na estrutura ata_pci sobre as BARs 
+	// e manipulando essas informaï¿½ï¿½es.
+	// ?? Nï¿½o sei o que estï¿½ fazendo aqui, talvez procurando endereï¿½o de porta.
 
     // Initialize base address
     // AHCI/IDE Compativel com portas IO IDE legado
@@ -1697,9 +1721,9 @@ int diskATAInitialize ( int ataflag )
 	//
 
 	ide_ports[0].base_port = (unsigned short) ATA_BAR0; //funciona para primary master e primary slave.
-	ide_ports[1].base_port = (unsigned short) ATA_BAR1; //não funciona
+	ide_ports[1].base_port = (unsigned short) ATA_BAR1; //nï¿½o funciona
 	ide_ports[2].base_port = (unsigned short) ATA_BAR2; //funciona para secondary master e secondary slave.
-	ide_ports[3].base_port = (unsigned short) ATA_BAR3; //não funciona
+	ide_ports[3].base_port = (unsigned short) ATA_BAR3; //nï¿½o funciona
 	//tem ainda a porta do dma na bar4
 
 	
@@ -1735,7 +1759,7 @@ int diskATAInitialize ( int ataflag )
 
 
 	    //
-	    // As estruturas de disco serão colocadas em uma lista encadeada.
+	    // As estruturas de disco serï¿½o colocadas em uma lista encadeada.
 	    //
 	
 	    //ide_mass_storage_initialize();
@@ -1850,7 +1874,7 @@ done:
 /*
  *******************************************
  * diskATADialog:
- *     Rotina de diálogo com o driver ATA.
+ *     Rotina de diï¿½logo com o driver ATA.
  */
 
 int 
@@ -1924,7 +1948,7 @@ void diskATAIRQHandler2 ()
 /*
  ******************************************************
  * show_ide_info:
- *     Mostrar as informações obtidas na inicializações do controlador.
+ *     Mostrar as informaï¿½ï¿½es obtidas na inicializaï¿½ï¿½es do controlador.
  */
 
 void show_ide_info (){
@@ -1973,7 +1997,7 @@ void show_ide_info (){
 	
 
 	// Estrutura 'st_dev'
-	// Estão na lista 'ready_queue_dev'	
+	// Estï¿½o na lista 'ready_queue_dev'	
 	
 
    //...
@@ -1982,9 +2006,9 @@ void show_ide_info (){
 
 /*
  * disk_ata_wait_irq:
- *     Esperando pela interrupção.
+ *     Esperando pela interrupï¿½ï¿½o.
  * OUT:
- *     0    = ok por status da interrupção. 
+ *     0    = ok por status da interrupï¿½ï¿½o. 
  *     -1   = ok por status do controlador.
  *     0x80 = ok por tempo esperado.
  */
@@ -2024,7 +2048,7 @@ int disk_ata_wait_irq (){
         };
     };
  
-    //ok por status da interrupção.
+    //ok por status da interrupï¿½ï¿½o.
 	ata_irq_invoked = 0;
 
 

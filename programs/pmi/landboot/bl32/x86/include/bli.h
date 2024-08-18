@@ -1,13 +1,15 @@
 /*
  * File: bli.h
- *
- * Boot Loader Internal. Para rotinas globais começadas com BlXXXX.
- * Acessiveis à todos os módulos do boot loader.
+ * Boot Loader Internal. Para rotinas globais comeï¿½adas com BlXXXX.
+ * Acessiveis ï¿½ todos os mï¿½dulos do boot loader.
  */
 
 
+#ifndef __BLI_H
+#define __BLI_H    1
+
 //
-// Procedure.
+// Procedure =============================
 //
 
 unsigned long 
@@ -17,13 +19,10 @@ bl_procedure (
     unsigned long long1, 
     unsigned long long2 );
 
-
-//
 // Finalizations support.
-//
-
 void BlAbort();
 
+#endif   
 
 //
 // End.

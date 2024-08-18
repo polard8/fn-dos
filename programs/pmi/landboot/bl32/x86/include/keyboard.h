@@ -1,14 +1,14 @@
 /*
  * File: keyboard.h 
  *
- * Descrição:
+ * Descriï¿½ï¿½o:
  *     Header do driver de teclado do Boot Loader.
- *     Header do driver básico de teclado para o Boot Loader.
+ *     Header do driver bï¿½sico de teclado para o Boot Loader.
  *
  * Obs:
- * O padrão de teclado usado precisa ser revisto.
- * Pelo jeito estamos usando o padrão americano. Mas é possível adaptar para 
- * ABNT2 sem muitos problemas. @todo: Podemos copiar do driver do núcleo.
+ * O padrï¿½o de teclado usado precisa ser revisto.
+ * Pelo jeito estamos usando o padrï¿½o americano. Mas ï¿½ possï¿½vel adaptar para 
+ * ABNT2 sem muitos problemas. @todo: Podemos copiar do driver do nï¿½cleo.
  *
  * History:
  *     2015 - Ported from older versions.
@@ -197,12 +197,12 @@
 #define VK_WINKEY 6
 
  
-//botões.
+//botï¿½es.
 #define BN_CLICKED  200
 
 
 //mensagens. 
-//@todo: Algumas mensagens não são necessárias para o bootloader.
+//@todo: Algumas mensagens nï¿½o sï¿½o necessï¿½rias para o bootloader.
 #define WM_SYSKEYUP       3000
 #define WM_KEYDOWN        3001
 #define WM_DESTROY        3002
@@ -212,7 +212,7 @@
 #define WM_SIZE           3006
 
 //mensagens de janela
-//@todo: Mensagens de janela não são necessárias para o bootloader.
+//@todo: Mensagens de janela nï¿½o sï¿½o necessï¿½rias para o bootloader.
 #define MSG_CLOSE         4001
 #define MSG_DESTROY       4002
 #define MSG_SYSKEYDOWN    4003
@@ -228,16 +228,16 @@
 
 
 // keyboard queue
-int keyboard_queue_tail;
-int keyboard_queue_head;
-char keyboard_queue[8];
+extern int keyboard_queue_tail;
+extern int keyboard_queue_head;
+extern char keyboard_queue[8];
 
 //avisa que uma tecla foi digitada.
-int keyboard_flag;
+extern int keyboard_flag;
 
 
 //
-// Prototypes.
+// Prototypes =========================================
 //
 
 char keyboad_get_char(void);

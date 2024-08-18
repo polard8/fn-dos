@@ -85,6 +85,30 @@ procedure_t procedure_info;
 int menu_highlight=0;
 struct menuitem_d MENU[8];
 
+// gdef.h
+struct boot_block_d  BootBlock;
+
+// gdef.h
+// main flags.
+int gdefLegacyBIOSBoot=0;
+int gdefEFIBoot=0;
+int gdefSafeBoot=0;
+int gdefShowLogo=0;
+int gdefShowProgressBar=0;
+//...
+
+int ____testing_memory_size_flag=0;
+unsigned long __last_valid_address=0; 
+
+
+// fs.h
+int g_fat16_root_status=0;
+int g_fat16_fat_status=0;
+int g_file_system_type=0;
+char buffer_dir_entry[512]; 
+unsigned short file_cluster_list[1024];
+struct partition_table_d  partition;
+
 
 //
 // == Prototypes ==========================================

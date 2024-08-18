@@ -1,26 +1,37 @@
 /*
  * File: keyboard.c  
  *
- *  Descrição:
- *     Driver básico de teclado para o Boot Loader.
+ *  Descriï¿½ï¿½o:
+ *     Driver bï¿½sico de teclado para o Boot Loader.
  *
  * Obs:
- * O padrão de teclado usado precisa ser revisto.
- * Pelo jeito estamos usando o padrão americano. Mas 
- * é possível adaptar para ABNT2 se muitos problemas.
- * Podemos copiar do driver do núcleo.
+ * O padrï¿½o de teclado usado precisa ser revisto.
+ * Pelo jeito estamos usando o padrï¿½o americano. Mas 
+ * ï¿½ possï¿½vel adaptar para ABNT2 se muitos problemas.
+ * Podemos copiar do driver do nï¿½cleo.
  *
- * Histórico:
- *     2015 - Adaptado de versões antigas por Fred Nora.
- *     2016 - Revisão.
+ * Histï¿½rico:
+ *     2015 - Adaptado de versï¿½es antigas por Fred Nora.
+ *     2016 - Revisï¿½o.
  */
 
  
 #include <bootloader.h>
 
 
+// keyboard queue
+int keyboard_queue_tail=0;
+int keyboard_queue_head=0;
+char keyboard_queue[8];
+
+//avisa que uma tecla foi digitada.
+int keyboard_flag=0;
+
+
+
+
 //
-// Variáveis internas.
+// Variï¿½veis internas.
 //
 
 //Status.
@@ -36,10 +47,8 @@ unsigned long shift_status;
 
 //Outros.
 unsigned long ambiente = 0;
-unsigned long prompt_pos;
 unsigned long destroy_window = 1; 
 unsigned long quit_message = 1;
-
 
 /* 
  * KBDUS:
@@ -54,7 +63,7 @@ unsigned long quit_message = 1;
  
 // #todo:
 // Esse arquivo foi melhor trabalhado no Kernel. Podemos aproveitar 
-// coisas de lá.
+// coisas de lï¿½.
  
  
 /* 
@@ -96,7 +105,7 @@ VK_TAB,
 /* scan 24-31 */		
 'o' , 
 'p' , 
-'´' , 
+'ï¿½' , 
 '[' , 
 KEY_RETURN, 
 KEY_CTRL, 
@@ -111,7 +120,7 @@ KEY_CTRL,
 'j' , 
 'k' , 
 'l' , 
-'ç' ,	
+'ï¿½' ,	
 
 /* scan 40-47 */  	
 '~' , 
@@ -238,10 +247,10 @@ void keyboardHandler(void){
 
 
     // Step 0: 
-    // Declarações.
+    // Declaraï¿½ï¿½es.
 
 
-    // Variáveis para armazenar valores que pegaremos.
+    // Variï¿½veis para armazenar valores que pegaremos.
 
     unsigned char raw_byte=0;
     unsigned char scancode=0;
@@ -262,7 +271,7 @@ void keyboardHandler(void){
 
 
 	// @todo: 
-	// Uma biblioteca de video satisfatória deve existir no Boot Loader.
+	// Uma biblioteca de video satisfatï¿½ria deve existir no Boot Loader.
 
 
     // Text mode screen buffer.
@@ -281,7 +290,7 @@ void keyboardHandler(void){
     // #todo
     // Temos que considerar o teclado extendido.
 
-    // Elimina o último bit.
+    // Elimina o ï¿½ltimo bit.
     scancode = (raw_byte & 0x7F);
 
 
@@ -291,7 +300,7 @@ void keyboardHandler(void){
     //    
     
     // Vamos checar o bit no raw byte que
-    // diz se a tecla foi liberada ou não.
+    // diz se a tecla foi liberada ou nï¿½o.
     
     // Se a tecla foi liberada.
     if (raw_byte & 0x80)
@@ -299,7 +308,7 @@ void keyboardHandler(void){
         //Analiza a tecla.
         status = map[scancode]; 
 
-        //Se for teclas especiais, que são importantes para o sistema.         
+        //Se for teclas especiais, que sï¿½o importantes para o sistema.         
         if ( status == KEY_ALT || 
              status == KEY_WINKEY || 
              status == KEY_CTRL || 

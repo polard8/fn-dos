@@ -1,19 +1,12 @@
-/*
- * File: fs.h 
- *
- * History:
- *     2015 - Created by Fred Nora.
- */
-
+// fs.h 
+// 2015 - Created by Fred Nora.
 
 #ifndef ___FS_H
 #define ___FS_H    1
 
 
-
 #define SECTOR_SIZE    512 
 //#define SECTOR_SIZE    4096  // New standard
-
 
 //
 // Cluster Meaning
@@ -42,42 +35,30 @@
 #define FAT_STATUS_3 0xffff3
 #define FAT_STATUS_4 0xffff2
 
-
-
-//
 // #importante:
 // Status de carregamento.
 // Se o diret�rio raiz j� est� carregado na mem�ria.
 // Se a FAT j� est� carregada na mem�ria.
-//
 
-int g_fat16_root_status;
-int g_fat16_fat_status;
+extern int g_fat16_root_status;
+extern int g_fat16_fat_status;
 
 // 
 // Tipo de sistema de arquivos. (Ex: FAT16, EXT2 ...). 
 //
 
-int g_file_system_type;
+extern int g_file_system_type;
 
-// 
 // Buffer para salvar uma entrada de diret�rio.
-//
+extern char buffer_dir_entry[512]; 
 
-char buffer_dir_entry[512];    //@todo: Tamanho da entrada? Desperd�cio?   
-
-//
 // Lista de clusters em um arquivo.
-//
-
-unsigned short file_cluster_list[1024];    //@todo: Tamanho de arquivos ?
-
+extern unsigned short file_cluster_list[1024];
 
 
 /*
  * partition_table_d:
  *     Structure for partition table.
- *   
  * @todo:    
  *     Na verdade essa � uma estrutura para um entrada na tabela de 
  * parti��es do MBR.
@@ -92,23 +73,11 @@ struct partition_table_d
     unsigned long start_sector;
     unsigned long partition_size;    //In sectors.
 };
-struct partition_table_d partition;
+extern struct partition_table_d  partition;
 //...
 
+// ===============================================================
 
-/*
- * Prot�tipos.
- */
-
-
-//
-// File System initialization support.
-//
-
-
-int fsInit();
-void fsInitStructures();
-void fsInitFat();
 
 //
 //  Cluster and LBA support. (Disc parameters)
@@ -258,12 +227,15 @@ void fs_save_structure();
 void fs_format();
 
 
+// File System initialization support.
+void fsInitFat();
+void fsInitStructures();
+int fsInit();
+
 #endif    
 
 
 //
-// End.
+// End
 //
-
-
 

@@ -24,19 +24,12 @@
 // usado no kernel base
 
 
-
-//
 // ==========================================================================
 //     IDE controller support by Nelson Cole
 // ==========================================================================
-//
 
-
-int ATAFlag;
-#define FORCEPIO 1234
-
-
-
+#define FORCEPIO   1234
+extern int ATAFlag;
 
 /*
 //
@@ -64,7 +57,7 @@ typedef void _void;
 */
 
 // IO Delay.
-#define io_delay() asm("out %%al,$0x80"::);
+#define io_delay()  asm("out %%al,$0x80"::);
 
 
 // Atenção:
@@ -242,16 +235,12 @@ struct dev_nport
     unsigned char dev30;
     unsigned char dev31;
 };
-struct dev_nport dev_nport;
+extern struct dev_nport  dev_nport;
 
-
-//
 // História:
 //     Programação do ATA a partir do ICH5/9 e suporte a IDE legado.
 //     ICH5 integraçao do SATA e suporte total ACPI 2.0.
 //     ICH6 implementaram os controladores AHCI SATA pela primeira vez.
-//
-
 
 /*
  * ata_pci:
@@ -284,10 +273,8 @@ struct ata_pci
     _u8  interrupt_pin;
 
     // AHCI
-
 };
-
-struct ata_pci ata_pci;
+extern struct ata_pci  ata_pci;
 
 
 
@@ -313,7 +300,7 @@ struct ata
     uint32_t ahci_base_address;
 	
 };
-struct ata ata;
+extern struct ata  ata;
 
 
 /*
@@ -344,15 +331,16 @@ typedef struct st_dev
 // variables
 //
 
-_u16 *ata_identify_dev_buf;
-_u8 ata_record_dev;
-_u8 ata_record_channel;
+extern _u16 *ata_identify_dev_buf;
+extern _u8 ata_record_dev;
+extern _u8 ata_record_channel;
 
 
 //
-// prototypes
+// == Prototypes =======================================
 //
 
+void show_ide_info();
 
 // ata_dev.c
 int nport_ajuste(char nport);
@@ -435,6 +423,8 @@ diskATAPCIConfigurationSpace (
     char fun );
 
 
+int disk_ata_wait_irq();
+
 /*
  ****************************************************************
  * diskATAInitialize:
@@ -455,11 +445,6 @@ diskATADialog (
     int msg, 
     unsigned long long1, 
     unsigned long long2 );
-
-int disk_ata_wait_irq();
-
-void show_ide_info();
-
 
 #endif
 

@@ -1,12 +1,14 @@
+// heap.h
+// Boot Loader Heap support.
+// Created by Fred Nora.
 
-/*
- * Boot Loader Heap support.
- */
+
+#ifndef __HEAP_H
+#define __HEAP_H    1
 
 //@todo: diminuir
 //Contagem de heap.
 #define HEAP_COUNT_MAX  8
-
 
 //#improvisando um valor. (provisório)
 #define BL_HEAP_START  (0x01000000 + 0x100000)   //??? start + size.
@@ -14,17 +16,17 @@
 
 #define BL_HEAP_SIZE   ( BL_HEAP_END - BL_HEAP_START)
 
-unsigned long heapCount;            //Conta os heaps do sistema.
-unsigned long bl_heap_start;    //Start.
-unsigned long bl_heap_end;      //End.
-unsigned long g_heap_pointer;       //Pointer.
-unsigned long g_available_heap;     //Available.
+extern unsigned long heapCount;            //Conta os heaps do sistema.
+extern unsigned long bl_heap_start;    //Start.
+extern unsigned long bl_heap_end;      //End.
+extern unsigned long g_heap_pointer;       //Pointer.
+extern unsigned long g_available_heap;     //Available.
 
-unsigned long mmblockCount;         //Conta os blocos de memória dentro de um heap. 
 #define MMBLOCK_COUNT_MAX    256    //Contagem de mmblock. 
+extern unsigned long mmblockCount;         //Conta os blocos de memória dentro de um heap. 
 
 //Isso é usado pelo heap.
-#define MMBLOCK_HEADER_SIZE 64 
+#define MMBLOCK_HEADER_SIZE  64 
 
 //fake process struct
 struct process_d 
@@ -33,7 +35,6 @@ struct process_d
 };
 
 /*
- *****************************************************************
  * mmblock_d:
  *     Estrutura para memory blocks.
  *     Temos vários blocos de memória espalhados em lugares diferentes 
@@ -132,22 +133,20 @@ struct mmblock_d
 	struct mmblock_d *Prev;
 	struct mmblock_d *Next;
 };
-struct mmblock_d *current_mmblock;
-//mmblock_descriptor_t *current_mmblock;
-//mmblock_descriptor_t *SystemCache_mmblock;
-//mmblock_descriptor_t *ProcessCache_mmblock;
-//...
+extern struct mmblock_d *current_mmblock;
+
+extern unsigned long mmblockList[MMBLOCK_COUNT_MAX]; 
+extern unsigned long heapList[HEAP_COUNT_MAX]; 
 
 
-unsigned long mmblockList[MMBLOCK_COUNT_MAX]; 
+// ===============================================
 
-unsigned long heapList[HEAP_COUNT_MAX]; 
 
 unsigned long heapAllocateMemory ( unsigned long size );
 void FreeHeap (void *ptr);
 
 int init_heap(void);
 
-
+#endif   
 
 

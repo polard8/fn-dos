@@ -1,7 +1,7 @@
 /*
  * File: ide.h
  *
- * Descrição:
+ * Descriï¿½ï¿½o:
  *     Header para rotinas de hardware para drivers de ide. hdd.
  *
  * #todo 
@@ -16,10 +16,8 @@
 // IDE ports.
 //
 
-
-int g_current_ide_channel;
-int g_current_ide_device;
-
+extern int g_current_ide_channel;
+extern int g_current_ide_device;
 
 
 // 0 primary master 
@@ -28,12 +26,10 @@ int g_current_ide_device;
 // 3 secondary slave.
 
 typedef enum {
-
     ideportsPrimaryMaster,      // 0
     ideportsPrimarySlave,       // 1
     ideportsSecondaryMaster,    // 2
     ideportsSecondarySlave      // 3
-
 }ide_ports_t;
 
 
@@ -64,7 +60,6 @@ typedef enum {
 struct ide_ports_d 
 {
     uint8_t id;
-
     int used;
     int magic;
 
@@ -77,12 +72,11 @@ struct ide_ports_d
 
     //...
 
-    // Dá pra colocar aqui mais informações sobre 
+    // Dï¿½ pra colocar aqui mais informaï¿½ï¿½es sobre 
     // o dispositivo conectado a porta.
     // podemos usar ponteiros para estruturas.
 };
-
-struct ide_ports_d ide_ports[4];
+extern struct ide_ports_d  ide_ports[4];
 
 
 #define IDE_ATA    0
@@ -100,8 +94,8 @@ struct ide_ports_d ide_ports[4];
 #define IDE_CMD_WRITE   0x30
 #define IDE_CMD_RDMUL   0xC4
 #define IDE_CMD_WRMUL   0xC5
- 
-unsigned long ide_handler_address;
+
+extern unsigned long ide_handler_address;
  
 
 //estrutura para canais da controladora IDE. 
@@ -109,7 +103,6 @@ typedef struct ide_channel_d ide_channel_t;
 struct ide_channel_d
 {
     int id;
-
     int used;
     int magic;
 
@@ -127,8 +120,7 @@ struct ide_channel_d
 	
 	//...
 };
-
-struct ide_channel_d idechannelList[8];
+extern struct ide_channel_d idechannelList[8];
 
 
 
@@ -151,7 +143,7 @@ struct ide_disk_d
 	//ou outroscanais.
 	struct ide_channel_d *channel; 
 
-    //@todo: estrutura para partições.
+    //@todo: estrutura para partiï¿½ï¿½es.
 
     //
 	// Podemos ter muitos elementos aqui.
@@ -160,20 +152,18 @@ struct ide_disk_d
 };
 
 
- 
- 
 /*
  * ide_d:
  *
  * #IMPORTANTE
  * Estrutura para configurar a interface IDE. 
- * Essa será a estrutura raiz para gerenciamento do controlador de IDE.
+ * Essa serï¿½ a estrutura raiz para gerenciamento do controlador de IDE.
  */
 
 typedef struct ide_d ide_t;
 struct ide_d
 {
-    // devemos colocar aqui um ponteiro para estrutura de informações 
+    // devemos colocar aqui um ponteiro para estrutura de informaï¿½ï¿½es 
     // sobre o dispositivo controlador de ide.	
 
     int current_port;
@@ -183,8 +173,7 @@ struct ide_d
     struct ide_ports_d *secondary_master; 
     struct ide_ports_d *secondary_slave; 
 };
-struct ide_d IDE;
-
+extern struct ide_d  IDE;
 
 
 typedef struct hdd_d hdd_t;
@@ -194,8 +183,9 @@ struct hdd_d
 	int dummy;
 	//unsigned long hdd_handler_address;
 };
-//hdd_t *Hdd;
- 
+
+
+// =====================================================
 
 //
 // lba
@@ -244,7 +234,7 @@ my_write_hd_sector (
 
 /* 
  * init_hdd:
- *     Inicializa o módulo.
+ *     Inicializa o mï¿½dulo.
  */
 
 int init_hdd(void);

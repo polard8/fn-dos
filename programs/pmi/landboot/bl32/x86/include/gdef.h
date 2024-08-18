@@ -34,38 +34,31 @@ struct boot_block_d
     unsigned long gramado_mode;
     //...
 };
-
-struct boot_block_d BootBlock;
-
+// main.c
+extern struct boot_block_d  BootBlock;
 
 //
 // =====================================================
 //
 
-
 // main flags.
-int gdefLegacyBIOSBoot;
-int gdefEFIBoot;
-int gdefSafeBoot;
-int gdefShowLogo;
-int gdefShowProgressBar;
+extern int gdefLegacyBIOSBoot;
+extern int gdefEFIBoot;
+extern int gdefSafeBoot;
+extern int gdefShowLogo;
+extern int gdefShowProgressBar;
 //...
-
-
 
 // + Objects.
 // + Global structs.
 // ...
 
-
-
-// Essa flag será lida pela rotina de falta de página.
-// para ignorar e não parar o sistema.
-int ____testing_memory_size_flag;
-unsigned long __last_valid_address; //salvando o úlltimo endereço válido
-
+// Essa flag serï¿½ lida pela rotina de falta de pï¿½gina.
+// para ignorar e nï¿½o parar o sistema.
+extern int ____testing_memory_size_flag;
+extern unsigned long __last_valid_address;
 
 //
-// End.
+// End
 //
 
