@@ -486,19 +486,18 @@ extern int kstdio_standard_streams_initialized;
 // 0
 //Pipe para a rotina execve particular 
 //usada no no init do ambiente Gramado Core.
-file *pipe_gramadocore_init_execve;
+extern file *pipe_gramadocore_init_execve;
 
 // 1
 //Pipe usado pela rotina execve.
-file *pipe_execve;
+extern file *pipe_execve;
 
 //Continua ...
 
 #define NUMBER_OF_PIPES 8
-unsigned long Pipes[NUMBER_OF_PIPES];
+extern unsigned long Pipes[NUMBER_OF_PIPES];
 
 // ========================================================
-
 
 
 /* bsd */
@@ -559,16 +558,12 @@ static __inline int bsd__sputc (int _c, FILE *_p)
 //#define __sputc(x, p) fputc(x, p)
 
 
-
 /*
  * Diret�rios onde a pesquisa deve ser feita.
  * Isso � configur�vel.
  * 
  */
-
 //unsigned long Search[9]; 
-
-
 
 //
 // == prototypes ===============================================
@@ -586,10 +581,11 @@ int sys_get_file_sync(int fd, int request);
 
 //https://en.wikipedia.org/wiki/Printk
 
-#define  printf printk
-#define kprintf printk
-
 int printk (const char *format, ...);
+
+#define  printf  printk
+#define kprintf  printk
+
 
 int sprintf (char *str, const char *format, ...);
 int fprintf (file *f, const char *format, ...);
@@ -619,8 +615,6 @@ printi (
 int print (char **out, int *varg);
 
 //=======================================
-
-
 
 int k_openat (int dirfd, const char *pathname, int flags);
 file *k_fopen ( const char *filename, const char *mode ); 

@@ -552,7 +552,8 @@ pitEarlyInitialization:
     ;;  Why changing to '1' if _kernel_main changes to '0'?
     ;; we need to think about this flag.
 
-    mov dword [_KernelStatus], dword 1
+    ;; #suspended
+    ;;mov dword [_KernelStatus], dword 1
     ;; mov dword [_KernelStatus], dword 0
 
 

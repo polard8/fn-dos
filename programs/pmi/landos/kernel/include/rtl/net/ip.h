@@ -328,11 +328,8 @@ send_ipv4_packet (
     uint32_t len, 
     uint8_t *data );
 
-
-
 #endif   
-
-   
+  
    
 //
 // End.

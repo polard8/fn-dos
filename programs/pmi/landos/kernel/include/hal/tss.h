@@ -75,10 +75,11 @@ struct i386tss_d
 	int	tss_iobase;	/* options and I/O permission map offset */
 };
 
+// thread.c
 //#obs:
 //Assim todas as threads podem fazer referência à mesma
 //tss depois de inicializada.
-struct i386tss_d *current_tss;
+extern struct i386tss_d *current_tss;
 
 
 /*

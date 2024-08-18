@@ -1,8 +1,8 @@
 ;
 ; File: x86/headlib.s 
 ;
-; Descrição:
-;     Funções auxiliares de supporte a head.s do Kernel Base.
+; Descriï¿½ï¿½o:
+;     Funï¿½ï¿½es auxiliares de supporte a head.s do Kernel Base.
 ;
 ; History:
 ;     2015 - Created by Fred Nora.
@@ -13,25 +13,25 @@
 ; Global variables.
 ;
 
+;; #suspended
+;Se o kernel estï¿½ inicializado ou nï¿½o.
+;global _KernelStatus
+;_KernelStatus: 
+;    dd 0
 
-;Se o kernel está inicializado ou não.
-global _KernelStatus
-_KernelStatus: 
-    dd 0
 
-
-;Variável sera usada pelo scheduler.
+;Variï¿½vel sera usada pelo scheduler.
 global _task_switch_salva_esp
 _task_switch_salva_esp: 
     dd 0
 
 
 ;
-; Variáveis locais.
+; Variï¿½veis locais.
 ;
 
 current:       dd 0    ;current.
-scr_loc:       dd 0    ;coisa da memória de vídeo.
+scr_loc:       dd 0    ;coisa da memï¿½ria de vï¿½deo.
 bl_video_mode: db 0 
 bl_lfb:        db 0  
 
@@ -39,15 +39,15 @@ bl_lfb:        db 0
 ;
 ; #todo:
 ; Nota sobre a pilha em ring0 configurada na tss:
-; O valor atual é 0x00200000. Mas não é o que queremos,
-; o que queremos é o equivalente físico à 0xC03FFFF0.
+; O valor atual ï¿½ 0x00200000. Mas nï¿½o ï¿½ o que queremos,
+; o que queremos ï¿½ o equivalente fï¿½sico ï¿½ 0xC03FFFF0.
 ; Que seria (0x00100000 + 3FFFF0).
-; O problema é que temos um aplicativo começando no 
-; endereço físico 0x400000. Com isso a pilha sujaria
+; O problema ï¿½ que temos um aplicativo comeï¿½ando no 
+; endereï¿½o fï¿½sico 0x400000. Com isso a pilha sujaria
 ; o aplicativo.
-; É necessário que o gerenciamento de memória física
-; aloque memória física para os aplicativos em algum
-; pool de memória física padronizado.
+; ï¿½ necessï¿½rio que o gerenciamento de memï¿½ria fï¿½sica
+; aloque memï¿½ria fï¿½sica para os aplicativos em algum
+; pool de memï¿½ria fï¿½sica padronizado.
 ;
 ;
 
@@ -62,14 +62,14 @@ ring0_ghost_task:
 ;tss0
 
 ;; #bugbug
-;; o backlink tem 16bit ?? e os outros 16 são reservados ??
-;; ?? o que é isso. ??
+;; o backlink tem 16bit ?? e os outros 16 sï¿½o reservados ??
+;; ?? o que ï¿½ isso. ??
 
 dd 0
 dd 0
 tss0:
 	dd 0                    ;back link (0x401000)
-	dd 0x003FFFF0           ;esp0    (pilha do kernel), endereço físico.
+	dd 0x003FFFF0           ;esp0    (pilha do kernel), endereï¿½o fï¿½sico.
 	dd 0x10                 ;ss0     (ss da pilha do kernel)
 	dd 0                    ;esp1
 	dd 0                    ;ss1
@@ -77,7 +77,7 @@ tss0:
 	dd 0                    ;ss2
 	dd 0x9C000              ;cr3  #bugbug: Isso deve ser o cr3 do processo em ring3.
 	dd ring0_ghost_task     ;eip  ;0x401000  
-	dd 0x00000200           ;eflags  (CPL = 3, interrupções habilitadas) ;0x00003200
+	dd 0x00000200           ;eflags  (CPL = 3, interrupï¿½ï¿½es habilitadas) ;0x00003200
 	dd 0                    ;eax
 	dd 0                    ;ecx
 	dd 0                    ;edx
@@ -95,7 +95,7 @@ tss0:
 	dw LDT_TEST_SEL, 0      ;LDT, reserved
 	dw 0, tss0_iopb - tss0  ;debug, IO permission bitmap (none)
 tss0_iopb:
-    times 8192 db 0FFh    ;#bugbug: Isso é realmente necessário.
+    times 8192 db 0FFh    ;#bugbug: Isso ï¿½ realmente necessï¿½rio.
 tss0_end:
 
 
@@ -106,7 +106,7 @@ dd 0
 dd 0
 tss1:
 	dd 0x401000             ;back link  _task0 #bugbug 
-	dd 0x003FFFF0           ;esp0    (pilha do kernel), endereço físico.
+	dd 0x003FFFF0           ;esp0    (pilha do kernel), endereï¿½o fï¿½sico.
 	dd 0x10                 ;ss0      (ss da pilha do kernel)   
 	dd 0                    ;esp1
 	dd 0                    ;ss1
@@ -114,7 +114,7 @@ tss1:
 	dd 0                    ;ss2
 	dd 0x9C000              ;cr3 #bugbug: Isso deve ser o cr3 do processo em ring3.
 	dd 0x401000             ;eip   
-	dd 0x00003200           ;eflags  (CPL = 3, interrupções habilitadas)
+	dd 0x00003200           ;eflags  (CPL = 3, interrupï¿½ï¿½es habilitadas)
 	dd 0                    ;eax
 	dd 0                    ;ecx
 	dd 0                    ;edx
@@ -132,7 +132,7 @@ tss1:
 	dw LDT_TEST_SEL, 0      ;LDT, reserved
 	dw 0, tss1_iopb - tss1  ;debug, IO permission bitmap (none)	
 tss1_iopb:
-    times 8192 db 0FFh      ;#todo: Isso é realmente necessário.?
+    times 8192 db 0FFh      ;#todo: Isso ï¿½ realmente necessï¿½rio.?
 tss1_end:
 ;;--
 
@@ -167,12 +167,12 @@ ldt1:
 ;;==================================================================
 ; _setup_system_interrupt: 
 ;
-;    Configura um vetor da IDT para a interrupção do sistema. 
-;    O endereço do ISR e o número do vetor são passados via argumento.
+;    Configura um vetor da IDT para a interrupï¿½ï¿½o do sistema. 
+;    O endereï¿½o do ISR e o nï¿½mero do vetor sï¿½o passados via argumento.
 ;
 ; IN:
-;    eax = endereço. (callback)(endereço do handler)
-;    ebx = número do vetor (0x80).(número da interrupção.)
+;    eax = endereï¿½o. (callback)(endereï¿½o do handler)
+;    ebx = nï¿½mero do vetor (0x80).(nï¿½mero da interrupï¿½ï¿½o.)
 ;
 
 global _setup_system_interrupt
@@ -180,8 +180,8 @@ _setup_system_interrupt:
 
     pushad
 
-    mov dword [.address], eax    ;endereço.
-    mov dword  [.number], ebx    ;número do vetor.
+    mov dword [.address], eax    ;endereï¿½o.
+    mov dword  [.number], ebx    ;nï¿½mero do vetor.
 
     ;Calcula o deslocamaneto
     mov eax, dword 8
@@ -189,14 +189,14 @@ _setup_system_interrupt:
     mul ebx
     ;resuldado em eax
 
-    ;Adiciona o deslocamento à base.
+    ;Adiciona o deslocamento ï¿½ base.
     mov edi, dword _idt               
     add edi, eax
 
     mov edx, dword [.address] 
 
     mov eax, dword 0x00080000    ; /* selector = 0x001B = user cs */
-    mov ax, dx                   ; uma parte do endereço
+    mov ax, dx                   ; uma parte do endereï¿½o
     mov dx, word 0xEE00          ; /* interrupt gate - dpl=3, present */
 
     ;Coloca o vetor na idt
@@ -255,7 +255,7 @@ setup_faults:
 	mov ebx, dword 5
 	call _setup_system_interrupt	
 
-	;#6 - Instrução inválida.
+	;#6 - Instruï¿½ï¿½o invï¿½lida.
 	mov eax, dword _fault_INTRUCAO_INVALIDA
 	mov ebx, dword 6
 	call _setup_system_interrupt
@@ -403,7 +403,7 @@ setup_vectors:
     push ebx 
 
     ; 32 - Timer.
-    ; Iniciamos um timer provisório, depois o main() inicia o definitivo.
+    ; Iniciamos um timer provisï¿½rio, depois o main() inicia o definitivo.
     mov eax,  dword _timer_test    
     mov ebx,  dword 32
     call _setup_system_interrupt
@@ -463,8 +463,8 @@ setup_vectors:
     ;; =====================
     
     ;; #test
-    ;; Uma interrupção para habilitar as interrupções mascaráveis.
-    ;; quem usará isso será a thread primária do processo init.
+    ;; Uma interrupï¿½ï¿½o para habilitar as interrupï¿½ï¿½es mascarï¿½veis.
+    ;; quem usarï¿½ isso serï¿½ a thread primï¿½ria do processo init.
     ;; apenas uma vez.
     
     mov eax,  dword _int199
@@ -485,14 +485,14 @@ setup_vectors:
 ;; O kernel chma isso provisoriamente para criar uma entrada
 ;; na idt para o nic intel.
 ;;
-;; #bugbug: isso está em nicintel.c , mas precisa ser global para que todos 
+;; #bugbug: isso estï¿½ em nicintel.c , mas precisa ser global para que todos 
 ;; possam usar.
 ;; talvez em kernel.h
-;; isso funcionou, tentar configurar outras interupções com isso.
+;; isso funcionou, tentar configurar outras interupï¿½ï¿½es com isso.
 ;;
 
 ;; Isso foi declarado em nicintel.c
-;;pegaremos o valor 41 e o endereço do handler.
+;;pegaremos o valor 41 e o endereï¿½o do handler.
 extern _nic_idt_entry_new_number
 extern _nic_idt_entry_new_address
 
@@ -502,20 +502,20 @@ _asm_nic_create_new_idt_entry:
 	
 	pushad
 
-    ;; Isso é o endereço da rotina de handler, em assembly;
-    ;; está em hw.asm
-    ;; #bugbug: não usaremos o endereço enviado pois temos que configurar 
+    ;; Isso ï¿½ o endereï¿½o da rotina de handler, em assembly;
+    ;; estï¿½ em hw.asm
+    ;; #bugbug: nï¿½o usaremos o endereï¿½o enviado pois temos que configurar 
     ;; o EOI e a pilha da rotina de handler.
     mov eax, _nic_handler
 	;mov eax, dword [_nic_idt_entry_new_address]
 
-    ;; Isso é o número da interrupção. (41)
+    ;; Isso ï¿½ o nï¿½mero da interrupï¿½ï¿½o. (41)
     mov ebx, dword [_nic_idt_entry_new_number]
     ;mov ebx, dword 41
 
 	call _setup_system_interrupt
 	
-	;;#test: Não sei se precisa carregar novamente.
+	;;#test: Nï¿½o sei se precisa carregar novamente.
 	;;ok, sem problemas.
 	lidt [_IDT_register] 
 	
@@ -551,7 +551,7 @@ set_base:
 ;------------------------------------------------------------
 ; _x86_test_cpuid_support:
 ;
-;     Testar via eflags se a cpu suporta a instrução cpuid. 
+;     Testar via eflags se a cpu suporta a instruï¿½ï¿½o cpuid. 
 ;     cpuid supported?
 ;
 
@@ -613,7 +613,7 @@ _set_page_dir:
 ;=============================================
 ; _get_page_fault_adr: 
 ;     Pega o cr2.
-;     endereço quando da pagefault.
+;     endereï¿½o quando da pagefault.
 ;
 
 global _get_page_fault_adr
@@ -638,7 +638,7 @@ __die:
 
 ;;===============================================
 ; _halt:
-;    Executa a instrução hlt.
+;    Executa a instruï¿½ï¿½o hlt.
 
 global _halt
 _halt:
@@ -649,7 +649,7 @@ _halt:
 
 ;;============================
 ;; Para ser usada por uma thread idle em ring 0, 
-;; pois habilita as interrupções
+;; pois habilita as interrupï¿½ï¿½es
 
 global _idle_halt_cpu
 _idle_halt_cpu:
@@ -700,9 +700,9 @@ setup_gdt:
 ;=================================================
 ; setup_idt:
 ;     Configura a IDT.
-;     Dado o endereço da IDT, 
+;     Dado o endereï¿½o da IDT, 
 ;     preenche todos os vetores, 
-;     apontando para um só endereço. 'unhandled_int'.
+;     apontando para um sï¿½ endereï¿½o. 'unhandled_int'.
 ;++
 
 setup_idt:
@@ -711,17 +711,17 @@ setup_idt:
     mov edx, unhandled_int  
 
     mov eax, dword 0x00080000    ; selector = 0x0008 = cs 
-    mov ax, dx                   ; uma parte do endereço
+    mov ax, dx                   ; uma parte do endereï¿½o
  
     ;; #test
-    ;; Se a intenção é nos proteger
-    ;; das interrupções de hardware inesperadas, então devemos
+    ;; Se a intenï¿½ï¿½o ï¿½ nos proteger
+    ;; das interrupï¿½ï¿½es de hardware inesperadas, entï¿½o devemos
     ;; configurar a idt semelhante ao jeto que configuramos
-    ;; para as irqs ... já que as interrupções de software
-    ;; só ocorrerão depois de inicializadas as entradas para 
+    ;; para as irqs ... jï¿½ que as interrupï¿½ï¿½es de software
+    ;; sï¿½ ocorrerï¿½o depois de inicializadas as entradas para 
     ;; system call.
-    ;; #importante: Porém não usaremos eoi ... e apontaremos
-    ;; tudo para unhandled_int e não para umhandled_irq.
+    ;; #importante: Porï¿½m nï¿½o usaremos eoi ... e apontaremos
+    ;; tudo para unhandled_int e nï¿½o para umhandled_irq.
     ;; Ou seja, sem eoi.
     
     ;;obs: 0xEE00 tem funcionado bem para todos os casos.
@@ -756,8 +756,8 @@ rp_sidt:
 ; _setup_idt_vector:
 ;     Configura um vetor da IDT.
 ; IN:
-; eax = endereço
-; ebx = número do vetor
+; eax = endereï¿½o
+; ebx = nï¿½mero do vetor
 ;
 
 global _setup_idt_vector
@@ -766,7 +766,7 @@ _setup_idt_vector:
     ;cli
     pushad
 
-    mov dword [.address], eax    ;endereço.
+    mov dword [.address], eax    ;endereï¿½o.
     mov dword [.number],  ebx    ;numero do vetor.
 
     ;calcula o deslocamaneto
@@ -775,14 +775,14 @@ _setup_idt_vector:
     mul ebx
     ;resuldado em eax
 
-    ;adiciona o deslocamento à base.
+    ;adiciona o deslocamento ï¿½ base.
     mov edi, dword _idt
     add edi, eax
 
     mov edx, dword [.address]
 
     mov eax, dword 0x00080000    ;/* selector = 0x0008 = cs */	
-    mov ax, dx                   ;uma parte do endereço
+    mov ax, dx                   ;uma parte do endereï¿½o
 
     ;;para hardware
     mov dx, word 0xEE00
@@ -804,8 +804,8 @@ _setup_idt_vector:
  
 ;=====================================
 ; _x86_enable_pse:
-;     Enable PSE para páginas de 4MB.
-;     Não usaremos isso.
+;     Enable PSE para pï¿½ginas de 4MB.
+;     Nï¿½o usaremos isso.
 ;
 
 global _x86_enable_pse
@@ -821,7 +821,7 @@ _x86_enable_pse:
 ;=====================================
 ; _asm_shut_down:
 ; * shut down
-; @todo: ainda não implementada.
+; @todo: ainda nï¿½o implementada.
 ;
 
 global _asm_shut_down

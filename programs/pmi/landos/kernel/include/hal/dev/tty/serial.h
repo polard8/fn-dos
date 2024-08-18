@@ -1,10 +1,8 @@
-
 // serial.h
-
+// Created by Fred Nora.
 
 #ifndef ____SERIAL_H
 #define ____SERIAL_H
-
 
 // See:
 // https://wiki.osdev.org/Serial_Ports
@@ -19,8 +17,8 @@
 
 /*
 UART (Universal Asynchronous Receiver/Transmitter), 
- A UART transforma em serial a saída paralela do barramento do computador, 
- para realizar a transmissão via porta serial. 
+ A UART transforma em serial a saï¿½da paralela do barramento do computador, 
+ para realizar a transmissï¿½o via porta serial. 
  
  A maioria dos chips UART possui um buffer embutido entre 16 e 64 kilobytes.
  
@@ -28,21 +26,21 @@ UART (Universal Asynchronous Receiver/Transmitter),
  Super Enhanced Serial Port (Super ESP) 
  
 O conector externo para uma porta serial pode ser tanto de 9 como de 25 pinos.
- Originalmente, a utilização principal de uma porta serial era conectar um modem ao computador. 
- As funções dos pinos refletem isso. 
+ Originalmente, a utilizaï¿½ï¿½o principal de uma porta serial era conectar um modem ao computador. 
+ As funï¿½ï¿½es dos pinos refletem isso. 
 
 
 
 Conector de 9 pinos:
-1. Detector de portadora (carrier detect) - determina se o modem está conectado a uma linha telefônica em operação. 
-2. Recebimento de dados (receive data) - o computador recebe as informações enviadas pelo modem. 
-3. Transmissão de dados (transmit data) - o computador envia informações ao modem. 
-4. Terminal pronto (data terminal ready) - o computador avisa ao modem que está pronto para se comunicar. 
+1. Detector de portadora (carrier detect) - determina se o modem estï¿½ conectado a uma linha telefï¿½nica em operaï¿½ï¿½o. 
+2. Recebimento de dados (receive data) - o computador recebe as informaï¿½ï¿½es enviadas pelo modem. 
+3. Transmissï¿½o de dados (transmit data) - o computador envia informaï¿½ï¿½es ao modem. 
+4. Terminal pronto (data terminal ready) - o computador avisa ao modem que estï¿½ pronto para se comunicar. 
 5. Sinal de terra (signal ground) - pino ligado a terra. 
-6. Modem pronto (data set ready) - o modem avisa ao computador que está pronto para se comunicar. 
-7. Solicitação de envio (request to send) - o computador pergunta ao modem se pode enviar informações. 
-8. Pronto para enviar (clear to send) - o modem avisa ao computador que as informações podem ser enviadas. 
-9. Indicador de sinal (ring indicator) - assim que a ligação é estabelecida, 
+6. Modem pronto (data set ready) - o modem avisa ao computador que estï¿½ pronto para se comunicar. 
+7. Solicitaï¿½ï¿½o de envio (request to send) - o computador pergunta ao modem se pode enviar informaï¿½ï¿½es. 
+8. Pronto para enviar (clear to send) - o modem avisa ao computador que as informaï¿½ï¿½es podem ser enviadas. 
+9. Indicador de sinal (ring indicator) - assim que a ligaï¿½ï¿½o ï¿½ estabelecida, 
 o computador reconhece o aviso (enviado pelo modem) que indica que o sinal foi detectado.
 
 
@@ -141,10 +139,7 @@ serial_port_t *SerialPort;
 //...
 */
 
-
-
-int serialportError;
-//...
+extern int serialportError;
 
 
 

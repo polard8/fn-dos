@@ -26,7 +26,10 @@
 #include <kernel.h>
 
 
+int serialportError=0;
 
+
+// ===========================================
 
 void serial1_handler (void)
 {

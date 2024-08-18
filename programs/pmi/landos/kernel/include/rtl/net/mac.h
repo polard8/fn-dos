@@ -17,7 +17,7 @@ struct mac_address_d
     unsigned long mac_address_low;    //NIC
 
 };
-mac_address_t *mac_address;
+//mac_address_t *mac_address;
 //...
 
 #endif   

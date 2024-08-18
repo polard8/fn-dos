@@ -1,43 +1,43 @@
 /*
  * File: sm/sys/signal.c  
- * #bugbug: esse não é o tratamento de sinal da libc ... o da libc deve ser resolvido em klibc
+ * #bugbug: esse nï¿½o ï¿½ o tratamento de sinal da libc ... o da libc deve ser resolvido em klibc
  *
- * Descrição:
+ * Descriï¿½ï¿½o:
  *     Signal Manager.
  *     Gerencial o uso de sinais.
  *
- * Versão: 1.0, 2016 - Created.
+ * Versï¿½o: 1.0, 2016 - Created.
  */
 
 
 /*
   Signal Manager: Gerencia os sinais recebidos e enviados pelos processos.
-                 Os sinais enviados para o processo kernel serão atendidos
+                 Os sinais enviados para o processo kernel serï¿½o atendidos
  na forma de requests. A rotina de request sinaliza os processo sobre a ocorrencia
- de eventos e toma deceisões relativas ao estado dos processos, se eles devem esperar
+ de eventos e toma deceisï¿½es relativas ao estado dos processos, se eles devem esperar
  ou proceguir etc...   
  
  Obs: Com sinais, os processo podem conversar um com o outro.
 
- Obs: Um sinal significa que rodará uma rotina específica de sinal que ativará
-      um request do kernel além de rodar outros métodos.
-      A variável Signal será interna aqui em signal.c, podendo ser manipulada
-      somente por esse arquivo. Já as definições de sinal serão globais e públicas
-      para que as aplicações possam utilizar sinais. O que não impede implementar
-      sinais exclusivos para determnados módulos. (Isso parece ser muito legal:)).
-      Para isso é só separa os sinais por grupos, um grupo para cada módulo,
-      isso ajudaria a organizar os módulos por números além dar prioridade
-      para alguns módulos.
+ Obs: Um sinal significa que rodarï¿½ uma rotina especï¿½fica de sinal que ativarï¿½
+      um request do kernel alï¿½m de rodar outros mï¿½todos.
+      A variï¿½vel Signal serï¿½ interna aqui em signal.c, podendo ser manipulada
+      somente por esse arquivo. Jï¿½ as definiï¿½ï¿½es de sinal serï¿½o globais e pï¿½blicas
+      para que as aplicaï¿½ï¿½es possam utilizar sinais. O que nï¿½o impede implementar
+      sinais exclusivos para determnados mï¿½dulos. (Isso parece ser muito legal:)).
+      Para isso ï¿½ sï¿½ separa os sinais por grupos, um grupo para cada mï¿½dulo,
+      isso ajudaria a organizar os mï¿½dulos por nï¿½meros alï¿½m dar prioridade
+      para alguns mï¿½dulos.
 
  Os grupos de sinais:
  ===================
- Para simplificar usaremos apenas cinco grupos de sinais, são eles:
+ Para simplificar usaremos apenas cinco grupos de sinais, sï¿½o eles:
 
- 0 - KernelSignal - Sinais usados pelo processo kernel e rotinas de muito privilégio.
- 1 - HalSignal - Sinais utilizados pelo módilo /hal que lidam com hardware.
- 2 - MicrokernelSignal - Sinais utilizados pelo módulo /microkernel. Atuam sobre processos e threads.
- 3 - ExecutiveSignal - Sinais utilizados pelo móidulo /executive. Atuam sobre o sistema de uma forma geral.
- 4 - UserSignal - Sinais utilizados pelos processos criados pelos usuários.
+ 0 - KernelSignal - Sinais usados pelo processo kernel e rotinas de muito privilï¿½gio.
+ 1 - HalSignal - Sinais utilizados pelo mï¿½dilo /hal que lidam com hardware.
+ 2 - MicrokernelSignal - Sinais utilizados pelo mï¿½dulo /microkernel. Atuam sobre processos e threads.
+ 3 - ExecutiveSignal - Sinais utilizados pelo mï¿½idulo /executive. Atuam sobre o sistema de uma forma geral.
+ 4 - UserSignal - Sinais utilizados pelos processos criados pelos usuï¿½rios.
 
 */
 
@@ -46,7 +46,7 @@
 
 /*
   @todo: (signals) 
-  Interrupção de teclado.
+  Interrupï¿½ï¿½o de teclado.
   abort
   
   ...
@@ -56,7 +56,7 @@
 
 
 //
-// Aqui degue uma definição interna dos números dos sinais que serão usados por cada grupo 
+// Aqui degue uma definiï¿½ï¿½o interna dos nï¿½meros dos sinais que serï¿½o usados por cada grupo 
 // de sinais.
 //
 
@@ -109,7 +109,7 @@ enum signal_t {
 */
 
 
-int Signal;
+int Signal=0;
 
 
 
@@ -183,7 +183,7 @@ signalSend (
 
 /*
  * signalInit:
- *     Inicialização do módulo de gerenciamento de sinais.
+ *     Inicializaï¿½ï¿½o do mï¿½dulo de gerenciamento de sinais.
  */
 
 int signalInit (void){

@@ -37,7 +37,6 @@
 //#define SCREEN_VGA_START (0x800000 + ??)  //FISICO= A0000.
 
 
-
 //
 // PAINT
 //
@@ -68,13 +67,7 @@ struct paint_d
     struct plane_d plane[4];
     int number_of_planes;
 };
-
-struct paint_d PAINT;
-
-
-
-
-
+extern struct paint_d  PAINT;
 
 
 /*
@@ -107,14 +100,10 @@ struct screen_d
     //Navigation.
     struct screen_d *next; 
 };
-struct screen_d *Screen;
-struct screen_d *ScreenInfo;
-struct screen_d *CurrentScreen;
+extern struct screen_d *Screen;
+extern struct screen_d *ScreenInfo;
+extern struct screen_d *CurrentScreen;
 //...
-  
-//int screenCount;    //Numero de monitores.
-//unsigned long screenList[8];
-
   
 //@criar função: screenSetRenderTargets(...).
 
@@ -172,11 +161,9 @@ terminal screen buffer: (um buffer grande onde se coloca o conteudo)
 //screen.c 
 
 unsigned long screenGetWidth (void);
-
 unsigned long screenGetHeight (void);
 
 void refresh_screen (void);
-
 void screenRefresh (void);
 
 void screenSetSize (unsigned long width, unsigned long height);

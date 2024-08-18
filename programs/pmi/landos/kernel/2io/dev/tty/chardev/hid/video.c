@@ -91,14 +91,16 @@ extern unsigned long SavedY;            //Screen height.
 extern unsigned long SavedBPP;          //Bits per pixel.
 //...
 
-//
-// Vari�veis internas.
-//
+unsigned long g_video_mode=0;
+
+Graphics_t *Graphics;
+
+struct video_d  VideoBlock;
+
 
 int videoStatus=0;
 int videoError=0;
 //...
-
 
 
 //Screen sizes and bpp.

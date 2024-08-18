@@ -506,11 +506,12 @@ static unsigned long ATA_BAR5;    // AHCI Base Address / SATA Index Data Pair Ba
 
 /* ide_dma_prdt: */
 
-struct {
+struct ide_dma_d 
+{
     uint32_t addr;
     uint32_t len;
-}ide_dma_prdt[4];
-
+};
+extern struct ide_dma_d  ide_dma_prdt[4];
 
 
 // pci support

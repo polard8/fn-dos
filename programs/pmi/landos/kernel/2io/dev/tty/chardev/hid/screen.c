@@ -31,15 +31,17 @@ extern unsigned long SavedBPP;
 extern void asm_refresh_screen (void);
 
 
-//
-// Variáveis internas.
-//
 
-//int screenStatus;
-//int screenError;
-//int screenWidth;
-//int screenHeight;
+struct screen_d *Screen;
+struct screen_d *ScreenInfo;
+struct screen_d *CurrentScreen;
 //...
+  
+//int screenCount;    //Numero de monitores.
+//unsigned long screenList[8];
+
+
+struct paint_d  PAINT;
 
 
 /*
@@ -53,10 +55,10 @@ extern void asm_refresh_screen (void);
  */
 //unsigned long g_screen_width; 
 //unsigned long g_screen_height;
-unsigned long screen_width; 
-unsigned long screen_height;
+unsigned long screen_width=0;
+unsigned long screen_height=0;
 
-
+// ================================================
 
 //Get width.
 unsigned long screenGetWidth (void)

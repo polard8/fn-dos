@@ -26,6 +26,9 @@
 
 #include <kernel.h>
 
+// tss.h
+struct i386tss_d *current_tss;
+
 
 struct thread_d *____IDLE;
 struct thread_d *EarlyRING0IDLEThread;    

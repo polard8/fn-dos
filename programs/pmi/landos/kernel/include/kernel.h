@@ -33,7 +33,8 @@ struct io_control_d
     int useTTY;
     int useEventQueue;
 };
-struct io_control_d  IOControl;
+// main.c
+extern struct io_control_d  IOControl;
 
 //
 // == input modes ==================================================

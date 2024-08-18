@@ -34,8 +34,8 @@ int processors_count=0;
 // ProcessorBlock_d
 unsigned long processorsList[PROCESSORS_MAX_COUNT];
 
-
-
+// kernel.h
+struct io_control_d  IOControl;
 
 // Global
 // see: gspin.h

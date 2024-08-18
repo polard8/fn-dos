@@ -1,10 +1,9 @@
 /*
  * Arquivo: iso646.h
- *
- * Descrição:
- *     ??
  */
  
+ #ifndef __RTL_ISO646_H
+ #define __RTL_ISO646_H    1
 
 /*
 	<iso646.h> -- macros for use in place of certain tokens that are
@@ -71,4 +70,5 @@
 #define xor_eq  ^=    
 
 
+#endif   
 

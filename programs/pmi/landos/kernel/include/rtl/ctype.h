@@ -40,8 +40,7 @@
 //in lib/libc-src/ctype.c
 
 extern const unsigned char _ctype[];
-#define __ismask(x) (_ctype[(int)(unsigned char)(x)])
-
+#define __ismask(x)  (_ctype[(int)(unsigned char)(x)])
 
 
 //partes: básico, intermediário e definitivo.
@@ -92,8 +91,8 @@ static inline unsigned char __toupper(unsigned char c)
 		c -= 'a'-'A';
 	return c;
 }
-#define tolower(c) __tolower(c)
-#define toupper(c) __toupper(c) //#bugbug: isso está redefinido em stdio.c vamos tirar de lá.
+#define tolower(c)  __tolower(c)
+#define toupper(c)  __toupper(c) //#bugbug: isso está redefinido em stdio.c vamos tirar de lá.
 //#define toupper(c)  ((c) - 0x20 * (((c) >= 'a') && ((c) <= 'z')))
 
 /* Fast implementation of tolower() for internal usage. 
@@ -114,9 +113,9 @@ static inline int isodigit(const char c)
 //
 
 
-#define _isdigit(c) ((c) >= '0' && (c) <= '9') 
-#define _isascii(c) (((unsigned) c) <= 0x7f)
-#define _toascii(c) (((unsigned) c) &  0x7f)
+#define _isdigit(c)  ((c) >= '0' && (c) <= '9') 
+#define _isascii(c)  (((unsigned) c) <= 0x7f)
+#define _toascii(c)  (((unsigned) c) &  0x7f)
 
 //
 // # definitivo #

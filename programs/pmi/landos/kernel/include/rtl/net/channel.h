@@ -116,13 +116,9 @@ void *CreateChannel (void);
 
 int DestroyChannel (struct channel_d *channel);
 
-
 //#todo: arguments.
 int OpenChannel ( void );
-
-
 int CloseChannel (struct channel_d *channel);
-
 
 
 #endif    

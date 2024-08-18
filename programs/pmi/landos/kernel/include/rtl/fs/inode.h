@@ -60,7 +60,8 @@ struct inode_d
     struct inode_d *next;
 };
 
-unsigned long inode_table[32];
+// fs.c
+extern unsigned long inode_table[32];
 
 
 //

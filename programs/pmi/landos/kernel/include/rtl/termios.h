@@ -91,7 +91,7 @@ struct winsize
 // termio
 //
 
-#define NCC 8
+#define NCC  8
 
 struct termio 
 {
@@ -157,8 +157,6 @@ struct termios
 //...
 
 
-
-
 /* Values for termios c_cflag bit map.  POSIX Table 7-3. */
 #define  CLOCAL  0x0001  /* ignore modem status lines */
 #define  CREAD   0x0002  /* enable receiver */
@@ -171,7 +169,6 @@ struct termios
 #define  HUPCL   0x0020  /* hang up on last close */
 #define  PARENB  0x0040  /* enable parity on output */
 #define  PARODD  0x0080  /* use odd parity if set, else even */
-
 
 
 // Local mode flags.
@@ -188,7 +185,6 @@ struct termios
 
 
 
-
 /* 
  * You can't even generate this character with 'normal' keyboards.
  * But some language specific keyboards can generate 0xFF. It seems 
@@ -197,8 +193,6 @@ struct termios
  */
 
 #define  _POSIX_VDISABLE  (cc_t)0xFF
-
-
 
 
 /* Values for the baud rate settings.  POSIX Table 7-6. */
@@ -220,8 +214,6 @@ struct termios
 #define  B38400  0xF000  /* 38400 baud */
 
 
-
-
 /* Optional actions for tcsetattr().  POSIX Sec. 7.2.1.2. */
 #define  TCSANOW    1  /* changes take effect immediately */
 #define  TCSADRAIN  2  /* changes take effect after output is done */
@@ -230,8 +222,6 @@ struct termios
 //#if defined(_NETBSD_SOURCE)
 //#define TCSASOFT	0x10		/* flag - don't alter h.w. state */
 //#endif
-
-
 
 /* Queue_selector values for tcflush().  POSIX Sec. 7.2.2.2. */
 
@@ -246,7 +236,6 @@ struct termios
 /* flush accumulated input and output data */
 //flushes both data received but not read, and data written but not transmitted. 
 #define  TCIOFLUSH    3
-
 
 
 /* Action values for tcflow().  POSIX Sec. 7.2.2.2. */

@@ -58,6 +58,11 @@ unsigned long file_table[NUMBER_OF_FILES];
 int kstdio_standard_streams_initialized=0;
 
 
+file *pipe_gramadocore_init_execve;
+file *pipe_execve;
+
+unsigned long Pipes[NUMBER_OF_PIPES];
+
 // =========================================
 
 /*

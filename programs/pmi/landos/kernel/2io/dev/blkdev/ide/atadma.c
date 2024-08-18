@@ -14,6 +14,8 @@
 #include <kernel.h>
 
 
+struct ide_dma_d  ide_dma_prdt[4];
+
 /*
  * ata_set_device_and_sector:
  * #bugbug Essa função não foi declarada no header e não foi usada.

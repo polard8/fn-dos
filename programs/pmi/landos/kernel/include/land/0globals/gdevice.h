@@ -56,7 +56,6 @@ typedef enum {
 
 
  
-typedef struct host_device_info_d host_device_info_t; 
 struct host_device_info_d
 {
 	//Type.
@@ -70,7 +69,10 @@ struct host_device_info_d
     //Continua ...
 	
 };
-host_device_info_t *HostDeviceInfo; 
+typedef struct host_device_info_d  host_device_info_t; 
+
+// devmgr.c
+extern host_device_info_t *HostDeviceInfo; 
 //
 
 /*

@@ -275,8 +275,7 @@ Um tipo de retorno de um sinal que indica um erro ocorreu
 
 
 //Criando primeiro sinal para teste.
-#define SIGNULL 0;
-
+#define SIGNULL  0
 
 /*
 #define SIGHUP  1       // hangup 
@@ -336,9 +335,9 @@ Um tipo de retorno de um sinal que indica um erro ocorreu
 //#define	SIG_IGN	(int (*)())1
 
 //#bugbug
-#define SIG_DFL ((__sighandler_t)0)
-#define SIG_ERR ((__sighandler_t)-1)
-#define SIG_IGN ((__sighandler_t)1)
+#define SIG_DFL  ((__sighandler_t)0)
+#define SIG_ERR  ((__sighandler_t)-1)
+#define SIG_IGN  ((__sighandler_t)1)
 
 
 //se precisar!!
@@ -354,20 +353,20 @@ typedef uint32_t sig_atomic_t;
 
 //#test
 //coloquei aqui pra compilar o lua.
-typedef int sig_atomic_t;
+typedef int  sig_atomic_t;
 
 /* Cygwin defines it's own sigset_t in include/cygwin/signal.h */
 //#ifndef __CYGWIN__
 //typedef unsigned long sigset_t;
 //#endif
 
-typedef unsigned int sigset_t;
+typedef unsigned int  sigset_t;
 
 /* Type of a signal handler.  */
 typedef void (*sighandler_t)(int);
 
-typedef sighandler_t __sighandler_t;
-typedef sighandler_t sig_t;
+typedef sighandler_t  __sighandler_t;
+typedef sighandler_t  sig_t;
 //...
 
 //
@@ -382,7 +381,7 @@ typedef union sigval {
      void   *sival_ptr;         /* Pointer value */
 }sigval_t;
 
-typedef sigval_t __sigval_t;
+typedef sigval_t  __sigval_t;
 //...
 
 //

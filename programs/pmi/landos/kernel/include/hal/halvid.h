@@ -1,16 +1,15 @@
 /*
  * File: video.h
  *
- * Descrição:
+ * Descriï¿½ï¿½o:
  *     Header para rotinas de gerenciamento dos controladores de video.
- *     As configurações de video podem ser usadas pelo shell.
+ *     As configuraï¿½ï¿½es de video podem ser usadas pelo shell.
  * 
  * 0xBEEF	VirtualBox Graphics Adapter	0x80EE	Oracle Corporation - 
  *  InnoTek Systemberatung GmbH
- *  todo: Criar um utilitário que mostre e configure informações de video.
- *  Versão 1.0, 2015, 2016. 
+ *  todo: Criar um utilitï¿½rio que mostre e configure informaï¿½ï¿½es de video.
+ *  Versï¿½o 1.0, 2015, 2016. 
  */
-
 
 
 #ifndef ____HALVID_H
@@ -25,32 +24,31 @@
 /*
  * LFB e BACKBUFFER
  *     
- *     Constantes para endereços lógicos.
- *     O bootloader configura as páginas e 
- *     atribui esse endereço para o LFB.
+ *     Constantes para endereï¿½os lï¿½gicos.
+ *     O bootloader configura as pï¿½ginas e 
+ *     atribui esse endereï¿½o para o LFB.
  */ 
 
 #define LFB_BASE        0xC0400000 
 #define BACKBUFFER_BASE 0xC0800000
 
 
-//Memória de video vga em text mode. b8000
+//Memï¿½ria de video vga em text mode. b8000
 //the address 0xC00B8000 must be used, since the virtual address 0xC0000000 maps 
 //to the physical address 0x00000000.
 
 
 /*
  * Video mode:
- *     Modo de vídeo usado.
- *     //@todo: se estamos encapsulando no módulo, retirar o G de global.
+ *     Modo de vï¿½deo usado.
+ *     //@todo: se estamos encapsulando no mï¿½dulo, retirar o G de global.
  */
-
-unsigned long g_video_mode;    
+extern unsigned long g_video_mode;    
 
 
 /*
- * Suporte às dimenções da tela no modo de vídeo escolhido.
- * @todo: existe uma redefinição em window.h
+ * Suporte ï¿½s dimenï¿½ï¿½es da tela no modo de vï¿½deo escolhido.
+ * @todo: existe uma redefiniï¿½ï¿½o em window.h
  */
 //unsigned long gScreenWidth;
 //unsigned long gScreenHeight;
@@ -60,15 +58,14 @@ unsigned long g_video_mode;
 // Graphic mode support.
 //
  
-typedef struct tagGraphics Graphics_t;
+typedef struct tagGraphics  Graphics_t;
 struct tagGraphics
 {
     unsigned long LFB;
     //unsigned long Backbuffer;
     //...
 };
-Graphics_t *Graphics;
-
+extern Graphics_t *Graphics;
 
 
 //
@@ -77,11 +74,11 @@ Graphics_t *Graphics;
 
 /*
  * video_d:
- *     Estrutura para informações sobre parâmetros de vídeo.
+ *     Estrutura para informaï¿½ï¿½es sobre parï¿½metros de vï¿½deo.
  */
 
-typedef struct video_d VideoBlock_t;
-typedef struct video_d video_t;
+typedef struct video_d  VideoBlock_t;
+typedef struct video_d  video_t;
 
 struct video_d
 {
@@ -90,9 +87,9 @@ struct video_d
 
 	//call back ;d
 	
-	int useGui;   //c, se estamos ou não usando gui. text mode, video mode.
-	int vgaMode;  //b, número do modo de vídeo se estiver usando vga.
-	int vesaMode; //a, número do modo vesa.
+	int useGui;   //c, se estamos ou nï¿½o usando gui. text mode, video mode.
+	int vgaMode;  //b, nï¿½mero do modo de vï¿½deo se estiver usando vga.
+	int vesaMode; //a, nï¿½mero do modo vesa.
 	//int 
 	//...
 	
@@ -109,23 +106,19 @@ struct video_d
     //unsigned long Display[32];    //Ponteiros para as telas.
 	
 };
-struct video_d  VideoBlock;
-//video_t VideoBlock;
-//...
-
+extern struct video_d  VideoBlock;
 
 //
 // Prototypes ======================================
 //
 
-
 /*
- * Sincroniza o retraço vertical. 
+ * Sincroniza o retraï¿½o vertical. 
  * para directdraw usando lfb.
  * @todo: 
- *     Essa função pode ser arte do hal, 
+ *     Essa funï¿½ï¿½o pode ser arte do hal, 
  * ficando aqui apenas uma interface.
- *Obs: Isso é coisa de hardware. vídeo. (HAL)
+ *Obs: Isso ï¿½ coisa de hardware. vï¿½deo. (HAL)
  */
 
 void vsync (void);  
@@ -134,13 +127,10 @@ void vsync (void);
 void videoSetupCGAStartAddress(unsigned long address);
 
 unsigned long videoGetMode (void);
-
 void videoSetMode (unsigned long mode);
 
-int videoInit (void); 
-
 int videoVideo (void);  
-
+int videoInit (void); 
 
 #endif   
 

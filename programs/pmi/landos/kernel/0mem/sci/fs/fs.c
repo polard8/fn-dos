@@ -77,6 +77,10 @@ struct target_dir_d  current_target_dir;
 struct fat_d *fat;
 struct filesystem_d *root;
 
+// inode.h
+unsigned long inode_table[32];
+
+
 // ========================================
 
 
