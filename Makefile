@@ -127,21 +127,22 @@ build-gramado-os:
 # Copy to the target folder.
 	cp source/bin/KERNEL.BIN  $(BASE)/
 
+
+# ---------
 # CMD00.BIN
 	$(Q)$(MAKE) -C programs/cmd00/cmd00/ 
 # Copy to the target folder.
 	cp programs/cmd00/cmd00/bin/CMD00.BIN  $(BASE)/
 
-# CMD03.BIN
-	$(Q)$(MAKE) -C programs/cmd03/cmd03/ 
+# ---------
+# CMD01.BIN
+	$(Q)$(MAKE) -C programs/cmd01/cmd01/ 
 # Copy to the target folder.
-	cp programs/cmd03/cmd03/bin/CMD03.BIN  $(BASE)/
-
-
+	cp programs/cmd01/cmd01/bin/CMD01.BIN  $(BASE)/
 # APP00.COM
-	$(Q)$(MAKE) -C programs/cmd03/app00/ 
+	$(Q)$(MAKE) -C programs/cmd01/app00/ 
 # Copy to the target folder.
-	cp programs/cmd03/app00/bin/APP00.COM  $(BASE)/
+	cp programs/cmd01/app00/bin/APP00.COM  $(BASE)/
 
 #----------------------------------
 # () userland/
@@ -253,10 +254,9 @@ clean-all: clean
 	-rm programs/bin/*.BIN
 	#-rm programs/cmd00/bin/*.BIN
 	#-rm programs/cmd01/bin/*.BIN
-	#-rm programs/cmd02/bin/*.BIN
-	#-rm programs/cmd03/bin/*.BIN
 
 	-rm programs/cmd00/cmd00/bin/*.BIN
+	#-rm programs/cmd01/cmd01/bin/*.BIN
 	#...
 
 # 16bit kernel
