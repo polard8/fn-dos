@@ -1,20 +1,19 @@
-# Gramado Kernel
-# License: BSD License
+# fn-dos 16bit.
 # Compiling on gcc 11.4.0
 # Linking on ld 2.38
 
+
 BASE = your/base
 
-#todo
-#DEP_GAME01  = ../xxx
-#DEP_GAME00  = ../xxx 
+BOOT_DIR = source/bootload
+KERNEL_DIR = source
 
+# Let's import the 32bit pmi.
 # Levels
-#DEP_L4  = ../xxx
-#DEP_L3  = ../xxx
-#DEP_L2  = ../xxx
-#DEP_L1  = ../xxxx
-
+#DEP_L4  = ../pmi
+#DEP_L3  = ../pmi
+#DEP_L2  = ../pmi
+#DEP_L1  = ../pmi
 
 
 # Make variables (CC, etc...)
@@ -115,17 +114,16 @@ build-gramado-os:
 	-o FNDOS.VHD 
 
 # Create backup for MBR 0.
-	$(Q)$(NASM) source/bootload/stage1.asm \
-	-I source/bootload/ \
+	$(Q)$(NASM) $(BOOT_DIR)/stage1.asm \
+	-I $(BOOT_DIR)/ \
 	-o BOOTLOAD.BIN
 	cp BOOTLOAD.BIN  $(BASE)/
 
-
 # bew kernel
 # 16 bit kernel loader (KLDR.BIN)
-	$(Q)$(MAKE) -C source/ 
+	$(Q)$(MAKE) -C $(KERNEL_DIR)/ 
 # Copy to the target folder.
-	cp source/bin/KERNEL.BIN  $(BASE)/
+	cp $(KERNEL_DIR)/bin/KERNEL.BIN  $(BASE)/
 
 
 # ---------
@@ -260,8 +258,8 @@ clean-all: clean
 	#...
 
 # 16bit kernel
-	-rm source/bin/*.o
-	-rm source/bin/*.BIN
+	-rm $(KERNEL_DIR)/bin/*.o
+	-rm $(KERNEL_DIR)/bin/*.BIN
 
 # ==================
 # Clear the disk cache

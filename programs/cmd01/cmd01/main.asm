@@ -78,6 +78,14 @@ Extension       db "COM"   ;dos app
 ClusterFile     dw  0x0000
 FileFound       db 0
 
+
+; -------------------------------------------------------
+msg_hello:
+    db 'cmd01.bin: This is a 16bit cmd line interface', 0x0D, 0x0A, 0x00
+msg_done:
+    db 'cmd01.bin: Done' , 0x0D, 0x0A, 0x00
+
+
 Boot_Begin:
 
     cli
@@ -122,9 +130,6 @@ Boot_Begin:
     ;retf 
 
     jmp $
-
-msg_hello  db 'cmd03.bin hello', 0x0D, 0x0A, 0x00
-msg_done   db 'cmd03.bin done' , 0x0D, 0x0A, 0x00
 
 ;-------------------------------------------------
 	

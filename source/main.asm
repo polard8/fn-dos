@@ -349,13 +349,7 @@ load_bootloader_image:
     ;mov ax, word bootmanager_ImageName0
     ;call diskLoadBL
 ; Load image1
-    ;mov ax, word bootmanager_ImageName1
-    ;call diskLoadBL
-; Load image2
-    ;mov ax, word bootmanager_ImageName2
-    ;call diskLoadBL
-; Load image3
-    mov ax, word bootmanager_ImageName3
+    mov ax, word bootmanager_ImageName1
     call diskLoadBL
 
 ; ------------------
@@ -421,12 +415,8 @@ Trampoline:
 
 bootmanager_ImageName0:
     db "CMD00   BIN", 0x0D, 0x0A, 0x00
-;bootmanager_ImageName1:
-;    db "CMD01   BIN", 0x0D, 0x0A, 0x00
-;bootmanager_ImageName2:
-;    db "CMD02   BIN", 0x0D, 0x0A, 0x00
-bootmanager_ImageName3:
-    db "CMD03   BIN", 0x0D, 0x0A, 0x00
+bootmanager_ImageName1:
+    db "CMD01   BIN", 0x0D, 0x0A, 0x00
 
 ;
 ; == Includes ========
