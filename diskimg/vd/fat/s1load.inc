@@ -295,7 +295,11 @@ LOADFAT:
     mov ax, WORD [HiddenSectors]      ; 5 setores escondidos.
     add ax, WORD [ReservedSectors]    ; 62 setores reservados.
     ; mov  ax, 67                     ; simulando para teste
-    mov  cx,  (246/2) ; WORD [SectorsPerFAT]  ;  Metade da fat.
+
+; #bugbug
+; Loading only 128 sectors. 64KB, (1 segment)
+    ;mov  cx,  (246/2) ; WORD [SectorsPerFAT]  ;  Metade da fat.
+    mov cx, 128
 
 ; #bugbug
 ; Estamos carregando apenas metade da fat.
