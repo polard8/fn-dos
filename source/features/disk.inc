@@ -3,6 +3,17 @@
 ; Used to load rootdir, fat and images into the system memory.
 ; Created by Fred Nora.
 
+
+__ROOT_SEGMENT EQU  0x0000
+__ROOT_OFFSET  EQU  0x1000
+
+__FAT_SEGMENT EQU  0x6000
+__FAT_OFFSET  EQU  0x0200
+
+__IMAGE_SEGMENT EQU  0x2000
+__IMAGE_OFFSET  EQU  0x0000
+
+
 ;----------------------------------------------   
 ; Simply load the root dir.
 ; 0:0x1000
@@ -38,7 +49,8 @@ diskLoadROOTDIR:
 
     mov ax, word [ROOTDIRSTART]  ; Inicio do root.
     mov cx, word [ROOTDIRSIZE]   ; Tamanho do root.
-    mov bx, 0x1000               ; root_buffer. Copy root dir above bootcode
+    ;mov bx, 0x1000               ; root_buffer. Copy root dir above bootcode
+    mov bx, __ROOT_OFFSET  ;0x1000
     call diskReadSectors  ;bootmanagerReadSectors
 
     ; not needed
@@ -63,7 +75,8 @@ search_image_name:
 
     ;Browse root directory for binary image.
     mov cx, WORD [bootmanagerMaxRootEntries]  ; Load loop counter.
-    mov di, 0x1000                            ; root_buffer, 0x1000, locate first root entry. ?
+    ;mov di, 0x1000                            ; root_buffer, 0x1000, locate first root entry. ?
+    mov di, __ROOT_OFFSET  ;0x1000
 
 ._loop:
 
@@ -125,13 +138,21 @@ diskLoadFAT:
 ; ?? Qual é o segmento e o offset da FAT ??
 
     pusha
-    mov ax, 0 
+    ;mov ax, 0
+    mov ax, __FAT_SEGMENT  ;0x6000
     mov es, ax
+    ;mov bx, 0x1000    ; fat_buffer ; copy FAT above bootcode.
+    mov bx, __FAT_OFFSET  ;0x0200
+
 ; Compute location of FAT and store in "ax".
     mov ax, WORD [bootmanagerHiddenSectors]    ; adjust for bootsector.
     add ax, WORD [bootmanagerReservedSectors]  ; lba inicial da fat ?.
-    mov cx, 8         ; (apenas 8 setores da fat.) (246/2)  ;; metade da fat  WORD [bootmanagerSectorsPerFAT]
-    mov bx, 0x1000    ; fat_buffer ; copy FAT above bootcode.
+
+; #bugbug
+; We need to load 246 sectors.
+    ;mov cx, 8         ; (apenas 8 setores da fat.) (246/2)  ;; metade da fat  WORD [bootmanagerSectorsPerFAT]
+    mov cx, 128
+
     call diskReadSectors  ;bootmanagerReadSectors
     popa
     
@@ -150,16 +171,17 @@ diskLoadImage:
 ; --------------------------------
 ; Ajust the image segment.
 ; Es:bx para a imagem.
-    mov ax, 0x2000 
+    mov ax, __IMAGE_SEGMENT  ;0x2000 
     mov es, ax
-    mov bx, 0x0000
+    mov bx, __IMAGE_OFFSET   ;0x0000
 ; Salva o offset da imagem.
     push bx 
 
 ; --------------------------------
 ; Ajust FAT segment.
 ; gs:bx para a FAT.
-    mov ax, 0 
+    ;mov ax, 0
+    mov ax, __FAT_SEGMENT  ;0x6000
     mov gs, ax 
 
 ; Loading the image.
@@ -174,7 +196,8 @@ loop_bootmanager_LOADIMAGE_Sector:
     ;Compute next cluster.
     mov ax, WORD [bootmanagercluster]  ; Identify current cluster.
     add ax, ax                         ; 16 bit(2 byte) FAT entry.
-    mov bx, 0x1000                     ; fat_buffer, offset.
+    ;mov bx, 0x1000                     ; fat_buffer, offset.
+    mov bx, __FAT_OFFSET  ; 0x0200
     add bx, ax                         ; Index into FAT.
     ;TESTANDO...
     mov dx, WORD [gs:bx]               ; Read two bytes from FAT.
@@ -242,10 +265,11 @@ diskLoadBL:
     call diskLoadFAT
    
 ; Loading the image at 2000H:0000H
+
     mov si, bootmanagermsgImg
     call String.Print
-    call diskLoadImage
 
+    call diskLoadImage
     popa
     ret
 
